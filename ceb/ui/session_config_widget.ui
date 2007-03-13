@@ -1,0 +1,207 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>WidgetSessionConfig</class>
+ <widget class="QWidget" name="WidgetSessionConfig" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>412</width>
+    <height>370</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>2</number>
+   </property>
+   <property name="spacing" >
+    <number>2</number>
+   </property>
+   <item row="3" column="0" >
+    <widget class="QLabel" name="labelLogin" >
+     <property name="text" >
+      <string>Login:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
+    <widget class="QLineEdit" name="lineEditLogin" />
+   </item>
+   <item row="6" column="0" >
+    <widget class="QLineEdit" name="lineEditPassword" >
+     <property name="echoMode" >
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="labelName" >
+     <property name="text" >
+      <string>Name:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" >
+    <widget class="QCheckBox" name="checkBoxAutoConnect" >
+     <property name="text" >
+      <string>Auto-connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="11" column="0" colspan="2" >
+    <widget class="QCheckBox" name="checkBoxBackupServers" >
+     <property name="text" >
+      <string>Manage backup servers</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2" >
+    <widget class="QLineEdit" name="lineEditDescription" />
+   </item>
+   <item row="5" column="1" >
+    <widget class="QLabel" name="labelConfirmPassword" >
+     <property name="text" >
+      <string>Confirm password:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" >
+    <widget class="QLineEdit" name="lineEditConfirmPassword" >
+     <property name="echoMode" >
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>2</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>2</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="labelAddress" >
+         <property name="text" >
+          <string>Address:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditAddress" />
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>2</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="labelPort" >
+         <property name="text" >
+          <string>Port:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditPort" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>0</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="7" column="0" >
+    <widget class="QLabel" name="labelDescription" >
+     <property name="text" >
+      <string>Description:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0" colspan="2" >
+    <widget class="QPushButton" name="pushButtonRemove" >
+     <property name="text" >
+      <string>Remove</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" >
+    <widget class="QLabel" name="labelPassword" >
+     <property name="text" >
+      <string>Password:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QLineEdit" name="lineEditName" />
+   </item>
+   <item row="9" column="0" >
+    <widget class="QCheckBox" name="checkBoxFurtiveMode" >
+     <property name="text" >
+      <string>Furtive mode (don't store login/password)</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>lineEditName</tabstop>
+  <tabstop>lineEditAddress</tabstop>
+  <tabstop>lineEditPort</tabstop>
+  <tabstop>lineEditLogin</tabstop>
+  <tabstop>lineEditPassword</tabstop>
+  <tabstop>lineEditConfirmPassword</tabstop>
+  <tabstop>lineEditDescription</tabstop>
+  <tabstop>checkBoxFurtiveMode</tabstop>
+  <tabstop>checkBoxAutoConnect</tabstop>
+  <tabstop>checkBoxBackupServers</tabstop>
+  <tabstop>pushButtonRemove</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

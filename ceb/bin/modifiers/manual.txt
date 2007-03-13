@@ -1,0 +1,129 @@
+-------------------------------
+INTRODUCTION
+-------------------------------
+
+Modifiers are useful to change the renderer behavior for display text coming from mtp chat servers.
+For instance, take a look at "someonesays.lua" to imagine what you can do.
+
+If you want to write or modify a modifier, create (or open) a file named "tokentype".lua into "modifiers" directory. Your modifications will be taken into account immediatly without restarting CeB. 
+"tokentype" can be any string from the list below.
+
+-------------------------------
+MODIFIERS BASE FILENAME LIST
+-------------------------------
+
+If names are not significatives enough to you, you can report to CeB detailed fonts configuration box which can be useful.
+
+indicatedactiveserver
+loginasked
+invalidlogin
+passwordasked
+incorrectpassword
+welcome
+topic
+yousettopic
+someonesettopic
+someonetellsyou
+youtelltosomeone
+someoneasksyou
+youasktosomeone
+someonereplies
+youreply
+someonebeepsyou
+wallbegin
+wallend
+wallline
+whobegin
+whoend
+whoendnouser
+whoseparator
+wholine
+historybegin
+historyend
+historyline
+fingerbegin
+fingerend
+fingerline
+someoneshouts
+youshout
+someoneaway
+youaway
+someoneback
+youback
+someoneawaywarning
+systemaliases
+useraliases
+aliasesend
+nouseralias
+aliasline
+messagebegin
+messageline
+messageend
+nomessage
+messagereceived
+allmessagescleared
+messagecleared
+messagescleared
+helpbegin
+helpendnormal
+helpendnohelp
+helpline
+unknownuser
+userloginrenamed
+yourloginrenamed
+someonecomesin
+someoneleaves
+someonedisconnects
+youleave
+youjoinchannel
+youleavechannel
+someonejoinchannel
+someoneleavechannel
+youkicksomeone
+someoneiskicked
+youarekicked
+date
+yourclientis
+mtpsays
+someonesays
+data
+
+-------------------------------
+FUNCTIONS
+-------------------------------
+
+You have several functions to modify the aspect of a mtp token :
+
+* string get_session_info(string arg)
+
+Returns an info concerning current session.
+For example : get_session_info("login") will return "Fooman" if your nick is "Fooman"
+
+* void session_send(string sentence)
+
+Send a sentence to the server
+For example : session_send("I love meat ice cream")
+
+* int segments_count()
+
+Return the segments count
+For example: in "<Fooman> I love meat ice cream", segments_count will be 4 ("<", "Fooman", "> ", "I love meat ice cream")
+
+* string get_segment_text(int segmentNum)
+
+Returns a segment text.
+For example: in the above sentence, get_segment_text(2) will be "Fooman"
+
+* void set_segment_text(int segmentNum, string text)
+
+Replace the segment text at place <segmentNum> by <text>
+
+* string get_segment_color(int segmentNum)
+
+Returns a segment color in hexa form "RRGGBB"
+
+* void set_segment_color(int segmentNum, string color)
+
+Set a segment color in hexa form
+
+

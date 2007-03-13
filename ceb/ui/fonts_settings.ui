@@ -1,0 +1,372 @@
+<ui version="4.0" >
+ <class>FontsSettings</class>
+ <widget class="QWidget" name="FontsSettings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>454</width>
+    <height>346</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>2</number>
+   </property>
+   <property name="spacing" >
+    <number>2</number>
+   </property>
+   <item row="3" column="0" colspan="2" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="labelEncoding" >
+       <property name="text" >
+        <string>Client/Server stream encoding:</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxEncoding" />
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QGroupBox" name="groupBoxFont" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Font</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="3" column="2" >
+       <widget class="QPushButton" name="pushButtonForcedColor" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Pick a color...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" >
+       <widget class="QPushButton" name="pushButtonForcedFont" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Pick a font...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3" >
+       <widget class="QLabel" name="labelFont" >
+        <property name="text" >
+         <string>font, size</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="3" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="checkBoxForceFont" >
+        <property name="text" >
+         <string>Force font</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="checkBoxForceColor" >
+        <property name="text" >
+         <string>Force text color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QLineEdit" name="lineEditForcedColor" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>0</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="checkBoxForceBackgroundColor" >
+         <property name="text" >
+          <string>Force background color</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxForceAwayBackgroundColor" >
+         <property name="text" >
+          <string>Force background away color</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="pushButtonBackgroundColor" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Pick a color...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonAwayBackgroundColor" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Pick a color...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLineEdit" name="lineEditBackgroundColor" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditAwayBackgroundColor" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QListWidget" name="listWidget" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="currentRow" >
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Output</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Input</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Who</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Topic</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Timestamp</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QFrame" name="frame" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>checkBoxForceFont</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButtonForcedFont</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>184</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>262</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxForceColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButtonForcedColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>185</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>234</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxForceBackgroundColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButtonBackgroundColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>107</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>303</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxForceAwayBackgroundColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButtonAwayBackgroundColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>275</x>
+     <y>263</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

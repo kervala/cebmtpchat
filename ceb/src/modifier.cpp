@@ -1,0 +1,235 @@
+#include <QApplication>
+#include <QMap>
+#include <QDir>
+#include <QMessageBox>
+#include <QDateTime>
+
+extern "C" {
+#if defined(Q_OS_FREEBSD)
+#include <lua51/lua.h>
+#include <lua51/lauxlib.h>
+#include <lua51/lualib.h>
+#else
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+#endif
+}
+
+#include "mtp_token_info.h"
+#include "modifier.h"
+
+class LuaScript
+{
+public:
+	QString filePath;
+	QDateTime fileDateTime;
+	lua_State *l;
+};
+
+static QMap<MtpToken, LuaScript> luaScripts;
+static Session *_session;
+static MtpToken _token;
+static QList<RenderSegment> *_segments;
+
+int segmentsCount(lua_State *l)
+{
+	lua_pushinteger(l, _segments->count());
+	return 1;
+}
+
+int setSegmentText(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isstring(l, 2))
+		return 0;
+
+	(*_segments)[argNum].setText(lua_tostring(l, 2));
+
+	return 0;
+}
+
+int getSegmentText(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
+	return 1;
+}
+
+int setSegmentColor(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isstring(l, 2))
+		return 0;
+
+	(*_segments)[argNum].setColor("#" + QString(lua_tostring(l, 2)));
+
+	return 0;
+}
+
+int getSegmentColor(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
+	return 1;
+}
+
+int getSessionInfo(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+
+	if (!lua_isstring(l, 1))
+		return 0;
+
+	QString infoToken(lua_tostring(l, 1));
+	
+	if (infoToken.toLower() == "login")
+	{
+		lua_pushstring(l, _session->serverLogin().toLatin1());
+	} else
+		lua_pushstring(l, "");		
+
+	return 1;
+}
+
+int sessionSend(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+
+	if (!lua_isstring(l, 1))
+		return 0;
+
+	_session->send(lua_tostring(l, 1));
+	
+	return 0;
+}
+
+lua_State *loadLuaScript(const QString &filePath, bool &error)
+{
+	lua_State *l = lua_open();
+	luaL_openlibs(l);
+		
+	if (luaL_loadfile(l, filePath.toLocal8Bit()) || lua_pcall(l, 0, 0, 0))
+	{
+		QMessageBox::critical(0, "LUA", "error in loading script " + filePath);
+		error = true;
+		return 0;
+	}
+
+	lua_register(l, "get_session_info", getSessionInfo);
+	lua_register(l, "session_send", sessionSend);
+	lua_register(l, "segments_count", segmentsCount);
+	lua_register(l, "get_segment_text", getSegmentText);
+	lua_register(l, "set_segment_text", setSegmentText);
+	lua_register(l, "get_segment_color", getSegmentColor);
+	lua_register(l, "set_segment_color", setSegmentColor);
+	
+	error = false;
+	return l;
+}
+
+void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &segments)
+{
+	if (luaScripts.find(token) == luaScripts.end())
+	{
+		// File exists now?
+		QDir modifiersDir = QDir(QDir(QApplication::applicationDirPath()).filePath("modifiers"));
+		QString fileName = modifiersDir.filePath(
+			MtpTokenInfo::tokenToIDString(token).toLower() + ".lua");
+		if (QFile(fileName).exists())
+		{
+			bool error;
+			lua_State *l = loadLuaScript(fileName, error);
+			if (error)
+				return;
+
+			LuaScript script;
+			script.filePath = fileName;
+			script.fileDateTime = QFileInfo(fileName).lastModified();
+			script.l = l;
+			luaScripts[token] = script;
+		}
+		else
+			return;
+	}
+
+	LuaScript &script = luaScripts[token];
+
+	// File already exists?
+	if (!QFile(script.filePath).exists())
+	{
+		// Remove the script
+		lua_close(script.l);
+		luaScripts.remove(token);
+		return;
+	}
+
+	// Date changed?
+	QFileInfo fileInfo(script.filePath);
+	if (fileInfo.lastModified() != script.fileDateTime)
+	{
+		// Reload it
+		lua_close(script.l);
+		bool error;
+		script.l = loadLuaScript(script.filePath, error);
+		if (error)
+		{
+			QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
+			luaScripts.remove(token);
+			return;
+		}
+		script.fileDateTime = fileInfo.lastModified();
+	}
+
+	// Init global variables
+	_session = session;
+	_token = token;
+	_segments = &segments;
+
+	lua_State *l = script.l;
+	lua_getglobal(l, "Modify"); // Function to be called
+
+	if (lua_pcall(l, 0, 1, 0))
+	{
+		const char *res = lua_tostring(l, -1);
+		QMessageBox::critical(0, "LUA", res);
+		return;
+	}
+}
+
+void closeModifiers()
+{
+	foreach (const LuaScript &script, luaScripts)
+			lua_close(script.l);
+	luaScripts.clear();
+}

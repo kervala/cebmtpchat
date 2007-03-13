@@ -1,0 +1,238 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>WarningoSettings</class>
+ <widget class="QWidget" name="WarningoSettings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <property name="autoFillBackground" >
+   <bool>false</bool>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>2</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="1" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>396</width>
+       <height>61</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupBoxEnable" >
+     <property name="title" >
+      <string>Enable Warningo</string>
+     </property>
+     <property name="checkable" >
+      <bool>true</bool>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>4</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QTabWidget" name="tabWidget" >
+        <widget class="QWidget" name="tabLocationGeneral" >
+         <attribute name="title" >
+          <string>General</string>
+         </attribute>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="1" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QSpinBox" name="spinBoxLifeTime" >
+            <property name="suffix" >
+             <string> ms</string>
+            </property>
+            <property name="prefix" >
+             <string/>
+            </property>
+            <property name="maximum" >
+             <number>100000</number>
+            </property>
+            <property name="value" >
+             <number>3000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" colspan="2" >
+           <widget class="QLabel" name="labelWarningoLifeTime" >
+            <property name="text" >
+             <string>Life time:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabWarningoLocation" >
+         <attribute name="title" >
+          <string>Location</string>
+         </attribute>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="0" >
+           <widget class="QRadioButton" name="radioButtonTopLeft" >
+            <property name="text" >
+             <string>On the top-left</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QRadioButton" name="radioButtonTopRight" >
+            <property name="text" >
+             <string>On the top-right</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QRadioButton" name="radioButtonBottomLeft" >
+            <property name="text" >
+             <string>On the bottom-left</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="labelLocation" >
+            <property name="text" >
+             <string>Choose your Warningo location:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" >
+           <widget class="QRadioButton" name="radioButtonBottomRight" >
+            <property name="text" >
+             <string>On the bottom-right</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabWarningoEvents" >
+         <attribute name="title" >
+          <string>Events</string>
+         </attribute>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="3" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QCheckBox" name="checkBoxAboutMe" >
+            <property name="text" >
+             <string>Sentences about me</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QCheckBox" name="checkBoxPrivateSentences" >
+            <property name="text" >
+             <string>Private sentences (tell, etc)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="labelEvents" >
+            <property name="text" >
+             <string>Raise a Warningo for:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

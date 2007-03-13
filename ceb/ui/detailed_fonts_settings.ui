@@ -1,0 +1,251 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>DetailedFontsSettings</class>
+ <widget class="QWidget" name="DetailedFontsSettings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>432</width>
+    <height>417</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>2</number>
+   </property>
+   <property name="spacing" >
+    <number>2</number>
+   </property>
+   <item rowspan="2" row="3" column="0" >
+    <widget class="QSplitter" name="splitter" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>0</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QListWidget" name="listWidgetTokenTypes" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>7</hsizetype>
+        <vsizetype>7</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>2</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize" >
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="spacing" >
+       <number>0</number>
+      </property>
+      <property name="viewMode" >
+       <enum>QListView::ListMode</enum>
+      </property>
+      <property name="currentRow" >
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidgetTokenArgs" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>7</hsizetype>
+        <vsizetype>7</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="4" column="1" >
+    <widget class="QFrame" name="frameFont" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>2</number>
+      </property>
+      <property name="spacing" >
+       <number>2</number>
+      </property>
+      <item row="2" column="0" >
+       <widget class="QGroupBox" name="groupBoxForcedFont" >
+        <property name="title" >
+         <string>Forced font</string>
+        </property>
+        <property name="flat" >
+         <bool>false</bool>
+        </property>
+        <property name="checkable" >
+         <bool>true</bool>
+        </property>
+        <property name="checked" >
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>2</number>
+         </property>
+         <property name="spacing" >
+          <number>2</number>
+         </property>
+         <item rowspan="2" row="0" column="0" colspan="2" >
+          <widget class="QPushButton" name="pushButtonFont" >
+           <property name="text" >
+            <string>Pick a font...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QGroupBox" name="groupBoxForcedColor" >
+        <property name="title" >
+         <string>Forced color</string>
+        </property>
+        <property name="checkable" >
+         <bool>true</bool>
+        </property>
+        <property name="checked" >
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>2</number>
+         </property>
+         <property name="spacing" >
+          <number>2</number>
+         </property>
+         <item row="0" column="2" >
+          <widget class="QPushButton" name="pushButtonColor" >
+           <property name="text" >
+            <string>Pick a color...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="QLineEdit" name="lineEditColor" >
+           <property name="sizePolicy" >
+            <sizepolicy>
+             <hsizetype>0</hsizetype>
+             <vsizetype>0</vsizetype>
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="readOnly" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLineEdit" name="lineEditFont" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="labelFont" >
+        <property name="text" >
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <widget class="QFrame" name="frameTextEdit" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2" >
+    <widget class="QLabel" name="labelTokenType" >
+     <property name="font" >
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>
