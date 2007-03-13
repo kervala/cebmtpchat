@@ -23,35 +23,5 @@
 
 DialogAbout::DialogAbout(QWidget *parent) : QDialog(parent)
 {
-	setWindowTitle("About CeB");
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);
-
-	// Label
-	labelMain = new QLabel("<b>CeB</b> <i>Alpha</i> by Garou/Mtp<br>Le Client de chat en <b><span style=\"color: brown\">Bois</span></b> Massif<br>qui dechire le slip<br>tellement qu'il est multi-platforme sa race");
-	mainLayout->addWidget(labelMain);
-	labelMain->setAlignment(Qt::AlignCenter);
-
-	// Separator
-	QFrame *line = new QFrame;
-	line->setFrameShape(QFrame::HLine);
-	line->setFrameShadow(QFrame::Sunken);
-	mainLayout->addWidget(line);
-
-	// Button
-	QHBoxLayout *buttonLayout = new QHBoxLayout(0);
-
-	buttonClose = new QPushButton("&OK");
-	QSizePolicy policy = buttonClose->sizePolicy();
-	policy.setHorizontalPolicy(QSizePolicy::Minimum);
-	buttonClose->setSizePolicy(policy);
-	connect(buttonClose, SIGNAL(clicked()), this, SLOT(close()));
-
-	QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed);
-	buttonLayout->addItem(spacer);
-	buttonLayout->addWidget(buttonClose);
-
-	mainLayout->addLayout(buttonLayout);
-	mainLayout->setMargin(4);
-
-	resize(0, 100);
+	setupUi(this);
 }

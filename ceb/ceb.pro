@@ -103,7 +103,8 @@ FORMS += ui/sound_settings.ui \
     ui/session_config_widget.ui \
     ui/detailed_fonts_settings.ui \
     ui/fonts_settings.ui \
-    ui/links_settings.ui
+    ui/links_settings.ui \
+    ui/dialog_about.ui
 
 RESOURCES = ceb.qrc
 

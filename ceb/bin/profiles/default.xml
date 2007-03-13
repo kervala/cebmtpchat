@@ -27,7 +27,7 @@
  <tab_for_who>1</tab_for_who>
  <tab_for_wall>1</tab_for_wall>
  <tab_for_finger>1</tab_for_finger>
- <client_version>20061014</client_version>
+ <client_version>20070313</client_version>
  <tray>
   <enabled>1</enabled>
   <always_visible>1</always_visible>

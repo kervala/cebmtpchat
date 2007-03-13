@@ -23,11 +23,12 @@
 #include <QLabel>
 #include <QPushButton>
 
-class DialogAbout : public QDialog
+#include "ui_dialog_about.h"
+
+class DialogAbout : public QDialog, private Ui::DialogAbout
 {
-private:
-	QLabel *labelMain;
-	QPushButton *buttonClose;
+	Q_OBJECT
+
 public:
 	DialogAbout(QWidget *parent = 0);
 };
