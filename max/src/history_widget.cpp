@@ -28,6 +28,7 @@ HistoryWidget::HistoryWidget(QWidget *parent) : QTextEdit(parent)
     historyIt = history.end();
     _completionMode = false;
 	setAcceptRichText(false);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void HistoryWidget::smashText(const QString &text)
