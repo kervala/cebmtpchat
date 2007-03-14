@@ -46,7 +46,7 @@ MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(f
 	urlRegexp << QRegExp("https:\\/\\/\\S*");
 	urlRegexp << QRegExp("www\\.\\S*");
 	urlRegexp << QRegExp("mailto:\\S*");
-	
+
 	connect(this, SIGNAL(anchorClicked(const QUrl &)),
 		this, SLOT(myAnchorClicked(const QUrl &)));
 
@@ -98,7 +98,7 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
 			foreach (QFileInfo fileInfo, profilesDir.entryInfoList(nameFilters, QDir::Files))
 				{
 					QAction *action = new QAction(fileInfo.baseName(), 0);
-					filterMenu->addAction(action);				
+					filterMenu->addAction(action);
 				}
 		}
 
@@ -170,19 +170,16 @@ void MyTextEdit::myAnchorClicked(const QUrl &link)
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
-	// Launch browser
-
 	// Custom browser?
-	if (profile.linksCustomBrowser != "")
+	if (profile.linksCustomBrowser.isEmpty())
+		QDesktopServices::openUrl(link);
+    else
 	{
 		QStringList args;
 		QProcess process;
 		args << link.toString();
 		process.startDetached(profile.linksCustomBrowser, args);
-		return;
-	}	
-
-	QDesktopServices::openUrl(link);
+	}
 }
 
 void MyTextEdit::setSource(const QUrl &)
@@ -270,7 +267,7 @@ void MyTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFon
 		pos = range.start + range.length;
 	}
 
-	if (pos < line.length()) // remains a piece of normal format		
+	if (pos < line.length()) // remains a piece of normal format
 		cursor.insertText(line.mid(pos, line.length() - pos), charFormat);
 }
 
@@ -317,7 +314,7 @@ void MyTextEdit::filterTriggered(QAction *action)
 	textEdit->setReadOnly(true);
 	splitter->addWidget(textEdit);
 	textEdit->setPlainText(normalText);
-	
+
 	// Filtered text
 	QWidget *subWidget = new QWidget;
 	splitter->addWidget(subWidget);
@@ -333,7 +330,7 @@ void MyTextEdit::filterTriggered(QAction *action)
 	subLayout->addWidget(button);
 	connect(button, SIGNAL(clicked()),
 			this, SLOT(sendIt()));
-	
+
 	dialog->resize(500, 300);
 	dialog->show();
 }
@@ -354,5 +351,5 @@ void MyTextEdit::resizeEvent(QResizeEvent *e)
 void MyTextEdit::scrollOutputToBottom()
 {
 	QScrollBar *sb = verticalScrollBar();
-	sb->setValue(sb->maximum());	
+	sb->setValue(sb->maximum());
 }
