@@ -1,3 +1,21 @@
+/* This file is part of CeB.
+ * Copyright (C) 2005  Guillaume Denry
+ *
+ * CeB is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * any later version.
+ *
+ * CeB is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CeB; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #ifndef TRANSFERS_MANAGER_H
 #define TRANSFERS_MANAGER_H
 
@@ -39,14 +57,14 @@ public:
 	State state() const { return _state; }
 	const QString &nickName() const { return _nickName; }
 	const QString &fileName() const { return _fileName; }
-	QString baseFileName() const { return QFileInfo(_fileName).fileName(); }	
+	QString baseFileName() const { return QFileInfo(_fileName).fileName(); }
 	Direction dir() const { return _dir; }
 	QString dirString() const;
 	const QString &destinationDir() const { return _dstDirectory; }
 	void setDstDirectory(const QString &path) { _dstDirectory = path; }
 
 	bool finished() const;
-	
+
 private:
 	Session *_session;
 	int _id;

@@ -1,3 +1,21 @@
+/* This file is part of CeB.
+ * Copyright (C) 2005  Guillaume Denry
+ *
+ * CeB is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * any later version.
+ *
+ * CeB is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CeB; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include <stdlib.h>
 
 #include <QFileInfo>
@@ -6,7 +24,7 @@
 #include "session_manager.h"
 #include "transfers_manager.h"
 
-Transfer::Transfer(Session *session, int id, int peerId, 
+Transfer::Transfer(Session *session, int id, int peerId,
 				   Direction dir, const QString &nickName, const QString &fileName)
 {
 	srand(time(NULL));
@@ -67,7 +85,7 @@ Transfer *TransfersManager::newTransfer(Session *session, const QString &nickNam
 		// TODO warn the user that a transfer with the same peer id already exists
 		return 0;
 	}
-	
+
 	transfer = new Transfer(session, getUniqId(), peerId, dir, nickName, fileName);
 	_transfers << transfer;
 	emit newTransferAdded(transfer);
@@ -191,7 +209,7 @@ bool TransfersManager::destroyed()
 QList<Transfer*> TransfersManager::getTransfers(Session *session) const
 {
 	QList<Transfer*> transfers;
-	
+
 	foreach (Transfer *transfer, _transfers)
 		if (transfer->session() == session)
 			transfers << transfer;
@@ -238,7 +256,7 @@ void TransfersManager::newSessionToken(Session *session, const TokenEvent &event
 		{
 			int peerId = regExp.cap(1).toInt();
 			QString file = regExp.cap(2);
-			
+
 			newTransfer(session, nickName, file, Transfer::Direction_In, peerId);
 		}
 	}
@@ -302,7 +320,7 @@ void TransfersManager::newSessionToken(Session *session, const TokenEvent &event
 QStringList TransfersManager::getCommandArguments(const QString &data)
 {
 	QRegExp regExp("^\\|file\\|\\|([a-z_]+)\\|(.*)$");
-	
+
 	if (regExp.exactMatch(data))
 	{
 		QStringList strLst = regExp.capturedTexts();

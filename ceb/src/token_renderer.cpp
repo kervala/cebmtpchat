@@ -1,3 +1,21 @@
+/* This file is part of CeB.
+ * Copyright (C) 2005  Guillaume Denry
+ *
+ * CeB is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * any later version.
+ *
+ * CeB is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CeB; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include "profile_manager.h"
 #include "token_display.h"
 #include "token_renderer.h"
@@ -55,7 +73,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
 				segments << RenderSegment(allLine.mid(0, argPos), allLineFont, allLineColor);
 		}
 	}
-	
+
 	// All remained aguments
 	while (iArg < arguments.count())
 	{
@@ -63,11 +81,11 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
 		int argNum = arguments[iArg];
 		int argPos = event.positions()[argNum];
 		QString arg = event.arguments()[argNum];
-		
+
 		segments << RenderSegment(arg,
 								  textSkin.tokenFont(event.token(), iArg + 1),
 								  textSkin.tokenColor(event.token(), iArg + 1));
-		
+
 		// Portion after token arg
 		int afterPos = argPos + arg.length();
 		int limitPos = allLine.length() - 1;
@@ -82,7 +100,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
 
 		if (iArg < arguments.count())
 			limitPos = event.positions()[arguments[iArg]] - 1;
- 
+
 		if (limitPos >= afterPos)
 			segments << RenderSegment(allLine.mid(afterPos, limitPos - afterPos + 1),
 									  allLineFont, allLineColor);
@@ -90,7 +108,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
 
 	// Execute modifier
 	executeModifier(m_session, event.token(), segments);
-	
+
 	// Render all
 	foreach (const RenderSegment &segment, segments)
 		if (lineStarted)
