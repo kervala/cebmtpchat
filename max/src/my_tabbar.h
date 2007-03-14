@@ -11,7 +11,7 @@ public:
 	MyTabBar(QWidget *parent = 0) : QTabBar(parent) {}
 
 protected:
-	QSize tabSizeHint(int index) const;
+//	QSize tabSizeHint(int index) const;
 };
 
 #endif // MY_TABBAR_H
