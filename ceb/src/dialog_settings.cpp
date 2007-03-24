@@ -44,19 +44,19 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 	treeMain->setHeaderLabels(QStringList(tr("Categories")));
 	treeMain->header()->setMovable(false);
 	treeMain->header()->setResizeMode(QHeaderView::Stretch);
-	createNode(0, tr("General", "Settings node"), createGeneralWidget());
+	createNode(0, createGeneralWidget(), tr("General", "Settings node"));
 	createConnectionsNodes();
-	QTreeWidgetItem *item = createNode(0, tr("Fonts", "Settings node"), fontsWidget = createFontsWidget());
-	createNode(item, tr("Detailed", "Settings node"), detailedFontsWidget = createDetailedFontsWidget());
-	createNode(0, tr("Logs", "Settings node"), createLogsWidget());
-	createNode(0, tr("Tray", "Settings node"), createTrayWidget());
-	createNode(0, tr("Warningo", "Settings node"), warningoWidget = createWarningoWidget());
-	createNode(0, tr("Sounds", "Settings node"), soundsWidget = createSoundsWidget());
-	createNode(0, tr("Idle", "Settings node"), idleWidget = createIdleWidget());
-	createNode(0, tr("Tabs", "Settings node"), createTabsWidget());
-	createNode(0, tr("Links", "Settings node"), linksWidget = createLinksWidget());
-	createNode(0, tr("Output", "Settings node"), createOutputWidget());
-	createNode(0, tr("Misc", "Settings node"), createMiscWidget());
+	QTreeWidgetItem *item = createNode(0, fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"));
+	createNode(item, detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"));
+	createNode(0, createLogsWidget(), tr("Logs", "Settings node"));
+	createNode(0, createTrayWidget(), tr("Tray", "Settings node"));
+	createNode(0, warningoWidget = createWarningoWidget(), tr("Warningo", "Settings node"));
+	createNode(0, soundsWidget = createSoundsWidget(), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
+	createNode(0, idleWidget = createIdleWidget(), tr("Idle", "Settings node"));
+	createNode(0, createTabsWidget(), tr("Tabs", "Settings node"));
+	createNode(0, linksWidget = createLinksWidget(), tr("Links", "Settings node"));
+	createNode(0, createOutputWidget(), tr("Output", "Settings node"));
+	createNode(0, createMiscWidget(), tr("Misc", "Settings node"));
 
 	// Save old things
 	Profile &profile = *ProfileManager::instance().currentProfile();
@@ -107,7 +107,7 @@ void DialogSettings::createConnectionsNodes()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
-	itemConnections = createNode(0, "Connections", createConnectionsWidget());
+	itemConnections = createNode(0, createConnectionsWidget(), "Connections");
 
 	for (int i = 0; i < profile.sessionConfigs().count(); i++)
 	{
@@ -120,8 +120,7 @@ void DialogSettings::createConnectionsNodes()
 		sessionConfigWidget->init(config);
 		
 		// Create a node for the config
-		createNode(itemConnections, config.name(),
-		sessionConfigWidget);
+		createNode(itemConnections, sessionConfigWidget, config.name());
 	}
 }
 
@@ -798,7 +797,7 @@ void DialogSettings::newSessionConfig()
 	sessionConfigWidget->init(newConfig);
 
 	// Node
-	QTreeWidgetItem *item = createNode(itemConnections, newConfig.name(), sessionConfigWidget);
+	QTreeWidgetItem *item = createNode(itemConnections, sessionConfigWidget, newConfig.name());
 	treeMain->setCurrentItem(item);
 }
 

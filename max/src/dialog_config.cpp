@@ -68,8 +68,8 @@ DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 	mainSplitter->setSizes(list);
 }
 
-QTreeWidgetItem *DialogConfig::createNode(QTreeWidgetItem *father, const QString &label,
-                                          QWidget *associatedWidget)
+QTreeWidgetItem *DialogConfig::createNode(QTreeWidgetItem *father, QWidget *associatedWidget,
+										  const QString &label, const QIcon &icon)
 {
 	// 1. Create node
 	QTreeWidgetItem *item = new QTreeWidgetItem();
@@ -80,6 +80,7 @@ QTreeWidgetItem *DialogConfig::createNode(QTreeWidgetItem *father, const QString
 		father->addChild(item);
 
 	item->setText(0, label);
+	item->setIcon(0, icon);
 
 	// 2. Associate it to the widget
 	nodeAndWidgetMap.insert(item, associatedWidget);

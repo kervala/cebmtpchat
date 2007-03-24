@@ -13,5 +13,6 @@
         <file>images/tray-new.png</file>
         <file>images/update.png</file>
         <file>images/yellow-led.png</file>
+		<file>images/sounds.png</file>
     </qresource>
 </RCC>
