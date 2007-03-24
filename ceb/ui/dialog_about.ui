@@ -5,31 +5,72 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
-    <height>316</height>
+    <width>330</width>
+    <height>314</height>
    </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>330</width>
+    <height>314</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>330</width>
+    <height>314</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>About CeB</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>2</number>
+    <number>4</number>
    </property>
    <property name="spacing" >
-    <number>6</number>
+    <number>2</number>
    </property>
-   <item row="3" column="0" colspan="2" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
+   <item row="0" column="0" colspan="2" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="labelImage" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="../ceb.qrc" >:/images/about.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelText" >
+       <property name="text" >
+        <string>(c) Garou/Mtp
+Some LUA parts are from Ace, Drealmer and Ben
+"Mais ouais !"</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QPushButton" name="pushButtonClose" >
+     <property name="text" >
+      <string>&amp;Close</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" >
+   <item row="2" column="0" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -42,36 +83,19 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="1" >
-    <widget class="QPushButton" name="pushButtonClose" >
-     <property name="text" >
-      <string>&amp;Close</string>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QFrame" name="frame" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QLabel" name="labelText" >
-     <property name="text" >
-      <string>CeB (c) Garou/Mtp
-Some LUA parts are from Ace, Drealmer and Ben
-"Mais ouais !"</string>
-     </property>
-    </widget>
-   </item>
-   <item rowspan="2" row="0" column="0" colspan="2" >
-    <widget class="QLabel" name="labelImage" >
-     <property name="text" >
-      <string/>
-     </property>
-     <property name="pixmap" >
-      <pixmap resource="../ceb.qrc" >:/images/about.png</pixmap>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="../ceb.qrc" />
   <include location="../ceb.qrc" />
  </resources>
  <connections>
