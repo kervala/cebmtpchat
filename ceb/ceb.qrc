@@ -14,5 +14,9 @@
         <file>images/update.png</file>
         <file>images/yellow-led.png</file>
 		<file>images/sounds.png</file>
+		<file>images/logs.png</file>
+		<file>images/warningo.png</file>
+		<file>images/tabs.png</file>
+		<file>images/transparent.png</file>
     </qresource>
 </RCC>

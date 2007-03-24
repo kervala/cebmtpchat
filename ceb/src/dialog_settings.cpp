@@ -44,19 +44,19 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 	treeMain->setHeaderLabels(QStringList(tr("Categories")));
 	treeMain->header()->setMovable(false);
 	treeMain->header()->setResizeMode(QHeaderView::Stretch);
-	createNode(0, createGeneralWidget(), tr("General", "Settings node"));
+	createNode(0, createGeneralWidget(), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
 	createConnectionsNodes();
-	QTreeWidgetItem *item = createNode(0, fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"));
-	createNode(item, detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"));
-	createNode(0, createLogsWidget(), tr("Logs", "Settings node"));
-	createNode(0, createTrayWidget(), tr("Tray", "Settings node"));
-	createNode(0, warningoWidget = createWarningoWidget(), tr("Warningo", "Settings node"));
+	QTreeWidgetItem *item = createNode(0, fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(item, detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, createLogsWidget(), tr("Logs", "Settings node"), QIcon(":/images/logs.png"));
+	createNode(0, createTrayWidget(), tr("Tray", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, warningoWidget = createWarningoWidget(), tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
 	createNode(0, soundsWidget = createSoundsWidget(), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
-	createNode(0, idleWidget = createIdleWidget(), tr("Idle", "Settings node"));
-	createNode(0, createTabsWidget(), tr("Tabs", "Settings node"));
-	createNode(0, linksWidget = createLinksWidget(), tr("Links", "Settings node"));
-	createNode(0, createOutputWidget(), tr("Output", "Settings node"));
-	createNode(0, createMiscWidget(), tr("Misc", "Settings node"));
+	createNode(0, idleWidget = createIdleWidget(), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
+	createNode(0, linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
 
 	// Save old things
 	Profile &profile = *ProfileManager::instance().currentProfile();
@@ -107,7 +107,7 @@ void DialogSettings::createConnectionsNodes()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
-	itemConnections = createNode(0, createConnectionsWidget(), "Connections");
+	itemConnections = createNode(0, createConnectionsWidget(), "Connections", QIcon(":/images/transparent.png"));
 
 	for (int i = 0; i < profile.sessionConfigs().count(); i++)
 	{
@@ -120,7 +120,7 @@ void DialogSettings::createConnectionsNodes()
 		sessionConfigWidget->init(config);
 		
 		// Create a node for the config
-		createNode(itemConnections, sessionConfigWidget, config.name());
+		createNode(itemConnections, sessionConfigWidget, config.name(), QIcon(":/images/transparent.png"));
 	}
 }
 
@@ -797,7 +797,7 @@ void DialogSettings::newSessionConfig()
 	sessionConfigWidget->init(newConfig);
 
 	// Node
-	QTreeWidgetItem *item = createNode(itemConnections, sessionConfigWidget, newConfig.name());
+	QTreeWidgetItem *item = createNode(itemConnections, sessionConfigWidget, newConfig.name(), QIcon(":/images/transparent.png"));
 	treeMain->setCurrentItem(item);
 }
 
