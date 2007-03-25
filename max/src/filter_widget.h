@@ -6,7 +6,7 @@
 #include <QTreeView>
 #include <QToolButton>
 
-#include <generic_sort_model.h>
+#include "generic_sort_model.h"
 
 class FilterWidget : public QWidget
 {

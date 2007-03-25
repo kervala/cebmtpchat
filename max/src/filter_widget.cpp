@@ -1,7 +1,6 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
-#include "generic_sort_model.h"
 #include "filter_widget.h"
 
 FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)

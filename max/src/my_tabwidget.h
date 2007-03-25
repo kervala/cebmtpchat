@@ -5,6 +5,8 @@
 
 class MyTabWidget : public QTabWidget
 {
+	Q_OBJECT
+
 public:
 	MyTabWidget(QWidget *parent = 0);
 
