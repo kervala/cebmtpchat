@@ -54,7 +54,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 	createNode(0, soundsWidget = createSoundsWidget(), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
 	createNode(0, idleWidget = createIdleWidget(), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
 	createNode(0, createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
-	createNode(0, linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/links.png"));
 	createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
 	createNode(0, createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
 
@@ -107,7 +107,7 @@ void DialogSettings::createConnectionsNodes()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
-	itemConnections = createNode(0, createConnectionsWidget(), "Connections", QIcon(":/images/transparent.png"));
+	itemConnections = createNode(0, createConnectionsWidget(), "Connections", QIcon(":/images/connect.png"));
 
 	for (int i = 0; i < profile.sessionConfigs().count(); i++)
 	{

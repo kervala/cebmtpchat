@@ -18,5 +18,7 @@
 		<file>images/warningo.png</file>
 		<file>images/tabs.png</file>
 		<file>images/transparent.png</file>
+		<file>images/links.png</file>
+		<file>images/connect.png</file>
     </qresource>
 </RCC>
