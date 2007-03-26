@@ -1,3 +1,4 @@
-project(CEB)
+PROJECT(CEB)
 
-subdirs(max ceb)
+ADD_SUBDIRECTORY(max)
+ADD_SUBDIRECTORY(ceb)
