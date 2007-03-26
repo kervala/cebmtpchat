@@ -4,8 +4,6 @@ set(QT_USE_QTXML TRUE)
 set(QT_USE_QTNETWORK TRUE)
 
 include(${QT_USE_FILE})
-include(${QT_QTXML_INCLUDE_DIR})
-include(${QT_QTNETWORK_INCLUDE_DIR})
 
 include_directories(${CEB_SOURCE_DIR}/max/src)
 include_directories(/usr/include/lua5.1)
