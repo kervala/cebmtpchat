@@ -3,7 +3,6 @@ find_package(Qt4 REQUIRED) # find and setup Qt4 for this project
 set(QT_USE_QTXML TRUE)
 
 include(${QT_USE_FILE})
-include(${QT_QTXML_INCLUDE_DIR})
 
 set(max_SRCS
 	dialog_basic.cpp
