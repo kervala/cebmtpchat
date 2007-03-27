@@ -12,7 +12,7 @@ ELSE(WIN32)
 	INCLUDE_DIRECTORIES(/usr/include/lua5.1)
 ENDIF(WIN32)
 
-SET(ceb_SRCS
+SET(CEB_SRCS
 	src/main.cpp
 	src/my_application.cpp
 	src/form_main.cpp
@@ -61,7 +61,7 @@ SET(ceb_SRCS
 	src/transfers_manager.cpp
 )
 
-SET(ceb_UIS
+SET(CEB_UIS
 	ui/sound_settings.ui
 	ui/idle_settings.ui
 	ui/warningo_settings.ui
@@ -72,13 +72,13 @@ SET(ceb_UIS
 	ui/dialog_about.ui
 )
 
-QT4_WRAP_UI(ceb_UIS_H ${ceb_UIS})
+QT4_WRAP_UI(CEB_UIS_H ${CEB_UIS})
 
 # Don't forget to include output directory, otherwise
 # the UI file won't be wrapped!
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-SET(ceb_MOCH
+SET(CEB_MOCH
 	src/form_main.h
 	src/my_application.h
 	src/dialog_settings.h
@@ -112,11 +112,23 @@ SET(ceb_MOCH
 	src/transfers_manager.h
 )
 
-QT4_WRAP_CPP(ceb_MOC ${ceb_MOCH})
+ADD_DEFINITIONS(-Wall)
 
-QT4_ADD_RESOURCES(ceb_RES ceb.qrc)
+QT4_WRAP_CPP(CEB_MOC ${CEB_MOCH})
 
-ADD_EXECUTABLE(ceb ${ceb_SRCS} ${ceb_MOC} ${ceb_RES})
+QT4_ADD_RESOURCES(CEB_RES ceb.qrc)
+
+IF(MINGW)
+	# resource compilation for MinGW
+	ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ceb_rc.o
+		COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/ceb.rc 
+		-o ${CMAKE_CURRENT_BINARY_DIR}/ceb_rc.o )
+	SET(CEB_SRCS ${CEB_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/ceb_rc.o)
+ELSE(MINGW)
+	SET(CEB_SRCS ${CEB_SRCS} ceb.rc)
+ENDIF(MINGW)
+
+ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_MOC} ${CEB_RES})
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(
