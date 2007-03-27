@@ -33,6 +33,8 @@ SET(MAX_MOCH
 	src/generic_sort_model.h
 )
 
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
 QT4_WRAP_CPP(MAX_MOC ${MAX_MOCH})
 
 ADD_LIBRARY(max ${MAX_SRCS} ${MAX_MOC})

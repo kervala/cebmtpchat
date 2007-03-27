@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.4.0)
+
 FIND_PACKAGE(Qt4 REQUIRED) # find and setup Qt4 for this project
 
 SET(QT_USE_QTXML TRUE)
@@ -112,7 +114,8 @@ SET(CEB_MOCH
 	src/transfers_manager.h
 )
 
-ADD_DEFINITIONS(-Wall)
+# ADD_DEFINITIONS(-Wall -DUNICODE -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT) # -DQT_NEEDS_QMAIN)
+ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 QT4_WRAP_CPP(CEB_MOC ${CEB_MOCH})
 
@@ -136,6 +139,7 @@ IF(UNIX)
 	)
 ELSEIF(WIN32)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
+		ceb ${CEB_SOURCE_DIR}/max/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll -lgdi32 -lcomdlg32 -loleaut32 
+            -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
 	)
 ENDIF(UNIX)
