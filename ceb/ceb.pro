@@ -2,7 +2,7 @@ CONFIG += qt debug_and_release
 
 QT += xml network
 
-HEADERS += src/form_main.h \
+HEADERS += src/main_window.h \
 	src/my_application.h \
     src/dialog_settings.h \
     src/profile.h \
@@ -52,7 +52,7 @@ HEADERS += src/form_main.h \
        
 SOURCES += src/main.cpp \
 	src/my_application.cpp \
-    src/form_main.cpp \
+    src/main_window.cpp \
     src/dialog_settings.cpp \
     src/profile.cpp \
     src/session_config.cpp \
