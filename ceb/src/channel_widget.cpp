@@ -153,9 +153,9 @@ void ChannelWidget::init()
 	connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
 	listWidgetWho->addAction(action);
 
-	action = new QAction("send a file...", 0);
+/* WAITING FOR FILE TRANSFER	action = new QAction("send a file...", 0);
 	connect(action, SIGNAL(triggered()), this, SLOT(sendAFile()));
-	listWidgetWho->addAction(action);
+	listWidgetWho->addAction(action);*/
 
 	palette = listWidgetWho->palette();
 	palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
