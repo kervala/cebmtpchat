@@ -36,7 +36,6 @@
 #endif
 
 #include "version.h"
-#include "form_main.h"
 #include "dialog_settings.h"
 #include "profile_manager.h"
 #include "dialog_about.h"
@@ -46,7 +45,9 @@
 #include "dialog_warningo.h"
 #include "dialog_whatsnew.h"
 
-FormMain::FormMain()
+#include "main_window.h"
+
+MainWindow::MainWindow()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	setWindowTitle("CeB");
@@ -143,13 +144,13 @@ FormMain::FormMain()
 	m_firstShow = true;
 }
 
-FormMain::~FormMain()
+MainWindow::~MainWindow()
 {
 	// Free some singletons
 	SessionManager::free();
 }
 
-void FormMain::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
 	// All finalization stuff must be done here
 	recordCurrentProfileDatas();
@@ -163,7 +164,7 @@ void FormMain::closeEvent(QCloseEvent *event)
 	event->accept();
 }
 
-void FormMain::recordCurrentProfileDatas()
+void MainWindow::recordCurrentProfileDatas()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -182,7 +183,7 @@ void FormMain::recordCurrentProfileDatas()
 	profile.systemLogsHeight = systemDialog->height();
 }
 
-void FormMain::makeMenuBar()
+void MainWindow::makeMenuBar()
 {
 	mbMain = new MyMenuBar;
 	setMenuBar(mbMain);
@@ -252,14 +253,14 @@ void FormMain::makeMenuBar()
 	connect(menuHelp->addAction(tr("About &Qt...")), SIGNAL(triggered()), this, SLOT(aboutQt()));
 }
 
-void FormMain::makeToolBar()
+void MainWindow::makeToolBar()
 {
 	// TODO: populate
 }
 
 #if defined(Q_OS_WIN32)
 
-bool FormMain::winEvent(MSG *message, long *result)
+bool MainWindow::winEvent(MSG *message, long *result)
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -281,7 +282,7 @@ bool FormMain::winEvent(MSG *message, long *result)
 
 #endif
 
-void FormMain::makeStatusBar()
+void MainWindow::makeStatusBar()
 {
 	sbMain = new QStatusBar(this);
 	setStatusBar(sbMain);
@@ -289,7 +290,7 @@ void FormMain::makeStatusBar()
 	sbMain->hide();
 }
 
-void FormMain::makeConnectionsActions()
+void MainWindow::makeConnectionsActions()
 {
 	mConnectTo->clear();
 
@@ -311,7 +312,7 @@ void FormMain::makeConnectionsActions()
 	connect(actionNewConnection, SIGNAL(triggered()), this, SLOT(newConnection()));
 }
 
-void FormMain::newConnection()
+void MainWindow::newConnection()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	SessionConfig templateConfig = SessionConfig::getTemplate();
@@ -328,7 +329,7 @@ void FormMain::newConnection()
 	}
 }
 
-void FormMain::reconnect()
+void MainWindow::reconnect()
 {
 	// Get current session config
 	Session *session = getCurrentSession();
@@ -339,12 +340,12 @@ void FormMain::reconnect()
 	}
 }
 
-void FormMain::closeConnection()
+void MainWindow::closeConnection()
 {
 	closeCurrentSession();
 }
 
-void FormMain::editConnectionConfig()
+void MainWindow::editConnectionConfig()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	SessionConfig *pConfig =
@@ -362,14 +363,14 @@ void FormMain::editConnectionConfig()
 	}
 }
 
-void FormMain::editSettings()
+void MainWindow::editSettings()
 {
 	DialogSettings dialog(this);
 	if (dialog.exec() == QDialog::Accepted)
 		refreshProfileSettings();
 }
 
-void FormMain::showSystemLogs()
+void MainWindow::showSystemLogs()
 {
 	if (systemDialog->isVisible())
 		systemDialog->hide();
@@ -377,7 +378,7 @@ void FormMain::showSystemLogs()
 		systemDialog->show();
 }
 
-void FormMain::showTopicWindow()
+void MainWindow::showTopicWindow()
 {
 	// Change profile datas
 	Profile &profile = *ProfileManager::instance().currentProfile();
@@ -397,18 +398,18 @@ void FormMain::showTopicWindow()
 	}
 }
 
-void FormMain::about()
+void MainWindow::about()
 {
 	DialogAbout dialog(this);
 	dialog.exec();
 }
 
-void FormMain::aboutQt()
+void MainWindow::aboutQt()
 {
 	QMessageBox::aboutQt(this);
 }
 
-ChannelWidget *FormMain::connectTo(SessionConfig &config)
+ChannelWidget *MainWindow::connectTo(SessionConfig &config)
 {
 	// Existing config?
 	if (mtwMain->superLabels().indexOf(config.name()) >= 0)
@@ -456,13 +457,13 @@ ChannelWidget *FormMain::connectTo(SessionConfig &config)
 	return channelWidget;
 }
 
-void FormMain::connectTo(const QString &configName)
+void MainWindow::connectTo(const QString &configName)
 {
 	const Profile &profile = *ProfileManager::instance().currentProfile();
 	connectTo(*profile.getSessionConfig(configName));
 }
 
-void FormMain::connectToFromMenu(const QString &configName)
+void MainWindow::connectToFromMenu(const QString &configName)
 {
 	const Profile &profile = *ProfileManager::instance().currentProfile();
 	ChannelWidget *widget = connectTo(*profile.getSessionConfig(configName));
@@ -470,12 +471,12 @@ void FormMain::connectToFromMenu(const QString &configName)
 		widget->applyFirstShow();
 }
 
-void FormMain::hideSystemDialog()
+void MainWindow::hideSystemDialog()
 {
 	actionSystemLogs->setChecked(false);
 }
 
-void FormMain::refreshProfileSettings()
+void MainWindow::refreshProfileSettings()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -507,7 +508,7 @@ void FormMain::refreshProfileSettings()
 	refreshWidgets();
 }
 
-void FormMain::refreshWidgets()
+void MainWindow::refreshWidgets()
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -526,12 +527,12 @@ void FormMain::refreshWidgets()
 	}
 }
 
-void FormMain::aboutToShowConnectionsActions()
+void MainWindow::aboutToShowConnectionsActions()
 {
 	makeConnectionsActions();
 }
 
-void FormMain::newSessionTokenForActivity(Session *session, const TokenEvent &event)
+void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &event)
 {
 	if (event.ticketID() >= 0)
 		return;
@@ -586,7 +587,7 @@ void FormMain::newSessionTokenForActivity(Session *session, const TokenEvent &ev
  	}
 }
 
-void FormMain::newSessionToken(Session *session, const TokenEvent &event)
+void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -797,7 +798,7 @@ void FormMain::newSessionToken(Session *session, const TokenEvent &event)
 	}
 }
 
-void FormMain::trayActivated(QSystemTrayIcon::ActivationReason reason)
+void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	if (reason != QSystemTrayIcon::Trigger)
 		return;
@@ -812,7 +813,7 @@ void FormMain::trayActivated(QSystemTrayIcon::ActivationReason reason)
 		trayIcon->hide();
 }
 
-bool FormMain::event(QEvent *e)
+bool MainWindow::event(QEvent *e)
 {
 	if (e->type() == QEvent::WindowActivate)
 	{
@@ -822,7 +823,7 @@ bool FormMain::event(QEvent *e)
 	return QMainWindow::event(e);
 }
 
-void FormMain::showEvent(QShowEvent *)
+void MainWindow::showEvent(QShowEvent *)
 {
 	if (m_firstShow)
 	{
@@ -838,19 +839,19 @@ void FormMain::showEvent(QShowEvent *)
 	}
 }
 
-void FormMain::newProgramVersion(const QDate &)
+void MainWindow::newProgramVersion(const QDate &)
 {
 	mbMain->setUpdateAvailable(true);
 }
 
-void FormMain::checkForUpdate()
+void MainWindow::checkForUpdate()
 {
 	DialogUpdate *dialog = new DialogUpdate(this);
         connect(dialog, SIGNAL(accepted()), this, SLOT(updateAccepted()));
         dialog->show();
 }
 
-void FormMain::applyProfileOnMultiTabWidget()
+void MainWindow::applyProfileOnMultiTabWidget()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -867,7 +868,7 @@ void FormMain::applyProfileOnMultiTabWidget()
 		MultiTabWidget::TabLocation_South);
 }
 
-Session *FormMain::getCurrentSession()
+Session *MainWindow::getCurrentSession()
 {
 	SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
 	if (w)
@@ -875,7 +876,7 @@ Session *FormMain::getCurrentSession()
 	return 0;
 }
 
-void FormMain::closeCurrentSession()
+void MainWindow::closeCurrentSession()
 {
 	SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
 	if (w)
@@ -887,7 +888,7 @@ void FormMain::closeCurrentSession()
 	}
 }
 
-void FormMain::whoItemDblClicked(const QString &login)
+void MainWindow::whoItemDblClicked(const QString &login)
 {
 	Session *session = qobject_cast<ChannelWidget*>(sender())->session();
 
@@ -900,7 +901,7 @@ void FormMain::whoItemDblClicked(const QString &login)
 	mtwMain->focusWidget(w);
 }
 
-TellWidget *FormMain::getTellWidget(Session *session, const QString &login)
+TellWidget *MainWindow::getTellWidget(Session *session, const QString &login)
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -911,7 +912,7 @@ TellWidget *FormMain::getTellWidget(Session *session, const QString &login)
 	return 0;
 }
 
-TellWidget *FormMain::newTellWidget(Session *session, const QString &login)
+TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 {
 	TellWidget *w = new TellWidget(session, login);
 	connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
@@ -924,12 +925,12 @@ TellWidget *FormMain::newTellWidget(Session *session, const QString &login)
 	return w;
 }
 
-void FormMain::closeTabWidget()
+void MainWindow::closeTabWidget()
 {
 	mtwMain->removeWidget(qobject_cast<QWidget*>(sender()));
 }
 
-void FormMain::highlightSessionWidget()
+void MainWindow::highlightSessionWidget()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	SessionWidget *widget = qobject_cast<SessionWidget*>(sender());
@@ -974,7 +975,7 @@ void FormMain::highlightSessionWidget()
 	}
 }
 
-CmdOutputWidget *FormMain::getCmdOutputWidget(Session *session, const QString &cmdName)
+CmdOutputWidget *MainWindow::getCmdOutputWidget(Session *session, const QString &cmdName)
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -985,7 +986,7 @@ CmdOutputWidget *FormMain::getCmdOutputWidget(Session *session, const QString &c
 	return 0;
 }
 
-CmdOutputWidget *FormMain::newCmdOutputWidget(Session *session, const QString &cmdName)
+CmdOutputWidget *MainWindow::newCmdOutputWidget(Session *session, const QString &cmdName)
 {
 	CmdOutputWidget *w = new CmdOutputWidget(session, cmdName);
 	connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
@@ -997,7 +998,7 @@ CmdOutputWidget *FormMain::newCmdOutputWidget(Session *session, const QString &c
 	return w;
 }
 
-TransfersWidget *FormMain::getTransfersWidget(Session *session)
+TransfersWidget *MainWindow::getTransfersWidget(Session *session)
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -1008,7 +1009,7 @@ TransfersWidget *FormMain::getTransfersWidget(Session *session)
 	return 0;	
 }
 
-TransfersWidget *FormMain::newTransfersWidget(Session *session)
+TransfersWidget *MainWindow::newTransfersWidget(Session *session)
 {
 	TransfersWidget *w = new TransfersWidget(session);
 	connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
@@ -1020,7 +1021,7 @@ TransfersWidget *FormMain::newTransfersWidget(Session *session)
 	return w;
 }
 
-void FormMain::sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin)
+void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin)
 {
 	TellWidget *tellWidget = getTellWidget(session, oldLogin);
 	if (tellWidget)
@@ -1030,7 +1031,7 @@ void FormMain::sessionLoginChanged(Session *session, const QString &oldLogin, co
 	}
 }
 
-void FormMain::focusedWidgetChanged(QWidget *widget)
+void MainWindow::focusedWidgetChanged(QWidget *widget)
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -1047,7 +1048,7 @@ void FormMain::focusedWidgetChanged(QWidget *widget)
 	}
 }
 
-ChannelWidget *FormMain::getChannelWidget(Session *session)
+ChannelWidget *MainWindow::getChannelWidget(Session *session)
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -1058,7 +1059,7 @@ ChannelWidget *FormMain::getChannelWidget(Session *session)
 	return 0;
 }
 
-void FormMain::whoUserDoubleClicked(const QString &login)
+void MainWindow::whoUserDoubleClicked(const QString &login)
 {
 	ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(sender());
 	Session *session = channelWidget->session();
@@ -1072,12 +1073,12 @@ void FormMain::whoUserDoubleClicked(const QString &login)
 	mtwMain->focusWidget(widget);
 }
 
-void FormMain::tellSessionAsked(const QString &login)
+void MainWindow::tellSessionAsked(const QString &login)
 {
 	whoUserDoubleClicked(login);
 }
 
-void FormMain::showLogsDir()
+void MainWindow::showLogsDir()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 
@@ -1087,7 +1088,7 @@ void FormMain::showLogsDir()
 		QDesktopServices::openUrl(profile.logsDir);
 }
 
-void FormMain::showMessages()
+void MainWindow::showMessages()
 {
 	Session *session = getCurrentSession();
 
@@ -1100,7 +1101,7 @@ void FormMain::showMessages()
 	mtwMain->focusWidget(widget);
 }
 
-void FormMain::showTransfers()
+void MainWindow::showTransfers()
 {
 	Session *session = getCurrentSession();
 
@@ -1113,7 +1114,7 @@ void FormMain::showTransfers()
 	mtwMain->focusWidget(widget);
 }
 
-MessageWidget *FormMain::getMessageWidget(Session *session)
+MessageWidget *MainWindow::getMessageWidget(Session *session)
 {
 	for (int i = 0; i < mtwMain->count(); i++)
 	{
@@ -1124,7 +1125,7 @@ MessageWidget *FormMain::getMessageWidget(Session *session)
 	return 0;
 }
 
-MessageWidget *FormMain::newMessageWidget(Session *session)
+MessageWidget *MainWindow::newMessageWidget(Session *session)
 {
 	MessageWidget *w = new MessageWidget(session);
 	connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
@@ -1136,13 +1137,13 @@ MessageWidget *FormMain::newMessageWidget(Session *session)
 	return w;
 }
 
-void FormMain::launchWhatsNew()
+void MainWindow::launchWhatsNew()
 {
 	DialogWhatsNew *dialog = new DialogWhatsNew(this);
 	dialog->show();
 }
 
-void FormMain::launchBugReport()
+void MainWindow::launchBugReport()
 {
 	QString subject = "Bug report";
 	QString body = "Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\n\
@@ -1151,7 +1152,7 @@ Here are the problems:\n\n* ";
 	QDesktopServices::openUrl(QUrl("mailto:?To=cebmtp@free.fr&subject=" + subject + "&body=" + body));
 }
 
-void FormMain::launchFeatureReport()
+void MainWindow::launchFeatureReport()
 {
 	QString subject = "Wanted feature report";
 	QString body = "Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\n\
@@ -1160,18 +1161,18 @@ Here are the missing features I'd like to see in the next version:\n\n* ";
 	QDesktopServices::openUrl(QUrl("mailto:?To=cebmtp@free.fr&subject=" + subject + "&body=" + body));
 }
 
-void FormMain::menuIconClicked()
+void MainWindow::menuIconClicked()
 {
 	checkForUpdate();
 }
 
-void FormMain::updateAccepted()
+void MainWindow::updateAccepted()
 {
 	QMessageBox::warning(0, tr("Warning"), tr("You must close every CeB instance to continue installation"));
 	QProcess::startDetached(qobject_cast<DialogUpdate*>(sender())->fileToLaunch());
 }
 
-void FormMain::animationTimeout()
+void MainWindow::animationTimeout()
 {
 	static const int increment = 20;
 
@@ -1251,7 +1252,7 @@ void FormMain::animationTimeout()
 		}
 }
 
-bool FormMain::eventFilter(QObject *watched, QEvent *event)
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
 	if (watched == mtwMain)
 	{
@@ -1273,7 +1274,7 @@ bool FormMain::eventFilter(QObject *watched, QEvent *event)
 	return QMainWindow::eventFilter(watched, event);
 }
 
-void FormMain::showFileTransfers()
+void MainWindow::showFileTransfers()
 {
 	ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(sender());
 	Session *session = channelWidget->session();
@@ -1287,7 +1288,7 @@ void FormMain::showFileTransfers()
 	mtwMain->focusWidget(widget);
 }
 
-void FormMain::newTransfer(Transfer *transfer)
+void MainWindow::newTransfer(Transfer *transfer)
 {
 	// Initiate a transfers widget
 	TransfersWidget *widget = getTransfersWidget(transfer->session());

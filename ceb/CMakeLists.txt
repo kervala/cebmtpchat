@@ -17,7 +17,7 @@ ENDIF(WIN32)
 SET(CEB_SRCS
 	src/main.cpp
 	src/my_application.cpp
-	src/form_main.cpp
+	src/main_window.cpp
 	src/dialog_settings.cpp
 	src/profile.cpp
 	src/session_config.cpp
@@ -81,7 +81,7 @@ QT4_WRAP_UI(CEB_UIS_H ${CEB_UIS})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 SET(CEB_MOCH
-	src/form_main.h
+	src/main_window.h
 	src/my_application.h
 	src/dialog_settings.h
 	src/session_widget.h

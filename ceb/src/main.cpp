@@ -21,7 +21,7 @@
 #include <QTranslator>
 
 #include "my_application.h"
-#include "form_main.h"
+#include "main_window.h"
 #include "profile_manager.h"
 #include "general_config.h"
 #include "session_manager.h"
@@ -57,8 +57,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-	FormMain formMain;
-	formMain.show();
+	MainWindow mainWindow;
+	mainWindow.show();
 
 	int appRes = a.exec();
 

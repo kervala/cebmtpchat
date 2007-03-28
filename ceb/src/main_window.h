@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef FORM_MAIN_H
-#define FORM_MAIN_H
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
 
 #include <QMainWindow>
 #include <QMenuBar>
@@ -40,13 +40,13 @@
 #include "transfers_widget.h"
 #include "my_menubar.h"
 
-class FormMain : public QMainWindow
+class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	FormMain();
-	~FormMain();
+	MainWindow();
+	~MainWindow();
 	
 protected:
 	void closeEvent(QCloseEvent *event);
@@ -160,4 +160,4 @@ private slots:
 	void newTransfer(Transfer *transfer);
 };
 
-#endif
+#endif // MAIN_WINDOW_H
