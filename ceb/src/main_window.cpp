@@ -1081,11 +1081,16 @@ void MainWindow::tellSessionAsked(const QString &login)
 void MainWindow::showLogsDir()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
-
+	
+	// Determine the QUrl of the logs path
+	QUrl url;
 	if (profile.logsDefaultDir)
-		QDesktopServices::openUrl(QDir::convertSeparators(QApplication::applicationDirPath() + "/logs"));
+		url = QUrl::fromLocalFile(QDir(QApplication::applicationDirPath()).filePath("logs"));
 	else
-		QDesktopServices::openUrl(profile.logsDir);
+		url = QUrl::fromLocalFile(profile.logsDir);
+
+	// Launch it
+	QDesktopServices::openUrl(url);
 }
 
 void MainWindow::showMessages()

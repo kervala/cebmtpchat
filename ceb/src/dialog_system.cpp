@@ -54,6 +54,8 @@ DialogSystem::DialogSystem(QWidget *parent) : QDialog(parent)
 
 	mainLayout->addLayout(buttonLayout);
 	mainLayout->setMargin(4);
+
+	resize(400, 200);
 }
 
 DialogSystem::~DialogSystem()
