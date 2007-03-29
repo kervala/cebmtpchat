@@ -37,6 +37,7 @@
 #include "fonts_settings_widget.h"
 #include "detailed_fonts_settings_widget.h"
 #include "links_settings_widget.h"
+#include "shortcuts_settings_widget.h"
 
 DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 {
@@ -45,6 +46,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 	treeMain->header()->setMovable(false);
 	treeMain->header()->setResizeMode(QHeaderView::Stretch);
 	createNode(0, createGeneralWidget(), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, createShortcutsWidget(), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
 	createConnectionsNodes();
 	QTreeWidgetItem *item = createNode(0, fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
 	createNode(item, detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
@@ -101,6 +103,13 @@ QWidget *DialogSettings::createGeneralWidget()
 	}
 
 	return  mainWidget;
+}
+
+QWidget *DialogSettings::createShortcutsWidget()
+{
+	ShortcutsSettingsWidget *widget = new ShortcutsSettingsWidget;
+	widget->applyProfile(*ProfileManager::instance().currentProfile());
+	return widget;
 }
 
 void DialogSettings::createConnectionsNodes()
@@ -634,6 +643,7 @@ bool DialogSettings::verifyControlsDatas()
 void DialogSettings::getControlsDatas()
 {
 	getGeneralControlsDatas();
+	getShortcutsControlsDatas();
 	getConnectionsControlsDatas();
 	getLogsControlsDatas();
 	getFontsControlsDatas();
@@ -655,6 +665,12 @@ void DialogSettings::getGeneralControlsDatas()
 		profile.language = "";
 	else
 		profile.language = displayToLanguage[comboBoxLanguage->currentText()];
+}
+
+void DialogSettings::getShortcutsControlsDatas()
+{
+	qobject_cast<ShortcutsSettingsWidget*>(shortcutsWidget)->feedProfile(
+		*ProfileManager::instance().currentProfile());	
 }
 
 void DialogSettings::getConnectionsControlsDatas()

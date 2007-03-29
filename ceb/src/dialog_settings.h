@@ -48,6 +48,9 @@ protected slots:
 private:
 	// General
 	QComboBox *comboBoxLanguage;
+
+	// Shortcuts
+	QWidget *shortcutsWidget;
 	
 	// Connections
 	QTreeWidgetItem *itemConnections;
@@ -121,6 +124,7 @@ private:
 	QCheckBox *checkBoxCopyOnSelection;
 
 	QWidget *createGeneralWidget();	
+	QWidget *createShortcutsWidget();
 	void createConnectionsNodes();
 	QWidget *createConnectionsWidget();
 	QWidget *createFontsWidget();
@@ -139,6 +143,7 @@ private:
 
 	// Get datas
 	void getGeneralControlsDatas();
+	void getShortcutsControlsDatas();
 	void getConnectionsControlsDatas(); // Collect all datas concerning connections
 	void getLogsControlsDatas();
 	void getFontsControlsDatas();
