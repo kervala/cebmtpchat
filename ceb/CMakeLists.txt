@@ -142,11 +142,10 @@ ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/libmax.a ${QT_LIBRARIES} /usr/lib/liblua5.1.so
+		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} /usr/lib/liblua5.1.so
 	)
 ELSEIF(WIN32)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll -lgdi32 -lcomdlg32 -loleaut32 
-            -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
+		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
 	)
 ENDIF(UNIX)
