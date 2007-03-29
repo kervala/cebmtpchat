@@ -1,7 +1,5 @@
 PROJECT(MAX)
 
-FIND_PACKAGE(Qt4 REQUIRED) # find and setup Qt4 for this project
-
 SET(QT_USE_QTXML TRUE)
 
 INCLUDE(${QT_USE_FILE})
