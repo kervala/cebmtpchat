@@ -136,6 +136,8 @@ ENDIF(MINGW)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
+
 ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
 
 IF(UNIX)
@@ -144,6 +146,7 @@ IF(UNIX)
 	)
 ELSEIF(WIN32)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
+		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll
+            -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCore -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
 	)
 ENDIF(UNIX)
