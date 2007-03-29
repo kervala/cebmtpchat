@@ -48,8 +48,9 @@ HEADERS += src/main_window.h \
     src/modifier.h \
     src/links_settings_widget.h \
     src/transfers_widget.h \
-    src/transfers_manager.h
-       
+    src/transfers_manager.h \
+    src/shortcuts_settings_widget.h
+      
 SOURCES += src/main.cpp \
 	src/my_application.cpp \
     src/main_window.cpp \
@@ -95,7 +96,8 @@ SOURCES += src/main.cpp \
     src/modifier.cpp \
     src/links_settings_widget.cpp \
     src/transfers_widget.cpp \
-    src/transfers_manager.cpp
+    src/transfers_manager.cpp \
+    src/shortcuts_settings_widget.cpp
 
 FORMS += ui/sound_settings.ui \
 	ui/idle_settings.ui \
@@ -104,6 +106,7 @@ FORMS += ui/sound_settings.ui \
     ui/detailed_fonts_settings.ui \
     ui/fonts_settings.ui \
     ui/links_settings.ui \
+    ui/shortcuts_settings.ui \
     ui/dialog_about.ui
 
 RESOURCES = ceb.qrc

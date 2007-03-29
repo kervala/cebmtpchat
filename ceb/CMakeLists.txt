@@ -61,6 +61,7 @@ SET(CEB_SRCS
 	src/links_settings_widget.cpp
 	src/transfers_widget.cpp
 	src/transfers_manager.cpp
+	src/shortcuts_settings_widget.cpp
 )
 
 SET(CEB_UIS
@@ -71,6 +72,7 @@ SET(CEB_UIS
 	ui/detailed_fonts_settings.ui
 	ui/fonts_settings.ui
 	ui/links_settings.ui
+	ui/shortcuts_settings.ui
 	ui/dialog_about.ui
 )
 
@@ -112,6 +114,7 @@ SET(CEB_MOCH
 	src/links_settings_widget.h
 	src/transfers_widget.h
 	src/transfers_manager.h
+	src/shortcuts_settings_widget.h
 )
 
 # ADD_DEFINITIONS(-Wall -DUNICODE -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT) # -DQT_NEEDS_QMAIN)
