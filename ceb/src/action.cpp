@@ -9,20 +9,26 @@ Action::Action(ActionType actionType)
 	// Default QKeySequence
 	switch (_actionType)
 	{
-	case Action_RefreshWhoColumn: _keySequence = QKeySequence(Qt::Key_F5);
-	case Action_ToggleAway: _keySequence = QKeySequence(Qt::Key_F4);
-	case Action_Reconnect: _keySequence = QKeySequence(Qt::Key_F9);
+	case Action_RefreshWhoColumn:
+		_keySequence = QKeySequence(Qt::Key_F5);
+		_caption = QObject::tr("Refresh the who column on the current server");
+		break;
+	case Action_ToggleAway:
+		_keySequence = QKeySequence(Qt::Key_F4);
+		_caption = QObject::tr("Toggle the away state on the current server");
+		break;
+	case Action_Reconnect:
+		_keySequence = QKeySequence(Qt::Key_F9);
+		_caption = QObject::tr("Reconnect on the current server");
+		break;
 	default:;
 	}
 }
 
-QString Action::actionToString()
+// ActionManager ////////////////////////
+
+ActionManager::ActionManager()
 {
-	switch (_actionType)
-	{
-	case Action_RefreshWhoColumn: return QObject::tr("Refresh the who column on the current server");
-	case Action_ToggleAway: return QObject::tr("Toggle the away state on the current server");
-	case Action_Reconnect: return QObject::tr("Reconnect on the current server");
-	default: return "";
-	}
+	for (int i = 0; i <= Action::Action_End; ++i)
+		_actions << Action((Action::ActionType) i);
 }
