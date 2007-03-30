@@ -62,6 +62,7 @@ SET(CEB_SRCS
 	src/transfers_widget.cpp
 	src/transfers_manager.cpp
 	src/shortcuts_settings_widget.cpp
+	src/action.cpp
 )
 
 SET(CEB_UIS

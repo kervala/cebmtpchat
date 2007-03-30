@@ -25,6 +25,7 @@
 
 #include "session_config.h"
 #include "token_display.h"
+#include "action.h"
 
 class Profile
 {
@@ -127,6 +128,8 @@ public:
 	bool behindNAT; // If true, CeB considere you are behind a NAT and you're not directly joinable
 	int transferPort;
 	bool transferInit;
+
+	ActionManager actionManager;
 
 	TextSkin &textSkin() { return m_textSkin; }
 	

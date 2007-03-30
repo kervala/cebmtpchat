@@ -21,6 +21,8 @@
 
 #include <QDir>
 
+#include "action.h"
+
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
 	fileDownload = 0;
