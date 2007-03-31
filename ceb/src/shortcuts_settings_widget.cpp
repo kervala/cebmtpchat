@@ -23,6 +23,8 @@
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
 	setupUi(this);
+
+	treeView->setModel(_model = new ActionsModel(this));
 }
 
 void ShortcutsSettingsWidget::applyProfile(const Profile &profile)

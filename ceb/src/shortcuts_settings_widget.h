@@ -20,6 +20,7 @@
 #define SHORTCUTS_SETTINGS_WIDGET_H
 
 #include "settings_widget.h"
+#include "actions_model.h"
 
 #include "ui_shortcuts_settings.h"
 
@@ -32,6 +33,9 @@ public:
 
 	void applyProfile(const Profile &profile);
 	void feedProfile(Profile &profile);
+
+private:
+	ActionsModel *_model;
 
 private slots:
 };
