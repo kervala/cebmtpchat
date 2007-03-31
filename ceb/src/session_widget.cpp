@@ -44,22 +44,31 @@ bool SessionWidget::eventFilter(QObject *obj, QEvent *event)
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 		if ((keyEvent->key() == Qt::Key_W && keyEvent->modifiers() == Qt::ControlModifier) ||
 			(keyEvent->key() == Qt::Key_Escape))
+		{
 			emit closeMe();
-		return true;
+			return true;
+		}
+		else
+			return false;
 	}
 	else if (event->type() == QEvent::ShortcutOverride)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 		if ((keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier) ||
 			keyEvent->key() == Qt::Key_F11)
+		{
 			emit moveLeft();
+			return true;
+		}
 		else if ((keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
 				 keyEvent->key() == Qt::Key_F12 ||
 				 (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::ControlModifier))
+		{
 			emit moveRight();
+			return true;
+		}
 		else
-			return QObject::eventFilter(obj, event);
-		return true;
+			return false;
 	}
 	return QObject::eventFilter(obj, event);
 }

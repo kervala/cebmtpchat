@@ -236,6 +236,8 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
 			return true;
 		} else if (event->type() == QEvent::ShortcutOverride)
 			return true;
+		else
+			return false;
 	}
 	return SessionWidget::eventFilter(obj, event);
 }
