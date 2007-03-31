@@ -1340,7 +1340,8 @@ void MainWindow::executeAction(int action)
 	case Action::Action_ToggleAway:
 		if (!session->isLogged())
 			return;
-		
+
+		session->deactivateAutoAway();
 		if (session->away())
 			session->send("set away off");
 		else

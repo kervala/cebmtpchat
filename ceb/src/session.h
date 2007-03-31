@@ -66,6 +66,7 @@ public:
 	const QDateTime &idleStart() const { return m_idleStart; }
 	bool autoAwayActivated() const { return m_autoAway; }
 	void activateAutoAway();
+	void deactivateAutoAway();
 	const QList<MessageItem> myMessages() const
 		{ return m_myMessages; }
 	const MtpAnalyzer &analyzer() const { return m_analyzer; }

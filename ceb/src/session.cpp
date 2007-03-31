@@ -340,3 +340,11 @@ void Session::activateAutoAway()
 	m_autoAway = true;
 	send("set away on", false);	
 }
+
+void Session::deactivateAutoAway()
+{
+	if (!m_autoAway)
+		return;
+
+	m_autoAway = false;
+}
