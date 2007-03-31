@@ -23,6 +23,15 @@ Action::Action(ActionType actionType)
 		break;
 	default:;
 	}
+	_defaultKeySequence = _keySequence;
+}
+
+void Action::resetKeySequence()
+{
+	if (_defaultKeySequence == _keySequence)
+		return;
+
+	_keySequence = _defaultKeySequence;
 }
 
 // ActionManager ////////////////////////

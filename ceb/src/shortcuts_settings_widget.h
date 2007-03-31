@@ -38,6 +38,7 @@ private:
 	ActionsModel *_model;
 
 private slots:
+	void treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous);
 };
 
 #endif // SHORTCUTS_SETTINGS_WIDGET_H

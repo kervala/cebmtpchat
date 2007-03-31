@@ -20,6 +20,9 @@ public:
 	QKeySequence keySequence() const { return _keySequence; }
 	void setKeySequence(const QKeySequence value) { _keySequence = value; }
 
+	QKeySequence defaultKeySequence() const { return _defaultKeySequence; }
+	void resetKeySequence();
+
 	const QString &caption() const { return _caption; }
 
 	ActionType actionType() const { return _actionType; }
@@ -27,6 +30,7 @@ public:
 private:
 	ActionType _actionType;
 	QKeySequence _keySequence;
+	QKeySequence _defaultKeySequence;
 	QString _caption;
 };
 
