@@ -755,6 +755,12 @@ void ChannelWidget::refreshKeepAlivePolicy()
 	}
 }
 
+void ChannelWidget::refreshWhoColumn()
+{
+	whoTicketID = m_session->requestTicket(MtpAnalyzer::Command_Who);
+	m_session->send("who all");
+}
+
 void ChannelWidget::refreshFonts()
 {
 	const TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();

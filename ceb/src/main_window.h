@@ -83,6 +83,7 @@ private:
 	QMenu *trayMenu;
 	bool trayTalkAboutMe;
 	AutoUpdate autoUpdate;
+	QSignalMapper *actionSignalMapper;
 
 	void makeMenuBar();
 	void makeToolBar();
@@ -158,6 +159,7 @@ private slots:
 	void animationTimeout();
 	void showFileTransfers();
 	void newTransfer(Transfer *transfer);
+	void executeAction(int action);
 };
 
 #endif // MAIN_WINDOW_H

@@ -22,6 +22,8 @@ public:
 
 	const QString &caption() const { return _caption; }
 
+	ActionType actionType() const { return _actionType; }
+
 private:
 	ActionType _actionType;
 	QKeySequence _keySequence;

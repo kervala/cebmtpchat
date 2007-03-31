@@ -50,6 +50,7 @@ public:
 	void hideTopicWindow();
 	void refreshKeepAlivePolicy();
 	void refreshFonts();
+	void refreshWhoColumn();
 
 	virtual QString widgetCaption() const;
 

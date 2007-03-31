@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QSound>
 #include <QDesktopServices>
+#include <QShortcut>
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -142,6 +143,17 @@ MainWindow::MainWindow()
 	animationTimer.start();
 
 	m_firstShow = true;
+
+	actionSignalMapper = new QSignalMapper(this);
+	connect(actionSignalMapper, SIGNAL(mapped(int)),
+			this, SLOT(executeAction(int)));
+	for (int i = 0; i < profile.actionManager.actions().count(); ++i)
+	{
+		const Action &action = profile.actionManager.actions()[i];
+		QShortcut *shortcut = new QShortcut(action.keySequence(), this);
+		connect(shortcut, SIGNAL(activated()), actionSignalMapper, SLOT(map()));
+		actionSignalMapper->setMapping(shortcut, action.actionType());
+	}
 }
 
 MainWindow::~MainWindow()
@@ -237,7 +249,7 @@ void MainWindow::makeMenuBar()
 
 	connect(menuView->addAction(tr("Open &logs directory")), SIGNAL(triggered()), this, SLOT(showLogsDir()));
 	connect(menuView->addAction(tr("&Messages")), SIGNAL(triggered()), this, SLOT(showMessages()));
-	connect(menuView->addAction(tr("&File transfers")), SIGNAL(triggered()), this, SLOT(showTransfers()));
+// TEMP	connect(menuView->addAction(tr("&File transfers")), SIGNAL(triggered()), this, SLOT(showTransfers()));
 
 	// Help menu
 	QMenu *menuHelp = mbMain->addMenu(tr("&Help"));
@@ -1302,4 +1314,37 @@ void MainWindow::newTransfer(Transfer *transfer)
 	
 	// Just focus it
 	mtwMain->focusWidget(widget);
+}
+
+void MainWindow::executeAction(int action)
+{
+	// Get current session
+	SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
+	if (!sessionWidget)
+		return;
+
+	Session *session = sessionWidget->session();
+
+	switch ((Action::ActionType) action)
+	{
+	case Action::Action_RefreshWhoColumn:
+		if (!session->isLogged())
+			return;
+		getChannelWidget(session)->refreshWhoColumn();
+		break;
+	case Action::Action_ToggleAway:
+		if (!session->isLogged())
+			return;
+		
+		if (session->away())
+			session->send("set away off");
+		else
+			session->send("set away on");
+		break;
+	case Action::Action_Reconnect:
+		session->resetBackupServers();
+		session->start();
+		break;
+	default:;		
+	}
 }
