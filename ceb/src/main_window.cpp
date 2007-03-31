@@ -347,6 +347,11 @@ void MainWindow::reconnect()
 	Session *session = getCurrentSession();
 	if (session)
 	{
+		if (session->isConnected() &&
+			QMessageBox::question(this, tr("Confirmation"), "You seem to be already connected, do you really want to force a reconnection?",
+								  QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes)
+			return;
+
 		session->resetBackupServers();
 		session->start();
 	}
@@ -1342,8 +1347,7 @@ void MainWindow::executeAction(int action)
 			session->send("set away on");
 		break;
 	case Action::Action_Reconnect:
-		session->resetBackupServers();
-		session->start();
+		reconnect();
 		break;
 	default:;		
 	}
