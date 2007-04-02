@@ -41,3 +41,23 @@ ActionManager::ActionManager()
 	for (int i = 0; i <= Action::Action_End; ++i)
 		_actions << Action((Action::ActionType) i);
 }
+
+Action &ActionManager::getAction(int index)
+{
+	Q_ASSERT_X(index >= 0 && index < _actions.count(), "ActionManager::getAction()", "<index> out of limits");
+
+	return _actions[index];
+}
+
+Action &ActionManager::getAction(Action::ActionType actionType)
+{
+	Q_ASSERT_X(actionType >= Action_RefreshWhoColumn && actionType <= Action_End, "ActionManager::getAction()", "<actionType> out of limits");
+
+	for (int i = 0; i < _actions.count(); ++i)
+	{
+		Action &action = _actions[i];
+		if (action.actionType() == actionType)
+			return action;
+	}
+	return _actions[0];
+}

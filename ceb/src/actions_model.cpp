@@ -27,8 +27,7 @@ QVariant ActionsModel::headerData(int section, Qt::Orientation orientation, int 
 
 QVariant ActionsModel::data(const QModelIndex &index, int role) const
 {
-	Profile &profile = *ProfileManager::instance().currentProfile();
-	ActionManager &actionManager = profile.actionManager;
+	ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
 
 	switch(role)
 	{
@@ -46,6 +45,30 @@ QVariant ActionsModel::data(const QModelIndex &index, int role) const
 	default:;
 	}
 	return QVariant();
+}
+
+bool ActionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+
+	switch(role)
+	{
+	case Qt::EditRole:
+		{
+			Action &action = actionManager.getAction(index.row());
+			switch (index.column())
+			{
+			case columnShortcut:
+				action.setKeySequence(QKeySequence::fromString(value.toString()));
+				emit dataChanged(index, index);
+				return true;
+			default:;
+			}
+		}
+		break;
+	default:;
+	}
+	return false;
 }
 
 int ActionsModel::rowCount(const QModelIndex &parent) const

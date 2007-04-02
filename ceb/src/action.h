@@ -18,7 +18,7 @@ public:
 	Action(ActionType actionType);
 	
 	QKeySequence keySequence() const { return _keySequence; }
-	void setKeySequence(const QKeySequence value) { _keySequence = value; }
+	void setKeySequence(const QKeySequence &value) { _keySequence = value; }
 
 	QKeySequence defaultKeySequence() const { return _defaultKeySequence; }
 	void resetKeySequence();
@@ -40,6 +40,9 @@ public:
 	ActionManager();
 
 	const QList<Action> &actions() const { return _actions; }
+
+	Action &getAction(int index);
+	Action &getAction(Action::ActionType actionType);
 
 private:
 	QList<Action> _actions;

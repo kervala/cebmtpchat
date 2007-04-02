@@ -64,6 +64,7 @@ SET(CEB_SRCS
 	src/shortcuts_settings_widget.cpp
 	src/action.cpp
 	src/actions_model.cpp
+	src/dialog_shortcut.cpp
 )
 
 SET(CEB_UIS
@@ -118,6 +119,7 @@ SET(CEB_MOCH
 	src/transfers_manager.h
 	src/shortcuts_settings_widget.h
 	src/actions_model.h
+	src/dialog_shortcut.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)

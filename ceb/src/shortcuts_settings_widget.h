@@ -38,7 +38,15 @@ private:
 	ActionsModel *_model;
 
 private slots:
+	// Automatic signals
+	void on_pushButtonChange_clicked();
+	void on_radioButtonNone_toggled(bool checked);
+	void on_radioButtonDefault_toggled(bool checked);
+	void on_radioButtonCustom_toggled(bool checked);
+
+	// Manual signals
 	void treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous);
+	void actionRowChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 };
 
 #endif // SHORTCUTS_SETTINGS_WIDGET_H
