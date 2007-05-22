@@ -46,7 +46,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 	treeMain->header()->setMovable(false);
 	treeMain->header()->setResizeMode(QHeaderView::Stretch);
 	createNode(0, createGeneralWidget(), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
-	createNode(0, createShortcutsWidget(), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
+	createNode(0, shortcutsWidget = createShortcutsWidget(), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
 	createConnectionsNodes();
 	QTreeWidgetItem *item = createNode(0, fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
 	createNode(item, detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
@@ -127,7 +127,7 @@ void DialogSettings::createConnectionsNodes()
 		connect(sessionConfigWidget, SIGNAL(removeMe()),
 			this, SLOT(removeSessionConfig()));
 		sessionConfigWidget->init(config);
-		
+
 		// Create a node for the config
 		createNode(itemConnections, sessionConfigWidget, config.name(), QIcon(":/images/transparent.png"));
 	}
@@ -153,7 +153,7 @@ QWidget *DialogSettings::createLogsWidget()
 	QWidget *mainWidget = new QWidget;
 	QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
 	mainLayout->setMargin(2);
-	
+
 	groupBoxLogs = new QGroupBox(tr("Enable logs"));
 	mainLayout->addWidget(groupBoxLogs);
 	groupBoxLogs->setCheckable(true);
@@ -226,7 +226,7 @@ QWidget *DialogSettings::createLogsWidget()
 	radioButtonLogsMonthly = new QRadioButton(tr("Monthly"));
 	logsFileLayout->addWidget(radioButtonLogsMonthly);
 	radioButtonLogsUniq = new QRadioButton(tr("Uniq"));
-	logsFileLayout->addWidget(radioButtonLogsUniq);	
+	logsFileLayout->addWidget(radioButtonLogsUniq);
 
 	switch (profile.logsFilePolicy)
 	{
@@ -333,12 +333,12 @@ QWidget *DialogSettings::createTabsWidget()
 	mainLayout->addWidget(groupBoxType);
 
 	radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row"));
-	connect(radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	typeLayout->addWidget(radioButtonTabsAllInOne);
 
 	radioButtonTabsSuper = new QRadioButton(tr("Two tabs ranges"));
-	connect(radioButtonTabsSuper, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsSuper, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	typeLayout->addWidget(radioButtonTabsSuper);
 
@@ -352,19 +352,19 @@ QWidget *DialogSettings::createTabsWidget()
 	QGroupBox *groupBoxAllInOne = new QGroupBox(tr("Tabs location"));
 	QVBoxLayout *allInOneLocationLayout = new QVBoxLayout(groupBoxAllInOne);
 	radioButtonTabsAllInTop = new QRadioButton(tr("On the top"));
-	connect(radioButtonTabsAllInTop, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsAllInTop, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
-	allInOneLocationLayout->addWidget(radioButtonTabsAllInTop);	
+	allInOneLocationLayout->addWidget(radioButtonTabsAllInTop);
 
 	radioButtonTabsAllInBottom = new QRadioButton(tr("On the bottom"));
-	connect(radioButtonTabsAllInBottom, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsAllInBottom, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	allInOneLocationLayout->addWidget(radioButtonTabsAllInBottom);
 
 	if (profile.tabsAllInTop)
 		radioButtonTabsAllInTop->setChecked(true);
 	else
-		radioButtonTabsAllInBottom->setChecked(true); 
+		radioButtonTabsAllInBottom->setChecked(true);
 
 	stackedWidgetTabs->addWidget(groupBoxAllInOne);
 
@@ -376,14 +376,14 @@ QWidget *DialogSettings::createTabsWidget()
 	superLayout->setMargin(0);
 
 	QGroupBox *groupBoxSuper = new QGroupBox(tr("Servers tabs location"));
-	superLayout->addWidget(groupBoxSuper);	
+	superLayout->addWidget(groupBoxSuper);
 	QVBoxLayout *superLocationLayout = new QVBoxLayout(groupBoxSuper);
 	radioButtonTabsSuperOnTop = new QRadioButton(tr("On the top"));
-	connect(radioButtonTabsSuperOnTop, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsSuperOnTop, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	superLocationLayout->addWidget(radioButtonTabsSuperOnTop);
 	radioButtonTabsSuperOnBottom = new QRadioButton(tr("On the bottom"));
-	connect(radioButtonTabsSuperOnBottom, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsSuperOnBottom, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	superLocationLayout->addWidget(radioButtonTabsSuperOnBottom);
 	if (profile.tabsSuperOnTop)
@@ -395,11 +395,11 @@ QWidget *DialogSettings::createTabsWidget()
 	superLayout->addWidget(groupBoxNormal);
 	QVBoxLayout *normalLocationLayout = new QVBoxLayout(groupBoxNormal);
 	radioButtonTabsOnTop = new QRadioButton(tr("On the top"));
-	connect(radioButtonTabsOnTop, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsOnTop, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	normalLocationLayout->addWidget(radioButtonTabsOnTop);
 	radioButtonTabsOnBottom = new QRadioButton(tr("On the bottom"));
-	connect(radioButtonTabsOnBottom, SIGNAL(clicked(bool)), this, 
+	connect(radioButtonTabsOnBottom, SIGNAL(clicked(bool)), this,
 		SLOT(refreshTabExample(bool)));
 	normalLocationLayout->addWidget(radioButtonTabsOnBottom);
 	if (profile.tabsOnTop)
@@ -415,7 +415,7 @@ QWidget *DialogSettings::createTabsWidget()
 	if (profile.tabsAllInOne)
 		radioButtonTabsAllInOne->setChecked(true);
 	else
-		radioButtonTabsSuper->setChecked(true);	
+		radioButtonTabsSuper->setChecked(true);
 
 	mtwExample = new MultiTabWidget;
 	mainLayout->addWidget(mtwExample);
@@ -480,7 +480,7 @@ QWidget *DialogSettings::createOutputWidget()
 	QHBoxLayout *lengthLayout = new QHBoxLayout;
 	groupBoxAwayLayout->addLayout(lengthLayout);
 	QLabel *label = new QLabel(tr("Lines length: "));
-	lengthLayout->addWidget(label);	
+	lengthLayout->addWidget(label);
 	spinBoxAwaySeparatorLength = new QSpinBox;
 	policy = spinBoxAwaySeparatorLength->sizePolicy();
 	policy.setHorizontalPolicy(QSizePolicy::Fixed);
@@ -670,7 +670,7 @@ void DialogSettings::getGeneralControlsDatas()
 void DialogSettings::getShortcutsControlsDatas()
 {
 	qobject_cast<ShortcutsSettingsWidget*>(shortcutsWidget)->feedProfile(
-		*ProfileManager::instance().currentProfile());	
+		*ProfileManager::instance().currentProfile());
 }
 
 void DialogSettings::getConnectionsControlsDatas()
@@ -863,7 +863,7 @@ void DialogSettings::refreshTabExample(bool)
 	if (radioButtonTabsAllInOne->isChecked())
 	{
 		mtwExample->setDisplayMode(MultiTabWidget::DisplayMode_AllInOneRow);
-		
+
 		if (radioButtonTabsAllInTop->isChecked())
 			mtwExample->setAllInOneRowLocation(MultiTabWidget::TabLocation_North);
 		else
