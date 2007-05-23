@@ -20,6 +20,7 @@
 #include <QHeaderView>
 
 #include "profile_manager.h"
+#include "dialog_shortcut.h"
 #include "shortcuts_settings_widget.h"
 
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
@@ -79,7 +80,12 @@ void ShortcutsSettingsWidget::treeActionFocusedChanged(const QModelIndex &curren
 
 void ShortcutsSettingsWidget::on_pushButtonChange_clicked()
 {
-	qDebug("Lancement de la boite de raccourci");
+	ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+	QModelIndex index = treeView->selectionModel()->currentIndex();
+	const Action &action = actionManager.actions()[index.row()];
+	DialogShortcut dialog(this);
+	dialog.init(action.keySequence());
+	dialog.exec();
 }
 
 void ShortcutsSettingsWidget::on_radioButtonNone_toggled(bool checked)

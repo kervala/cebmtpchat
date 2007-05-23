@@ -317,8 +317,8 @@ MtpAnalyzer::MtpAnalyzer()
 	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") leaves(( \\((.+))\\)|) !$",
 							   QList<int>() << 1 << 4,
 							   "<Mtp> Fooman leaves (crustace) !"); // Token_SomeoneLeaves
-	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") disconnects \\((.*)\\) !$",
-							   QList<int>() << 1 << 2,
+	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") disconnects(( \\((.+))\\)|) !$",
+							   QList<int>() << 1 << 4,
 							   "<Mtp> Fooman disconnects (connection reset by huitre)"); // Token_SomeoneDisconnects
 	m_tokenRegexp << MtpRegExp("^<Mtp> You leave <Mtp> Chat !$",
 							   "<Mtp> You leave <Mtp> Chat !"); // Token_YouLeave

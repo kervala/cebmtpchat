@@ -31,8 +31,11 @@
 
 int main(int argc, char **argv)
 {
-	MyApplication a(argc, argv);
+	int n = 64;
+	QString str = QObject::tr("There are %n elements in your list", "", n);
 
+	MyApplication a(argc, argv);
+	
 	TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 //	openModifiers(); // Load LUA modifiers
 

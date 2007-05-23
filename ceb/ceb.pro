@@ -133,7 +133,9 @@ TARGET = ceb
 
 TRANSLATIONS = ceb_fr.ts \
                ceb_nl.ts \
-	       ceb_pt-br.ts
+	       ceb_pt-br.ts \
+           ceb_us.ts \
+           ceb_en.ts
 
 unix {
   OBJECTS_DIR=.obj
