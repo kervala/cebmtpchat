@@ -49,7 +49,10 @@ HEADERS += src/main_window.h \
     src/links_settings_widget.h \
     src/transfers_widget.h \
     src/transfers_manager.h \
-    src/shortcuts_settings_widget.h
+    src/shortcuts_settings_widget.h \
+    src/action.h \
+    src/actions_model.h \
+    src/dialog_shortcut.h
       
 SOURCES += src/main.cpp \
 	src/my_application.cpp \
@@ -97,7 +100,10 @@ SOURCES += src/main.cpp \
     src/links_settings_widget.cpp \
     src/transfers_widget.cpp \
     src/transfers_manager.cpp \
-    src/shortcuts_settings_widget.cpp
+    src/shortcuts_settings_widget.cpp \
+    src/action.cpp \
+    src/actions_model.cpp \
+    src/dialog_shortcut.cpp
 
 FORMS += ui/sound_settings.ui \
 	ui/idle_settings.ui \

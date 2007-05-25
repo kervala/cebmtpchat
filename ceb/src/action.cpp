@@ -51,7 +51,7 @@ Action &ActionManager::getAction(int index)
 
 Action &ActionManager::getAction(Action::ActionType actionType)
 {
-	Q_ASSERT_X(actionType >= Action_RefreshWhoColumn && actionType <= Action_End, "ActionManager::getAction()", "<actionType> out of limits");
+	Q_ASSERT_X(actionType >= Action::Action_RefreshWhoColumn && actionType <= Action::Action_End, "ActionManager::getAction()", "<actionType> out of limits");
 
 	for (int i = 0; i < _actions.count(); ++i)
 	{

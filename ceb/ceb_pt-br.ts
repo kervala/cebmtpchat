@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1">
 <context>
+    <name>ActionsModel</name>
+    <message>
+        <location filename="src/actions_model.cpp" line="20"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/actions_model.cpp" line="21"/>
+        <source>Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChannelWidget</name>
     <message>
         <location filename="src/channel_widget.cpp" line="474"/>
@@ -438,6 +451,14 @@ Some LUA parts are from Ace, Drealmer and Ben
     </message>
 </context>
 <context>
+    <name>DialogShortcut</name>
+    <message>
+        <location filename="src/dialog_shortcut.cpp" line="13"/>
+        <source>Shortcut:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DialogSystem</name>
     <message>
         <location filename="src/dialog_system.cpp" line="27"/>
@@ -461,73 +482,68 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="56"/>
+        <location filename="ui/fonts_settings.ui" line="43"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="215"/>
+        <location filename="ui/fonts_settings.ui" line="239"/>
         <source>Pick a color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="81"/>
+        <location filename="ui/fonts_settings.ui" line="80"/>
         <source>Pick a font...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="88"/>
+        <location filename="ui/fonts_settings.ui" line="87"/>
         <source>font, size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="111"/>
+        <location filename="ui/fonts_settings.ui" line="110"/>
         <source>Force font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="118"/>
+        <location filename="ui/fonts_settings.ui" line="117"/>
         <source>Force text color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="268"/>
+        <location filename="ui/fonts_settings.ui" line="299"/>
         <source>Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="273"/>
+        <location filename="ui/fonts_settings.ui" line="304"/>
         <source>Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="278"/>
+        <location filename="ui/fonts_settings.ui" line="309"/>
         <source>Who</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="283"/>
+        <location filename="ui/fonts_settings.ui" line="314"/>
         <source>Topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="288"/>
+        <location filename="ui/fonts_settings.ui" line="319"/>
         <source>Timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="178"/>
+        <location filename="ui/fonts_settings.ui" line="193"/>
         <source>Force background color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="185"/>
+        <location filename="ui/fonts_settings.ui" line="200"/>
         <source>Force background away color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ui/fonts_settings.ui" line="33"/>
-        <source>Client/Server stream encoding:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -882,7 +898,7 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session_config.cpp" line="96"/>
+        <location filename="src/session_config.cpp" line="98"/>
         <source>Official mtp server</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1273,6 +1289,21 @@ Some LUA parts are from Ace, Drealmer and Ben
         <source>Data sent</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="src/action.cpp" line="14"/>
+        <source>Refresh the who column on the current server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="18"/>
+        <source>Toggle the away state on the current server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="22"/>
+        <source>Reconnect on the current server</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SessionConfigWidget</name>
@@ -1322,27 +1353,27 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation type="obsolete">Remover</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="87"/>
+        <location filename="src/session_config_widget.cpp" line="106"/>
         <source>Error</source>
         <translation>Erro</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="62"/>
+        <location filename="src/session_config_widget.cpp" line="81"/>
         <source>Empty name is forbidden</source>
         <translation>É proibido nome vazio</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="70"/>
+        <location filename="src/session_config_widget.cpp" line="89"/>
         <source>Empty address is forbidden</source>
         <translation>É proibido endereço vazio</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="78"/>
+        <location filename="src/session_config_widget.cpp" line="97"/>
         <source>A port number must be specified</source>
         <translation>O numero de porta deve ser informado</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="87"/>
+        <location filename="src/session_config_widget.cpp" line="106"/>
         <source>Confirmation password is not equal to password</source>
         <translation>Senha e confirmação não conferem</translation>
     </message>
@@ -1584,68 +1615,73 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="51"/>
+        <location filename="ui/session_config_widget.ui" line="47"/>
         <source>Name:</source>
         <translation type="unfinished">Nome:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="133"/>
+        <location filename="ui/session_config_widget.ui" line="284"/>
         <source>Manage backup servers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="126"/>
+        <location filename="ui/session_config_widget.ui" line="212"/>
         <source>Auto-connect</source>
         <translation type="unfinished">Auto-connect</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="156"/>
+        <location filename="ui/session_config_widget.ui" line="80"/>
         <source>Address:</source>
         <translation type="unfinished">Endereço:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="176"/>
+        <location filename="ui/session_config_widget.ui" line="115"/>
         <source>Port:</source>
         <translation type="unfinished">Porta:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="58"/>
+        <location filename="ui/session_config_widget.ui" line="175"/>
         <source>Confirm password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="116"/>
+        <location filename="ui/session_config_widget.ui" line="202"/>
         <source>Description:</source>
         <translation type="unfinished">Descrição:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="92"/>
+        <location filename="ui/session_config_widget.ui" line="146"/>
         <source>Login:</source>
         <translation type="unfinished">Login:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="109"/>
+        <location filename="ui/session_config_widget.ui" line="162"/>
         <source>Password:</source>
         <translation type="unfinished">Senha:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="78"/>
+        <location filename="ui/session_config_widget.ui" line="308"/>
         <source>Remove</source>
         <translation type="unfinished">Remover</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="29"/>
+        <location filename="ui/session_config_widget.ui" line="35"/>
         <source>General</source>
         <translation type="unfinished">Geral</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="41"/>
+        <location filename="ui/session_config_widget.ui" line="277"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="206"/>
+        <location filename="ui/session_config_widget.ui" line="233"/>
         <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="262"/>
+        <source>Client/Server stream encoding:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

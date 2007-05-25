@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1">
+<!DOCTYPE TS><TS version="1.1" language="fr">
+<defaultcodec></defaultcodec>
+<context>
+    <name>ActionsModel</name>
+    <message>
+        <location filename="src/actions_model.cpp" line="20"/>
+        <source>Action</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/actions_model.cpp" line="21"/>
+        <source>Shortcut</source>
+        <translation>Raccourci</translation>
+    </message>
+</context>
 <context>
     <name>ChannelWidget</name>
     <message>
@@ -74,19 +88,21 @@
     <message>
         <location filename="ui/dialog_about.ui" line="25"/>
         <source>About CeB</source>
-        <translation type="unfinished"></translation>
+        <translation>A propos de CeB</translation>
     </message>
     <message>
         <location filename="ui/dialog_about.ui" line="55"/>
         <source>(c) Garou/Mtp
 Some LUA parts are from Ace, Drealmer and Ben
 &quot;Mais ouais !&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>(c) Garou/Mtp
+Certaines parties LUA sont de Ace, Drealmer et Ben
+&quot;Mais ouais !&quot;</translation>
     </message>
     <message>
         <location filename="ui/dialog_about.ui" line="69"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fermer</translation>
     </message>
 </context>
 <context>
@@ -468,13 +484,21 @@ Some LUA parts are from Ace, Drealmer and Ben
         <location filename="src/dialog_settings.cpp" line="49"/>
         <source>Shortcuts</source>
         <comment>Settings node</comment>
-        <translation type="unfinished"></translation>
+        <translation>Raccourcis</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="59"/>
         <source>Links</source>
         <comment>Settings node</comment>
-        <translation type="unfinished"></translation>
+        <translation>Liens</translation>
+    </message>
+</context>
+<context>
+    <name>DialogShortcut</name>
+    <message>
+        <location filename="src/dialog_shortcut.cpp" line="13"/>
+        <source>Shortcut:</source>
+        <translation>Raccourci :</translation>
     </message>
 </context>
 <context>
@@ -482,7 +506,7 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="src/dialog_system.cpp" line="27"/>
         <source>System logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Traces système</translation>
     </message>
 </context>
 <context>
@@ -501,74 +525,69 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="56"/>
+        <location filename="ui/fonts_settings.ui" line="43"/>
         <source>Font</source>
         <translation>Police</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="215"/>
+        <location filename="ui/fonts_settings.ui" line="239"/>
         <source>Pick a color...</source>
         <translation>Choisissez une couleur...</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="81"/>
+        <location filename="ui/fonts_settings.ui" line="80"/>
         <source>Pick a font...</source>
         <translation>Choisissez une police...</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="88"/>
+        <location filename="ui/fonts_settings.ui" line="87"/>
         <source>font, size</source>
         <translation>police, taille</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="111"/>
+        <location filename="ui/fonts_settings.ui" line="110"/>
         <source>Force font</source>
         <translation>Police forcée</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="118"/>
+        <location filename="ui/fonts_settings.ui" line="117"/>
         <source>Force text color</source>
         <translation>Couleur de texte forcée</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="268"/>
+        <location filename="ui/fonts_settings.ui" line="299"/>
         <source>Output</source>
         <translation>Sortie texte</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="273"/>
+        <location filename="ui/fonts_settings.ui" line="304"/>
         <source>Input</source>
         <translation>Entrée texte</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="278"/>
+        <location filename="ui/fonts_settings.ui" line="309"/>
         <source>Who</source>
         <translation>Who</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="283"/>
+        <location filename="ui/fonts_settings.ui" line="314"/>
         <source>Topic</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="288"/>
+        <location filename="ui/fonts_settings.ui" line="319"/>
         <source>Timestamp</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="178"/>
+        <location filename="ui/fonts_settings.ui" line="193"/>
         <source>Force background color</source>
         <translation>Forcer la couleur de fond</translation>
     </message>
     <message>
-        <location filename="ui/fonts_settings.ui" line="185"/>
+        <location filename="ui/fonts_settings.ui" line="200"/>
         <source>Force background away color</source>
         <translation>Forcer la couleur de fond pour l&apos;away</translation>
-    </message>
-    <message>
-        <location filename="ui/fonts_settings.ui" line="33"/>
-        <source>Client/Server stream encoding:</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -747,17 +766,17 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="ui/links_settings.ui" line="51"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ui/links_settings.ui" line="58"/>
         <source>Links are managed by the system itself</source>
-        <translation type="unfinished"></translation>
+        <translation>Les liens sont gérés par le système lui-même</translation>
     </message>
     <message>
         <location filename="ui/links_settings.ui" line="68"/>
         <source>Force the opening of links with the application below:</source>
-        <translation type="unfinished"></translation>
+        <translation>Forcer l&apos;ouverture des liens avec l&apos;application ci-dessous :</translation>
     </message>
 </context>
 <context>
@@ -765,142 +784,142 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="src/main_window.cpp" line="205"/>
         <source>&amp;Connections</source>
-        <translation type="unfinished">&amp;Connexions</translation>
+        <translation>&amp;Connexions</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="206"/>
         <source>&amp;Connect to</source>
-        <translation type="unfinished">&amp;Se connecter à</translation>
+        <translation>&amp;Se connecter à</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="210"/>
         <source>&amp;Reconnect</source>
-        <translation type="unfinished">Se &amp;reconnecter</translation>
+        <translation>Se &amp;reconnecter</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="211"/>
         <source>Reconnect</source>
-        <translation type="unfinished">Se reconnecter</translation>
+        <translation>Se reconnecter</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="216"/>
         <source>&amp;Close connection</source>
-        <translation type="unfinished">&amp;Fermer la connexion</translation>
+        <translation>&amp;Fermer la connexion</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="217"/>
         <source>Close current connection</source>
-        <translation type="unfinished">Fermer la connexion courante</translation>
+        <translation>Fermer la connexion courante</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="222"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished">&amp;Quitter</translation>
+        <translation>&amp;Quitter</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="226"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Editer</translation>
+        <translation>&amp;Editer</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="227"/>
         <source>&amp;Connection configuration...</source>
-        <translation type="unfinished">&amp;Configuration de la connexion...</translation>
+        <translation>&amp;Configuration de la connexion...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="231"/>
         <source>&amp;General settings...</source>
-        <translation type="unfinished">&amp;Paramètres généraux...</translation>
+        <translation>&amp;Paramètres généraux...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="234"/>
         <source>&amp;View</source>
-        <translation type="unfinished">&amp;Vue</translation>
+        <translation>&amp;Vue</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="238"/>
         <source>&amp;Topic window</source>
-        <translation type="unfinished">Fenêtre de &amp;topic</translation>
+        <translation>Fenêtre de &amp;topic</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="245"/>
         <source>&amp;System logs</source>
-        <translation type="unfinished">&amp;Traces système</translation>
+        <translation>&amp;Traces système</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="250"/>
         <source>Open &amp;logs directory</source>
-        <translation type="unfinished">Ouvrir le répertoire des &amp;traces</translation>
+        <translation>Ouvrir le répertoire des &amp;traces</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="251"/>
         <source>&amp;Messages</source>
-        <translation type="unfinished">&amp;Messages</translation>
+        <translation>&amp;Messages</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="255"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Aide</translation>
+        <translation>&amp;Aide</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="257"/>
         <source>&amp;Check for update...</source>
-        <translation type="unfinished">&amp;Verifier la mise-à-jour...</translation>
+        <translation>&amp;Verifier la mise-à-jour...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="259"/>
         <source>&amp;What&apos;s new?</source>
-        <translation type="unfinished">&amp;Quoi de neuf?</translation>
+        <translation>&amp;Quoi de neuf?</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="261"/>
         <source>&amp;Report a bug</source>
-        <translation type="unfinished">Rapporter un &amp;bug</translation>
+        <translation>Rapporter un &amp;bug</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="262"/>
         <source>&amp;Report a wanted feature</source>
-        <translation type="unfinished">Demander une &amp;fonctionnalité</translation>
+        <translation>Demander une &amp;fonctionnalité</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="264"/>
         <source>&amp;About...</source>
-        <translation type="unfinished">&amp;A propos...</translation>
+        <translation>&amp;A propos...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="265"/>
         <source>About &amp;Qt...</source>
-        <translation type="unfinished">A propos de &amp;Qt...</translation>
+        <translation>A propos de &amp;Qt...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="322"/>
         <source>&amp;New connection...</source>
-        <translation type="unfinished">&amp;Nouvelle connexion...</translation>
+        <translation>&amp;Nouvelle connexion...</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="323"/>
         <source>Create a new connection</source>
-        <translation type="unfinished">Créer une nouvelle connexion</translation>
+        <translation>Créer une nouvelle connexion</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="351"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmation</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="1036"/>
         <source>File transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Transferts de fichier</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="1193"/>
         <source>Warning</source>
-        <translation type="unfinished">Avertissement</translation>
+        <translation>Avertissement</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="1193"/>
         <source>You must close every CeB instance to continue installation</source>
-        <translation type="unfinished">Vous devez fermer chaque instance de CeB pour poursuivre l&apos;installation</translation>
+        <translation>Vous devez fermer chaque instance de CeB pour poursuivre l&apos;installation</translation>
     </message>
 </context>
 <context>
@@ -937,7 +956,7 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation>tentative de connexion...</translation>
     </message>
     <message>
-        <location filename="src/session_config.cpp" line="96"/>
+        <location filename="src/session_config.cpp" line="98"/>
         <source>Official mtp server</source>
         <translation>Server mtp officiel</translation>
     </message>
@@ -1329,24 +1348,40 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message numerus="yes">
         <location filename="src/main.cpp" line="35"/>
         <source>There are %n elements in your list</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Il y a %n élément dans votre liste</numerusform>
+            <numerusform>Il y a %n éléments dans votre liste</numerusform>
         </translation>
     </message>
     <message>
         <location filename="src/mtp_token_info.cpp" line="197"/>
         <source>Someone fades into the shadows</source>
-        <translation type="unfinished"></translation>
+        <translation>Quelqu&apos;un disparaît dans les ombres</translation>
     </message>
     <message>
         <location filename="src/mtp_token_info.cpp" line="199"/>
         <source>Someone appears from the shadows</source>
-        <translation type="unfinished"></translation>
+        <translation>Quelqu&apos;un réapparait des ombres</translation>
     </message>
     <message>
         <location filename="src/mtp_token_info.cpp" line="211"/>
         <source>Data sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoi de data</translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="14"/>
+        <source>Refresh the who column on the current server</source>
+        <translation>Raffraichir la colonne des Who sur le serveur courant</translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="18"/>
+        <source>Toggle the away state on the current server</source>
+        <translation>Basculer l&apos;état away sur le serveur courant</translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="22"/>
+        <source>Reconnect on the current server</source>
+        <translation>Se reconnecter au serveur courant</translation>
     </message>
 </context>
 <context>
@@ -1397,27 +1432,27 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation type="obsolete">Supprimer</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="87"/>
+        <location filename="src/session_config_widget.cpp" line="106"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="62"/>
+        <location filename="src/session_config_widget.cpp" line="81"/>
         <source>Empty name is forbidden</source>
         <translation>Les noms vides sont non autorisés</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="70"/>
+        <location filename="src/session_config_widget.cpp" line="89"/>
         <source>Empty address is forbidden</source>
         <translation>Les adresses vides sont interdites</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="78"/>
+        <location filename="src/session_config_widget.cpp" line="97"/>
         <source>A port number must be specified</source>
         <translation>Un numéro de port doit être spécifié</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="87"/>
+        <location filename="src/session_config_widget.cpp" line="106"/>
         <source>Confirmation password is not equal to password</source>
         <translation>Le mot de passe confirmé n&apos;est pas égal au mot de passe</translation>
     </message>
@@ -1440,32 +1475,32 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="ui/shortcuts_settings.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="ui/shortcuts_settings.ui" line="25"/>
         <source>Shortcut for selected action</source>
-        <translation type="unfinished"></translation>
+        <translation>Raccourci pour l&apos;action sélectionnée</translation>
     </message>
     <message>
         <location filename="ui/shortcuts_settings.ui" line="37"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="ui/shortcuts_settings.ui" line="73"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun</translation>
     </message>
     <message>
         <location filename="ui/shortcuts_settings.ui" line="59"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <location filename="ui/shortcuts_settings.ui" line="66"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Customizé</translation>
     </message>
 </context>
 <context>
@@ -1473,12 +1508,12 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="src/shortcuts_settings_widget.cpp" line="127"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun</translation>
     </message>
     <message>
         <location filename="src/shortcuts_settings_widget.cpp" line="78"/>
         <source>Default key: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Touche par défaut : %1</translation>
     </message>
 </context>
 <context>
@@ -1540,37 +1575,37 @@ Some LUA parts are from Ace, Drealmer and Ben
     <message>
         <location filename="src/transfers_widget.cpp" line="57"/>
         <source>Clean all finished transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer tous les transferts terminés</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="106"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="110"/>
         <source>Refuse</source>
-        <translation type="unfinished"></translation>
+        <translation>Refuser</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="261"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="263"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="329"/>
         <source>Choose the directory where you want to save the transfered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez choisir le répertoire dans lequel vous souhaitez sauver le fichier transféré</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.h" line="56"/>
         <source>File transfers</source>
-        <translation type="unfinished"></translation>
+        <translation>Transferts de fichier</translation>
     </message>
 </context>
 <context>
@@ -1659,69 +1694,74 @@ Some LUA parts are from Ace, Drealmer and Ben
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="51"/>
+        <location filename="ui/session_config_widget.ui" line="47"/>
         <source>Name:</source>
         <translation>Nom :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="133"/>
+        <location filename="ui/session_config_widget.ui" line="284"/>
         <source>Manage backup servers</source>
         <translation>Gérer les serveurs de secours</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="126"/>
+        <location filename="ui/session_config_widget.ui" line="212"/>
         <source>Auto-connect</source>
         <translation>Auto-connection</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="156"/>
+        <location filename="ui/session_config_widget.ui" line="80"/>
         <source>Address:</source>
         <translation>Adresse :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="176"/>
+        <location filename="ui/session_config_widget.ui" line="115"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="58"/>
+        <location filename="ui/session_config_widget.ui" line="175"/>
         <source>Confirm password:</source>
         <translation>Confirmez le mot de passe :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="116"/>
+        <location filename="ui/session_config_widget.ui" line="202"/>
         <source>Description:</source>
         <translation>Description :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="92"/>
+        <location filename="ui/session_config_widget.ui" line="146"/>
         <source>Login:</source>
         <translation>Login :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="109"/>
+        <location filename="ui/session_config_widget.ui" line="162"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="78"/>
+        <location filename="ui/session_config_widget.ui" line="308"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="29"/>
+        <location filename="ui/session_config_widget.ui" line="35"/>
         <source>General</source>
-        <translation type="unfinished">Général</translation>
+        <translation>Général</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="41"/>
+        <location filename="ui/session_config_widget.ui" line="277"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode furtif (ne pas stocker les login/mot de passe)</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="206"/>
+        <location filename="ui/session_config_widget.ui" line="233"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Avancé</translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="262"/>
+        <source>Client/Server stream encoding:</source>
+        <translation>Encodage du texte client/serveur :</translation>
     </message>
 </context>
 </TS>
