@@ -40,8 +40,6 @@ private:
 	static const int topicRow = 3;
 	static const int timeStampRow = 4;
 
-	QList<int> m_mibList;
-
 	void fillFontWidgets(int row);
 	void refreshListWidgetItems();
 	TextSkin::MtpFont &getMtpFontByRow(int row);
