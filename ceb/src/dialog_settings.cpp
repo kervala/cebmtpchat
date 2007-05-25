@@ -87,9 +87,9 @@ QWidget *DialogSettings::createGeneralWidget()
     QFrame *frame = new QFrame;
     frame->setFrameShape(QFrame::HLine);
     mainLayout->addWidget(frame);
-    
+
     // Update
-    QCheckBox *checkBoxCheckForUpdate = new QCheckBox("Check for CeB update at startup");
+    checkBoxCheckForUpdate = new QCheckBox("Check for CeB update at startup");
     mainLayout->addWidget(checkBoxCheckForUpdate);
     checkBoxCheckForUpdate->setChecked(profile.checkForUpdate);
 
@@ -676,6 +676,10 @@ void DialogSettings::getGeneralControlsDatas()
 	else
 		profile.language = displayToLanguage[comboBoxLanguage->currentText()];
     profile.checkForUpdate = checkBoxCheckForUpdate->isChecked();
+/*    if (profile.checkForUpdate)
+		QMessageBox::warning(this, 	"ok", "Check for update");
+	else
+		QMessageBox::warning(this, 	"ok", "NO Check for update");*/
 }
 
 void DialogSettings::getShortcutsControlsDatas()
