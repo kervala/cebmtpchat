@@ -76,15 +76,25 @@ QWidget *DialogSettings::createGeneralWidget()
 	QWidget *mainWidget = new QWidget;
 	QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
 
+    // Language
 	QLabel *label = new QLabel(tr("Application language:"));
 	mainLayout->addWidget(label);
 
 	comboBoxLanguage = new QComboBox;
 	mainLayout->addWidget(comboBoxLanguage);
 
+    // Frame
+    QFrame *frame = new QFrame;
+    frame->setFrameShape(QFrame::HLine);
+    mainLayout->addWidget(frame);
+    
+    // Update
+    QCheckBox *checkBoxCheckForUpdate = new QCheckBox("Check for CeB update at startup");
+    mainLayout->addWidget(checkBoxCheckForUpdate);
+    checkBoxCheckForUpdate->setChecked(profile.checkForUpdate);
+
 	// End spacer
-	QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding);
-	mainLayout->addItem(spacer);
+    mainLayout->addStretch();
 
 	////// INIT
 	QStringList languages = LanguageManager::getAvailableLanguages();
@@ -665,6 +675,7 @@ void DialogSettings::getGeneralControlsDatas()
 		profile.language = "";
 	else
 		profile.language = displayToLanguage[comboBoxLanguage->currentText()];
+    profile.checkForUpdate = checkBoxCheckForUpdate->isChecked();
 }
 
 void DialogSettings::getShortcutsControlsDatas()

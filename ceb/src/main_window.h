@@ -70,6 +70,10 @@ private:
 	// View menu
 	QAction *actionSystemLogs;
 	QAction *actionViewTopic;
+    // Help menu
+#ifdef Q_OS_WIN32
+    QAction *actionCheckForUpdate;
+#endif // Q_OS_WIN32
 	// Status bar
 	QStatusBar *sbMain;
 	// Main MultiTabWidget

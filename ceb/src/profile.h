@@ -73,6 +73,7 @@ public:
 	int mainLeft;
 	int mainTop;
 	QString language;
+    bool checkForUpdate;
 	bool hideTabsForOne;
 	bool systemLogsVisible;
 	int systemLogsLeft;

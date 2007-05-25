@@ -47,6 +47,7 @@ void Profile::init()
 	mainLeft = -1;
 	mainTop = -1;
 	language = "";
+    checkForUpdate = true;
 	hideTabsForOne = true;
 	systemLogsVisible = false;
 	systemLogsLeft = -1;
@@ -149,6 +150,7 @@ bool Profile::load(const QString &fileName)
 	mainLeft = XmlHandler::read(rootElem, "main_left", -1);
 	mainTop = XmlHandler::read(rootElem, "main_top", -1);
 	language = XmlHandler::read(rootElem, "language", "");
+    checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
 	hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
 
 	const QDomElement systemLogsElem = rootElem.firstChildElement("system_logs");
@@ -326,6 +328,7 @@ void Profile::save() const
 		XmlHandler::write(rootElem, "main_top", mainTop);
 		XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
 		XmlHandler::write(rootElem, "language", language);
+        XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
 
 		// System logs
 		QDomElement systemLogsElem = document.createElement("system_logs");
@@ -498,6 +501,7 @@ Profile &Profile::operator=(const Profile &profile)
 	mainLeft = profile.mainLeft;
 	mainTop = profile.mainTop;
 	language = profile.language;
+    checkForUpdate = profile.checkForUpdate;
 	hideTabsForOne = profile.hideTabsForOne;
 	systemLogsVisible = profile.systemLogsVisible;
 	systemLogsLeft = profile.systemLogsLeft;

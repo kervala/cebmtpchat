@@ -48,6 +48,7 @@ protected slots:
 private:
 	// General
 	QComboBox *comboBoxLanguage;
+    QCheckBox *checkBoxCheckForUpdate;
 
 	// Shortcuts
 	QWidget *shortcutsWidget;

@@ -254,7 +254,8 @@ void MainWindow::makeMenuBar()
 	// Help menu
 	QMenu *menuHelp = mbMain->addMenu(tr("&Help"));
 #ifdef Q_OS_WIN32
-	connect(menuHelp->addAction(tr("&Check for update...")), SIGNAL(triggered()), this, SLOT(checkForUpdate()));
+    connect(actionCheckForUpdate = menuHelp->addAction(tr("&Check for update...")), SIGNAL(triggered()), this, SLOT(checkForUpdate()));
+    actionCheckForUpdate->setVisible(profile.checkForUpdate);
 #endif
 	connect(menuHelp->addAction(tr("&What's new?")), SIGNAL(triggered()), this, SLOT(launchWhatsNew()));
 	menuHelp->addSeparator();
@@ -517,6 +518,12 @@ void MainWindow::refreshProfileSettings()
 		show();
 		trayIcon->hide();
 	}
+
+    // Update stuffs
+#ifdef Q_OS_WIN32
+    mbMain->update();
+    actionCheckForUpdate->setVisible(profile.checkForUpdate);
+#endif // Q_OS_WIN32
 
 	// Tabs stuffs
 	applyProfileOnMultiTabWidget();
