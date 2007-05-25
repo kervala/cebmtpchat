@@ -96,7 +96,6 @@ void Profile::init()
 	idleQuit = true;
 	idleQuitTimeout = 600;
 	clientVersion = "";
-	encodingMib = 111; // ISO-8859-15
 	behindNAT = false;
 	transferPort = 4001;
 	transferInit = false;
@@ -291,9 +290,6 @@ bool Profile::load(const QString &fileName)
 		}
 	}
 
-	// Encoding (default : ISO-8859-15 ==> mib = 111)
-	encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
-
 	behindNAT = XmlHandler::read(rootElem, "behind_nat", true);
 	transferPort = XmlHandler::read(rootElem, "transfer_port", 4001);
 	transferInit = XmlHandler::read(rootElem, "transfer_init", false);
@@ -443,9 +439,6 @@ void Profile::save() const
 			m_sessionConfigList.value(i)->save(elem);
 		}
 
-		// Encoding
-		XmlHandler::write(rootElem, "encoding_mib", encodingMib);
-
 		XmlHandler::write(rootElem, "behind_nat", behindNAT);
 		XmlHandler::write(rootElem, "transfer_port", transferPort);
 		XmlHandler::write(rootElem, "transfer_init", transferInit);
@@ -555,7 +548,6 @@ Profile &Profile::operator=(const Profile &profile)
 	idleQuit = profile.idleQuit;
 	idleQuitTimeout = profile.idleQuitTimeout;
 	clientVersion = profile.clientVersion;
-	encodingMib = profile.encodingMib;
 	behindNAT = profile.behindNAT;
 	transferPort = profile.transferPort;
 	transferInit = profile.transferInit;

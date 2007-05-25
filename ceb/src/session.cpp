@@ -115,8 +115,7 @@ void Session::stop()
 
 void Session::send(const QString &message, bool killIdle)
 {
-	const Profile &profile = *ProfileManager::instance().currentProfile();
-	QTextCodec *codec = QTextCodec::codecForMib(profile.encodingMib);
+	QTextCodec *codec = QTextCodec::codecForMib(m_config->encodingMib());
 	Q_ASSERT_X(codec, "send()", "bad codec mib!");
 
 	if (m_socket->state() != QAbstractSocket::ConnectedState)
@@ -181,8 +180,7 @@ void Session::logSuccess(const QString &message)
 
 void Session::readyToRead()
 {
-	const Profile &profile = *ProfileManager::instance().currentProfile();
-	QTextCodec *codec = QTextCodec::codecForMib(profile.encodingMib);
+	QTextCodec *codec = QTextCodec::codecForMib(m_config->encodingMib());
 	Q_ASSERT_X(codec, "readyToRead()", "bad codec mib!");
 
 	char buffer[1024];

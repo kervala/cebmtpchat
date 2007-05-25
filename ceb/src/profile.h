@@ -123,7 +123,6 @@ public:
 	bool idleQuit;
 	int idleQuitTimeout;
 	QString clientVersion;
-	int encodingMib; // http://www.iana.org/assignments/character-sets
 	
 	bool behindNAT; // If true, CeB considere you are behind a NAT and you're not directly joinable
 	int transferPort;

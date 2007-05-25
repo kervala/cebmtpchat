@@ -45,6 +45,7 @@ void SessionConfig::load(const QDomElement &rootElem)
 	m_furtiveMode = XmlHandler::read(rootElem, "furtive_mode", false);
 	m_autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
 	m_manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
+	m_encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
 	m_entryHeight = XmlHandler::read(rootElem, "entry_height", 30);
 	m_whoWidth = XmlHandler::read(rootElem, "who_width", 80);
 
@@ -73,6 +74,7 @@ void SessionConfig::save(QDomElement &rootElem)
 	XmlHandler::write(rootElem, "furtive_mode", m_furtiveMode);
 	XmlHandler::write(rootElem, "autoconnect", m_autoconnect);
 	XmlHandler::write(rootElem, "manage_backup_servers", m_manageBackupServers);
+    XmlHandler::write(rootElem, "encoding_mib", m_encodingMib);
 	XmlHandler::write(rootElem, "entry_height", m_entryHeight);
 	XmlHandler::write(rootElem, "who_width", m_whoWidth);
 
@@ -96,6 +98,7 @@ SessionConfig &SessionConfig::getTemplate()
 	config->m_description = QObject::tr("Official mtp server");
 	config->m_autoconnect = false;
 	config->m_manageBackupServers = true;
+    config->m_encodingMib = 111; // ISO-8859-15
 	config->m_entryHeight = 30;
 	config->m_whoWidth = 80;
 

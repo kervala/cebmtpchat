@@ -44,6 +44,7 @@ public:
 
 private:
 	QString m_oldName;
+	QList<int> m_mibList;
 
 private slots:
 	void on_checkBoxFurtiveMode_toggled(bool state);

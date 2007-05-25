@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QTextCodec>
 
 #include "session_config_widget.h"
 
@@ -34,6 +35,18 @@ SessionConfigWidget::SessionConfigWidget(QWidget *parent, bool showRemoveButton)
 				this, SIGNAL(removeMe()));
 
 	lineEditName->setFocus();
+
+	// Encoding
+	QStringList strLst;
+	foreach (const QByteArray &name, QTextCodec::availableCodecs())
+		{
+			QTextCodec *codec = QTextCodec::codecForName(name);
+			if (strLst.indexOf(codec->name()) >= 0)
+				continue;
+			strLst << codec->name();
+			comboBoxEncoding->addItem(codec->name());
+			m_mibList << codec->mibEnum();
+		}
 }
 
 void SessionConfigWidget::init(const SessionConfig &config)
@@ -51,6 +64,12 @@ void SessionConfigWidget::init(const SessionConfig &config)
 
 	m_oldName = config.name();
 	lineEditName->setFocus();
+
+	int index = m_mibList.indexOf(config.encodingMib());
+	if (index >= 0)
+		comboBoxEncoding->setCurrentIndex(index);
+	else
+		comboBoxEncoding->setCurrentIndex(0);
 }
 
 bool SessionConfigWidget::check()
@@ -111,6 +130,8 @@ void SessionConfigWidget::get(SessionConfig &config)
 	config.setFurtiveMode(checkBoxFurtiveMode->isChecked());
 	config.setAutoconnect(checkBoxAutoConnect->isChecked());
 	config.setManageBackupServers(checkBoxBackupServers->isChecked());
+
+	config.setEncodingMib(m_mibList[comboBoxEncoding->currentIndex()]);
 }
 
 void SessionConfigWidget::get(SessionConfig &config, QString &oldName)

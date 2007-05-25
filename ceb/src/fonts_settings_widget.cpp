@@ -18,7 +18,6 @@
 
 #include <QFontDialog>
 #include <QColorDialog>
-#include <QTextCodec>
 
 #include "profile_manager.h"
 #include "fonts_settings_widget.h"
@@ -29,32 +28,14 @@ FontsSettingsWidget::FontsSettingsWidget(QWidget *parent) : SettingsWidget(paren
 
 	refreshListWidgetItems();
 	fillFontWidgets(listWidget->currentRow());
-
-	// Encoding
-	QStringList strLst;
-	foreach (const QByteArray &name, QTextCodec::availableCodecs())
-		{
-			QTextCodec *codec = QTextCodec::codecForName(name);
-			if (strLst.indexOf(codec->name()) >= 0)
-				continue;
-			strLst << codec->name();
-			comboBoxEncoding->addItem(codec->name());
-			m_mibList << codec->mibEnum();
-		}
 }
 
 void FontsSettingsWidget::applyProfile(const Profile &profile)
 {
-	int index = m_mibList.indexOf(profile.encodingMib);
-	if (index >= 0)
-		comboBoxEncoding->setCurrentIndex(index);
-	else
-		comboBoxEncoding->setCurrentIndex(0);			
 }
 
 void FontsSettingsWidget::feedProfile(Profile &profile)
 {
-	profile.encodingMib = m_mibList[comboBoxEncoding->currentIndex()];
 }
 
 void FontsSettingsWidget::on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *)

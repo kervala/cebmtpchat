@@ -13,41 +13,28 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>2</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
     <number>2</number>
    </property>
-   <item row="3" column="0" colspan="2" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="labelEncoding" >
-       <property name="text" >
-        <string>Client/Server stream encoding:</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxEncoding" />
-     </item>
-    </layout>
-   </item>
+   <property name="rightMargin" >
+    <number>2</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>2</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>2</number>
+   </property>
+   <property name="verticalSpacing" >
+    <number>2</number>
+   </property>
    <item row="0" column="1" >
     <widget class="QGroupBox" name="groupBoxFont" >
      <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>7</hsizetype>
-       <vsizetype>7</vsizetype>
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -56,10 +43,22 @@
       <string>Font</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="3" column="2" >
@@ -122,9 +121,7 @@
       <item row="3" column="1" >
        <widget class="QLineEdit" name="lineEditForcedColor" >
         <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>0</hsizetype>
-          <vsizetype>0</vsizetype>
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -158,19 +155,37 @@
    </item>
    <item row="1" column="0" colspan="2" >
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
      </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
+     </property>
      <item>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
        </property>
        <item>
         <widget class="QCheckBox" name="checkBoxForceBackgroundColor" >
@@ -190,11 +205,20 @@
      </item>
      <item>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
        </property>
        <item>
         <widget class="QPushButton" name="pushButtonBackgroundColor" >
@@ -220,11 +244,20 @@
      </item>
      <item>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
        </property>
        <item>
         <widget class="QLineEdit" name="lineEditBackgroundColor" >
@@ -247,9 +280,7 @@
    <item row="0" column="0" >
     <widget class="QListWidget" name="listWidget" >
      <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>7</hsizetype>
-       <vsizetype>7</vsizetype>
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -290,16 +321,6 @@
      </item>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>
@@ -311,12 +332,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>184</x>
-     <y>96</y>
+     <x>256</x>
+     <y>71</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>262</x>
-     <y>131</y>
+     <x>440</x>
+     <y>74</y>
     </hint>
    </hints>
   </connection>
@@ -327,12 +348,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>185</x>
-     <y>159</y>
+     <x>256</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>234</x>
-     <y>194</y>
+     <x>440</x>
+     <y>127</y>
     </hint>
    </hints>
   </connection>
@@ -347,8 +368,8 @@
      <y>221</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>303</x>
-     <y>229</y>
+     <x>308</x>
+     <y>223</y>
     </hint>
    </hints>
   </connection>
@@ -359,12 +380,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>186</x>
-     <y>257</y>
+     <x>190</x>
+     <y>252</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>275</x>
-     <y>263</y>
+     <x>308</x>
+     <y>256</y>
     </hint>
    </hints>
   </connection>

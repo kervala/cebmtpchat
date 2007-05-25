@@ -68,6 +68,8 @@ public:
     void setAutoconnect(bool value) { m_autoconnect = value; }
 	bool manageBackupServers() const { return m_manageBackupServers; }
 	void setManageBackupServers(bool value) { m_manageBackupServers = value; }
+    int encodingMib() const { return m_encodingMib; }
+    void setEncodingMib(int value) { m_encodingMib = value; }
     int entryHeight() const { return m_entryHeight; }
     void setEntryHeight(int value) { m_entryHeight = value; }
     int whoWidth() const { return m_whoWidth; }
@@ -89,6 +91,7 @@ private:
 	bool m_furtiveMode;
     bool m_autoconnect;
 	bool m_manageBackupServers;
+	int m_encodingMib; // http://www.iana.org/assignments/character-sets
     int m_entryHeight;
     int m_whoWidth;
 
