@@ -1,4 +1,4 @@
-CONFIG += qt debug_and_release
+CONFIG += qt release
 
 QT += xml network
 
@@ -53,7 +53,7 @@ HEADERS += src/main_window.h \
     src/action.h \
     src/actions_model.h \
     src/dialog_shortcut.h
-      
+
 SOURCES += src/main.cpp \
 	src/my_application.cpp \
     src/main_window.cpp \
