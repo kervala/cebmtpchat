@@ -593,6 +593,17 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
 				}
 			}
 			break;
+		case Token_SomeoneComesIn:
+		case Token_SomeoneLeaves:
+		case Token_SomeoneDisconnects:
+		case Token_YouLeave:
+		case Token_YouJoinChannel:
+		case Token_YouLeaveChannel:
+		case Token_SomeoneJoinChannel:
+		case Token_SomeoneFadesIntoTheShadows:
+		case Token_SomeoneLeaveChannel:
+		case Token_SomeoneAppearsFromTheShadows: // No Tray, No Warningo
+			return;
 		default:;
 		}
 
@@ -1030,7 +1041,7 @@ TransfersWidget *MainWindow::getTransfersWidget(Session *session)
 		if (w && w->session() == session)
 			return w;
 	}
-	return 0;	
+	return 0;
 }
 
 TransfersWidget *MainWindow::newTransfersWidget(Session *session)
@@ -1105,7 +1116,7 @@ void MainWindow::tellSessionAsked(const QString &login)
 void MainWindow::showLogsDir()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
-	
+
 	// Determine the QUrl of the logs path
 	QUrl url;
 	if (profile.logsDefaultDir)
@@ -1297,7 +1308,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 			{
 				mtwMain->removeWidget(sessionWidget);
 				return true;
-			}		
+			}
 		}
 	}
 	return QMainWindow::eventFilter(watched, event);
@@ -1323,7 +1334,7 @@ void MainWindow::newTransfer(Transfer *transfer)
 	TransfersWidget *widget = getTransfersWidget(transfer->session());
 	if (!widget)
 		widget = newTransfersWidget(transfer->session());
-	
+
 	// Just focus it
 	mtwMain->focusWidget(widget);
 }
@@ -1357,6 +1368,6 @@ void MainWindow::executeAction(int action)
 	case Action::Action_Reconnect:
 		reconnect();
 		break;
-	default:;		
+	default:;
 	}
 }

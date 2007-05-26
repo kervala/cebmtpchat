@@ -671,15 +671,15 @@ void DialogSettings::getControlsDatas()
 void DialogSettings::getGeneralControlsDatas()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
+	QString oldLanguage = profile.language;
 	if (comboBoxLanguage->currentIndex() == 0)
 		profile.language = "";
 	else
 		profile.language = displayToLanguage[comboBoxLanguage->currentText()];
+
+	if (profile.language != oldLanguage)
+		QMessageBox::warning(this, tr("Warning"), tr("You must restart CeB to apply your language changes"));
     profile.checkForUpdate = checkBoxCheckForUpdate->isChecked();
-/*    if (profile.checkForUpdate)
-		QMessageBox::warning(this, 	"ok", "Check for update");
-	else
-		QMessageBox::warning(this, 	"ok", "NO Check for update");*/
 }
 
 void DialogSettings::getShortcutsControlsDatas()

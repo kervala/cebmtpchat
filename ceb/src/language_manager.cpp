@@ -37,13 +37,13 @@ QStringList LanguageManager::getAvailableLanguages()
 		nameFilters << "*.qm";
 		QStringList entryList = dir.entryList(nameFilters, QDir::Files);
 		for (int i = 0; i < entryList.size(); i++)
-		{						
+		{
 			QFileInfo fileInfo(dir.absoluteFilePath(entryList.at(i)));
 			QString baseName = fileInfo.baseName();
 			QRegExp regExp("_(.+)$");
 			if (regExp.lastIndexIn(baseName) >= 0)
 				languages << regExp.cap(1);
-			
+
 		}
 
 	}
@@ -61,7 +61,7 @@ QString LanguageManager::getLanguageFileName(const QString &language)
 		QStringList entryList = dir.entryList(nameFilters, QDir::Files);
 		for (int i = 0; i < entryList.size(); i++)
 		{
-			QString fileName = dir.absoluteFilePath(entryList.at(i));			
+			QString fileName = dir.absoluteFilePath(entryList.at(i));
 			QString baseName = QFileInfo(fileName).baseName();
 			QRegExp regExp("_(.+)$");
 			if (regExp.lastIndexIn(baseName) >= 0 && regExp.cap(1) == language)
@@ -73,7 +73,7 @@ QString LanguageManager::getLanguageFileName(const QString &language)
 }
 
 QString LanguageManager::getLanguageDisplayName(const QString &language)
-{	
+{
 	init();
 	return languageDisplayNames[language];
 }
@@ -82,8 +82,9 @@ void LanguageManager::init()
 {
 	if (languageDisplayNameInitialized)
 		return;
-	
+
 	languageDisplayNameInitialized = true;
+	languageDisplayNames.insert("us", "US English");
 	languageDisplayNames.insert("fr", "French");
 	languageDisplayNames.insert("pt-br", "Brazilian");
 }
