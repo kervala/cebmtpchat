@@ -36,6 +36,8 @@ public:
 private slots:
 	void on_checkBoxAway_stateChanged(int state);
 	void on_checkBoxQuit_stateChanged(int state);
+	void on_pushButtonAddExpr_clicked();
+	void on_pushButtonRemoveExpr_clicked();
 };
 
 #endif

@@ -27,6 +27,15 @@ void IdleSettingsWidget::applyProfile(const Profile &profile)
 {
 	checkBoxAway->setChecked(profile.idleAway);
 	spinBoxAway->setValue(profile.idleAwayTimeout);
+
+	// Set bypass expressions list
+	foreach (const QString &expr, profile.idleAwayBypassExpressions)
+	  {
+	    QListWidgetItem *item = new QListWidgetItem(expr, listWidgetExpressions);
+	    
+	    item->setFlags(item->flags() | Qt::ItemIsEditable);
+	  }
+
 	checkBoxQuit->setChecked(profile.idleQuit);
 	spinBoxQuit->setValue(profile.idleQuitTimeout);
 }
@@ -35,6 +44,12 @@ void IdleSettingsWidget::feedProfile(Profile &profile)
 {
 	profile.idleAway = checkBoxAway->isChecked();
 	profile.idleAwayTimeout = spinBoxAway->value();
+	
+	// Get bypass expressions
+	profile.idleAwayBypassExpressions.clear();
+	for (int i = 0; i < listWidgetExpressions->count(); ++i)
+	  profile.idleAwayBypassExpressions << listWidgetExpressions->item(i)->text();
+
 	profile.idleQuit = checkBoxQuit->isChecked();
 	profile.idleQuitTimeout = spinBoxQuit->value();
 }
@@ -49,4 +64,19 @@ void IdleSettingsWidget::on_checkBoxQuit_stateChanged(int state)
 {
 	spinBoxQuit->setEnabled(state == Qt::Checked);
 	labelQuit->setEnabled(state == Qt::Checked);
+}
+
+void IdleSettingsWidget::on_pushButtonAddExpr_clicked()
+{
+	QListWidgetItem *item = new QListWidgetItem("", listWidgetExpressions);
+	item->setFlags(item->flags() | Qt::ItemIsEditable);
+	listWidgetExpressions->setCurrentItem(item);
+	listWidgetExpressions->editItem(item);
+}
+
+void IdleSettingsWidget::on_pushButtonRemoveExpr_clicked()
+{
+	QListWidgetItem *item = listWidgetExpressions->currentItem();
+	if (item)
+	  delete item;
 }

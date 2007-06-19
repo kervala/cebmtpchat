@@ -73,7 +73,7 @@ public:
 	int mainLeft;
 	int mainTop;
 	QString language;
-    bool checkForUpdate;
+	bool checkForUpdate;
 	bool hideTabsForOne;
 	bool systemLogsVisible;
 	int systemLogsLeft;
@@ -121,6 +121,8 @@ public:
 	QString soundAboutMeFileName;
 	bool idleAway;
 	int idleAwayTimeout;
+	QStringList idleAwayBypassExpressions;
+	bool matchIdleAwayBypassExpressions(const QString &str) const;
 	bool idleQuit;
 	int idleQuitTimeout;
 	QString clientVersion;

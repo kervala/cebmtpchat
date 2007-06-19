@@ -47,7 +47,7 @@ void Profile::init()
 	mainLeft = -1;
 	mainTop = -1;
 	language = "";
-    checkForUpdate = true;
+	checkForUpdate = true;
 	hideTabsForOne = true;
 	systemLogsVisible = false;
 	systemLogsLeft = -1;
@@ -94,6 +94,7 @@ void Profile::init()
 	soundAboutMeFileName = "";
 	idleAway = true;
 	idleAwayTimeout = 60;
+	idleAwayBypassExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
 	idleQuit = true;
 	idleQuitTimeout = 600;
 	clientVersion = "";
@@ -150,7 +151,7 @@ bool Profile::load(const QString &fileName)
 	mainLeft = XmlHandler::read(rootElem, "main_left", -1);
 	mainTop = XmlHandler::read(rootElem, "main_top", -1);
 	language = XmlHandler::read(rootElem, "language", "");
-    checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
+	checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
 	hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
 
 	const QDomElement systemLogsElem = rootElem.firstChildElement("system_logs");
@@ -272,6 +273,17 @@ bool Profile::load(const QString &fileName)
 	{
 		idleAway = XmlHandler::read(idleElem, "away", idleAway);
 		idleAwayTimeout = XmlHandler::read(idleElem, "away_timeout", idleAwayTimeout);
+		const QDomElement awayBypassExpressionsElem = idleElem.firstChildElement("away_bypass_expressions");
+		if (!awayBypassExpressionsElem.isNull())
+		  {
+		    idleAwayBypassExpressions.clear();
+		    QDomElement expressionElem = awayBypassExpressionsElem.firstChildElement("expression");
+		    while (!expressionElem.isNull())
+		      {
+			idleAwayBypassExpressions << expressionElem.text();
+			expressionElem = expressionElem.nextSiblingElement("expression");
+		      }
+		  }
 		idleQuit = XmlHandler::read(idleElem, "quit", idleQuit);
 		idleQuitTimeout = XmlHandler::read(idleElem, "quit_timeout", idleQuitTimeout);
 	}
@@ -328,7 +340,7 @@ void Profile::save() const
 		XmlHandler::write(rootElem, "main_top", mainTop);
 		XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
 		XmlHandler::write(rootElem, "language", language);
-        XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
+		XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
 
 		// System logs
 		QDomElement systemLogsElem = document.createElement("system_logs");
@@ -429,6 +441,15 @@ void Profile::save() const
 		rootElem.appendChild(idleElem);
 		XmlHandler::write(idleElem, "away", idleAway);
 		XmlHandler::write(idleElem, "away_timeout", idleAwayTimeout);
+		QDomElement expressionsElem = document.createElement("away_bypass_expressions");
+		idleElem.appendChild(expressionsElem);
+		foreach (const QString &str, idleAwayBypassExpressions)
+		  {
+		    QDomElement expressionElem = document.createElement("expression");
+		    expressionsElem.appendChild(expressionElem);
+		    QDomText t = document.createTextNode(str);
+		    expressionElem.appendChild(t);
+		  }
 		XmlHandler::write(idleElem, "quit", idleQuit);
 		XmlHandler::write(idleElem, "quit_timeout", idleQuitTimeout);
 
@@ -549,6 +570,7 @@ Profile &Profile::operator=(const Profile &profile)
 	soundAboutMeFileName = profile.soundAboutMeFileName;
 	idleAway = profile.idleAway;
 	idleAwayTimeout = profile.idleAwayTimeout;
+	idleAwayBypassExpressions = profile.idleAwayBypassExpressions;
 	idleQuit = profile.idleQuit;
 	idleQuitTimeout = profile.idleQuitTimeout;
 	clientVersion = profile.clientVersion;
@@ -624,4 +646,15 @@ QString Profile::getAboutMeFileName()
 	else
 		return soundAboutMeFileName;
 	return "";
+}
+
+bool Profile::matchIdleAwayBypassExpressions(const QString &str) const
+{
+  foreach (const QString &expr, idleAwayBypassExpressions)
+    {
+      QRegExp regExp(expr, Qt::CaseInsensitive);
+      if (regExp.isValid() && regExp.exactMatch(str))
+	return true;
+    }
+  return false;
 }

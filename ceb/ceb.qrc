@@ -13,12 +13,14 @@
         <file>images/tray-new.png</file>
         <file>images/update.png</file>
         <file>images/yellow-led.png</file>
-		<file>images/sounds.png</file>
-		<file>images/logs.png</file>
-		<file>images/warningo.png</file>
-		<file>images/tabs.png</file>
-		<file>images/transparent.png</file>
-		<file>images/links.png</file>
-		<file>images/connect.png</file>
+	<file>images/sounds.png</file>
+	<file>images/logs.png</file>
+	<file>images/warningo.png</file>
+	<file>images/tabs.png</file>
+	<file>images/transparent.png</file>
+	<file>images/links.png</file>
+	<file>images/connect.png</file>
+	<file>images/add.png</file>
+	<file>images/remove.png</file>
     </qresource>
 </RCC>
