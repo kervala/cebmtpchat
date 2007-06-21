@@ -28,9 +28,9 @@ class SettingsWidget : public QWidget
 	  Q_OBJECT
 
 public:
-	  SettingsWidget(QWidget *parent = 0);
-
-	virtual void applyProfile(const Profile &profile) = 0;
+      SettingsWidget(QWidget *parent = 0);
+    
+    virtual void applyProfile(const Profile &profile) = 0;
 	virtual void feedProfile(Profile &profile) = 0;
 };
 

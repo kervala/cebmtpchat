@@ -29,6 +29,8 @@
 #include "profile.h"
 #include "version.h"
 
+const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
+
 Profile::Profile(const QString &name)
 {
 	init();
@@ -94,7 +96,7 @@ void Profile::init()
 	soundAboutMeFileName = "";
 	idleAway = true;
 	idleAwayTimeout = 60;
-	idleAwayBypassExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
+	idleAwayBypassExpressions = idleAwayBypassDefaultExpressions;
 	idleQuit = true;
 	idleQuitTimeout = 600;
 	clientVersion = "";
@@ -275,15 +277,15 @@ bool Profile::load(const QString &fileName)
 		idleAwayTimeout = XmlHandler::read(idleElem, "away_timeout", idleAwayTimeout);
 		const QDomElement awayBypassExpressionsElem = idleElem.firstChildElement("away_bypass_expressions");
 		if (!awayBypassExpressionsElem.isNull())
-		  {
+        {
 		    idleAwayBypassExpressions.clear();
 		    QDomElement expressionElem = awayBypassExpressionsElem.firstChildElement("expression");
 		    while (!expressionElem.isNull())
-		      {
-			idleAwayBypassExpressions << expressionElem.text();
-			expressionElem = expressionElem.nextSiblingElement("expression");
-		      }
-		  }
+            {
+                idleAwayBypassExpressions << expressionElem.text();
+                expressionElem = expressionElem.nextSiblingElement("expression");
+            }
+        }
 		idleQuit = XmlHandler::read(idleElem, "quit", idleQuit);
 		idleQuitTimeout = XmlHandler::read(idleElem, "quit_timeout", idleQuitTimeout);
 	}
@@ -444,12 +446,12 @@ void Profile::save() const
 		QDomElement expressionsElem = document.createElement("away_bypass_expressions");
 		idleElem.appendChild(expressionsElem);
 		foreach (const QString &str, idleAwayBypassExpressions)
-		  {
-		    QDomElement expressionElem = document.createElement("expression");
-		    expressionsElem.appendChild(expressionElem);
-		    QDomText t = document.createTextNode(str);
-		    expressionElem.appendChild(t);
-		  }
+            {
+                QDomElement expressionElem = document.createElement("expression");
+                expressionsElem.appendChild(expressionElem);
+                QDomText t = document.createTextNode(str);
+                expressionElem.appendChild(t);
+            }
 		XmlHandler::write(idleElem, "quit", idleQuit);
 		XmlHandler::write(idleElem, "quit_timeout", idleQuitTimeout);
 

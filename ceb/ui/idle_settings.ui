@@ -108,6 +108,9 @@
       </item>
       <item row="2" column="0" colspan="2" >
        <layout class="QGridLayout" >
+        <property name="horizontalSpacing" >
+         <number>4</number>
+        </property>
         <item rowspan="4" row="0" column="0" >
          <widget class="QListWidget" name="listWidgetExpressions" />
         </item>
@@ -150,7 +153,7 @@
          </widget>
         </item>
         <item row="2" column="1" >
-         <widget class="QPushButton" name="pushButtonReset" >
+         <widget class="QPushButton" name="pushButtonResetExpr" >
           <property name="toolTip" >
            <string>Reset all expressions to the default configuration</string>
           </property>

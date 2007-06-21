@@ -27,7 +27,7 @@
 DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent): QDialog(parent, 
 	Qt::SplashScreen | Qt::WindowStaysOnTopHint)
 {
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setAttribute(Qt::WA_Disabled, true);

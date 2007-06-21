@@ -122,7 +122,7 @@ public:
 	bool idleAway;
 	int idleAwayTimeout;
 	QStringList idleAwayBypassExpressions;
-	bool matchIdleAwayBypassExpressions(const QString &str) const;
+    static const QStringList idleAwayBypassDefaultExpressions;
 	bool idleQuit;
 	int idleQuitTimeout;
 	QString clientVersion;
@@ -141,6 +141,7 @@ public:
 	QString getAwaySeparator(QString period, int length);
 	QString getBeepFileName();
 	QString getAboutMeFileName();	
+	bool matchIdleAwayBypassExpressions(const QString &str) const;
 
 private:
 	QString m_name;
