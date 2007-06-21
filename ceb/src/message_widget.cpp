@@ -103,6 +103,7 @@ void MessageWidget::init()
 	bottomLayout->addItem(spacer);
 
 	pushButtonRemove = new QPushButton(tr("Re&move"));
+    pushButtonRemove->setIcon(QIcon(":/images/remove.png"));
 	bottomLayout->addWidget(pushButtonRemove);
 	connect(pushButtonRemove, SIGNAL(clicked()), this, SLOT(removeSelectedMessage()));
 	

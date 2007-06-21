@@ -614,10 +614,15 @@ QWidget *DialogSettings::createConnectionsWidget()
 	QWidget *mainWidget = new QWidget;
 	QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
 
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->addStretch();
 	pushButtonNewConnection = new QPushButton("New connection");
-	mainLayout->addWidget(pushButtonNewConnection);
+    pushButtonNewConnection->setIcon(QIcon(":/images/add.png"));    
+	buttonLayout->addWidget(pushButtonNewConnection);
 	connect(pushButtonNewConnection, SIGNAL(clicked()),
 		this, SLOT(newSessionConfig()));
+    buttonLayout->addStretch();
+    mainLayout->addLayout(buttonLayout);
 
 	return mainWidget;
 }
