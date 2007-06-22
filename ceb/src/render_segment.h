@@ -12,11 +12,11 @@ public:
 				  const QFont &font,
 				  const QColor &color);
 
-	const QString text() const { return m_text; }
+	const QString &text() const { return m_text; }
 	void setText(const QString &value) { m_text = value; }
-	const QFont font() const { return m_font; }
+	const QFont &font() const { return m_font; }
 	void setFont(const QFont &value) { m_font = value; }
-	const QColor color() const { return m_color; }
+	const QColor &color() const { return m_color; }
 	void setColor(const QColor &value) { m_color = value; }
 
 private:

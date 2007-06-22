@@ -126,11 +126,31 @@ For example: in the above sentence, get_segment_text(2) will be "Fooman"
 Replace the segment text at place <segmentNum> by <text>
 
 * string get_segment_color(int segmentNum)
-
-Returns a segment color in hexa form "RRGGBB"
-
 * void set_segment_color(int segmentNum, string color)
 
-Set a segment color in hexa form
+Returns or sets a segment color in hexa form "RRGGBB"
 
+* string get_segment_font(int segmentNum)
+* void set_segment_font(int segmentNum, string fontName)
 
+Returns or sets the font name of a segment
+
+* int get_segment_size(int segmentNum)
+* void set_segment_size(int segmentNum, int size)
+
+Returns or sets the font point size of a segment
+
+* boolean get_segment_italic(int segmentNum)
+* void set_segment_italic(int segmentNum, boolean value)
+
+Returns or sets the font italic of a segment
+
+* boolean get_segment_bold(int segmentNum)
+* void set_segment_bold(int segmentNum, boolean value)
+
+Returns or sets the font bold of a segment
+
+* boolean get_segment_underline(int segmentNum)
+* void set_segment_underline(int segmentNum, boolean value)
+
+Returns or sets the font underline of a segment

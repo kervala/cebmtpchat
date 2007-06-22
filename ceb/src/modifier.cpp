@@ -120,6 +120,171 @@ int getSegmentColor(lua_State *l)
 	return 1;
 }
 
+int setSegmentFont(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isstring(l, 2))
+		return 0;
+
+    QFont font = (*_segments)[argNum].font();
+    font.setFamily(QString(lua_tostring(l, 2)));
+	(*_segments)[argNum].setFont(font);
+
+	return 0;
+}
+
+int getSegmentFont(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushstring(l, (*_segments)[argNum].font().family().toLatin1());
+	return 1;
+}
+
+int setSegmentSize(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isnumber(l, 2))
+		return 0;
+
+    QFont font = (*_segments)[argNum].font();
+    font.setPointSize((int) lua_tonumber(l, 2));
+	(*_segments)[argNum].setFont(font);
+
+	return 0;
+}
+
+int getSegmentSize(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushinteger(l, (*_segments)[argNum].font().pointSize());
+	return 1;
+}
+
+int setSegmentItalic(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isboolean(l, 2))
+		return 0;
+
+    QFont font = (*_segments)[argNum].font();
+    font.setItalic(lua_toboolean(l, 2));
+	(*_segments)[argNum].setFont(font);
+
+	return 0;
+}
+
+int getSegmentItalic(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushboolean(l, (*_segments)[argNum].font().italic());
+	return 1;
+}
+
+int setSegmentBold(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isboolean(l, 2))
+		return 0;
+
+    QFont font = (*_segments)[argNum].font();
+    font.setBold(lua_toboolean(l, 2));
+	(*_segments)[argNum].setFont(font);
+
+	return 0;
+}
+
+int getSegmentBold(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushboolean(l, (*_segments)[argNum].font().bold());
+	return 1;
+}
+
+int setSegmentUnderline(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 2)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+
+	if (!lua_isboolean(l, 2))
+		return 0;
+
+    QFont font = (*_segments)[argNum].font();
+    font.setUnderline(lua_toboolean(l, 2));
+	(*_segments)[argNum].setFont(font);
+
+	return 0;
+}
+
+int getSegmentUnderline(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int argNum = (int) lua_tonumber(l, 1);
+	
+	lua_pushboolean(l, (*_segments)[argNum].font().underline());
+	return 1;
+}
+
 int getSessionInfo(lua_State *l)
 {
 	int n = lua_gettop(l); // Arguments number
@@ -174,6 +339,16 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
 	lua_register(l, "set_segment_text", setSegmentText);
 	lua_register(l, "get_segment_color", getSegmentColor);
 	lua_register(l, "set_segment_color", setSegmentColor);
+	lua_register(l, "get_segment_font", getSegmentFont);
+	lua_register(l, "set_segment_font", setSegmentFont);
+	lua_register(l, "get_segment_size", getSegmentSize);
+	lua_register(l, "set_segment_size", setSegmentSize);
+	lua_register(l, "get_segment_italic", getSegmentItalic);
+	lua_register(l, "set_segment_italic", setSegmentItalic);
+	lua_register(l, "get_segment_bold", getSegmentBold);
+	lua_register(l, "set_segment_bold", setSegmentBold);
+	lua_register(l, "get_segment_underline", getSegmentUnderline);
+	lua_register(l, "set_segment_underline", setSegmentUnderline);
 	
 	error = false;
 	return l;
