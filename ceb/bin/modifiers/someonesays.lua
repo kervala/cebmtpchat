@@ -4,23 +4,23 @@
 -- 2) colorize sentence if session login is in
 
 function NickInSentence(sentence, nick)
-	return (string.find(sentence, "^"..nick.."$") ~= nil) or
-		(string.find(sentence, "^"..nick.."[^%w]") ~= nil) or
-		(string.find(sentence, "[^%a]"..nick.."[^%w]") ~= nil) or
-		(string.find(sentence, "[^%a]"..nick.."$") ~= nil);
+    local lowerSentence, lowerNick = string.lower(sentence), string.lower(nick);
+	return (string.find(lowerSentence, "^"..lowerNick.."$") ~= nil) or
+		(string.find(lowerSentence, "^"..lowerNick.."[^%w]") ~= nil) or
+		(string.find(lowerSentence, "[^%a]"..lowerNick.."[^%w]") ~= nil) or
+		(string.find(lowerSentence, "[^%a]"..lowerNick.."$") ~= nil);
 end
 
 function Modify()
-	login = get_session_info("login");
-	someone = get_segment_text(1);
-	if login == someone then
+	local login = get_session_info("login");
+
+    -- Special color for nick when it's my sentence
+	if login == get_segment_text(1) then
 		set_segment_color(1, "000096");
 	end
 
-	lowerSentence = string.lower(get_segment_text(3));
-	lowerNick = string.lower(login);
-
-    if NickInSentence(lowerSentence, lowerNick) then
+    -- Special color for the entire sentence when my nick is in
+    if NickInSentence(get_segment_text(3), login) then
         set_segment_color(3, "FF00FF");
     end
 end
