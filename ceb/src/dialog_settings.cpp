@@ -432,15 +432,19 @@ QWidget *DialogSettings::createTabsWidget()
 
 
 	QLabel *label = new QLabel("Hall");
+	label->setAlignment(Qt::AlignCenter);
 	mtwExample->addWidget("Server 1", label, "Hall");
 
 	label = new QLabel("Foo");
+	label->setAlignment(Qt::AlignCenter);
 	mtwExample->addWidget("Server 1", label, "Foo");
 
 	label = new QLabel("Hall");
+	label->setAlignment(Qt::AlignCenter);
 	mtwExample->addWidget("Server 2", label, "Hall");
 
 	label = new QLabel("Bar");
+	label->setAlignment(Qt::AlignCenter);
 	mtwExample->addWidget("Server 2", label, "Bar");
 	refreshTabExample();
 
@@ -617,7 +621,7 @@ QWidget *DialogSettings::createConnectionsWidget()
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addStretch();
 	pushButtonNewConnection = new QPushButton("New connection");
-    pushButtonNewConnection->setIcon(QIcon(":/images/add.png"));    
+    pushButtonNewConnection->setIcon(QIcon(":/images/add.png"));
 	buttonLayout->addWidget(pushButtonNewConnection);
 	connect(pushButtonNewConnection, SIGNAL(clicked()),
 		this, SLOT(newSessionConfig()));
