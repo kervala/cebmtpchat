@@ -38,6 +38,26 @@ int segmentsCount(lua_State *l)
 	return 1;
 }
 
+int setSegmentsCount(lua_State *l)
+{
+	int n = lua_gettop(l); // Arguments number
+	if (n != 1)
+		return 0;
+
+	if (!lua_isnumber(l, 1))
+		return 0;
+	int segNum = (int) lua_tonumber(l, 1);
+
+    if (segNum < _segments->count())
+        while (_segments->count() > segNum)
+            _segments->removeLast();
+    else if (segNum > _segments->count())
+        while (_segments->count() < segNum)
+            (*_segments) << RenderSegment("toto", QFont(), Qt::black);
+    
+    return 0;
+}
+
 int setSegmentText(lua_State *l)
 {
 	int n = lua_gettop(l); // Arguments number
@@ -149,6 +169,7 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
 	lua_register(l, "get_session_info", getSessionInfo);
 	lua_register(l, "session_send", sessionSend);
 	lua_register(l, "segments_count", segmentsCount);
+    lua_register(l, "set_segments_count", setSegmentsCount);
 	lua_register(l, "get_segment_text", getSegmentText);
 	lua_register(l, "set_segment_text", setSegmentText);
 	lua_register(l, "get_segment_color", getSegmentColor);

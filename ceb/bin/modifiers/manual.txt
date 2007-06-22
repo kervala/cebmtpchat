@@ -109,6 +109,13 @@ For example : session_send("I love meat ice cream")
 Return the segments count
 For example: in "<Fooman> I love meat ice cream", segments_count will be 4 ("<", "Fooman", "> ", "I love meat ice cream")
 
+* void set_segments_count(int arg)
+
+Set the segments count
+If arg is lower than the true segments count, last segments are removed
+If arg is upper, new segments with a default font, a black color and empty text are added
+This function can be useful to cancel the display of a render sequence, by using "set_segments_count(0)"
+
 * string get_segment_text(int segmentNum)
 
 Returns a segment text.

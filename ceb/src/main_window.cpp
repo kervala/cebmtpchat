@@ -866,8 +866,8 @@ void MainWindow::showEvent(QShowEvent *)
 
 		Profile &profile = *ProfileManager::instance().currentProfile();
 		if (VERSION != profile.clientVersion)
-			launchWhatsNew();
-
+            launchWhatsNew();
+        
 		// Default connect to
 		if (!profile.sessionConfigs().count())
 			newConnection();
