@@ -17,6 +17,7 @@ SET(MAX_SRCS
 	src/my_tabbar.cpp
 	src/filter_widget.cpp
 	src/generic_sort_model.cpp
+	src/icon_editor.cpp
 )
 
 SET(MAX_MOCH
@@ -29,6 +30,7 @@ SET(MAX_MOCH
 	src/my_tabbar.h
 	src/filter_widget.h
 	src/generic_sort_model.h
+	src/icon_editor.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
