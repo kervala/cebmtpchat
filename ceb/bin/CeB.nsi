@@ -31,7 +31,6 @@ Section "CeB Alpha" SecCeB
   
   ;ADD YOUR OWN FILES HERE...
   File "CeB\ceb.exe"
-  File "CeB\mingwm10.dll"
   File "CeB\lua51.dll"
   File "CeB\QtCore4.dll"
   File "CeB\QtGui4.dll"
@@ -74,7 +73,6 @@ Section "Uninstall"
 
   ; Remove files and uninstaller
   Delete $INSTDIR\ceb.exe
-  Delete $INSTDIR\mingwm10.dll
   Delete $INSTDIR\lua51.dll
   Delete $INSTDIR\QtCore4.dll
   Delete $INSTDIR\QtGui4.dll
