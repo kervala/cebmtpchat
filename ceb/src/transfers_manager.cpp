@@ -27,7 +27,7 @@
 Transfer::Transfer(Session *session, int id, int peerId,
 				   Direction dir, const QString &nickName, const QString &fileName)
 {
-	srand(time(NULL));
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
 	_session = session;
 	_id = id;
 	_peerId = peerId;
