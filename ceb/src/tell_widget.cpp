@@ -302,6 +302,10 @@ void TellWidget::refreshFonts()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	m_historyWidget->setFont(profile.textSkin().inputTextFont().font());
+
+	QPalette palette = m_historyWidget->palette();
+	palette.setColor(QPalette::Text, profile.textSkin().inputTextFont().color());
+	m_historyWidget->setPalette(palette);
 }
 
 void TellWidget::outputFilterSendToChat(const QString &text)
