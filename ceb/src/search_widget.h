@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QTextBrowser>
 #include <QToolButton>
+#include <QMenu>
+#include <QTextDocument>
 
 class SearchWidget : public QWidget
 {
@@ -27,11 +29,15 @@ private:
     QTextBrowser *_textWidget;
     QToolButton *_toolButtonOptions;
     QColor _standardBaseColor;
+	QMenu *_menuOptions;
+    QTextDocument::FindFlags _findFlags;
 
 private slots:
     void lineEditTextChanged(const QString &text);
     void searchForPrevious();
     void searchForNext();
+	void caseSensitiveActionTriggered(bool checked);
+	void completeWordsActionTriggered(bool checked);
 };
 
 #endif

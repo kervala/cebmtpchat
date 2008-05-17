@@ -3,7 +3,8 @@
 #include "search_widget.h"
 
 SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
-                                              _textWidget(0)
+                                              _textWidget(0),
+											  _findFlags(0)
 {
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setMargin(0);
@@ -36,6 +37,16 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
     _toolButtonOptions->setText(tr("Options"));
     mainLayout->addWidget(_toolButtonOptions);
     _toolButtonOptions->setAutoRaise(true);
+
+	_menuOptions = new QMenu(this);
+    _toolButtonOptions->setMenu(_menuOptions);
+	_toolButtonOptions->setPopupMode(QToolButton::InstantPopup);
+	QAction *action = _menuOptions->addAction(tr("Case sensitive find"));
+	action->setCheckable(true);
+	connect(action, SIGNAL(triggered(bool)), this, SLOT(caseSensitiveActionTriggered(bool)));
+    action = _menuOptions->addAction(tr("Match only complete words"));
+	action->setCheckable(true);
+	connect(action, SIGNAL(triggered(bool)), this, SLOT(completeWordsActionTriggered(bool)));
 }
 
 void SearchWidget::setTextWidget(QTextBrowser *textWidget)
@@ -61,7 +72,7 @@ void SearchWidget::lineEditTextChanged(const QString &text)
     {
         QPalette palette = QLineEdit().palette();
         _lineEditSearch->setPalette(palette);
-    } else if (!_textWidget->find(text, QTextDocument::FindBackward))
+    } else if (!_textWidget->find(text, _findFlags | QTextDocument::FindBackward))
     {
         QPalette palette = _lineEditSearch->palette();
         palette.setColor(QPalette::Base, Qt::red);
@@ -76,22 +87,42 @@ void SearchWidget::lineEditTextChanged(const QString &text)
 
 void SearchWidget::searchForPrevious()
 {
-    if (!_textWidget->find(_lineEditSearch->text(), QTextDocument::FindBackward))
+    if (!_textWidget->find(_lineEditSearch->text(), _findFlags | QTextDocument::FindBackward))
     {
         QTextCursor cursor = _textWidget->textCursor();
         cursor.movePosition(QTextCursor::End);
         _textWidget->setTextCursor(cursor);
-        _textWidget->find(_lineEditSearch->text(), QTextDocument::FindBackward);
+        _textWidget->find(_lineEditSearch->text(), _findFlags | QTextDocument::FindBackward);
     }
 }
 
 void SearchWidget::searchForNext()
 {
-    if (!_textWidget->find(_lineEditSearch->text()))
+    if (!_textWidget->find(_lineEditSearch->text(), _findFlags))
     {
         QTextCursor cursor = _textWidget->textCursor();
         cursor.movePosition(QTextCursor::Start);
         _textWidget->setTextCursor(cursor);
-        _textWidget->find(_lineEditSearch->text());
+        _textWidget->find(_lineEditSearch->text(), _findFlags);
     }
+}
+
+void SearchWidget::caseSensitiveActionTriggered(bool checked)
+{
+  if (checked)
+    _findFlags |= QTextDocument::FindCaseSensitively;
+  else
+    _findFlags &= !QTextDocument::FindCaseSensitively;
+
+  lineEditTextChanged(_lineEditSearch->text());
+}
+
+void SearchWidget::completeWordsActionTriggered(bool checked)
+{
+  if (checked)
+    _findFlags |= QTextDocument::FindWholeWords;
+  else
+    _findFlags &= !QTextDocument::FindWholeWords;
+
+  lineEditTextChanged(_lineEditSearch->text());
 }
