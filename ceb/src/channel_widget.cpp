@@ -978,7 +978,12 @@ void ChannelWidget::toggleSearchWidgetVisibility()
     if (_searchWidget->isVisible())
         _searchWidget->afterShow();
     else
+	{
+      if (stackedWidgetEntry->currentIndex() == 0)
+        lineEditWidget->setFocus();
+      else
         historyWidget->setFocus();
+	}
 }
 
 void ChannelWidget::hideSearchWidget()
