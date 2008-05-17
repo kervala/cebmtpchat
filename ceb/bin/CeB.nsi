@@ -36,6 +36,7 @@ Section "CeB Alpha" SecCeB
   File "CeB\QtGui4.dll"
   File "CeB\QtNetwork4.dll"
   File "CeB\QtXml4.dll"
+  File "CeB\mingwm10.dll"
   File /nonfatal /r "CeB\logs"
   File /r "CeB\languages"
   File "CeB\whatsnew.html"
@@ -78,6 +79,7 @@ Section "Uninstall"
   Delete $INSTDIR\QtGui4.dll
   Delete $INSTDIR\QtNetwork4.dll
   Delete $INSTDIR\QtXml4.dll
+  Delete $INSTDIR\mingwm10.dll
   Delete $INSTDIR\uninstall.exe
   Delete $INSTDIR\scripts
   Delete $INSTDIR\modifiers
