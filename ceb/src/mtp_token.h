@@ -107,7 +107,7 @@ enum MtpToken {
 
 	Token_Date,
 	Token_YourClientIs,
-	
+
 	Token_MtpSays,
 	Token_SomeoneSays,
 

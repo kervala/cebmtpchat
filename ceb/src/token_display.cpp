@@ -161,7 +161,7 @@ void TextSkin::init()
 		m_topicTextFont.setColor(defaultColor);
 		m_timeStampFont.setFont(timeStampFont);
 		m_timeStampFont.setColor(QColor(50, 50, 50));
-		
+
 		m_backgroundColor = new QColor(255, 255, 240);
 		m_awayBackgroundColor = new QColor(215, 215, 200);
 
@@ -253,6 +253,9 @@ void TextSkin::init()
 		setTokenColor(Token_SomeoneLeaveChannel, 0, systemColor);
 		setTokenColor(Token_SomeoneAppearsFromTheShadows, 0, systemColor);
 		setTokenColor(Token_SomeoneSays, 1, QColor(150, 0, 0));
+                setTokenColor(Token_YourClientIs, 0, systemColor);
+                setTokenColor(Token_YourClientIs, 1, QColor(180, 0, 180));
+
 		setTokenColor(Token_Data, 0, QColor(100, 0, 0));
 	}
 	else
@@ -302,7 +305,7 @@ void TextSkin::load(const QDomElement &root)
 
 		QString fontStr = XmlHandler::read(mtpFontElem, "font", "");
 		QString colorStr = XmlHandler::read(mtpFontElem, "color", "");
-		
+
 		MtpFont mtpFont;
 		if (fontStr != "")
 		{
@@ -327,11 +330,11 @@ void TextSkin::load(const QDomElement &root)
 			m_topicTextFont = mtpFont;
 		else if (type == "time_stamp")
 			m_timeStampFont = mtpFont;
-		
+
 		// To the next!
 		mtpFontElem = mtpFontElem.nextSiblingElement("mtp_font");
 	}
-	
+
 	// Background color
 	resetBackgroundColor();
 	QString colorStr = XmlHandler::read(textSkinElem, "background_color", "");
@@ -354,20 +357,20 @@ void TextSkin::load(const QDomElement &root)
 	QDomElement tokenDisplaysElem = textSkinElem.firstChildElement("token_displays");
 	if (tokenDisplaysElem.isNull())
 		return;
-	
+
 	QDomElement tokenDisplayElem = tokenDisplaysElem.firstChildElement("token_display");
 	while (!tokenDisplayElem.isNull())
 	{
 		// "token" attribute
 		MtpToken token = MtpTokenInfo::IDStringToToken(tokenDisplayElem.attribute("token"));
-		
+
 		// Create a token display
 		TokenDisplay tokenDisplay(token);
 
 		// Get all display elements
 		QDomElement displayElementElem = tokenDisplayElem.firstChildElement("display_element");
 		while (!displayElementElem.isNull())
-		{			
+		{
 			TokenDisplayElement element;
 			QString fontString = XmlHandler::read(displayElementElem, "font", "");
 			if (fontString != "")
@@ -383,7 +386,7 @@ void TextSkin::load(const QDomElement &root)
 				color.setNamedColor(colorString);
 				element.setColor(color);
 			}
-				
+
 			// "arg" attribute
 			QString arg = displayElementElem.attribute("arg");
 
@@ -462,7 +465,7 @@ void TextSkin::save(QDomElement &root) const
 				if (elem.font())
 					XmlHandler::write(displayElementElem, "font", elem.font()->toString());
 				if (elem.color())
-					XmlHandler::write(displayElementElem, "color", elem.color()->name());				
+					XmlHandler::write(displayElementElem, "color", elem.color()->name());
 			}
 		}
 }
@@ -501,7 +504,7 @@ QFont TextSkin::tokenFont(MtpToken token, int arg) const
 		const TokenDisplay &tokenDisplay = m_tokenDisplays.find(token).value();
 
 		const TokenDisplayElement &displayElement = tokenDisplay.elements()[arg];
-		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];		
+		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];
 
 		if (displayElement.font())
 			return *displayElement.font();
@@ -515,7 +518,7 @@ QFont TextSkin::tokenFont(MtpToken token, int arg) const
 		const TokenDisplay &tokenDisplay = defaultSkin().m_tokenDisplays.find(token).value();
 
 		const TokenDisplayElement &displayElement = tokenDisplay.elements()[arg];
-		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];		
+		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];
 
 		if (displayElement.font())
 			return *displayElement.font();
@@ -535,7 +538,7 @@ QColor TextSkin::tokenColor(MtpToken token, int arg) const
 		const TokenDisplay &tokenDisplay = m_tokenDisplays.find(token).value();
 
 		const TokenDisplayElement &displayElement = tokenDisplay.elements()[arg];
-		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];		
+		const TokenDisplayElement &allDisplayElement = tokenDisplay.elements()[0];
 
 		if (displayElement.color())
 			return *displayElement.color();
@@ -586,7 +589,7 @@ void TextSkin::resetTokenFont(MtpToken token, int arg)
 		element.resetFont();
 		tokenDisplay.elements()[arg] = element;
 		m_tokenDisplays[token] = tokenDisplay;
-		
+
 		if (tokenDisplay.isEmpty())
 			m_tokenDisplays.remove(token);
 	}
@@ -603,7 +606,7 @@ void TextSkin::resetTokenColor(MtpToken token, int arg)
 		element.resetColor();
 		tokenDisplay.elements()[arg] = element;
 		m_tokenDisplays[token] = tokenDisplay;
-		
+
 		if (tokenDisplay.isEmpty())
 			m_tokenDisplays.remove(token);
 	}
@@ -613,7 +616,7 @@ QColor TextSkin::backgroundColor() const
 {
 	if (m_backgroundColor)
 		return *m_backgroundColor;
-	else		
+	else
 		return *defaultSkin().m_backgroundColor;
 }
 
@@ -621,7 +624,7 @@ void TextSkin::setBackgroundColor(const QColor &value)
 {
 	if (!m_backgroundColor)
 		m_backgroundColor = new QColor;
-	*m_backgroundColor = value;	
+	*m_backgroundColor = value;
 }
 
 void TextSkin::resetBackgroundColor()
@@ -656,14 +659,14 @@ void TextSkin::resetAwayBackgroundColor()
 }
 
 const TextSkin &TextSkin::operator=(const TextSkin &source)
-{	
+{
 	m_tokenDisplays = source.m_tokenDisplays;
 	m_textFont = source.m_textFont;
 	m_inputTextFont = source.m_inputTextFont;
 	m_whoTextFont = source.m_whoTextFont;
 	m_topicTextFont = source.m_topicTextFont;
 	m_timeStampFont = source.m_timeStampFont;
-	
+
 	resetBackgroundColor();
 	if (source.m_backgroundColor)
 		m_backgroundColor = new QColor(*source.m_backgroundColor);

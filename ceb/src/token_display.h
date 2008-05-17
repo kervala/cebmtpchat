@@ -39,7 +39,7 @@ public:
 	QColor *color() const { return m_color; }
 
 	bool isEmpty() const { return !m_font && !m_color; }
-	
+
 	void setFont(const QFont &font);
 	void resetFont();
 	void setColor(const QColor &color);
@@ -49,7 +49,7 @@ public:
 
 private:
 	QFont *m_font;
-	QColor *m_color;	
+	QColor *m_color;
 };
 
 class TokenDisplay
@@ -70,7 +70,7 @@ public:
 
 private:
 	static const MtpAnalyzer m_analyzer;
-	
+
 	MtpToken m_token;
 	QList<TokenDisplayElement> m_elements;
 };
@@ -110,7 +110,7 @@ public:
 		QColor color() const { if (m_color) return *m_color; else return *(m_defaultFont->m_color); }
 		void setColor(const QColor &value) { if (!m_color) m_color = new QColor; *m_color = value; }
 		void resetColor() { if (!m_color) return; delete m_color; m_color = 0; }
-		
+
 		const MtpFont &operator=(const MtpFont &source)
 			{
 				if (source.m_defaultFont)
@@ -140,7 +140,7 @@ public:
 	const MtpFont &topicTextFont() const { return m_topicTextFont; }
 	MtpFont &timeStampFont() { return m_timeStampFont; }
 	const MtpFont &timeStampFont() const { return m_timeStampFont; }
-	
+
 	bool isForcedBackgroundColor() const { return m_backgroundColor; }
 	QColor backgroundColor() const;
 	void setBackgroundColor(const QColor &value);
@@ -176,7 +176,7 @@ private:
 	MtpFont m_whoTextFont;
 	MtpFont m_topicTextFont;
 	MtpFont m_timeStampFont;
-	
+
 	QColor *m_backgroundColor;
 	QColor *m_awayBackgroundColor;
 

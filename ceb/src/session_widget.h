@@ -53,7 +53,7 @@ protected:
 	Session *m_session;
 	bool m_stared;
 	virtual QString widgetCaption() const = 0;
-	
+
 	bool eventFilter(QObject *obj, QEvent *event); // catch some events
 	void sendHighlightSignal(HighlightType value);
 

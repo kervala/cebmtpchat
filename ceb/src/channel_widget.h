@@ -43,7 +43,7 @@ class ChannelWidget : public SessionWidget
 
 public:
 	ChannelWidget(Session *session,	QWidget *parent = 0);
-	
+
 	void applyFirstShow();
 	bool topicWindowVisible();
 	void showTopicWindow();
@@ -56,7 +56,7 @@ public:
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
-	
+
 private:
 	QWidget *widgetTopic;
 	QLineEdit *lineEditTopic;
@@ -83,14 +83,14 @@ private:
 	bool firstShow;
 	QList<BackupServer> m_backupServers;
 	bool m_backupServersHelp; // Is true if the current help is about serverlist
-	
+
 	void init();
 	QListWidgetItem *getWhoItemByNickname(const QString &nickname);
 	void colorizeChatItems(const QColor &color);
 	void changeLoginInWhoColumn(const QString &oldLogin,
 					const QString &newLogin);
 	void initScriptComboBox();
-	
+
 private slots:
 	void sendText(const QString &text);
 	void newTokenFromSession(const TokenEvent &event);
@@ -115,7 +115,7 @@ private slots:
 	void filterActivated(int index);
 	void outputFilterSendToChat(const QString &text);
 	void whoBlinking();
-	
+
 signals:
 	void whoUserDoubleClicked(const QString &login);
 	void tellSessionAsked(const QString &login);

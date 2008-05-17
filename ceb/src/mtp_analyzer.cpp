@@ -90,7 +90,7 @@ MtpToken MtpAnalyzer::normalTokens[] = {
 	Token_MessageReceived,
 	Token_AllMessagesCleared,
 	Token_MessageCleared,
-	Token_MessagesCleared,	
+	Token_MessagesCleared,
 	Token_HelpBegin,
 	Token_UnknownUser,
 	Token_UserLoginRenamed,
@@ -197,7 +197,7 @@ MtpAnalyzer::MtpAnalyzer()
 	m_tokenRegexp << MtpRegExp("^<Mtp> You reply to ("LOGIN_RE"): (.+)$",
 							   QList<int>() << 1 << 2,
 							   "<Mtp> You reply to Fooman: vive les levures !"); // Token_YouReply
-	
+
 	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") beeps you$",
 							   QList<int>() << 1,
 							   "<Mtp> Fooman beeps you"); // Token_SomeoneBeepsYou
@@ -237,7 +237,7 @@ MtpAnalyzer::MtpAnalyzer()
 							   "<Mtp> End of finger"); // Token_FingerEnd
 	m_tokenRegexp << MtpRegExp("^(.+)$",
 							   "Blablabla xann blablabla"); // Token_FingerLine
-	
+
 	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") shouts: (.+)$",
 							   QList<int>() << 1 << 2,
 							   "<Mtp> Fooman shouts: je veux etre liiibre"); // Token_SomeoneShouts
@@ -300,7 +300,7 @@ MtpAnalyzer::MtpAnalyzer()
 							   QList<int>() << 1,
 							   "<Mtp> No help available for ""pouet pouet"""); // Token_HelpEndNoHelp
 	m_tokenRegexp << MtpRegExp("^(.*)$"); // Token_HelpLine
-	
+
 	m_tokenRegexp << MtpRegExp("^<Mtp> Unknown or unregistered user \"("LOGIN_RE")\"$",
 							   QList<int>() << 1,
 							   "<Mtp> Unkown or unregistered user ""Fooman"""); // Token_UnknownUser
@@ -322,13 +322,13 @@ MtpAnalyzer::MtpAnalyzer()
 							   "<Mtp> Fooman disconnects (connection reset by huitre)"); // Token_SomeoneDisconnects
 	m_tokenRegexp << MtpRegExp("^<Mtp> You leave <Mtp> Chat !$",
 							   "<Mtp> You leave <Mtp> Chat !"); // Token_YouLeave
-	
+
 	m_tokenRegexp << MtpRegExp("^<Mtp> You join channel ("LOGIN_RE")$",
 							   QList<int>() << 1,
 							   "<Mtp> You join channel Foochan"); // Token_YouJoinChannel
 	m_tokenRegexp << MtpRegExp("^<Mtp> You leave channel ("LOGIN_RE")$",
 							   QList<int>() << 1,
-							   "<Mtp> You leave channel Foochan"); // Token_YouLeaveChannel	
+							   "<Mtp> You leave channel Foochan"); // Token_YouLeaveChannel
 	m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") joined channel ("LOGIN_RE")$",
 							   QList<int>() << 1 << 2,
 							   "<Mtp> Fooman joined channel Foochan"); // Token_SomeoneJoinChannel
@@ -358,7 +358,7 @@ MtpAnalyzer::MtpAnalyzer()
 	m_tokenRegexp << MtpRegExp("^<Mtp> Your client is now \"(.+)\"$",
 							   QList<int>() << 1,
 							   "<Mtp> Your client is now \"upset\""); // Token_YourClientIs
-	
+
 	m_tokenRegexp << MtpRegExp("^<Mtp> (.+)$",
 							   QList<int>() << 1,
 							   "<Mtp> Hi all, I'm system, guys!"); // Token_MtpSays
@@ -369,7 +369,7 @@ MtpAnalyzer::MtpAnalyzer()
 	m_tokenRegexp << MtpRegExp("^\\|("LOGIN_RE")\\| (.+)$",
 							   QList<int>() << 1 << 2,
 							   "|Fooman| red pill or blue pill?"); // Token_Data
-	
+
 	m_tokenRegexp << MtpRegExp(".*"); // Token_Unknown
 
 	// Fill send regexp
@@ -503,7 +503,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
 {
 	QVector<QString> arguments;
 	int ticketID = -1;
-	
+
 	if (data.endsWith('\n'))
 	{
 		// Record time stamp
@@ -514,7 +514,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
 
 		// Remove TELNET commands
 		newData = newData.replace(QString("%1%1").arg(QChar(255)), QChar(255));
-	
+
 		if (newData.indexOf(QChar(7)) >= 0) // Beep char
 			newData = newData.replace(QChar(7), "");
 
@@ -575,7 +575,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
 		for (int i = 0; i < tokensSize; i++)
         {
 			token = tokens[i];
-			
+
 			MtpRegExp &regExp = m_tokenRegexp[token];
 			if (regExp.exactMatch(newData))
 			{
@@ -603,7 +603,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
 						CommandTicket ticket = tickets[Command_Who][0];
 						ticketID = ticket.ID;
 						tickets[Command_Who].removeAt(0);
-					}						
+					}
 					break;
 				case Token_WhoEndNoUser:
 					m_state = State_Normal;
@@ -800,7 +800,7 @@ void MtpAnalyzer::clearTickets()
 QString MtpAnalyzer::rightTrim(const QString &str) const
 {
 	int length = str.length();
-	while (length > 0 && 
+	while (length > 0 &&
 		   (str[length - 1] == '\r' || str[length - 1] == '\n'))
 		length--;
 

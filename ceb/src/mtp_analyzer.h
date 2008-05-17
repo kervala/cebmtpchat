@@ -27,7 +27,7 @@
 
 class MtpRegExp : public QRegExp
 {
-public:	
+public:
 	MtpRegExp(const QString &pattern, const QList<int> arguments, const QString &example);
 	MtpRegExp(const QString &pattern, const QString &example);
 	MtpRegExp(const QString &pattern, const QList<int> arguments);
@@ -77,7 +77,7 @@ public:
 		Command command;
 		int ID;
 	};
-	
+
 	MtpAnalyzer();
 
 	bool logged() const;
@@ -92,7 +92,7 @@ public:
 	const QList<MtpRegExp> &tokenRegexp() const { return m_tokenRegexp; }
 
 	static const MtpAnalyzer defaultAnalyzer;
-	
+
 public slots:
 	void dataReceived(const QString &data);
 
@@ -116,9 +116,9 @@ private:
 	QList<MtpRegExp> m_tokenRegexp;
 	QList<QRegExp> sendTokenRegexp;
 	QRegExp timeRegexp;
-	
+
 	QList<CommandTicket> tickets[Command_Count];
-	
+
 	void analyzeBeforeLog(const QString &data);
 	void analyzeAfterLog(const QString &data);
 

@@ -52,13 +52,13 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
 void ChannelWidget::init()
 {
 	Profile &profile = *ProfileManager::instance().currentProfile();
-	
+
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	mainLayout->setMargin(2);
 
 	// Keep alive timer
 	connect(&timerKeepAlive, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-	
+
 	// Topic
 	widgetTopic = new QWidget(this);
 	QHBoxLayout *topicLayout = new QHBoxLayout(widgetTopic);
@@ -148,7 +148,7 @@ void ChannelWidget::init()
 	action = new QAction("kick", 0);
 	connect(action, SIGNAL(triggered()), this, SLOT(kick()));
 	listWidgetWho->addAction(action);
-	
+
 	action = new QAction("initiate a tell session", 0);
 	connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
 	listWidgetWho->addAction(action);
@@ -178,9 +178,9 @@ void ChannelWidget::init()
 
 	// Main input
 	stackedWidgetEntry = new QStackedWidget;
-	inputLayout->addWidget(stackedWidgetEntry);	
+	inputLayout->addWidget(stackedWidgetEntry);
 	stackedWidgetEntry->setMinimumHeight(20);
-	
+
 	// LineEdit
 	lineEditWidget = new ChatLineWidget;
 	palette = lineEditWidget->palette();
@@ -189,9 +189,9 @@ void ChannelWidget::init()
 	connect(lineEditWidget, SIGNAL(textValidated(const QString &)),
 		this, SLOT(sendText(const QString &)));
 	connect(lineEditWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
-	connect(lineEditWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));	
+	connect(lineEditWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
 	stackedWidgetEntry->addWidget(lineEditWidget);
-	
+
 	// HistoryWidget
 	historyWidget = new HistoryWidget;
 	palette = historyWidget->palette();
@@ -205,14 +205,14 @@ void ChannelWidget::init()
 	stackedWidgetEntry->addWidget(historyWidget);
 
 	stackedWidgetEntry->setCurrentIndex(0);
-	
+
 	// Filter combobox
 	comboBoxFilter = new QComboBox;
 	connect(comboBoxFilter, SIGNAL(activated(int)), this, SLOT(filterActivated(int)));
 	inputLayout->addWidget(comboBoxFilter);
-	
+
 	initScriptComboBox();
-	
+
 	QList<int> list2;
 	list2.append(0);
 	list2.append(m_session->config().entryHeight());
@@ -334,7 +334,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 	{
 		QListWidgetItem *item = new QListWidgetItem(listWidgetWho);
 		item->setText(event.arguments()[1]);
-	
+
 		if (event.arguments()[3] != m_session->channel())
 			item->setIcon(QIcon(":/images/yellow-led.png"));
 		else if (event.arguments()[4] == "*Away*")
@@ -469,11 +469,11 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 				listWidgetWho->takeItem(listWidgetWho->row(item));
 				delete item;
 			}
-			
+
 			// Who title
 			labelWhoTitle->setText(QString::number(listWidgetWho->count()) + tr(" users"));
 		}
-		
+
 		// History widget
 		historyWidget->removeCompletionWord(event.arguments()[1]);
 		break;
@@ -505,6 +505,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 	case Token_YourClientIs:
 		if (setClientTicketID == event.ticketID() && event.ticketID() >= 0)
 			return;
+                break;
 	case Token_SomeoneSays:
 		{
 			// Someone talks about you?
@@ -521,9 +522,9 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 		break;
 	default:;
 	};
-	
+
 	QString str = QString::number(sb->value());
-	
+
 	QString timeStamp = event.timeStamp().toString("hh:mm:ss ");
 	QString line = event.line();
 
@@ -546,7 +547,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 			break;
 		default:;
 		}
-	
+
 	// Display it!
 	m_tokenRenderer.displayToken(event, setTimeStamp);
 
@@ -557,7 +558,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 								   profile.textSkin().textFont().font(), QColor(255, 0, 0));
 
 	if (scrollDown)
-		textEditOutput->scrollOutputToBottom();	
+		textEditOutput->scrollOutputToBottom();
 
 	sendHighlightSignal(MinorHighlight);
 }
@@ -612,7 +613,7 @@ void ChannelWidget::sessionConnected()
 	Profile &profile = *ProfileManager::instance().currentProfile();
 	colorizeChatItems(profile.textSkin().backgroundColor());
 	stackedWidgetEntry->setCurrentIndex(0);
-	
+
 	textEditOutput->addString(tr("successful."), profile.textSkin().textFont().font(),
 		QColor(0, 200, 0));
 	textEditOutput->addNewLine("-", profile.textSkin().textFont().font(),
@@ -753,7 +754,7 @@ void ChannelWidget::refreshKeepAlivePolicy()
 			timerKeepAlive.stop();
 			timerKeepAlive.setInterval(profile.keepAlive * 1000);
 			timerKeepAlive.start();
-		}		
+		}
 	}
 }
 
@@ -910,7 +911,7 @@ void ChannelWidget::whoBlinking()
 				// It remains time to blink
 				userToWhoBlinkTime[user] = blinkTime - timerWhoBlinking.interval();
 				QListWidgetItem *item = getWhoItemByNickname(user);
-				if (item)					
+				if (item)
 				{
 					QColor currentColor = item->textColor();
 					int red = currentColor.red();
