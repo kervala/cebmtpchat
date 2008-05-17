@@ -56,6 +56,7 @@ void TellWidget::init()
     m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = m_textEditOutput->palette();
     palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     m_textEditOutput->setPalette(palette);
     QSizePolicy sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setVerticalStretch(1);

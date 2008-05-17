@@ -109,6 +109,7 @@ void ChannelWidget::init()
     textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = textEditOutput->palette();
     palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     textEditOutput->setPalette(palette);
     sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setHorizontalStretch(1);
