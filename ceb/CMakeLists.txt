@@ -141,20 +141,18 @@ ENDIF(MINGW)
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 IF(WIN32)
-  LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
-  ADD_EXECUTABLE(ceb WIN32 ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
-ELSE(WIN32)
-  ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
 ENDIF(WIN32)
+
+ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(
 		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} /usr/lib/liblua5.1.so
 	)
 ELSEIF(WIN32)
-#      LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
-message(${QT_QTMAIN_LIBRARY})
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/max.lib ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll
+		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.dll
+            -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
 	)
 ENDIF(UNIX)
