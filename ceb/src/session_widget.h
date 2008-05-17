@@ -25,46 +25,46 @@
 
 class SessionWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum HighlightType {
-		NoHighlight,
-		MinorHighlight,
-		MajorHighlight
-	};
+    enum HighlightType {
+        NoHighlight,
+        MinorHighlight,
+        MajorHighlight
+    };
 
-	SessionWidget(Session *session, QWidget *parent = 0);
+    SessionWidget(Session *session, QWidget *parent = 0);
 
-	Session *session() { return m_session; }
+    Session *session() { return m_session; }
 
-	QString caption() const;
+    QString caption() const;
 
-	bool stared() const { return m_stared; }
-	void setStared(bool stared) { m_stared = stared; }
+    bool stared() const { return m_stared; }
+    void setStared(bool stared) { m_stared = stared; }
 
-	HighlightType highlightType() const { return m_highlightType; }
+    HighlightType highlightType() const { return m_highlightType; }
 
-	void focusIt();
+    void focusIt();
 
-	virtual void applyFirstShow() {}
+    virtual void applyFirstShow() {}
 
 protected:
-	Session *m_session;
-	bool m_stared;
-	virtual QString widgetCaption() const = 0;
+    Session *m_session;
+    bool m_stared;
+    virtual QString widgetCaption() const = 0;
 
-	bool eventFilter(QObject *obj, QEvent *event); // catch some events
-	void sendHighlightSignal(HighlightType value);
+    bool eventFilter(QObject *obj, QEvent *event); // catch some events
+    void sendHighlightSignal(HighlightType value);
 
 private:
-	HighlightType m_highlightType;
+    HighlightType m_highlightType;
 
 signals:
-	void moveLeft();
-	void moveRight();
-	void closeMe();
-	void highlightMe();
+    void moveLeft();
+    void moveRight();
+    void closeMe();
+    void highlightMe();
 };
 
 #endif

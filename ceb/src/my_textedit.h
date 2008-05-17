@@ -62,7 +62,7 @@ private:
 	};
 
 	QList<QRegExp> urlRegexp;
-	
+
 	void insertLine(QTextCursor &cursor, const QString &line, const QFont &font, const QColor &color);
 
 signals:

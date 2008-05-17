@@ -65,6 +65,7 @@ SET(CEB_SRCS
 	src/action.cpp
 	src/actions_model.cpp
 	src/dialog_shortcut.cpp
+        src/search_widget.cpp
 )
 
 SET(CEB_UIS
@@ -120,6 +121,7 @@ SET(CEB_MOCH
 	src/shortcuts_settings_widget.h
 	src/actions_model.h
 	src/dialog_shortcut.h
+        src/search_widget.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)

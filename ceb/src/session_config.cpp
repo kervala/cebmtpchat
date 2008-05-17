@@ -93,7 +93,7 @@ void SessionConfig::save(QDomElement &rootElem)
 SessionConfig &SessionConfig::getTemplate()
 {
 	SessionConfig *config = new SessionConfig;
-	config->m_address = "mtpchat.zeninc.net";
+	config->m_address = "mtpchat.melting-pot.org";
 	config->m_port = 4000;
 	config->m_description = QObject::tr("Official mtp server");
 	config->m_autoconnect = false;
@@ -104,8 +104,8 @@ SessionConfig &SessionConfig::getTemplate()
 
 	// Default backup servers
 	QList<BackupServer> backupServers;
+	backupServers << BackupServer("mtpchat.melting-pot.org", 4000);
 	backupServers << BackupServer("mtpchat.zeninc.net", 4000);
-	backupServers << BackupServer("mtpchat2.zeninc.net", 4000);	
 
 	return *config;
 }
@@ -123,7 +123,7 @@ BackupServer SessionConfig::nextBackupServer(const QString address, int port) co
 	if (address != "" && m_backupServers.count() > 0)
 		return m_backupServers[0];
 
-	return BackupServer();	
+	return BackupServer();
 }
 
 ////////////////////////////

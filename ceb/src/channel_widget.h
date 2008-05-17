@@ -36,90 +36,94 @@
 #include "session.h"
 #include "my_textedit.h"
 #include "token_renderer.h"
+#include "search_widget.h"
 
 class ChannelWidget : public SessionWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ChannelWidget(Session *session,	QWidget *parent = 0);
+    ChannelWidget(Session *session, QWidget *parent = 0);
 
-	void applyFirstShow();
-	bool topicWindowVisible();
-	void showTopicWindow();
-	void hideTopicWindow();
-	void refreshKeepAlivePolicy();
-	void refreshFonts();
-	void refreshWhoColumn();
+    void applyFirstShow();
+    bool topicWindowVisible();
+    void showTopicWindow();
+    void hideTopicWindow();
+    void refreshKeepAlivePolicy();
+    void refreshFonts();
+    void refreshWhoColumn();
 
-	virtual QString widgetCaption() const;
+    virtual QString widgetCaption() const;
 
 protected:
-	bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-	QWidget *widgetTopic;
-	QLineEdit *lineEditTopic;
-	QSplitter *splitterOutIn;
-	QSplitter *splitterOutWho;
-	MyTextEdit *textEditOutput;
-	QLabel *labelWhoTitle;
-	QListWidget *listWidgetWho;
-	QStackedWidget *stackedWidgetEntry;
-	ChatLineWidget *lineEditWidget;
-	HistoryWidget *historyWidget;
-	QComboBox *comboBoxFilter;
-	TokenRenderer m_tokenRenderer;
+    QWidget *widgetTopic;
+    QLineEdit *lineEditTopic;
+    QSplitter *splitterOutIn;
+    QSplitter *splitterOutWho;
+    MyTextEdit *textEditOutput;
+    SearchWidget *_searchWidget;
+    QLabel *labelWhoTitle;
+    QListWidget *listWidgetWho;
+    QStackedWidget *stackedWidgetEntry;
+    ChatLineWidget *lineEditWidget;
+    HistoryWidget *historyWidget;
+    QComboBox *comboBoxFilter;
+    TokenRenderer m_tokenRenderer;
 
-	int whoTicketID;
-	int dateTicketID;
-	int setClientTicketID;
-	int helpTicketID;
-	QTimer timerKeepAlive;
-	QTimer timerWhoBlinking;
-	QMap<QString,int> userToWhoBlinkTime;
-	QMap<QString,bool> userToWhoAscendingOrder;
-	QRegExp regExpAboutMe;
-	bool firstShow;
-	QList<BackupServer> m_backupServers;
-	bool m_backupServersHelp; // Is true if the current help is about serverlist
+    int whoTicketID;
+    int dateTicketID;
+    int setClientTicketID;
+    int helpTicketID;
+    QTimer timerKeepAlive;
+    QTimer timerWhoBlinking;
+    QMap<QString,int> userToWhoBlinkTime;
+    QMap<QString,bool> userToWhoAscendingOrder;
+    QRegExp regExpAboutMe;
+    bool firstShow;
+    QList<BackupServer> m_backupServers;
+    bool m_backupServersHelp; // Is true if the current help is about serverlist
 
-	void init();
-	QListWidgetItem *getWhoItemByNickname(const QString &nickname);
-	void colorizeChatItems(const QColor &color);
-	void changeLoginInWhoColumn(const QString &oldLogin,
-					const QString &newLogin);
-	void initScriptComboBox();
+    void init();
+    QListWidgetItem *getWhoItemByNickname(const QString &nickname);
+    void colorizeChatItems(const QColor &color);
+    void changeLoginInWhoColumn(const QString &oldLogin,
+                                const QString &newLogin);
+    void initScriptComboBox();
+    void toggleSearchWidgetVisibility();
 
 private slots:
-	void sendText(const QString &text);
-	void newTokenFromSession(const TokenEvent &event);
-	void sessionConnecting();
-	void sessionConnected();
-	void sessionLogged();
-	void sessionDisconnected();
-	void sessionSocketError(const QString &errorStr);
-	void outputKeyPressed(const QKeyEvent &e);
-	void splitterInOutMoved(int pos, int index);
-	void splitterOutWhoMoved(int pos, int index);
-	void historyPageUp();
-	void historyPageDown();
-	void timerTimeout();
-	void whoItemDoubleClicked(QListWidgetItem *item);
-	void loginChanged(const QString &oldLogin, const QString &newLogin);
-	void finger();
-	void beep();
-	void kick();
-	void initiateTellSession();
-	void sendAFile();
-	void filterActivated(int index);
-	void outputFilterSendToChat(const QString &text);
-	void whoBlinking();
+    void sendText(const QString &text);
+    void newTokenFromSession(const TokenEvent &event);
+    void sessionConnecting();
+    void sessionConnected();
+    void sessionLogged();
+    void sessionDisconnected();
+    void sessionSocketError(const QString &errorStr);
+    void outputKeyPressed(const QKeyEvent &e);
+    void splitterInOutMoved(int pos, int index);
+    void splitterOutWhoMoved(int pos, int index);
+    void historyPageUp();
+    void historyPageDown();
+    void timerTimeout();
+    void whoItemDoubleClicked(QListWidgetItem *item);
+    void loginChanged(const QString &oldLogin, const QString &newLogin);
+    void finger();
+    void beep();
+    void kick();
+    void initiateTellSession();
+    void sendAFile();
+    void filterActivated(int index);
+    void outputFilterSendToChat(const QString &text);
+    void whoBlinking();
+    void hideSearchWidget();
 
 signals:
-	void whoUserDoubleClicked(const QString &login);
-	void tellSessionAsked(const QString &login);
-	void showFileTransfers();
+    void whoUserDoubleClicked(const QString &login);
+    void tellSessionAsked(const QString &login);
+    void showFileTransfers();
 };
 
 #endif

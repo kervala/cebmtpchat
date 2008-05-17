@@ -47,7 +47,7 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow();
 	~MainWindow();
-	
+
 protected:
 	void closeEvent(QCloseEvent *event);
 #if defined(Q_OS_WIN32)
@@ -110,7 +110,7 @@ private:
 	CmdOutputWidget *newCmdOutputWidget(Session *session, const QString &cmdName);
 
 	// File transfers things
-	TransfersWidget *getTransfersWidget(Session *session);	
+	TransfersWidget *getTransfersWidget(Session *session);
 	TransfersWidget *newTransfersWidget(Session *session);
 
 	// Message things

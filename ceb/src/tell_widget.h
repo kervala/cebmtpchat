@@ -29,52 +29,59 @@
 #include "session.h"
 #include "my_textedit.h"
 #include "token_renderer.h"
+#include "search_widget.h"
 
 class TellWidget : public SessionWidget
 {
 	Q_OBJECT
 
 public:
-	TellWidget(Session *session, const QString &login, QWidget *parent = 0);
+    TellWidget(Session *session, const QString &login, QWidget *parent = 0);
 
-	const QString &login() const;
-	void setLogin(const QString &newLogin);
-	void applyFirstShow();
-	bool userAway() const;
-	void setUserAway(bool userAway);
-	void refreshFonts();
+    const QString &login() const;
+    void setLogin(const QString &newLogin);
+    void applyFirstShow();
+    bool userAway() const;
+    void setUserAway(bool userAway);
+    void refreshFonts();
 
-	virtual QString widgetCaption() const;
+    virtual QString widgetCaption() const;
 
 public slots:
-	void newTokenFromSession(const TokenEvent &event);
+    void newTokenFromSession(const TokenEvent &event);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-	static const int chatBlockNoOne = 0;
-	static const int chatBlockYou = 1;
-	static const int chatBlockHim = 2;
+    static const int chatBlockNoOne = 0;
+    static const int chatBlockYou = 1;
+    static const int chatBlockHim = 2;
 
-	bool m_firstShow;
-	QString m_login;
-	MyTextEdit *m_textEditOutput;
-	HistoryWidget *m_historyWidget;
-	bool m_userAway;
-	QComboBox *comboBoxFilter;
-	TokenRenderer m_tokenRenderer;
-	int m_chatBlock;
+    bool m_firstShow;
+    QString m_login;
+    MyTextEdit *m_textEditOutput;
+    HistoryWidget *m_historyWidget;
+    bool m_userAway;
+    QComboBox *comboBoxFilter;
+    TokenRenderer m_tokenRenderer;
+    int m_chatBlock;
+    SearchWidget *_searchWidget;
 
-	void init();
-	void scrollOutputToBottom();
-	void setTextColor(int r, int g, int b);
-	void initScriptComboBox();
+    void init();
+    void scrollOutputToBottom();
+    void setTextColor(int r, int g, int b);
+    void initScriptComboBox();
+    void toggleSearchWidgetVisibility();
 
 private slots:
-	void sendText(const QString &text);
-	void outputKeyPressed(const QKeyEvent &e);
-	void historyPageUp();
-	void historyPageDown();
-	void outputFilterSendToChat(const QString &text);
-	void filterActivated(int index);
+    void sendText(const QString &text);
+    void outputKeyPressed(const QKeyEvent &e);
+    void historyPageUp();
+    void historyPageDown();
+    void outputFilterSendToChat(const QString &text);
+    void filterActivated(int index);
+    void hideSearchWidget();
 };
 
 #endif
