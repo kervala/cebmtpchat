@@ -53,8 +53,8 @@ private slots:
     void lineEditTextChanged(const QString &text);
     void searchForPrevious();
     void searchForNext();
-	void caseSensitiveActionTriggered(bool checked);
-	void completeWordsActionTriggered(bool checked);
+    void caseSensitiveActionTriggered(bool checked);
+    void completeWordsActionTriggered(bool checked);
 };
 
 #endif
