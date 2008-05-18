@@ -26,36 +26,36 @@
 
 class Logger : public QObject
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+
 private:
-	static Logger *_instance;
+    static Logger *_instance;
 
-	Logger();
-	~Logger();
-	
-	QString getLogsDir();
-	QString getFileName(const QString &prefix);
-	QString getCurrentDay();
-	QString getCurrentDayWeekRange();
-	QString getCurrentDayMonthRange();
+    Logger();
+    ~Logger();
 
-	QMap<QString,QFile*> files;
-	QString oldPostFix;
-	
+    QString getLogsDir();
+    QString getFileName(const QString &prefix);
+    QString getCurrentDay();
+    QString getCurrentDayWeekRange();
+    QString getCurrentDayMonthRange();
+
+    QMap<QString,QFile*> files;
+    QString oldPostFix;
+
 public:
-	static Logger &instance();
-	static void free();
-	
-	// Prefix will be append to the file name
-	// ex.
-	// log("test", ...) will gives : 
-	// => test - 10.25.2005.log (daily)
-	// => test - 10.20.2005-10.26.2005.log (weekly)
-	// => test - 10.01.2005-10.31.2005.log (monthly)
-	void log(const QString &prefix, const QString &line);
-	// Same as above but with star padding
-	void logWithStarPadding(const QString &prefix, const QString &line);
+    static Logger &instance();
+    static void free();
+
+    // Prefix will be append to the file name
+    // ex.
+    // log("test", ...) will gives :
+    // => test - 10.25.2005.log (daily)
+    // => test - 10.20.2005-10.26.2005.log (weekly)
+    // => test - 10.01.2005-10.31.2005.log (monthly)
+    void log(const QString &prefix, const QString &line);
+    // Same as above but with star padding
+    void logWithStarPadding(const QString &prefix, const QString &line);
 };
 
 

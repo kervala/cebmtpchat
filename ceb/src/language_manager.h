@@ -25,13 +25,13 @@
 class LanguageManager
 {
 private:
-	static bool languageDisplayNameInitialized;
-	static QMap<QString, QString> languageDisplayNames;
-	static void init();
+    static bool languageDisplayNameInitialized;
+    static QMap<QString, QString> languageDisplayNames;
+    static void init();
 public:
-	static QString getLanguageDisplayName(const QString &language);
-	static QStringList getAvailableLanguages();
-	static QString getLanguageFileName(const QString &language);
+    static QString getLanguageDisplayName(const QString &language);
+    static QStringList getAvailableLanguages();
+    static QString getLanguageFileName(const QString &language);
 };
 
 #endif

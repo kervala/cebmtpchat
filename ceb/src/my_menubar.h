@@ -23,28 +23,27 @@
 
 class MyMenuBar : public QMenuBar
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	bool _updateAvailable;
-	bool updateIconPressed;
-	bool mouseOverIcon;
+    bool _updateAvailable;
+    bool updateIconPressed;
+    bool mouseOverIcon;
 
 protected:
-	virtual void paintEvent(QPaintEvent * event);
-	virtual void mousePressEvent(QMouseEvent *event);
-	virtual void mouseReleaseEvent(QMouseEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void paintEvent(QPaintEvent * event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
 
 public:
-	MyMenuBar(QWidget *parent = 0);
+    MyMenuBar(QWidget *parent = 0);
 
-	bool updateAvailable() const;
-	void setUpdateAvailable(bool value);
+    bool updateAvailable() const;
+    void setUpdateAvailable(bool value);
 
 signals:
-	void iconClicked();
-	
+    void iconClicked();
 };
 
 #endif

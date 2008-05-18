@@ -19,23 +19,23 @@
 #include "token_event.h"
 
 TokenEvent::TokenEvent(MtpToken token, const QStringList &arguments,
-					   const QList<int> &positions, int ticketID, const QTime &timeStamp)
+                       const QList<int> &positions, int ticketID, const QTime &timeStamp)
 {
-	init(token, arguments, positions, ticketID, timeStamp);
+    init(token, arguments, positions, ticketID, timeStamp);
 }
 
 TokenEvent::TokenEvent(MtpToken token, const QStringList &arguments,
-					   const QList<int> &positions, int ticketID)
+                       const QList<int> &positions, int ticketID)
 {
-	init(token, arguments, positions, ticketID, QTime::currentTime());
+    init(token, arguments, positions, ticketID, QTime::currentTime());
 }
 
 void TokenEvent::init(MtpToken token, const QStringList &arguments,
-					  const QList<int> &positions, int ticketID, const QTime &timeStamp)
+                      const QList<int> &positions, int ticketID, const QTime &timeStamp)
 {
-	m_token = token;
-	m_arguments = arguments;
-	m_positions = positions;
-	m_timeStamp = timeStamp;
-	m_ticketID = ticketID;
+    m_token = token;
+    m_arguments = arguments;
+    m_positions = positions;
+    m_timeStamp = timeStamp;
+    m_ticketID = ticketID;
 }

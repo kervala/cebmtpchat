@@ -24,98 +24,98 @@
 
 SoundSettingsWidget::SoundSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 void SoundSettingsWidget::applyProfile(const Profile &profile)
 {
-	// Parameters
-	groupBoxBeep->setChecked(profile.soundBeepEnabled);
-	if (profile.soundBeepDefault)
-		radioButtonBeepDefault->setChecked(true);
-	else
-		radioButtonBeepCustom->setChecked(true);
-	lineEditBeepCustom->setText(profile.soundBeepFileName);
+    // Parameters
+    groupBoxBeep->setChecked(profile.soundBeepEnabled);
+    if (profile.soundBeepDefault)
+        radioButtonBeepDefault->setChecked(true);
+    else
+        radioButtonBeepCustom->setChecked(true);
+    lineEditBeepCustom->setText(profile.soundBeepFileName);
 
-	groupBoxAboutMe->setChecked(profile.soundAboutMeEnabled);
-	if (profile.soundAboutMeDefault)
-		radioButtonAboutMeDefault->setChecked(true);
-	else
-		radioButtonAboutMeCustom->setChecked(true);
-	lineEditAboutMeCustom->setText(profile.soundAboutMeFileName);
+    groupBoxAboutMe->setChecked(profile.soundAboutMeEnabled);
+    if (profile.soundAboutMeDefault)
+        radioButtonAboutMeDefault->setChecked(true);
+    else
+        radioButtonAboutMeCustom->setChecked(true);
+    lineEditAboutMeCustom->setText(profile.soundAboutMeFileName);
 }
 
 void SoundSettingsWidget::feedProfile(Profile &profile)
 {
-	profile.soundBeepEnabled = groupBoxBeep->isChecked();
-	profile.soundBeepDefault = radioButtonBeepDefault->isChecked();
-	profile.soundBeepFileName = lineEditBeepCustom->text();
+    profile.soundBeepEnabled = groupBoxBeep->isChecked();
+    profile.soundBeepDefault = radioButtonBeepDefault->isChecked();
+    profile.soundBeepFileName = lineEditBeepCustom->text();
 
-	profile.soundAboutMeEnabled = groupBoxAboutMe->isChecked();
-	profile.soundAboutMeDefault = radioButtonAboutMeDefault->isChecked();
-	profile.soundAboutMeFileName = lineEditAboutMeCustom->text();
+    profile.soundAboutMeEnabled = groupBoxAboutMe->isChecked();
+    profile.soundAboutMeDefault = radioButtonAboutMeDefault->isChecked();
+    profile.soundAboutMeFileName = lineEditAboutMeCustom->text();
 }
 
 void SoundSettingsWidget::on_pushButtonBeepDefaultPlay_clicked()
 {
-	QDir appDir(QApplication::applicationDirPath());
+    QDir appDir(QApplication::applicationDirPath());
 
-	if (appDir.cd("resources"))
-	{
-		QString fileName = appDir.absoluteFilePath("notify.wav");
-		if (QFile::exists(fileName))
-		{
-			QSound s(fileName);
-			s.play();
-		}
-	}
+    if (appDir.cd("resources"))
+    {
+        QString fileName = appDir.absoluteFilePath("notify.wav");
+        if (QFile::exists(fileName))
+        {
+            QSound s(fileName);
+            s.play();
+        }
+    }
 }
 
 void SoundSettingsWidget::on_pushButtonBeepCustomPlay_clicked()
 {
-	if (QFile::exists(lineEditBeepCustom->text()))
-	{
-		QSound s(lineEditBeepCustom->text());
-		s.play();
-	}
+    if (QFile::exists(lineEditBeepCustom->text()))
+    {
+        QSound s(lineEditBeepCustom->text());
+        s.play();
+    }
 }
 
 void SoundSettingsWidget::on_toolButtonBeepCustom_clicked()
 {
-	QString filename = QFileDialog::getOpenFileName(this, tr("Choose a wav file"),
-		"", "Wav (*.wav)");
-	if (!filename.isNull())
-		lineEditBeepCustom->setText(filename);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Choose a wav file"),
+                                                    "", "Wav (*.wav)");
+    if (!filename.isNull())
+        lineEditBeepCustom->setText(filename);
 }
 
 void SoundSettingsWidget::on_pushButtonAboutMeDefaultPlay_clicked()
 {
-	QDir appDir(QApplication::applicationDirPath());
+    QDir appDir(QApplication::applicationDirPath());
 
-	if (appDir.cd("resources"))
-	{
-		QString fileName = appDir.absoluteFilePath("notify.wav");
-		if (QFile::exists(fileName))
-		{
-			QSound s(fileName);
-			s.play();
-		}
-	}
+    if (appDir.cd("resources"))
+    {
+        QString fileName = appDir.absoluteFilePath("notify.wav");
+        if (QFile::exists(fileName))
+        {
+            QSound s(fileName);
+            s.play();
+        }
+    }
 }
 
 void SoundSettingsWidget::on_pushButtonAboutMeCustomPlay_clicked()
 {
-	if (QFile::exists(lineEditAboutMeCustom->text()))
-	{
-		QSound s(lineEditAboutMeCustom->text());
-		s.play();
-	}
+    if (QFile::exists(lineEditAboutMeCustom->text()))
+    {
+        QSound s(lineEditAboutMeCustom->text());
+        s.play();
+    }
 }
 
 void SoundSettingsWidget::on_toolButtonAboutMeCustom_clicked()
 {
-	QString filename = QFileDialog::getOpenFileName(this, tr("Choose a wav file"),
-		"", "Wav (*.wav)");
-	if (!filename.isNull())
-		lineEditAboutMeCustom->setText(filename);
+    QString filename = QFileDialog::getOpenFileName(this, tr("Choose a wav file"),
+                                                    "", "Wav (*.wav)");
+    if (!filename.isNull())
+        lineEditAboutMeCustom->setText(filename);
 }

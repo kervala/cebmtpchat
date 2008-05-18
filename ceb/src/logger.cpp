@@ -28,172 +28,172 @@ Logger *Logger::_instance = 0;
 
 Logger &Logger::instance()
 {
-	if (!_instance)
-		_instance = new Logger;
-	return *_instance;
+    if (!_instance)
+        _instance = new Logger;
+    return *_instance;
 }
 
 void Logger::free()
 {
-	if (_instance)
-	{
-		delete _instance;
-		_instance = 0;
-	}
+    if (_instance)
+    {
+        delete _instance;
+        _instance = 0;
+    }
 }
 
 Logger::Logger(): QObject()
 {
-	
+
 }
 
 Logger::~Logger()
 {
-	for (QMap<QString,QFile*>::iterator it = files.begin(); it != files.end(); it++)
-	{
-		// Close file (if opened) and destroy the file
-		QFile *file = it.value();
-		file->close();
-		delete file;
-	}
-} 
+    for (QMap<QString,QFile*>::iterator it = files.begin(); it != files.end(); it++)
+    {
+        // Close file (if opened) and destroy the file
+        QFile *file = it.value();
+        file->close();
+        delete file;
+    }
+}
 
 QString Logger::getLogsDir()
 {
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
-	if (profile.logsDefaultDir)
-		return QApplication::applicationDirPath() + "/logs/";
-	else
-	{
-		QString logsDir = profile.logsDir;
-		if (!logsDir.isEmpty() && logsDir[logsDir.length() - 1] != '/')
-			logsDir += "/";
-		return logsDir;
-	}
+    if (profile.logsDefaultDir)
+        return QApplication::applicationDirPath() + "/logs/";
+    else
+    {
+        QString logsDir = profile.logsDir;
+        if (!logsDir.isEmpty() && logsDir[logsDir.length() - 1] != '/')
+            logsDir += "/";
+        return logsDir;
+    }
 }
 
 QString Logger::getFileName(const QString &prefix)
 {
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
-	QString fileName = QDir::convertSeparators(getLogsDir()) + prefix;
+    QString fileName = QDir::convertSeparators(getLogsDir()) + prefix;
 
-	switch (profile.logsFilePolicy)
-	{
-	case Profile::LogFilePolicy_Daily:
-		return fileName + " - " + getCurrentDay() + ".log";
-	case Profile::LogFilePolicy_Weekly:
-		return fileName + " - " + getCurrentDayWeekRange() + ".log";
-	case Profile::LogFilePolicy_Monthly:
-		return fileName + " - " + getCurrentDayMonthRange() + ".log";
-	default:
-		return fileName + ".log";
-	}
+    switch (profile.logsFilePolicy)
+    {
+    case Profile::LogFilePolicy_Daily:
+        return fileName + " - " + getCurrentDay() + ".log";
+    case Profile::LogFilePolicy_Weekly:
+        return fileName + " - " + getCurrentDayWeekRange() + ".log";
+    case Profile::LogFilePolicy_Monthly:
+        return fileName + " - " + getCurrentDayMonthRange() + ".log";
+    default:
+        return fileName + ".log";
+    }
 }
 
 void Logger::log(const QString &prefix, const QString &line)
 {
     Profile &profile = *ProfileManager::instance().currentProfile();
 
-	if (!profile.logsEnabled)
-		return;
+    if (!profile.logsEnabled)
+        return;
 
-	QDir dir(getLogsDir());
-	if (!dir.exists())
-		return;
+    QDir dir(getLogsDir());
+    if (!dir.exists())
+        return;
 
-	QString fileName = getFileName(prefix);
+    QString fileName = getFileName(prefix);
 
-	// Is fileName in <files>?
-	QMap<QString,QFile*>::iterator it = files.find(prefix);
+    // Is fileName in <files>?
+    QMap<QString,QFile*>::iterator it = files.find(prefix);
 
-	QFile *file;
-	if (it != files.end())
-	{
-		file = it.value();
-		// Is old filename matches the new filename
-		QString oldFileName = file->fileName();
+    QFile *file;
+    if (it != files.end())
+    {
+        file = it.value();
+        // Is old filename matches the new filename
+        QString oldFileName = file->fileName();
 
-		if (oldFileName != fileName)
-		{
-			// filename has changed => close current file and re-open
-			file->close();
-			delete file;
-			file = new QFile(fileName);
-			files.insert(prefix, file);
-			
-			// Open the file
-			QIODevice::OpenMode openMode;
-			if (file->exists())
-				openMode = QIODevice::Append | QIODevice::Text;
-			else
-				openMode = QIODevice::WriteOnly | QIODevice::Text;
-			
-			if (!file->open(openMode))
-				return;
-		}
-	}
-	else
-	{
-		file = new QFile(fileName);
-		files.insert(prefix, file);
+        if (oldFileName != fileName)
+        {
+            // filename has changed => close current file and re-open
+            file->close();
+            delete file;
+            file = new QFile(fileName);
+            files.insert(prefix, file);
 
-		// Open the file
-		QIODevice::OpenMode openMode;
-		if (file->exists())
-			openMode = QIODevice::Append | QIODevice::Text;
-		else
-			openMode = QIODevice::WriteOnly | QIODevice::Text;
-			
-		if (!file->open(openMode))
-			return;
-	}
+            // Open the file
+            QIODevice::OpenMode openMode;
+            if (file->exists())
+                openMode = QIODevice::Append | QIODevice::Text;
+            else
+                openMode = QIODevice::WriteOnly | QIODevice::Text;
 
-	// Write the line
-	QTextStream logOut(file);
-	logOut << line << endl;
-	file->flush();	
+            if (!file->open(openMode))
+                return;
+        }
+    }
+    else
+    {
+        file = new QFile(fileName);
+        files.insert(prefix, file);
+
+        // Open the file
+        QIODevice::OpenMode openMode;
+        if (file->exists())
+            openMode = QIODevice::Append | QIODevice::Text;
+        else
+            openMode = QIODevice::WriteOnly | QIODevice::Text;
+
+        if (!file->open(openMode))
+            return;
+    }
+
+    // Write the line
+    QTextStream logOut(file);
+    logOut << line << endl;
+    file->flush();
 }
 
 void Logger::logWithStarPadding(const QString &prefix, const QString &line)
 {
-	QString str;
+    QString str;
 
-	// Padd to 80 chars
-	if (line.length() < 79)
-	{
-		for (int i = 0; i < 79 - line.length() - 1; i++)
-			str += "*";
-		str = str + " ";
-	}
-	
-	log(prefix, str + line);
+    // Padd to 80 chars
+    if (line.length() < 79)
+    {
+        for (int i = 0; i < 79 - line.length() - 1; i++)
+            str += "*";
+        str = str + " ";
+    }
+
+    log(prefix, str + line);
 }
 
 QString Logger::getCurrentDay()
 {
-	return QDate::currentDate().toString("yyyy.MM.dd");
+    return QDate::currentDate().toString("yyyy.MM.dd");
 }
 
 QString Logger::getCurrentDayWeekRange()
 {
-	QDate date = QDate::currentDate();
-	QDate firstDate = date.addDays(1 - date.dayOfWeek());
-	QDate lastDate = date.addDays(7 - date.dayOfWeek());
+    QDate date = QDate::currentDate();
+    QDate firstDate = date.addDays(1 - date.dayOfWeek());
+    QDate lastDate = date.addDays(7 - date.dayOfWeek());
 
-	return firstDate.toString("yyyy.MM.dd") + "-" +
-		lastDate.toString("yyyy.MM.dd");
+    return firstDate.toString("yyyy.MM.dd") + "-" +
+        lastDate.toString("yyyy.MM.dd");
 }
 
 QString Logger::getCurrentDayMonthRange()
 {
-	QDate date = QDate::currentDate();
-	QDate firstDate = date.addDays(1 - date.day());
-	QDate lastDate = date.addDays(date.daysInMonth() - date.day());
+    QDate date = QDate::currentDate();
+    QDate firstDate = date.addDays(1 - date.day());
+    QDate lastDate = date.addDays(date.daysInMonth() - date.day());
 
-	return firstDate.toString("yyyy.MM.dd") + "-" +
-		lastDate.toString("yyyy.MM.dd");
+    return firstDate.toString("yyyy.MM.dd") + "-" +
+        lastDate.toString("yyyy.MM.dd");
 }
 
 

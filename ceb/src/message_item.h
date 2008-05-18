@@ -24,20 +24,20 @@
 class MessageItem
 {
 public:
-	MessageItem() {}
-	MessageItem(const QString &dateTime, const QString &sender, const QString &message);
+    MessageItem() {}
+    MessageItem(const QString &dateTime, const QString &sender, const QString &message);
 
-	QString dateTime() const { return m_dateTime; }
-	void setDateTime(const QString &dateTime) { m_dateTime = dateTime; }
-	QString sender() const { return m_sender; }
-	void setSender(const QString &sender) { m_sender = sender; }
-	QString message() const { return m_message; }
-	void setMessage(const QString &message) { m_message = message; }
+    QString dateTime() const { return m_dateTime; }
+    void setDateTime(const QString &dateTime) { m_dateTime = dateTime; }
+    QString sender() const { return m_sender; }
+    void setSender(const QString &sender) { m_sender = sender; }
+    QString message() const { return m_message; }
+    void setMessage(const QString &message) { m_message = message; }
 
 private:
-	QString m_dateTime;
-	QString m_sender;
-	QString m_message;
+    QString m_dateTime;
+    QString m_sender;
+    QString m_message;
 };
 
 #endif

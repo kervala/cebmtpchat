@@ -7,10 +7,10 @@
 
 void MyMenuBar::paintEvent(QPaintEvent *event)
 {
-	QMenuBar::paintEvent(event);
+    QMenuBar::paintEvent(event);
 
 #ifdef Q_OS_WIN32
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
     if (profile.checkForUpdate)
     {
@@ -37,30 +37,30 @@ void MyMenuBar::paintEvent(QPaintEvent *event)
 
 bool MyMenuBar::updateAvailable() const
 {
-	return _updateAvailable;
+    return _updateAvailable;
 }
 
 void MyMenuBar::setUpdateAvailable(bool value)
 {
-	if (_updateAvailable != value)
-	{
-		_updateAvailable = value;
-		repaint();
-	}
+    if (_updateAvailable != value)
+    {
+        _updateAvailable = value;
+        repaint();
+    }
 }
 
 MyMenuBar::MyMenuBar(QWidget *parent) : QMenuBar(parent)
 {
-	_updateAvailable = false;
-	updateIconPressed = false;
+    _updateAvailable = false;
+    updateIconPressed = false;
 }
 
 void MyMenuBar::mousePressEvent(QMouseEvent *event)
 {
-	QMenuBar::mousePressEvent(event);
+    QMenuBar::mousePressEvent(event);
 
 #ifdef Q_OS_WIN32
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
     if (profile.checkForUpdate)
     {
@@ -70,7 +70,7 @@ void MyMenuBar::mousePressEvent(QMouseEvent *event)
             (event->y() >= 0) &&
             (event->y() < 16);
         mouseOverIcon = updateIconPressed;
-        
+
         if (updateIconPressed)
             repaint();
     }
@@ -79,10 +79,10 @@ void MyMenuBar::mousePressEvent(QMouseEvent *event)
 
 void MyMenuBar::mouseReleaseEvent(QMouseEvent *event)
 {
-	QMenuBar::mouseReleaseEvent(event);
+    QMenuBar::mouseReleaseEvent(event);
 
 #ifdef Q_OS_WIN32
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
     if (profile.checkForUpdate)
     {
@@ -104,10 +104,10 @@ void MyMenuBar::mouseReleaseEvent(QMouseEvent *event)
 
 void MyMenuBar::mouseMoveEvent(QMouseEvent *event)
 {
-	QMenuBar::mouseMoveEvent(event);
+    QMenuBar::mouseMoveEvent(event);
 
 #ifdef Q_OS_WIN32
-	Profile &profile = *ProfileManager::instance().currentProfile();
+    Profile &profile = *ProfileManager::instance().currentProfile();
 
     if (profile.checkForUpdate)
     {

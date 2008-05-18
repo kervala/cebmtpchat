@@ -25,13 +25,13 @@
 
 class WarningoSettingsWidget : public SettingsWidget, private Ui::WarningoSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	WarningoSettingsWidget(QWidget *parent = 0);
+    WarningoSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &profile);
-	void feedProfile(Profile &profile);	
+    void applyProfile(const Profile &profile);
+    void feedProfile(Profile &profile);
 };
 
 #endif

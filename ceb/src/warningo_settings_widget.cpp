@@ -20,57 +20,49 @@
 
 WarningoSettingsWidget::WarningoSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 void WarningoSettingsWidget::applyProfile(const Profile &profile)
 {
-	groupBoxEnable->setChecked(profile.warningoEnabled);
+    groupBoxEnable->setChecked(profile.warningoEnabled);
 
-	// General
-	spinBoxLifeTime->setValue(profile.warningoLifeTime);
+    // General
+    spinBoxLifeTime->setValue(profile.warningoLifeTime);
 
-	// Location
-	switch (profile.warningoLocation)
-	{
-	case Profile::WarningoLocation_TopLeft: 
-		radioButtonTopLeft->setChecked(true);
-		break;
-	case Profile::WarningoLocation_TopRight: 
-		radioButtonTopRight->setChecked(true);
-		break;
-	case Profile::WarningoLocation_BottomLeft: 
-		radioButtonBottomLeft->setChecked(true);
-		break;
-	case Profile::WarningoLocation_BottomRight:
-		radioButtonBottomRight->setChecked(true);
-		break;
-	default:;
-	}
+    // Location
+    switch (profile.warningoLocation)
+    {
+    case Profile::WarningoLocation_TopLeft: radioButtonTopLeft->setChecked(true); break;
+    case Profile::WarningoLocation_TopRight: radioButtonTopRight->setChecked(true); break;
+    case Profile::WarningoLocation_BottomLeft: radioButtonBottomLeft->setChecked(true); break;
+    case Profile::WarningoLocation_BottomRight: radioButtonBottomRight->setChecked(true); break;
+    default:;
+    }
 
-	// Events
-	checkBoxPrivateSentences->setChecked(profile.warningoPrivate);
-	checkBoxAboutMe->setChecked(profile.warningoHighlight);
+    // Events
+    checkBoxPrivateSentences->setChecked(profile.warningoPrivate);
+    checkBoxAboutMe->setChecked(profile.warningoHighlight);
 }
 
 void WarningoSettingsWidget::feedProfile(Profile &profile)
 {
-	profile.warningoEnabled = groupBoxEnable->isChecked();
+    profile.warningoEnabled = groupBoxEnable->isChecked();
 
-	// General
-	profile.warningoLifeTime = spinBoxLifeTime->value();
+    // General
+    profile.warningoLifeTime = spinBoxLifeTime->value();
 
-	// Location
-	if (radioButtonTopLeft->isChecked())
-		profile.warningoLocation = Profile::WarningoLocation_TopLeft;
-	else if (radioButtonTopRight->isChecked())
-		profile.warningoLocation = Profile::WarningoLocation_TopRight;
-	else if (radioButtonBottomLeft->isChecked())
-		profile.warningoLocation = Profile::WarningoLocation_BottomLeft;
-	else if (radioButtonBottomRight->isChecked())
-		profile.warningoLocation = Profile::WarningoLocation_BottomRight;
+    // Location
+    if (radioButtonTopLeft->isChecked())
+        profile.warningoLocation = Profile::WarningoLocation_TopLeft;
+    else if (radioButtonTopRight->isChecked())
+        profile.warningoLocation = Profile::WarningoLocation_TopRight;
+    else if (radioButtonBottomLeft->isChecked())
+        profile.warningoLocation = Profile::WarningoLocation_BottomLeft;
+    else if (radioButtonBottomRight->isChecked())
+        profile.warningoLocation = Profile::WarningoLocation_BottomRight;
 
-	// Events
-	profile.warningoPrivate = checkBoxPrivateSentences->isChecked();
-	profile.warningoHighlight = checkBoxAboutMe->isChecked();
+    // Events
+    profile.warningoPrivate = checkBoxPrivateSentences->isChecked();
+    profile.warningoHighlight = checkBoxAboutMe->isChecked();
 }

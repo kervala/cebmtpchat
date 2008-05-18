@@ -25,21 +25,21 @@
 
 class SoundSettingsWidget : public SettingsWidget, private Ui::SoundSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SoundSettingsWidget(QWidget *parent = 0);
+    SoundSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &profile);
-	void feedProfile(Profile &profile);	
+    void applyProfile(const Profile &profile);
+    void feedProfile(Profile &profile);
 
 private slots:
-	void on_pushButtonBeepDefaultPlay_clicked();
-	void on_pushButtonBeepCustomPlay_clicked();
-	void on_toolButtonBeepCustom_clicked();
-	void on_pushButtonAboutMeDefaultPlay_clicked();
-	void on_pushButtonAboutMeCustomPlay_clicked();
-	void on_toolButtonAboutMeCustom_clicked();
+    void on_pushButtonBeepDefaultPlay_clicked();
+    void on_pushButtonBeepCustomPlay_clicked();
+    void on_toolButtonBeepCustom_clicked();
+    void on_pushButtonAboutMeDefaultPlay_clicked();
+    void on_pushButtonAboutMeCustomPlay_clicked();
+    void on_toolButtonAboutMeCustom_clicked();
 };
 
 #endif

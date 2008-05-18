@@ -26,27 +26,27 @@
 
 class ShortcutsSettingsWidget : public SettingsWidget, private Ui::ShortcutsSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ShortcutsSettingsWidget(QWidget *parent = 0);
+    ShortcutsSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &profile);
-	void feedProfile(Profile &profile);
+    void applyProfile(const Profile &profile);
+    void feedProfile(Profile &profile);
 
 private:
-	ActionsModel *_model;
+    ActionsModel *_model;
 
 private slots:
-	// Automatic signals
-	void on_pushButtonChange_clicked();
-	void on_radioButtonNone_toggled(bool checked);
-	void on_radioButtonDefault_toggled(bool checked);
-	void on_radioButtonCustom_toggled(bool checked);
+    // Automatic signals
+    void on_pushButtonChange_clicked();
+    void on_radioButtonNone_toggled(bool checked);
+    void on_radioButtonDefault_toggled(bool checked);
+    void on_radioButtonCustom_toggled(bool checked);
 
-	// Manual signals
-	void treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous);
-	void actionRowChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+    // Manual signals
+    void treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous);
+    void actionRowChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 };
 
 #endif // SHORTCUTS_SETTINGS_WIDGET_H

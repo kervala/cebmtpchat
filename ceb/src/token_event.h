@@ -28,29 +28,29 @@
 class TokenEvent
 {
 public:
-	TokenEvent(MtpToken token, const QStringList &arguments,
-			   const QList<int> &positions,
-			   int ticketID, const QTime &timeStamp);
-	TokenEvent(MtpToken token, const QStringList &arguments,
-			   const QList<int> &positions,
-			   int ticketID);
+    TokenEvent(MtpToken token, const QStringList &arguments,
+               const QList<int> &positions,
+               int ticketID, const QTime &timeStamp);
+    TokenEvent(MtpToken token, const QStringList &arguments,
+               const QList<int> &positions,
+               int ticketID);
 
-	const QString &line() const { return m_arguments[0]; }
-	const MtpToken token() const { return m_token; }
-	const QStringList &arguments() const { return m_arguments; }
-	const QList<int> &positions() const { return m_positions; }
-	const QTime &timeStamp() const { return m_timeStamp; }
-	int ticketID() const { return m_ticketID; }
+    const QString &line() const { return m_arguments[0]; }
+    const MtpToken token() const { return m_token; }
+    const QStringList &arguments() const { return m_arguments; }
+    const QList<int> &positions() const { return m_positions; }
+    const QTime &timeStamp() const { return m_timeStamp; }
+    int ticketID() const { return m_ticketID; }
 
 private:
-	MtpToken m_token;
-	QStringList m_arguments; 
-	QList<int> m_positions;
-	QTime m_timeStamp;
-	int m_ticketID;
-	
-	void init(MtpToken token, const QStringList &arguments,
-			  const QList<int> &positions,
+    MtpToken m_token;
+    QStringList m_arguments;
+    QList<int> m_positions;
+    QTime m_timeStamp;
+    int m_ticketID;
+
+    void init(MtpToken token, const QStringList &arguments,
+              const QList<int> &positions,
               int ticketID, const QTime &timeStamp);
 };
 

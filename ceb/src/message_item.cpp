@@ -20,7 +20,7 @@
 
 MessageItem::MessageItem(const QString &dateTime, const QString &sender, const QString &message)
 {
-	m_dateTime = dateTime;
-	m_sender = sender;
-	m_message = message;
+    m_dateTime = dateTime;
+    m_sender = sender;
+    m_message = message;
 }
