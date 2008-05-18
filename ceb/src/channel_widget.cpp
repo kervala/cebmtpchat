@@ -991,3 +991,9 @@ void ChannelWidget::hideSearchWidget()
 {
     toggleSearchWidgetVisibility();
 }
+
+void ChannelWidget::search()
+{
+    if (!_searchWidget->isVisible())
+        toggleSearchWidgetVisibility();
+}

@@ -49,6 +49,8 @@ public:
 
     virtual void applyFirstShow() {}
 
+    virtual void search() {} // Activate the search widget (in ChannelWidget and TellWidget for instance)
+
 protected:
     Session *m_session;
     bool m_stared;

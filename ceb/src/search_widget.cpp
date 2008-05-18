@@ -52,19 +52,19 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
     connect(_nextButton, SIGNAL(clicked()), this, SLOT(searchForNext()));
 
     _toolButtonOptions = new QToolButton;
-    _toolButtonOptions->setText(tr("Options"));
+    _toolButtonOptions->setText(tr("&Options"));
     mainLayout->addWidget(_toolButtonOptions);
     _toolButtonOptions->setAutoRaise(true);
 
-	_menuOptions = new QMenu(this);
+    _menuOptions = new QMenu(this);
     _toolButtonOptions->setMenu(_menuOptions);
-	_toolButtonOptions->setPopupMode(QToolButton::InstantPopup);
-	QAction *action = _menuOptions->addAction(tr("Case sensitive find"));
-	action->setCheckable(true);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(caseSensitiveActionTriggered(bool)));
+    _toolButtonOptions->setPopupMode(QToolButton::InstantPopup);
+    QAction *action = _menuOptions->addAction(tr("Case sensitive find"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(caseSensitiveActionTriggered(bool)));
     action = _menuOptions->addAction(tr("Match only complete words"));
-	action->setCheckable(true);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(completeWordsActionTriggered(bool)));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(completeWordsActionTriggered(bool)));
 }
 
 void SearchWidget::setTextWidget(QTextBrowser *textWidget)
@@ -123,20 +123,20 @@ void SearchWidget::searchForNext()
 
 void SearchWidget::caseSensitiveActionTriggered(bool checked)
 {
-  if (checked)
-    _findFlags |= QTextDocument::FindCaseSensitively;
-  else
-    _findFlags &= !QTextDocument::FindCaseSensitively;
+    if (checked)
+        _findFlags |= QTextDocument::FindCaseSensitively;
+    else
+        _findFlags &= !QTextDocument::FindCaseSensitively;
 
-  lineEditTextChanged(_lineEditSearch->text());
+    lineEditTextChanged(_lineEditSearch->text());
 }
 
 void SearchWidget::completeWordsActionTriggered(bool checked)
 {
-  if (checked)
-    _findFlags |= QTextDocument::FindWholeWords;
-  else
-    _findFlags &= !QTextDocument::FindWholeWords;
+    if (checked)
+        _findFlags |= QTextDocument::FindWholeWords;
+    else
+        _findFlags &= !QTextDocument::FindWholeWords;
 
-  lineEditTextChanged(_lineEditSearch->text());
+    lineEditTextChanged(_lineEditSearch->text());
 }

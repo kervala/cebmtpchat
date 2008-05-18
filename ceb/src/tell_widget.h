@@ -47,6 +47,8 @@ public:
 
     virtual QString widgetCaption() const;
 
+    void search(); // Inherited from SessionWidget
+
 public slots:
     void newTokenFromSession(const TokenEvent &event);
 

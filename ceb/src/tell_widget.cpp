@@ -381,3 +381,9 @@ bool TellWidget::eventFilter(QObject *obj, QEvent *event)
 
     return SessionWidget::eventFilter(obj, event);
 }
+
+void TellWidget::search()
+{
+    if (!_searchWidget->isVisible())
+        toggleSearchWidgetVisibility();
+}

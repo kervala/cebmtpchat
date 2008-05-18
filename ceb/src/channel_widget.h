@@ -55,6 +55,8 @@ public:
 
     virtual QString widgetCaption() const;
 
+    void search(); // Inherited
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
