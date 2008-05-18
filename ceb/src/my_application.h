@@ -23,12 +23,12 @@
 
 class MyApplication : public QApplication
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MyApplication(int &argc, char **argv);
+    MyApplication(int &argc, char **argv);
 
-	void commitData(QSessionManager &manager);
+    void commitData(QSessionManager &manager);
 };
 
 #endif

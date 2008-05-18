@@ -30,27 +30,27 @@
 
 class SessionConfigWidget : public QWidget, private Ui::WidgetSessionConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SessionConfigWidget(QWidget *parent = 0, bool showRemoveButton = false);
+    SessionConfigWidget(QWidget *parent = 0, bool showRemoveButton = false);
 
-	void init(const SessionConfig &config);
-	bool check();
-	void get(SessionConfig &config);
-	void get(SessionConfig &config, QString &oldName);
+    void init(const SessionConfig &config);
+    bool check();
+    void get(SessionConfig &config);
+    void get(SessionConfig &config, QString &oldName);
 
-	const QString &oldName() const { return m_oldName; }
+    const QString &oldName() const { return m_oldName; }
 
 private:
-	QString m_oldName;
-	QList<int> m_mibList;
+    QString m_oldName;
+    QList<int> m_mibList;
 
 private slots:
-	void on_checkBoxFurtiveMode_toggled(bool state);
+    void on_checkBoxFurtiveMode_toggled(bool state);
 
 signals:
-	void removeMe();
+    void removeMe();
 };
 
 #endif

@@ -24,19 +24,19 @@
 
 class DialogWarningo: public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	QTimer timer;
+    QTimer timer;
 
 protected:
-	virtual void showEvent(QShowEvent * event);
+    virtual void showEvent(QShowEvent * event);
 
 public:
-	DialogWarningo(const QString &title, const QString &message, QWidget *parent = 0);
+    DialogWarningo(const QString &title, const QString &message, QWidget *parent = 0);
 
 private slots:
-	void endOfTimer();
+    void endOfTimer();
 };
 
 #endif

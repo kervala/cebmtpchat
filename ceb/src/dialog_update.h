@@ -29,30 +29,30 @@
 
 class DialogUpdate: public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	QVBoxLayout *mainLayout;
-	QHBoxLayout *bottomLayout;
-	QPushButton *bUpdate;
-	QPushButton *bClose;
-	QLabel *labelUpdate;
-	QProgressBar *progressBarUpdate;
-	QLabel *labelInfo;
-	AutoUpdate autoUpdate;
-	QString fileName;
-	QString _fileToLaunch;
+    QVBoxLayout *mainLayout;
+    QHBoxLayout *bottomLayout;
+    QPushButton *bUpdate;
+    QPushButton *bClose;
+    QLabel *labelUpdate;
+    QProgressBar *progressBarUpdate;
+    QLabel *labelInfo;
+    AutoUpdate autoUpdate;
+    QString fileName;
+    QString _fileToLaunch;
 
 public:
-	DialogUpdate(QWidget *parent = 0);
+    DialogUpdate(QWidget *parent = 0);
 
-	const QString &fileToLaunch() const { return _fileToLaunch; }
+    const QString &fileToLaunch() const { return _fileToLaunch; }
 
 private slots:
-	void newVersion(const QDate &date);
-	void update();
-	void updateDataReadProgress(int done, int total);
-	void updateDownloadEnd(const QString &fileName);
+    void newVersion(const QDate &date);
+    void update();
+    void updateDataReadProgress(int done, int total);
+    void updateDownloadEnd(const QString &fileName);
 };
 
 #endif

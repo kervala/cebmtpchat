@@ -26,19 +26,19 @@
 class BackupServer
 {
 public:
-	BackupServer() { m_address = ""; m_port = 0; }
-	BackupServer(const QString &address, int port) { m_address = address; m_port = port; }
+    BackupServer() { m_address = ""; m_port = 0; }
+    BackupServer(const QString &address, int port) { m_address = address; m_port = port; }
 
-	const QString &address() const { return m_address; }
-	int port() const { return m_port; }
+    const QString &address() const { return m_address; }
+    int port() const { return m_port; }
 
-	QString toString() const { return m_address + ":" + QString::number(m_port); }
+    QString toString() const { return m_address + ":" + QString::number(m_port); }
 
-	bool isNull() const { return m_address == ""; }
+    bool isNull() const { return m_address == ""; }
 
 private:
-	QString m_address;
-	int m_port;
+    QString m_address;
+    int m_port;
 };
 
 class SessionConfig
@@ -62,22 +62,22 @@ public:
     void setLogin(const QString &value) { m_login = value; }
     const QString &password() const { return m_password; }
     void setPassword(const QString &value) { m_password = value; }
-	bool furtiveMode() const { return m_furtiveMode; }
-	void setFurtiveMode(bool value) { m_furtiveMode = value; }
+    bool furtiveMode() const { return m_furtiveMode; }
+    void setFurtiveMode(bool value) { m_furtiveMode = value; }
     bool autoconnect() const { return m_autoconnect; }
     void setAutoconnect(bool value) { m_autoconnect = value; }
-	bool manageBackupServers() const { return m_manageBackupServers; }
-	void setManageBackupServers(bool value) { m_manageBackupServers = value; }
+    bool manageBackupServers() const { return m_manageBackupServers; }
+    void setManageBackupServers(bool value) { m_manageBackupServers = value; }
     int encodingMib() const { return m_encodingMib; }
     void setEncodingMib(int value) { m_encodingMib = value; }
     int entryHeight() const { return m_entryHeight; }
     void setEntryHeight(int value) { m_entryHeight = value; }
     int whoWidth() const { return m_whoWidth; }
     void setWhoWidth(int value) { m_whoWidth = value; }
-	const QList<BackupServer> backupServers() const { return m_backupServers; }
-	void setBackupServers(const QList<BackupServer> &servers) { m_backupServers = servers; }
+    const QList<BackupServer> backupServers() const { return m_backupServers; }
+    void setBackupServers(const QList<BackupServer> &servers) { m_backupServers = servers; }
 
-	BackupServer nextBackupServer(const QString address, int port) const;
+    BackupServer nextBackupServer(const QString address, int port) const;
 
     static SessionConfig &getTemplate();
 
@@ -88,14 +88,14 @@ private:
     int m_port;
     QString m_login;
     QString m_password;
-	bool m_furtiveMode;
+    bool m_furtiveMode;
     bool m_autoconnect;
-	bool m_manageBackupServers;
-	int m_encodingMib; // http://www.iana.org/assignments/character-sets
+    bool m_manageBackupServers;
+    int m_encodingMib; // http://www.iana.org/assignments/character-sets
     int m_entryHeight;
     int m_whoWidth;
 
-	QList<BackupServer> m_backupServers;
+    QList<BackupServer> m_backupServers;
 };
 
 class SessionConfigVariant : public QVariant

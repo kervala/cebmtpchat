@@ -7,13 +7,13 @@
 
 class DialogWhatsNew : public DialogBasic
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+
 public:
-	DialogWhatsNew(QWidget *parent = 0);
+    DialogWhatsNew(QWidget *parent = 0);
 
 private:
-	QTextBrowser *m_textBrowser;
+    QTextBrowser *_textBrowser;
 };
 
 #endif

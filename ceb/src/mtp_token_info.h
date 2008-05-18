@@ -8,9 +8,9 @@
 class MtpTokenInfo
 {
 public:
-	static QString tokenToIDString(MtpToken token);
-	static MtpToken IDStringToToken(const QString &ID);
-	static QString tokenToDisplayString(MtpToken token);	
+    static QString tokenToIDString(MtpToken token);
+    static MtpToken IDStringToToken(const QString &ID);
+    static QString tokenToDisplayString(MtpToken token);
 };
 
 #endif

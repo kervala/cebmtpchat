@@ -24,52 +24,53 @@
 #include "dialog_warningo.h"
 #include "profile_manager.h"
 
-DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent): QDialog(parent, 
-	Qt::SplashScreen | Qt::WindowStaysOnTopHint)
+DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent) :
+    QDialog(parent,
+            Qt::SplashScreen | Qt::WindowStaysOnTopHint)
 {
     Profile &profile = *ProfileManager::instance().currentProfile();
 
-	setAttribute(Qt::WA_DeleteOnClose, true);
-	setAttribute(Qt::WA_Disabled, true);
-	timer.setInterval(profile.warningoLifeTime);
-	connect(&timer, SIGNAL(timeout()), this, SLOT(endOfTimer()));
-	QLabel *label = new QLabel(message);
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);	
-	QGroupBox *groupBox = new QGroupBox(title);	
-	QVBoxLayout *groupBoxLayout = new QVBoxLayout(groupBox);
-	groupBoxLayout->addWidget(label);
-	mainLayout->addWidget(groupBox);
-	mainLayout->setMargin(0);
-	adjustSize();
+    setAttribute(Qt::WA_DeleteOnClose, true);
+    setAttribute(Qt::WA_Disabled, true);
+    timer.setInterval(profile.warningoLifeTime);
+    connect(&timer, SIGNAL(timeout()), this, SLOT(endOfTimer()));
+    QLabel *label = new QLabel(message);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QGroupBox *groupBox = new QGroupBox(title);
+    QVBoxLayout *groupBoxLayout = new QVBoxLayout(groupBox);
+    groupBoxLayout->addWidget(label);
+    mainLayout->addWidget(groupBox);
+    mainLayout->setMargin(0);
+    adjustSize();
 }
 
 void DialogWarningo::endOfTimer()
 {
-	close();
+    close();
 }
 
 void DialogWarningo::showEvent(QShowEvent * event)
 {
-	Profile &profile = *ProfileManager::instance().currentProfile();
-	QDesktopWidget desktopWidget;
-	QRect desktopGeometry = desktopWidget.availableGeometry();
-	switch(profile.warningoLocation)
-	{
-	case Profile::WarningoLocation_TopLeft:
-		move(desktopGeometry.left(), desktopGeometry.top());
-		break;
-	case Profile::WarningoLocation_TopRight:
-		move(desktopGeometry.right() - width(), desktopGeometry.top());
-		break;
-	case Profile::WarningoLocation_BottomLeft:
-		move(0, desktopGeometry.bottom() - height());
-		break;
-	case Profile::WarningoLocation_BottomRight:
-		move(desktopGeometry.right() - width(), desktopGeometry.bottom() - height());
-		break;
-	default:;
-	}
+    Profile &profile = *ProfileManager::instance().currentProfile();
+    QDesktopWidget desktopWidget;
+    QRect desktopGeometry = desktopWidget.availableGeometry();
+    switch(profile.warningoLocation)
+    {
+    case Profile::WarningoLocation_TopLeft:
+        move(desktopGeometry.left(), desktopGeometry.top());
+        break;
+    case Profile::WarningoLocation_TopRight:
+        move(desktopGeometry.right() - width(), desktopGeometry.top());
+        break;
+    case Profile::WarningoLocation_BottomLeft:
+        move(0, desktopGeometry.bottom() - height());
+        break;
+    case Profile::WarningoLocation_BottomRight:
+        move(desktopGeometry.right() - width(), desktopGeometry.bottom() - height());
+        break;
+    default:;
+    }
 
-	QDialog::showEvent(event);
-	timer.start();
+    QDialog::showEvent(event);
+    timer.start();
 }

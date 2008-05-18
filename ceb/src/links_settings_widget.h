@@ -25,16 +25,16 @@
 
 class LinksSettingsWidget : public SettingsWidget, private Ui::LinksSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	LinksSettingsWidget(QWidget *parent = 0);
+    LinksSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &profile);
-	void feedProfile(Profile &profile);
+    void applyProfile(const Profile &profile);
+    void feedProfile(Profile &profile);
 
 private slots:
-	void on_toolButtonCustomBrowser_clicked();
+    void on_toolButtonCustomBrowser_clicked();
 };
 
 #endif

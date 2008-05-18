@@ -25,35 +25,35 @@
 
 class FontsSettingsWidget : public SettingsWidget, private Ui::FontsSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	FontsSettingsWidget(QWidget *parent = 0);
+    FontsSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &profile);
-	void feedProfile(Profile &profile);
+    void applyProfile(const Profile &profile) {}
+    void feedProfile(Profile &profile) {}
 
 private:
-	static const int outputRow = 0;
-	static const int inputRow = 1;
-	static const int whoRow = 2;
-	static const int topicRow = 3;
-	static const int timeStampRow = 4;
+    static const int outputRow = 0;
+    static const int inputRow = 1;
+    static const int whoRow = 2;
+    static const int topicRow = 3;
+    static const int timeStampRow = 4;
 
-	void fillFontWidgets(int row);
-	void refreshListWidgetItems();
-	TextSkin::MtpFont &getMtpFontByRow(int row);
+    void fillFontWidgets(int row);
+    void refreshListWidgetItems();
+    TextSkin::MtpFont &getMtpFontByRow(int row);
 
 private slots:
-	void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-	void on_checkBoxForceFont_toggled(bool b);
-	void on_checkBoxForceColor_toggled(bool b);
-	void on_pushButtonForcedFont_clicked();
-	void on_pushButtonForcedColor_clicked();
-	void on_checkBoxForceBackgroundColor_toggled(bool b);
-	void on_checkBoxForceAwayBackgroundColor_toggled(bool b);
-	void on_pushButtonBackgroundColor_clicked();
-	void on_pushButtonAwayBackgroundColor_clicked();
+    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_checkBoxForceFont_toggled(bool b);
+    void on_checkBoxForceColor_toggled(bool b);
+    void on_pushButtonForcedFont_clicked();
+    void on_pushButtonForcedColor_clicked();
+    void on_checkBoxForceBackgroundColor_toggled(bool b);
+    void on_checkBoxForceAwayBackgroundColor_toggled(bool b);
+    void on_pushButtonBackgroundColor_clicked();
+    void on_pushButtonAwayBackgroundColor_clicked();
 };
 
 #endif

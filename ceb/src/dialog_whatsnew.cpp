@@ -6,11 +6,11 @@
 
 DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)
 {
-	m_textBrowser = new QTextBrowser;
-	mainLayout->insertWidget(0, m_textBrowser);
+    _textBrowser = new QTextBrowser;
+    mainLayout->insertWidget(0, _textBrowser);
 
-	QDir dir(QApplication::applicationDirPath());
-	QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath("whatsnew.html"));
-	m_textBrowser->setSource(url);
-	resize(400, 250);
+    QDir dir(QApplication::applicationDirPath());
+    QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath("whatsnew.html"));
+    _textBrowser->setSource(url);
+    resize(400, 250);
 }

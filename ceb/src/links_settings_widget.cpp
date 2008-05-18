@@ -22,34 +22,34 @@
 
 LinksSettingsWidget::LinksSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 void LinksSettingsWidget::applyProfile(const Profile &profile)
 {
-	if (profile.linksCustomBrowser.isEmpty())
-		radioButtonDefault->setChecked(true);
-	else
-	{
-		radioButtonForce->setChecked(true);
-		lineEditCustomBrowser->setText(profile.linksCustomBrowser);
-	}
+    if (profile.linksCustomBrowser.isEmpty())
+        radioButtonDefault->setChecked(true);
+    else
+    {
+        radioButtonForce->setChecked(true);
+        lineEditCustomBrowser->setText(profile.linksCustomBrowser);
+    }
 }
 
 void LinksSettingsWidget::feedProfile(Profile &profile)
 {
-	if (radioButtonDefault->isChecked())
-		profile.linksCustomBrowser = "";
-	else
-		profile.linksCustomBrowser = lineEditCustomBrowser->text();
+    if (radioButtonDefault->isChecked())
+        profile.linksCustomBrowser = "";
+    else
+        profile.linksCustomBrowser = lineEditCustomBrowser->text();
 }
 
 void LinksSettingsWidget::on_toolButtonCustomBrowser_clicked()
 {
-	QString fileName = QFileDialog::getOpenFileName(this);
+    QString fileName = QFileDialog::getOpenFileName(this);
 
-	if (fileName.isEmpty())
-		return;
+    if (fileName.isEmpty())
+        return;
 
-	lineEditCustomBrowser->setText(fileName);
+    lineEditCustomBrowser->setText(fileName);
 }

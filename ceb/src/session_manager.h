@@ -27,43 +27,43 @@
 
 class SessionManager : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	static SessionManager &instance();
-	static void free();
-	static bool destroyed();
+    static SessionManager &instance();
+    static void free();
+    static bool destroyed();
 
-	Session *newSession(const SessionConfig &config);
-	void removeSession(Session *session);
+    Session *newSession(const SessionConfig &config);
+    void removeSession(Session *session);
 
-	QList<Session*> &sessionsList();
+    QList<Session*> &sessionsList();
 
 private:
-	static SessionManager *_instance;
+    static SessionManager *_instance;
 
-	QList<Session*> _sessionsList;
-	QTimer timerAutoconnection;
-	QTimer timerIdle;
+    QList<Session*> _sessionsList;
+    QTimer timerAutoconnection;
+    QTimer timerIdle;
 
-	SessionManager();
-	~SessionManager();
+    SessionManager();
+    ~SessionManager();
 
-	void clearSessionsList();
+    void clearSessionsList();
 
 private slots:
-	void newToken(const TokenEvent &event);
-	void connected();
-	void disconnected();
-	void loginChanged(const QString &oldLogin, const QString &newLogin);
-	void timerAutoconnect();
-	void doTimerIdle();
+    void newToken(const TokenEvent &event);
+    void connected();
+    void disconnected();
+    void loginChanged(const QString &oldLogin, const QString &newLogin);
+    void timerAutoconnect();
+    void doTimerIdle();
 
 signals:
-	void newSessionToken(Session *session, const TokenEvent &event);
-	void sessionConnected(Session *session);
-	void sessionDisconnected(Session *session);
-	void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
+    void newSessionToken(Session *session, const TokenEvent &event);
+    void sessionConnected(Session *session);
+    void sessionDisconnected(Session *session);
+    void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
 };
 
 #endif

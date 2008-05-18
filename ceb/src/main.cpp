@@ -31,41 +31,41 @@
 
 int main(int argc, char **argv)
 {
-	int n = 64;
-	QString str = QObject::tr("There are %n elements in your list", "", n);
+    int n = 64;
+    QString str = QObject::tr("There are %n elements in your list", "", n);
 
-	MyApplication a(argc, argv);
-	
-	TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
+    MyApplication a(argc, argv);
+
+    TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 //	openModifiers(); // Load LUA modifiers
 
-	a.setWindowIcon(QIcon(":/images/ceb.png"));
-	ProfileManager &manager = ProfileManager::instance();
-	if (!manager.currentProfile())
-	{
-		QMessageBox::critical(0, "Error", "profile file no specified and default file is missing. Aborting.");
-		return 1;
-	}
+    a.setWindowIcon(QIcon(":/images/ceb.png"));
+    ProfileManager &manager = ProfileManager::instance();
+    if (!manager.currentProfile())
+    {
+        QMessageBox::critical(0, "Error", "profile file no specified and default file is missing. Aborting.");
+        return 1;
+    }
 
-	Profile &profile = *ProfileManager::instance().currentProfile();
-	QTranslator translator;
+    Profile &profile = *ProfileManager::instance().currentProfile();
+    QTranslator translator;
 
-	if (!profile.language.isEmpty())
-	{
-		QString fileName = LanguageManager::getLanguageFileName(profile.language);
-		if (!fileName.isEmpty())
-		{
-			translator.load(fileName);
-			a.installTranslator(&translator);
-		}
-	}
+    if (!profile.language.isEmpty())
+    {
+        QString fileName = LanguageManager::getLanguageFileName(profile.language);
+        if (!fileName.isEmpty())
+        {
+            translator.load(fileName);
+            a.installTranslator(&translator);
+        }
+    }
 
-	MainWindow mainWindow;
-	mainWindow.show();
+    MainWindow mainWindow;
+    mainWindow.show();
 
-	int appRes = a.exec();
+    int appRes = a.exec();
 
-	closeModifiers(); // Close all lua chunks
+    closeModifiers(); // Close all lua chunks
 
-	return appRes;
+    return appRes;
 }
