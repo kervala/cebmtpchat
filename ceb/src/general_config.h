@@ -24,23 +24,24 @@
 
 class GeneralConfig
 {
-private:
-	static GeneralConfig *_instance;
-
-	QFile *_configFile;
-	QString _lastProfileName;
-
-	GeneralConfig();
-	~GeneralConfig();
-
-	void load();
-	void save();
-
 public:
-	static GeneralConfig &instance();
+    static GeneralConfig &instance();
 
-	const QString &lastProfileName();
-	void setLastProfileName(const QString &name);
+    const QString &lastProfileName();
+    void setLastProfileName(const QString &name);
+
+private:
+    static GeneralConfig *_instance;
+
+    QFile *_configFile;
+    QString _lastProfileName;
+
+    GeneralConfig();
+    ~GeneralConfig();
+
+    void load();
+    void save();
+
 };
 
 #endif

@@ -22,26 +22,26 @@
 
 void DialogSessionConfig::init()
 {
-	sessionConfigWidget = new SessionConfigWidget;
+    _sessionConfigWidget = new SessionConfigWidget;
 
-	mainLayout->insertWidget(0, sessionConfigWidget);
+    mainLayout->insertWidget(0, _sessionConfigWidget);
 
-	resize(300, 150);
+    resize(300, 150);
 }
 
 DialogSessionConfig::DialogSessionConfig(const SessionConfig &config, QWidget *parent) : DialogBasic(parent)
 {
-	init();
-	sessionConfigWidget->init(config);
+    init();
+    _sessionConfigWidget->init(config);
 }
 
 void DialogSessionConfig::checkValues()
 {
-	if (sessionConfigWidget->check())
-		accept();
+    if (_sessionConfigWidget->check())
+        accept();
 }
 
 void DialogSessionConfig::get(SessionConfig &config)
 {
-	sessionConfigWidget->get(config);
+    _sessionConfigWidget->get(config);
 }

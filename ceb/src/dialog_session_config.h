@@ -25,20 +25,20 @@
 
 class DialogSessionConfig : public DialogBasic
 {
-	Q_OBJECT
-
-private:
-	SessionConfigWidget *sessionConfigWidget;
-
-	void init();
+    Q_OBJECT
 
 public:
-	DialogSessionConfig(const SessionConfig &config, QWidget *parent = 0);
+    DialogSessionConfig(const SessionConfig &config, QWidget *parent = 0);
 
-	void get(SessionConfig &config);
+    void get(SessionConfig &config);
 
 protected slots:
-	void checkValues();
+    void checkValues();
+
+private:
+    SessionConfigWidget *_sessionConfigWidget;
+
+    void init();
 };
 
 #endif

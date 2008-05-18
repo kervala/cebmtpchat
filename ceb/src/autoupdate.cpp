@@ -25,64 +25,64 @@
 
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
-	fileDownload = 0;
-	siteUrl = "cebmtp.free.fr";
-	connect(&httpCheck, SIGNAL(dataReadProgress(int, int)), this, SLOT(checkDataReadProgress(int, int)));
-	connect(&httpFile, SIGNAL(dataReadProgress(int, int)), this, SLOT(fileDataReadProgress(int, int)));
-	connect(&httpFile, SIGNAL(requestFinished(int, bool)), this, SLOT(fileRequestFinished(int, bool)));
+    fileDownload = 0;
+    siteUrl = "cebmtp.free.fr";
+    connect(&httpCheck, SIGNAL(dataReadProgress(int, int)), this, SLOT(checkDataReadProgress(int, int)));
+    connect(&httpFile, SIGNAL(dataReadProgress(int, int)), this, SLOT(fileDataReadProgress(int, int)));
+    connect(&httpFile, SIGNAL(requestFinished(int, bool)), this, SLOT(fileRequestFinished(int, bool)));
 }
 
 AutoUpdate::~AutoUpdate()
 {
-	if (fileDownload)
-		delete fileDownload;
+    if (fileDownload)
+        delete fileDownload;
 }
 
 void AutoUpdate::checkDataReadProgress(int done, int total)
 {
-	if (done == total && total == 8)
-	{
-		char *version = new char[total + 1];
-		version[total] = '\0';
-		httpCheck.read(version, total);
-		bool b;
-		int oldVer = QString(VERSION).toInt(&b);
-		int ver = QString(version).toInt(&b);
-		if (b && ver > oldVer)
-		{
-			QDate date = QDate::fromString(QString(version), "yyyyMMdd");
-			emit newVersion(date);
-		}
-	}
+    if (done == total && total == 8)
+    {
+        char *version = new char[total + 1];
+        version[total] = '\0';
+        httpCheck.read(version, total);
+        bool b;
+        int oldVer = QString(VERSION).toInt(&b);
+        int ver = QString(version).toInt(&b);
+        if (b && ver > oldVer)
+        {
+            QDate date = QDate::fromString(QString(version), "yyyyMMdd");
+            emit newVersion(date);
+        }
+    }
 }
 
 void AutoUpdate::fileDataReadProgress(int done, int total)
 {
-	emit updateDataReadProgress(done, total);
+    emit updateDataReadProgress(done, total);
 }
 
 void AutoUpdate::checkForUpdate()
 {
-	version = "";
-	httpCheck.setHost(siteUrl);
-	httpCheck.get("/ceb.vrn");
+    version = "";
+    httpCheck.setHost(siteUrl);
+    httpCheck.get("/ceb.vrn");
 }
 
 void AutoUpdate::getUpdate(const QString &fileName)
 {
-	this->fileName = fileName;
-	fileToSave = QDir::tempPath() + "/" + fileName;	
-	fileDownload = new QFile(fileToSave);		
-	fileDownload->open(QIODevice::WriteOnly);
-	httpFile.setHost(siteUrl);
-	fileDownloadID = httpFile.get("/" + fileName, fileDownload);
+    this->fileName = fileName;
+    fileToSave = QDir::tempPath() + "/" + fileName;
+    fileDownload = new QFile(fileToSave);
+    fileDownload->open(QIODevice::WriteOnly);
+    httpFile.setHost(siteUrl);
+    fileDownloadID = httpFile.get("/" + fileName, fileDownload);
 }
 
 void AutoUpdate::fileRequestFinished(int id, bool error)
 {
-	if (!error && fileDownloadID == id)
-	{
-		fileDownload->close();
-		emit fileDownloadEnd(fileToSave);
-	}
+    if (!error && fileDownloadID == id)
+    {
+        fileDownload->close();
+        emit fileDownloadEnd(fileToSave);
+    }
 }

@@ -27,29 +27,29 @@
 
 class DetailedFontsSettingsWidget : public SettingsWidget, private Ui::DetailedFontsSettings
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DetailedFontsSettingsWidget(QWidget *parent = 0);
+    DetailedFontsSettingsWidget(QWidget *parent = 0);
 
-	void applyProfile(const Profile &) {}
-	void feedProfile(Profile &) {}
+    void applyProfile(const Profile &) {}
+    void feedProfile(Profile &) {}
 
 private:
-	MyTextEdit *m_textEdit;
-	MtpAnalyzer m_analyzer;
-	MtpToken m_currentToken;
-	int m_currentArg;
+    MyTextEdit *m_textEdit;
+    MtpAnalyzer m_analyzer;
+    MtpToken m_currentToken;
+    int m_currentArg;
 
-	void refreshListItemsAfterGroupBoxToggle();
+    void refreshListItemsAfterGroupBoxToggle();
 
 private slots:
-	void on_listWidgetTokenTypes_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-	void on_listWidgetTokenArgs_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-	void on_groupBoxForcedFont_toggled(bool b);
-	void on_groupBoxForcedColor_toggled(bool b);
-	void on_pushButtonFont_clicked();
-	void on_pushButtonColor_clicked();
+    void on_listWidgetTokenTypes_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_listWidgetTokenArgs_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_groupBoxForcedFont_toggled(bool b);
+    void on_groupBoxForcedColor_toggled(bool b);
+    void on_pushButtonFont_clicked();
+    void on_pushButtonColor_clicked();
 };
 
 #endif

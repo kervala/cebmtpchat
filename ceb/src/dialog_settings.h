@@ -35,147 +35,147 @@
 
 class DialogSettings : public DialogConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DialogSettings(QWidget *parent = 0);
+    DialogSettings(QWidget *parent = 0);
 
-	void reject();
+    void reject();
 
 protected slots:
-	virtual void checkValues();
+    virtual void checkValues();
 
 private:
-	// General
-	QComboBox *comboBoxLanguage;
+    // General
+    QComboBox *comboBoxLanguage;
     QCheckBox *checkBoxCheckForUpdate;
 
-	// Shortcuts
-	QWidget *shortcutsWidget;
-	
-	// Connections
-	QTreeWidgetItem *itemConnections;
-	QPushButton *pushButtonNewConnection;
+    // Shortcuts
+    QWidget *shortcutsWidget;
 
-	// Fonts
-	QWidget *fontsWidget;
+    // Connections
+    QTreeWidgetItem *itemConnections;
+    QPushButton *pushButtonNewConnection;
 
-	// Detailed fonts
-	QWidget *detailedFontsWidget;
-	
-	// Logs
-	QGroupBox *groupBoxLogs;
-	QRadioButton *radioButtonLogsDefaultDir;
-	QRadioButton *radioButtonLogsCustomDir;
-	QLineEdit *lineEditLogsCustomDir;
-	QRadioButton *radioButtonLogsDaily;
-	QRadioButton *radioButtonLogsWeekly;
-	QRadioButton *radioButtonLogsMonthly;
-	QRadioButton *radioButtonLogsUniq;
-	QCheckBox *checkBoxLogsTimeStamp;
+    // Fonts
+    QWidget *fontsWidget;
 
-	// Tray
-	QGroupBox *groupBoxTray;
-	QCheckBox *checkBoxTrayAlwaysVisible;
-	QCheckBox *checkBoxTrayHideFromTaskBar;
+    // Detailed fonts
+    QWidget *detailedFontsWidget;
 
-	// Warningo	
-	QWidget *warningoWidget;
-	
-	// Sounds
-	QWidget *soundsWidget;
-	
-	// Idle
-	QWidget *idleWidget;
+    // Logs
+    QGroupBox *groupBoxLogs;
+    QRadioButton *radioButtonLogsDefaultDir;
+    QRadioButton *radioButtonLogsCustomDir;
+    QLineEdit *lineEditLogsCustomDir;
+    QRadioButton *radioButtonLogsDaily;
+    QRadioButton *radioButtonLogsWeekly;
+    QRadioButton *radioButtonLogsMonthly;
+    QRadioButton *radioButtonLogsUniq;
+    QCheckBox *checkBoxLogsTimeStamp;
 
-	// Tabs
-	QCheckBox *checkBoxTabsIcons;
-	QStackedWidget *stackedWidgetTabs;
-	QRadioButton *radioButtonTabsAllInOne;
-	QRadioButton *radioButtonTabsAllInTop;
-	QRadioButton *radioButtonTabsAllInBottom;
-	QRadioButton *radioButtonTabsSuper;
-	QRadioButton *radioButtonTabsSuperOnTop;
-	QRadioButton *radioButtonTabsSuperOnBottom;
-	QRadioButton *radioButtonTabsOnTop;
-	QRadioButton *radioButtonTabsOnBottom;	
-	MultiTabWidget *mtwExample;
+    // Tray
+    QGroupBox *groupBoxTray;
+    QCheckBox *checkBoxTrayAlwaysVisible;
+    QCheckBox *checkBoxTrayHideFromTaskBar;
 
-	// Links
-	QWidget *linksWidget;
+    // Warningo
+    QWidget *warningoWidget;
 
-	// Output
-	QGroupBox *groupBoxAwaySeparator;
-	QLineEdit *lineEditAwaySeparatorColor;
-	QPushButton *pushButtonAwaySeparatorColor;
-	QSpinBox *spinBoxAwaySeparatorLength;
-	QLineEdit *lineEditAwaySeparatorPeriod;	
-	
-	// Misc
-	QRadioButton *radioButtonTimeStampClassic;
-	QRadioButton *radioButtonTimeStampAlways;
-	QRadioButton *radioButtonTimeStampNever;
-	QCheckBox *checkBoxTimeStampInTell;
-	QCheckBox *checkBoxKeepAlive;
-	QSpinBox *spinBoxKeepAlive;
-	QLabel *labelKeepAliveSeconds;
-	QCheckBox *checkBoxTabForWho;
-	QCheckBox *checkBoxTabForWall;
-	QCheckBox *checkBoxTabForFinger;
-	QCheckBox *checkBoxCopyOnSelection;
+    // Sounds
+    QWidget *soundsWidget;
 
-	QWidget *createGeneralWidget();	
-	QWidget *createShortcutsWidget();
-	void createConnectionsNodes();
-	QWidget *createConnectionsWidget();
-	QWidget *createFontsWidget();
-	QWidget *createDetailedFontsWidget();
-	QWidget *createLogsWidget();
-	QWidget *createTrayWidget();
-	QWidget *createWarningoWidget();
-	QWidget *createSoundsWidget();
-	QWidget *createIdleWidget();
-	QWidget *createTabsWidget();
-	QWidget *createLinksWidget();
-	QWidget *createOutputWidget();
-	QWidget *createMiscWidget();
+    // Idle
+    QWidget *idleWidget;
 
-	bool verifyControlsDatas();
+    // Tabs
+    QCheckBox *checkBoxTabsIcons;
+    QStackedWidget *stackedWidgetTabs;
+    QRadioButton *radioButtonTabsAllInOne;
+    QRadioButton *radioButtonTabsAllInTop;
+    QRadioButton *radioButtonTabsAllInBottom;
+    QRadioButton *radioButtonTabsSuper;
+    QRadioButton *radioButtonTabsSuperOnTop;
+    QRadioButton *radioButtonTabsSuperOnBottom;
+    QRadioButton *radioButtonTabsOnTop;
+    QRadioButton *radioButtonTabsOnBottom;
+    MultiTabWidget *mtwExample;
 
-	// Get datas
-	void getGeneralControlsDatas();
-	void getShortcutsControlsDatas();
-	void getConnectionsControlsDatas(); // Collect all datas concerning connections
-	void getLogsControlsDatas();
-	void getFontsControlsDatas();
-	void getDetailedFontsControlsDatas();
-	void getTrayControlsDatas();
-	void getWarningoControlsDatas();
-	void getSoundsControlsDatas();
-	void getIdleControlsDatas();
-	void getTabsControlsDatas();
-	void getLinksControlsDatas();
-	void getOutputControlsDatas();
-	void getMiscControlsDatas();
-	void getControlsDatas();
-	
-	QMap<QString, QString> displayToLanguage;
-	QString getLanguageDisplay(const QString &language);
+    // Links
+    QWidget *linksWidget;
 
-	TextSkin m_oldTextSkin;
+    // Output
+    QGroupBox *groupBoxAwaySeparator;
+    QLineEdit *lineEditAwaySeparatorColor;
+    QPushButton *pushButtonAwaySeparatorColor;
+    QSpinBox *spinBoxAwaySeparatorLength;
+    QLineEdit *lineEditAwaySeparatorPeriod;
+
+    // Misc
+    QRadioButton *radioButtonTimeStampClassic;
+    QRadioButton *radioButtonTimeStampAlways;
+    QRadioButton *radioButtonTimeStampNever;
+    QCheckBox *checkBoxTimeStampInTell;
+    QCheckBox *checkBoxKeepAlive;
+    QSpinBox *spinBoxKeepAlive;
+    QLabel *labelKeepAliveSeconds;
+    QCheckBox *checkBoxTabForWho;
+    QCheckBox *checkBoxTabForWall;
+    QCheckBox *checkBoxTabForFinger;
+    QCheckBox *checkBoxCopyOnSelection;
+
+    QWidget *createGeneralWidget();
+    QWidget *createShortcutsWidget();
+    void createConnectionsNodes();
+    QWidget *createConnectionsWidget();
+    QWidget *createFontsWidget();
+    QWidget *createDetailedFontsWidget();
+    QWidget *createLogsWidget();
+    QWidget *createTrayWidget();
+    QWidget *createWarningoWidget();
+    QWidget *createSoundsWidget();
+    QWidget *createIdleWidget();
+    QWidget *createTabsWidget();
+    QWidget *createLinksWidget();
+    QWidget *createOutputWidget();
+    QWidget *createMiscWidget();
+
+    bool verifyControlsDatas();
+
+    // Get datas
+    void getGeneralControlsDatas();
+    void getShortcutsControlsDatas();
+    void getConnectionsControlsDatas(); // Collect all datas concerning connections
+    void getLogsControlsDatas();
+    void getFontsControlsDatas();
+    void getDetailedFontsControlsDatas();
+    void getTrayControlsDatas();
+    void getWarningoControlsDatas();
+    void getSoundsControlsDatas();
+    void getIdleControlsDatas();
+    void getTabsControlsDatas();
+    void getLinksControlsDatas();
+    void getOutputControlsDatas();
+    void getMiscControlsDatas();
+    void getControlsDatas();
+
+    QMap<QString, QString> displayToLanguage;
+    QString getLanguageDisplay(const QString &language);
+
+    TextSkin m_oldTextSkin;
 
 private slots:
-	void newSessionConfig();
-	void removeSessionConfig();
-	void keepAliveChecked(int state);
-	void logsCustomDirClicked();
-	void tabsTypeAllInOneToggled(bool checked);
-	void tabsTypeSuperToggled(bool checked);
-	void refreshTabExample(bool checked = false);
-	void changeAwaySeparatorColor();
-	void refreshAwaySeparatorPreview();
-	void awaySeparatorLengthChanged(int a);
-	
+    void newSessionConfig();
+    void removeSessionConfig();
+    void keepAliveChecked(int state);
+    void logsCustomDirClicked();
+    void tabsTypeAllInOneToggled(bool checked);
+    void tabsTypeSuperToggled(bool checked);
+    void refreshTabExample(bool checked = false);
+    void changeAwaySeparatorColor();
+    void refreshAwaySeparatorPreview();
+    void awaySeparatorLengthChanged(int a);
+
 };
 
 

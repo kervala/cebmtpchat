@@ -29,82 +29,82 @@ GeneralConfig *GeneralConfig::_instance = 0;
 
 GeneralConfig &GeneralConfig::instance()
 {
-	if (!_instance)
-		_instance = new GeneralConfig;
-	return *_instance;
+    if (!_instance)
+        _instance = new GeneralConfig;
+    return *_instance;
 }
 
 const QString &GeneralConfig::lastProfileName()
 {
-	return _lastProfileName;
+    return _lastProfileName;
 }
 
 void GeneralConfig::setLastProfileName(const QString &name)
 {
-	_lastProfileName = name;
+    _lastProfileName = name;
 }
 
 GeneralConfig::GeneralConfig()
 {
-	QDir dir(QApplication::applicationDirPath());
-	_configFile = new QFile(dir.absoluteFilePath("config.xml"));
-	_lastProfileName = "default";
-	load();
+    QDir dir(QApplication::applicationDirPath());
+    _configFile = new QFile(dir.absoluteFilePath("config.xml"));
+    _lastProfileName = "default";
+    load();
 }
 
 GeneralConfig::~GeneralConfig()
 {
-	save();
-	delete _configFile;
+    save();
+    delete _configFile;
 }
 
 void GeneralConfig::load()
 {
-	QFile &file = *_configFile;
-	if (!file.exists())
-		return;
+    QFile &file = *_configFile;
+    if (!file.exists())
+        return;
 
-	if (!file.open(QFile::ReadOnly | QFile::Text))
-		return;
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        return;
 
-	QDomDocument document;
+    QDomDocument document;
 
-	if (!document.setContent(&file))
-		return;
+    if (!document.setContent(&file))
+        return;
 
-	file.close();
+    file.close();
 
-	QDomElement rootElem = document.documentElement();
+    QDomElement rootElem = document.documentElement();
 
-	// General parameters
-	QDomElement configElem = rootElem.firstChildElement("general");
-	if (!configElem.isNull())
-	{
-		_lastProfileName = XmlHandler::read(configElem, "last_profile_name", "default");
-	}
+    // General parameters
+    QDomElement configElem = rootElem.firstChildElement("general");
+    if (!configElem.isNull())
+    {
+        _lastProfileName = XmlHandler::read(configElem, "last_profile_name", "default");
+    }
 }
 
 void GeneralConfig::save()
 {
-	QFile &file = *_configFile;
+    QFile &file = *_configFile;
 
-	if (!file.open(QFile::WriteOnly | QFile::Text))
-		return;
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+        return;
 
-	QDomDocument document;
+    QDomDocument document;
 
-	QDomElement rootElem = document.createElement("config");
-	document.appendChild(rootElem);
+    QDomElement rootElem = document.createElement("config");
+    document.appendChild(rootElem);
 
-	// General
-	QDomElement generalElem = document.createElement("general");
-	rootElem.appendChild(generalElem);
+    // General
+    QDomElement generalElem = document.createElement("general");
+    rootElem.appendChild(generalElem);
 
-	XmlHandler::write(generalElem, "last_profile_name", _lastProfileName);
+    XmlHandler::write(generalElem, "last_profile_name", _lastProfileName);
 
-	// Save
-	QString xml = document.toString();
-	QTextStream out(&file);
-	out << xml.toLatin1();
+    // Save
+    QString xml = document.toString();
+    QTextStream out(&file);
+    out << xml.toLatin1();
 }
 

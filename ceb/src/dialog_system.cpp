@@ -24,124 +24,124 @@ DialogSystem *DialogSystem::_instance = 0;
 
 DialogSystem::DialogSystem(QWidget *parent) : QDialog(parent)
 {
-	setWindowTitle(tr("System logs"));
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    setWindowTitle(tr("System logs"));
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
-	firstShow = true;
+    firstShow = true;
 
-	textEditMain = new QTextEdit;
-	mainLayout->addWidget(textEditMain);
-	textEditMain->setReadOnly(true);
+    textEditMain = new QTextEdit;
+    mainLayout->addWidget(textEditMain);
+    textEditMain->setReadOnly(true);
 
-	// Separator
-	QFrame *line = new QFrame;
-	line->setFrameShape(QFrame::HLine);
-	line->setFrameShadow(QFrame::Sunken);
-	mainLayout->addWidget(line);
+    // Separator
+    QFrame *line = new QFrame;
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    mainLayout->addWidget(line);
 
-	// Hide button
-	QHBoxLayout *buttonLayout = new QHBoxLayout(0);
+    // Hide button
+    QHBoxLayout *buttonLayout = new QHBoxLayout(0);
 
-	buttonHide = new QPushButton("&Hide");
-	QSizePolicy policy = buttonHide->sizePolicy();
-	policy.setHorizontalPolicy(QSizePolicy::Minimum);
-	buttonHide->setSizePolicy(policy);
-	connect(buttonHide, SIGNAL(clicked()), this, SLOT(close()));
+    buttonHide = new QPushButton("&Hide");
+    QSizePolicy policy = buttonHide->sizePolicy();
+    policy.setHorizontalPolicy(QSizePolicy::Minimum);
+    buttonHide->setSizePolicy(policy);
+    connect(buttonHide, SIGNAL(clicked()), this, SLOT(close()));
 
-	QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed);
-	buttonLayout->addItem(spacer);
-	buttonLayout->addWidget(buttonHide);
+    QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    buttonLayout->addItem(spacer);
+    buttonLayout->addWidget(buttonHide);
 
-	mainLayout->addLayout(buttonLayout);
-	mainLayout->setMargin(4);
+    mainLayout->addLayout(buttonLayout);
+    mainLayout->setMargin(4);
 
-	resize(400, 200);
+    resize(400, 200);
 }
 
 DialogSystem::~DialogSystem()
 {
-	_instance = 0;
+    _instance = 0;
 }
 
 void DialogSystem::showEvent(QShowEvent *event)
 {
-	QDialog::showEvent(event);
+    QDialog::showEvent(event);
 
-	if (firstShow)
-		firstShow = false;
-	else
-	{
-		// Restore parameters
-		resize(savedWidth, savedHeight);
-		move(savedLeft, savedTop);
-	}
+    if (firstShow)
+        firstShow = false;
+    else
+    {
+        // Restore parameters
+        resize(savedWidth, savedHeight);
+        move(savedLeft, savedTop);
+    }
 }
 
 void DialogSystem::hideEvent(QHideEvent *event)
 {
-	QDialog::hideEvent(event);
+    QDialog::hideEvent(event);
 
-	// Save parameters
-	savedWidth = width();
-	savedHeight = height();
-	savedLeft = x();
-	savedTop = y();
+    // Save parameters
+    savedWidth = width();
+    savedHeight = height();
+    savedLeft = x();
+    savedTop = y();
 
-	emit hideSystemDialog();
+    emit hideSystemDialog();
 }
 
 void DialogSystem::sendInfo(const QString &log)
 {
-	textEditMain->setTextColor(QColor(0, 0, 200));
-	textEditMain->append(log);
+    textEditMain->setTextColor(QColor(0, 0, 200));
+    textEditMain->append(log);
 }
 
 void DialogSystem::sendError(const QString &log)
 {
-	textEditMain->setTextColor(QColor(200, 0, 0));
-	textEditMain->append(log);
+    textEditMain->setTextColor(QColor(200, 0, 0));
+    textEditMain->append(log);
 }
 void DialogSystem::sendWarning(const QString &log)
 {
-	textEditMain->setTextColor(Qt::magenta);
-	textEditMain->append(log);
+    textEditMain->setTextColor(Qt::magenta);
+    textEditMain->append(log);
 }
 
 void DialogSystem::sendSuccess(const QString &log)
 {
-	textEditMain->setTextColor(QColor(0, 200, 0));
-	textEditMain->append(log);
+    textEditMain->setTextColor(QColor(0, 200, 0));
+    textEditMain->append(log);
 }
 
 void DialogSystem::info(const QString &log)
 {
-	if (_instance)
-		_instance->sendInfo(log);
+    if (_instance)
+        _instance->sendInfo(log);
 }
 
 void DialogSystem::error(const QString &log)
 {
-	if (_instance)
-		_instance->sendError(log);
+    if (_instance)
+        _instance->sendError(log);
 }
 void DialogSystem::warning(const QString &log)
 {
-	if (_instance)
-		_instance->sendWarning(log);
+    if (_instance)
+        _instance->sendWarning(log);
 }
 void DialogSystem::success(const QString &log)
 {
-	if (_instance)
-		_instance->sendSuccess(log);
+    if (_instance)
+        _instance->sendSuccess(log);
 }
 
 void DialogSystem::init(QWidget *parent)
 {
-	if (!_instance)
-		_instance = new DialogSystem(parent);
+    if (!_instance)
+        _instance = new DialogSystem(parent);
 }
 
 DialogSystem *DialogSystem::instance()
 {
-	return _instance;
+    return _instance;
 }

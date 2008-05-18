@@ -18,10 +18,7 @@
 
 #include "dialog_about.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-
 DialogAbout::DialogAbout(QWidget *parent) : QDialog(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }

@@ -175,7 +175,7 @@ bool Profile::load(const QString &fileName)
 
 	// Keep alive
 	keepAlive = XmlHandler::read(rootElem, "keep_alive", 0);
-		
+
 	// Logs
 	const QDomElement logsElem = rootElem.firstChildElement("logs");
 	if (!logsElem.isNull())
@@ -203,7 +203,7 @@ bool Profile::load(const QString &fileName)
 		trayAlwaysVisible = XmlHandler::read(trayElem, "always_visible", true);
 		trayHideFromTaskBar = XmlHandler::read(trayElem, "hide_from_task_bar", true);
 	}
-	
+
 	// Warningo
 	const QDomElement warningoElem = rootElem.firstChildElement("warningo");
 	if (!warningoElem.isNull())
@@ -255,14 +255,14 @@ bool Profile::load(const QString &fileName)
 	{
 		const QDomElement beepElem = soundElem.firstChildElement("beep");
 		if (!beepElem.isNull())
-		{	
+		{
 			soundBeepEnabled = XmlHandler::read(beepElem, "enabled", true);
 			soundBeepDefault = XmlHandler::read(beepElem, "default", true);
 			soundBeepFileName = XmlHandler::read(beepElem, "filename", "");
 		}
 		const QDomElement aboutMeElem = soundElem.firstChildElement("about_me");
 		if (!aboutMeElem.isNull())
-		{	
+		{
 			soundAboutMeEnabled = XmlHandler::read(aboutMeElem, "enabled", true);
 			soundAboutMeDefault = XmlHandler::read(aboutMeElem, "default", true);
 			soundAboutMeFileName = XmlHandler::read(aboutMeElem, "filename", "");
@@ -309,7 +309,7 @@ bool Profile::load(const QString &fileName)
 	behindNAT = XmlHandler::read(rootElem, "behind_nat", true);
 	transferPort = XmlHandler::read(rootElem, "transfer_port", 4001);
 	transferInit = XmlHandler::read(rootElem, "transfer_init", false);
-	
+
 	// Text skin
 	m_textSkin.load(rootElem);
 
@@ -360,9 +360,9 @@ void Profile::save() const
 		XmlHandler::write(rootElem, "time_stamp_policy", (int) timeStampPolicy);
 		XmlHandler::write(rootElem, "time_stamp_in_tell_tabs", timeStampInTellTabs);
 
-		// Keep alive 
+		// Keep alive
 		XmlHandler::write(rootElem, "keep_alive", keepAlive);
-		
+
 		// Logs
 		QDomElement logsElem = document.createElement("logs");
 		rootElem.appendChild(logsElem);
@@ -371,14 +371,14 @@ void Profile::save() const
 		XmlHandler::write(logsElem, "dir", logsDefaultDir ? "" : logsDir);
 		XmlHandler::write(logsElem, "file_policy", (int) logsFilePolicy);
 		XmlHandler::write(logsElem, "time_stamp", logsTimeStamp);
-		
+
 		// Tab for...
 		XmlHandler::write(rootElem, "tab_for_who", tabForWho);
 		XmlHandler::write(rootElem, "tab_for_wall", tabForWall);
 		XmlHandler::write(rootElem, "tab_for_finger", tabForFinger);
-		
+
 		// Client version
-		XmlHandler::write(rootElem, "client_version", VERSION);
+		XmlHandler::write(rootElem, "client_version", QString(VERSION));
 
 		// Tray
 		QDomElement trayElem = document.createElement("tray");
@@ -407,7 +407,7 @@ void Profile::save() const
 
 		// Links
 		XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
-		
+
 		// Away Separator line
 		QDomElement awaySepElem = document.createElement("away_separator");
 		rootElem.appendChild(awaySepElem);
@@ -417,7 +417,7 @@ void Profile::save() const
 		XmlHandler::write(awaySepElem, "period", awaySeparatorPeriod);
 
 		XmlHandler::write(rootElem, "copy_on_selection", copyOnSelection);
-		
+
 		// Autoconnection
 		QDomElement autoconnectionElem = document.createElement("autoconnection");
 		rootElem.appendChild(autoconnectionElem);
@@ -437,7 +437,7 @@ void Profile::save() const
 		XmlHandler::write(aboutMeElem, "enabled", soundAboutMeEnabled);
 		XmlHandler::write(aboutMeElem, "default", soundAboutMeDefault);
 		XmlHandler::write(aboutMeElem, "filename", soundAboutMeFileName);
-		
+
 		// Idle
 		QDomElement idleElem = document.createElement("idle");
 		rootElem.appendChild(idleElem);
@@ -518,7 +518,7 @@ Profile &Profile::operator=(const Profile &profile)
 {
 	m_name = profile.m_name;
 	m_description = profile.m_description;
-	
+
 	mainWidth = profile.mainWidth;
 	mainHeight = profile.mainHeight;
 	mainLeft = profile.mainLeft;

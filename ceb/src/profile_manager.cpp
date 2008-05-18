@@ -27,98 +27,98 @@ ProfileManager *ProfileManager::m_instance = 0;
 
 ProfileManager::ProfileManager()
 {
-	loadAll();
+    loadAll();
 
-	// Select the last profile
-	GeneralConfig &config = GeneralConfig::instance();
+    // Select the last profile
+    GeneralConfig &config = GeneralConfig::instance();
 
-	m_defaultProfile = getProfile("default");
-	m_currentProfile = getProfile(config.lastProfileName());
-	if (!m_currentProfile)
-		m_currentProfile = m_defaultProfile;
+    m_defaultProfile = getProfile("default");
+    m_currentProfile = getProfile(config.lastProfileName());
+    if (!m_currentProfile)
+        m_currentProfile = m_defaultProfile;
 }
 
 void ProfileManager::loadAll()
 {
-	QDir profilesDir(QApplication::applicationDirPath());
+    QDir profilesDir(QApplication::applicationDirPath());
 
-	if (profilesDir.cd("profiles"))
-	{
-		clearProfilesList();
+    if (profilesDir.cd("profiles"))
+    {
+        clearProfilesList();
 
-		QStringList nameFilters;
-		nameFilters << "*.xml";
-		QStringList entryList = profilesDir.entryList(nameFilters, QDir::Files);
-		for (int i = 0; i < entryList.size(); i++)
-		{
-			QString fileName = profilesDir.absoluteFilePath(entryList.at(i));
-			Profile *profile = new Profile;
-			if (profile->load(fileName))
-				m_profilesList += profile;
-			else
-				delete profile;
-		}
+        QStringList nameFilters;
+        nameFilters << "*.xml";
+        QStringList entryList = profilesDir.entryList(nameFilters, QDir::Files);
+        for (int i = 0; i < entryList.size(); i++)
+        {
+            QString fileName = profilesDir.absoluteFilePath(entryList.at(i));
+            Profile *profile = new Profile;
+            if (profile->load(fileName))
+                m_profilesList += profile;
+            else
+                delete profile;
+        }
 
-	} else
-		QMessageBox::critical(0, "Error", "The profiles directory does not exists!");
+    } else
+        QMessageBox::critical(0, "Error", "The profiles directory does not exists!");
 }
 
 ProfileManager &ProfileManager::instance()
 {
-	if (m_instance == 0)
-		m_instance = new ProfileManager();
-	return *m_instance;
+    if (m_instance == 0)
+        m_instance = new ProfileManager();
+    return *m_instance;
 }
 
 void ProfileManager::free()
 {
-	if (m_instance)
-	{
-		delete m_instance;
-		m_instance = 0;
-	}
+    if (m_instance)
+    {
+        delete m_instance;
+        m_instance = 0;
+    }
 }
 
 void ProfileManager::clearProfilesList()
 {
-	while (m_profilesList.count() > 0)
-	{
-		Profile *profile = m_profilesList.value(0);
-		delete profile;
-		m_profilesList.removeAt(0);
-	}
+    while (m_profilesList.count() > 0)
+    {
+        Profile *profile = m_profilesList.value(0);
+        delete profile;
+        m_profilesList.removeAt(0);
+    }
 }
 
 ProfileManager::~ProfileManager()
 {
-	clearProfilesList();
+    clearProfilesList();
 }
 
 Profile *ProfileManager::currentProfile()
 {
-	return m_currentProfile;
+    return m_currentProfile;
 }
 
 Profile *ProfileManager::defaultProfile()
 {
-	return m_defaultProfile;
+    return m_defaultProfile;
 }
 
 void ProfileManager::selectProfile(const QString &profileName)
 {
-	Profile *profile = getProfile(profileName);
-	if (profile)
-		m_currentProfile = profile;
+    Profile *profile = getProfile(profileName);
+    if (profile)
+        m_currentProfile = profile;
 }
 
 Profile *ProfileManager::getProfile(const QString &profileName) const
 {
-	for (int i = 0; i < m_profilesList.count(); i++)
-	{
-		Profile *profile = m_profilesList.value(i);
-		if (profile->name() == profileName)
-			return profile;
-	}
-	return 0;
+    for (int i = 0; i < m_profilesList.count(); i++)
+    {
+        Profile *profile = m_profilesList.value(i);
+        if (profile->name() == profileName)
+            return profile;
+    }
+    return 0;
 }
 

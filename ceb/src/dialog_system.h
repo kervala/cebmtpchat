@@ -25,39 +25,39 @@
 
 class DialogSystem : public QDialog
 {
-	Q_OBJECT
-
-private:
-	static DialogSystem *_instance;
-	bool firstShow;
-	int savedLeft, savedTop, savedWidth, savedHeight;
-	QPushButton *buttonHide;
-	QTextEdit *textEditMain;
-
-	DialogSystem(QWidget *parent = 0);
-	~DialogSystem();
-
-protected:
-	void showEvent(QShowEvent *event);
-	void hideEvent(QHideEvent *event);
+    Q_OBJECT
 
 public:
-	static void init(QWidget *parent = 0);
+    static void init(QWidget *parent = 0);
 
-	static DialogSystem *instance();
+    static DialogSystem *instance();
 
-	void sendInfo(const QString &log);
-	void sendError(const QString &log);
-	void sendWarning(const QString &log);
-	void sendSuccess(const QString &log);
+    void sendInfo(const QString &log);
+    void sendError(const QString &log);
+    void sendWarning(const QString &log);
+    void sendSuccess(const QString &log);
 
-	static void info(const QString &log);
-	static void error(const QString &log);
-	static void warning(const QString &log);
-	static void success(const QString &log);
+    static void info(const QString &log);
+    static void error(const QString &log);
+    static void warning(const QString &log);
+    static void success(const QString &log);
 
 signals:
-	void hideSystemDialog();
+    void hideSystemDialog();
+
+protected:
+    void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+
+private:
+    static DialogSystem *_instance;
+    bool firstShow;
+    int savedLeft, savedTop, savedWidth, savedHeight;
+    QPushButton *buttonHide;
+    QTextEdit *textEditMain;
+
+    DialogSystem(QWidget *parent = 0);
+    ~DialogSystem();
 };
 
 #endif

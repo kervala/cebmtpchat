@@ -20,17 +20,15 @@
 #define DIALOG_ABOUT_H
 
 #include <QDialog>
-#include <QLabel>
-#include <QPushButton>
 
 #include "ui_dialog_about.h"
 
 class DialogAbout : public QDialog, private Ui::DialogAbout
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DialogAbout(QWidget *parent = 0);
+    DialogAbout(QWidget *parent = 0);
 };
 
 #endif

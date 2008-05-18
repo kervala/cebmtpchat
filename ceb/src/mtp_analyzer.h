@@ -28,106 +28,106 @@
 class MtpRegExp : public QRegExp
 {
 public:
-	MtpRegExp(const QString &pattern, const QList<int> arguments, const QString &example);
-	MtpRegExp(const QString &pattern, const QString &example);
-	MtpRegExp(const QString &pattern, const QList<int> arguments);
-	MtpRegExp(const QString &pattern) : QRegExp(pattern) {}
+    MtpRegExp(const QString &pattern, const QList<int> arguments, const QString &example);
+    MtpRegExp(const QString &pattern, const QString &example);
+    MtpRegExp(const QString &pattern, const QList<int> arguments);
+    MtpRegExp(const QString &pattern) : QRegExp(pattern) {}
 
-	const QList<int> &arguments() const { return m_arguments; }
-	const QString &example() const { return m_example; }
+    const QList<int> &arguments() const { return m_arguments; }
+    const QString &example() const { return m_example; }
 
 private:
-	QList<int> m_arguments;
-	QString m_example;
+    QList<int> m_arguments;
+    QString m_example;
 };
 
 class MtpAnalyzer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum SendToken {
-		SendToken_Tell,
-		SendToken_Reply,
-		SendToken_Sendmsg
-	};
+    enum SendToken {
+        SendToken_Tell,
+        SendToken_Reply,
+        SendToken_Sendmsg
+    };
 
-	enum State {
-		State_Normal,
-		State_Who,
-		State_History,
-		State_Finger,
-		State_Alias,
-		State_Wall,
-		State_Message,
-		State_Help
-	};
+    enum State {
+        State_Normal,
+        State_Who,
+        State_History,
+        State_Finger,
+        State_Alias,
+        State_Wall,
+        State_Message,
+        State_Help
+    };
 
-	enum Command {
-		Command_Who = 0,
-		Command_Wall,
-		Command_Date,
-		Command_SetClient,
-		Command_ShowMsg,
-		Command_Help,
-		Command_Count
-	};
+    enum Command {
+        Command_Who = 0,
+        Command_Wall,
+        Command_Date,
+        Command_SetClient,
+        Command_ShowMsg,
+        Command_Help,
+        Command_Count
+    };
 
-	struct CommandTicket {
-		Command command;
-		int ID;
-	};
+    struct CommandTicket {
+        Command command;
+        int ID;
+    };
 
-	MtpAnalyzer();
+    MtpAnalyzer();
 
-	bool logged() const;
-	State state() const;
-	bool away() const;
+    bool logged() const;
+    State state() const;
+    bool away() const;
 
-	QStringList split(const QString &message);
-	void reset();
+    QStringList split(const QString &message);
+    void reset();
 
-	int requestTicket(Command command);
+    int requestTicket(Command command);
 
-	const QList<MtpRegExp> &tokenRegexp() const { return m_tokenRegexp; }
+    const QList<MtpRegExp> &tokenRegexp() const { return m_tokenRegexp; }
 
-	static const MtpAnalyzer defaultAnalyzer;
+    static const MtpAnalyzer defaultAnalyzer;
 
 public slots:
-	void dataReceived(const QString &data);
+    void dataReceived(const QString &data);
 
 signals:
-	void tokenAnalyzed(const TokenEvent &event);
+    void tokenAnalyzed(const TokenEvent &event);
 
 private:
-	static MtpToken whoTokens[];
-	static MtpToken aliasTokens[];
-	static MtpToken normalTokens[];
-	static MtpToken historyTokens[];
-	static MtpToken fingerTokens[];
-	static MtpToken wallTokens[];
-	static MtpToken messageTokens[];
-	static MtpToken helpTokens[];
+    static MtpToken whoTokens[];
+    static MtpToken aliasTokens[];
+    static MtpToken normalTokens[];
+    static MtpToken historyTokens[];
+    static MtpToken fingerTokens[];
+    static MtpToken wallTokens[];
+    static MtpToken messageTokens[];
+    static MtpToken helpTokens[];
 
-	bool m_logged;
-	State m_state;
-	bool m_away;
+    bool m_logged;
+    State m_state;
+    bool m_away;
 
-	QList<MtpRegExp> m_tokenRegexp;
-	QList<QRegExp> sendTokenRegexp;
-	QRegExp timeRegexp;
+    QList<MtpRegExp> m_tokenRegexp;
+    QList<QRegExp> sendTokenRegexp;
+    QRegExp timeRegexp;
 
-	QList<CommandTicket> tickets[Command_Count];
+    QList<CommandTicket> tickets[Command_Count];
 
-	void analyzeBeforeLog(const QString &data);
-	void analyzeAfterLog(const QString &data);
+    void analyzeBeforeLog(const QString &data);
+    void analyzeAfterLog(const QString &data);
 
-	// !!! Uses <tokenRegexp> state to work !!!
-	void doTokenAnalyzed(MtpToken token, int ticketID, const QTime &timeStamp);
+    // !!! Uses <tokenRegexp> state to work !!!
+    void doTokenAnalyzed(MtpToken token, int ticketID, const QTime &timeStamp);
 
-	void clearTickets();
+    void clearTickets();
 
-	inline QString rightTrim(const QString &str) const;
+    inline QString rightTrim(const QString &str) const;
 };
 
 #endif

@@ -7,23 +7,23 @@
 
 class DialogShortcut : public DialogBasic
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DialogShortcut(QWidget *parent = 0);
+    DialogShortcut(QWidget *parent = 0);
 
-	void init(const QKeySequence &keySequence);
+    void init(const QKeySequence &keySequence);
 
-	const QKeySequence &keySequence() const { return _keySequence; }
+    const QKeySequence &keySequence() const { return _keySequence; }
 
 protected:
-	bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-	QPushButton *_pushButtonChange;
-	QKeySequence _keySequence;
+    QPushButton *_pushButtonChange;
+    QKeySequence _keySequence;
 
-	void refreshButton();
+    void refreshButton();
 };
 
 #endif // DIALOG_SHORTCUT_H

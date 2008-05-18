@@ -23,8 +23,8 @@
 
 IdleSettingsWidget::IdleSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
-	setupUi(this);
-    
+    setupUi(this);
+
     QShortcut *shortcut = new QShortcut(Qt::Key_Delete, this);
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteCurrentExpression()));
 }
@@ -32,49 +32,49 @@ IdleSettingsWidget::IdleSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 void IdleSettingsWidget::applyProfile(const Profile &profile)
 {
     checkBoxAway->setChecked(profile.idleAway);
-	spinBoxAway->setValue(profile.idleAwayTimeout);
+    spinBoxAway->setValue(profile.idleAwayTimeout);
 
     initExpressionsList(profile.idleAwayBypassExpressions);
 
     connect(listWidgetExpressions->model(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(listWidgetExpressionsDataChanged(const QModelIndex &, const QModelIndex &)));
 
-	checkBoxQuit->setChecked(profile.idleQuit);
-	spinBoxQuit->setValue(profile.idleQuitTimeout);
+    checkBoxQuit->setChecked(profile.idleQuit);
+    spinBoxQuit->setValue(profile.idleQuitTimeout);
 }
 
 void IdleSettingsWidget::feedProfile(Profile &profile)
 {
-	profile.idleAway = checkBoxAway->isChecked();
-	profile.idleAwayTimeout = spinBoxAway->value();
-	
-	// Get bypass expressions
-	profile.idleAwayBypassExpressions.clear();
-	for (int i = 0; i < listWidgetExpressions->count(); ++i)
+    profile.idleAway = checkBoxAway->isChecked();
+    profile.idleAwayTimeout = spinBoxAway->value();
+
+    // Get bypass expressions
+    profile.idleAwayBypassExpressions.clear();
+    for (int i = 0; i < listWidgetExpressions->count(); ++i)
         profile.idleAwayBypassExpressions << listWidgetExpressions->item(i)->text();
-    
-	profile.idleQuit = checkBoxQuit->isChecked();
-	profile.idleQuitTimeout = spinBoxQuit->value();
+
+    profile.idleQuit = checkBoxQuit->isChecked();
+    profile.idleQuitTimeout = spinBoxQuit->value();
 }
 
 void IdleSettingsWidget::on_checkBoxAway_stateChanged(int state)
 {
-	spinBoxAway->setEnabled(state == Qt::Checked);
-	labelAway->setEnabled(state == Qt::Checked);
+    spinBoxAway->setEnabled(state == Qt::Checked);
+    labelAway->setEnabled(state == Qt::Checked);
 }
 
 void IdleSettingsWidget::on_checkBoxQuit_stateChanged(int state)
 {
-	spinBoxQuit->setEnabled(state == Qt::Checked);
-	labelQuit->setEnabled(state == Qt::Checked);
+    spinBoxQuit->setEnabled(state == Qt::Checked);
+    labelQuit->setEnabled(state == Qt::Checked);
 }
 
 void IdleSettingsWidget::on_pushButtonAddExpr_clicked()
 {
-	QListWidgetItem *item = new QListWidgetItem("", listWidgetExpressions);
-	item->setFlags(item->flags() | Qt::ItemIsEditable);
-	listWidgetExpressions->setCurrentItem(item);
-	listWidgetExpressions->editItem(item);
+    QListWidgetItem *item = new QListWidgetItem("", listWidgetExpressions);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    listWidgetExpressions->setCurrentItem(item);
+    listWidgetExpressions->editItem(item);
 }
 
 void IdleSettingsWidget::on_pushButtonRemoveExpr_clicked()
@@ -84,8 +84,8 @@ void IdleSettingsWidget::on_pushButtonRemoveExpr_clicked()
 
 void IdleSettingsWidget::deleteCurrentExpression()
 {
-	QListWidgetItem *item = listWidgetExpressions->currentItem();
-	if (item)
+    QListWidgetItem *item = listWidgetExpressions->currentItem();
+    if (item)
         delete item;
 }
 
@@ -105,14 +105,14 @@ void IdleSettingsWidget::listWidgetExpressionsDataChanged(const QModelIndex &top
 
 void IdleSettingsWidget::initExpressionsList(const QStringList &expressions)
 {
-	// Set bypass expressions list
+    // Set bypass expressions list
     listWidgetExpressions->clear();
-	foreach (const QString &expr, expressions)
-        {
-            QListWidgetItem *item = new QListWidgetItem(expr, listWidgetExpressions);
-            item->setFlags(item->flags() | Qt::ItemIsEditable);
-        }
-    
+    foreach (const QString &expr, expressions)
+    {
+        QListWidgetItem *item = new QListWidgetItem(expr, listWidgetExpressions);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+    }
+
     if (listWidgetExpressions->count())
         listWidgetExpressions->setCurrentRow(0);
 }

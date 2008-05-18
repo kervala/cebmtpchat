@@ -25,8 +25,8 @@ class ProfileManager
 {
 public:
     static ProfileManager &instance();
-	static void free();
-	
+    static void free();
+
     Profile *defaultProfile();
     Profile *currentProfile();
 

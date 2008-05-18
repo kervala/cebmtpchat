@@ -1,10 +1,28 @@
+/* This file is part of CeB.
+ * Copyright (C) 2005  Guillaume Denry
+ *
+ * CeB is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * any later version.
+ *
+ * CeB is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CeB; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include <QHBoxLayout>
 
 #include "search_widget.h"
 
 SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
                                               _textWidget(0),
-											  _findFlags(0)
+                                              _findFlags(0)
 {
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setMargin(0);
@@ -68,19 +86,15 @@ void SearchWidget::lineEditTextChanged(const QString &text)
     QTextCursor cursor = _textWidget->textCursor();
     cursor.movePosition(QTextCursor::End);
     _textWidget->setTextCursor(cursor);
-    if (text == "")
-    {
-        QPalette palette = QLineEdit().palette();
-        _lineEditSearch->setPalette(palette);
-    } else if (!_textWidget->find(text, _findFlags | QTextDocument::FindBackward))
+    if (text != "" && !_textWidget->find(text, _findFlags | QTextDocument::FindBackward))
     {
         QPalette palette = _lineEditSearch->palette();
-        palette.setColor(QPalette::Base, Qt::red);
+        palette.setColor(QPalette::Base, QColor(255, 102, 102));
+        palette.setColor(QPalette::Text, Qt::white);
         _lineEditSearch->setPalette(palette);
     } else
     {
-        QPalette palette = _lineEditSearch->palette();
-        palette.setColor(QPalette::Base, Qt::green);
+        QPalette palette = QLineEdit().palette();
         _lineEditSearch->setPalette(palette);
     }
 }

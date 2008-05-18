@@ -35,35 +35,35 @@
 
 class MessageWidget : public SessionWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MessageWidget(Session *session, QWidget *parent = 0);
+    MessageWidget(Session *session, QWidget *parent = 0);
 
-	virtual QString widgetCaption() const;
+    virtual QString widgetCaption() const;
 
 protected:
-	void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event);
 
 private:
-	bool m_firstShow;
-	QSplitter *splitterMain;
-	QTreeView *treeViewMessages;
-	QPushButton *pushButtonRefresh;
-	QPushButton *pushButtonRemove;
-	MyTextEdit *textEditMessage;
-	GenericSortModel *m_sortModel;
-	MessageModel *messageModel;
-	int showMsgTicketID;
+    bool m_firstShow;
+    QSplitter *splitterMain;
+    QTreeView *treeViewMessages;
+    QPushButton *pushButtonRefresh;
+    QPushButton *pushButtonRemove;
+    MyTextEdit *textEditMessage;
+    GenericSortModel *m_sortModel;
+    MessageModel *messageModel;
+    int showMsgTicketID;
 
-	void init();
-	void focusLastItem();
+    void init();
+    void focusLastItem();
 
 private slots:
-	void currentMessageChanged(const QModelIndex & current, const QModelIndex & previous);
-	void removeSelectedMessage();
-	void newTokenFromSession(const TokenEvent &event);
-	void refreshMessages();
+    void currentMessageChanged(const QModelIndex & current, const QModelIndex & previous);
+    void removeSelectedMessage();
+    void newTokenFromSession(const TokenEvent &event);
+    void refreshMessages();
 };
 
 #endif

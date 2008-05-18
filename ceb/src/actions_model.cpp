@@ -1,11 +1,6 @@
 #include "profile_manager.h"
 #include "actions_model.h"
 
-ActionsModel::ActionsModel(QObject *parent) : QAbstractListModel(parent)
-{
-	
-}
-
 int ActionsModel::columnCount(const QModelIndex &parent) const
 {
 	return columnsCount;
