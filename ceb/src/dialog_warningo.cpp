@@ -24,9 +24,8 @@
 #include "dialog_warningo.h"
 #include "profile.h"
 
-DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent) :
-    QDialog(parent,
-            Qt::SplashScreen | Qt::WindowStaysOnTopHint)
+DialogWarningo::DialogWarningo(const QString &title, const QString &message) :
+    QDialog(0, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setAttribute(Qt::WA_Disabled, true);
@@ -47,7 +46,7 @@ void DialogWarningo::endOfTimer()
     close();
 }
 
-void DialogWarningo::showEvent(QShowEvent * event)
+void DialogWarningo::showEvent(QShowEvent *event)
 {
     QDesktopWidget desktopWidget;
     QRect desktopGeometry = desktopWidget.availableGeometry();
@@ -69,5 +68,6 @@ void DialogWarningo::showEvent(QShowEvent * event)
     }
 
     QDialog::showEvent(event);
+
     timer.start();
 }

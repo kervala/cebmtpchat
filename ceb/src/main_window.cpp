@@ -601,8 +601,8 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
             if (showWarningo && Profile::instance().warningoEnabled)
             {
-                DialogWarningo *dialog = new DialogWarningo(session->config().name(), event.line(), 0);
-                dialog->move(0, 0);
+                DialogWarningo *dialog = new DialogWarningo(session->config().name(), event.line());
+                dialog->show();
             }
         }
         else if (!trayTalkAboutMe)

@@ -30,10 +30,10 @@ private:
     QTimer timer;
 
 protected:
-    virtual void showEvent(QShowEvent * event);
+    void showEvent(QShowEvent *event);
 
 public:
-    DialogWarningo(const QString &title, const QString &message, QWidget *parent = 0);
+    DialogWarningo(const QString &title, const QString &message);
 
 private slots:
     void endOfTimer();
