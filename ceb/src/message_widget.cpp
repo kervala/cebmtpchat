@@ -23,7 +23,7 @@
 #include <filter_widget.h>
 
 #include "message_widget.h"
-#include "profile_manager.h"
+#include "profile.h"
 
 MessageWidget::MessageWidget(Session *session, QWidget *parent) : SessionWidget(session, parent)
 {
@@ -121,11 +121,10 @@ void MessageWidget::init()
 
 void MessageWidget::currentMessageChanged(const QModelIndex & current, const QModelIndex &)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     textEditMessage->clear();
     QModelIndex currentSource = m_sortModel->mapToSource(current);
     const MessageItem &message = messageModel->myMessages()[currentSource.row()];
-    textEditMessage->addNewLine(message.message(), profile.textSkin().textFont().font(), QColor(0, 0, 0));
+    textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));
 }
 
 void MessageWidget::removeSelectedMessage()

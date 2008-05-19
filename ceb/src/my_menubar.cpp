@@ -2,7 +2,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 
-#include "profile_manager.h"
+#include "profile.h"
 #include "my_menubar.h"
 
 void MyMenuBar::paintEvent(QPaintEvent *event)
@@ -10,9 +10,7 @@ void MyMenuBar::paintEvent(QPaintEvent *event)
     QMenuBar::paintEvent(event);
 
 #ifdef Q_OS_WIN32
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (profile.checkForUpdate)
+    if (Profile::instance().checkForUpdate)
     {
         QPixmap pixmap;
 
@@ -60,9 +58,7 @@ void MyMenuBar::mousePressEvent(QMouseEvent *event)
     QMenuBar::mousePressEvent(event);
 
 #ifdef Q_OS_WIN32
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (profile.checkForUpdate)
+    if (Profile::instance().checkForUpdate)
     {
         // Icon?
         updateIconPressed = (event->x() >= width() - 18) &&
@@ -82,9 +78,7 @@ void MyMenuBar::mouseReleaseEvent(QMouseEvent *event)
     QMenuBar::mouseReleaseEvent(event);
 
 #ifdef Q_OS_WIN32
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (profile.checkForUpdate)
+    if (Profile::instance().checkForUpdate)
     {
         // Icon?
         if (updateIconPressed)
@@ -107,9 +101,7 @@ void MyMenuBar::mouseMoveEvent(QMouseEvent *event)
     QMenuBar::mouseMoveEvent(event);
 
 #ifdef Q_OS_WIN32
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (profile.checkForUpdate)
+    if (Profile::instance().checkForUpdate)
     {
         bool overIcon = (event->x() >= width() - 18) &&
             (event->x() < width() - 2) &&

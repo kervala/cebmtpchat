@@ -16,25 +16,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDomDocument>
+#include <QDesktopServices>
 
 #include <xml_handler.h>
 
 #include "profile.h"
 #include "version.h"
 
+Profile *Profile::_instance = 0;
 const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
 
-Profile::Profile(const QString &name)
+Profile &Profile::instance()
 {
-    init();
-    m_name = name;
+    if (!_instance)
+        _instance = new Profile;
+
+    return *_instance;
 }
 
 Profile::Profile()
@@ -120,13 +124,19 @@ void Profile::clearSessionConfigList()
     }
 }
 
-bool Profile::load(const QString &fileName)
+bool Profile::load()
 {
     // Load and parse
-    QFile file(fileName);
+    QDir dataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
 
-    QFileInfo fileInfo(file);
-    m_name = fileInfo.baseName();
+    QFile file(dataDir.filePath("settings.xml"));
+
+    if (!file.exists())
+    {
+        // Search for the "old school" file
+        QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
+        file.setFileName(profilesDir.filePath("default.xml"));
+    }
 
     if (!file.open(QFile::ReadOnly))
         return false;
@@ -147,7 +157,6 @@ bool Profile::load(const QString &fileName)
     QDomElement rootElem = document.documentElement();
 
     // General parameters
-    m_description = XmlHandler::read(rootElem, "description", "");
     mainWidth = XmlHandler::read(rootElem, "main_width", -1);
     mainHeight = XmlHandler::read(rootElem, "main_height", -1);
     mainLeft = XmlHandler::read(rootElem, "main_left", -1);
@@ -318,166 +327,164 @@ bool Profile::load(const QString &fileName)
 
 void Profile::save() const
 {
-    // Write and save
-    QDir profilesDir(QApplication::applicationDirPath());
+    // Save
+    QDir dataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
 
-    if (profilesDir.cd("profiles"))
+    dataDir.mkpath(".");
+    QFile file(dataDir.filePath("settings.xml"));
+
+    if (!file.open(QFile::WriteOnly | QFile::Text))
     {
-        // Save
-        QFile file(profilesDir.absoluteFilePath(m_name + ".xml"));
+        qDebug("failed to save the profile!");
+        return;
+    }
 
-        if (!file.open(QFile::WriteOnly | QFile::Text))
-            return;
+    QDomDocument document;
 
-        QDomDocument document;
+    QDomElement rootElem = document.createElement("profile");
+    document.appendChild(rootElem);
 
-        QDomElement rootElem = document.createElement("profile");
-        document.appendChild(rootElem);
+    // General parameters
+    XmlHandler::write(rootElem, "main_width", mainWidth);
+    XmlHandler::write(rootElem, "main_height", mainHeight);
+    XmlHandler::write(rootElem, "main_left", mainLeft);
+    XmlHandler::write(rootElem, "main_top", mainTop);
+    XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
+    XmlHandler::write(rootElem, "language", language);
+    XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
 
-        // General parameters
-        XmlHandler::write(rootElem, "description", m_description);
-        XmlHandler::write(rootElem, "main_width", mainWidth);
-        XmlHandler::write(rootElem, "main_height", mainHeight);
-        XmlHandler::write(rootElem, "main_left", mainLeft);
-        XmlHandler::write(rootElem, "main_top", mainTop);
-        XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
-        XmlHandler::write(rootElem, "language", language);
-        XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
+    // System logs
+    QDomElement systemLogsElem = document.createElement("system_logs");
+    rootElem.appendChild(systemLogsElem);
+    XmlHandler::write(systemLogsElem, "visible", systemLogsVisible);
+    XmlHandler::write(systemLogsElem, "left", systemLogsLeft);
+    XmlHandler::write(systemLogsElem, "top", systemLogsTop);
+    XmlHandler::write(systemLogsElem, "width", systemLogsWidth);
+    XmlHandler::write(systemLogsElem, "height", systemLogsHeight);
 
-        // System logs
-        QDomElement systemLogsElem = document.createElement("system_logs");
-        rootElem.appendChild(systemLogsElem);
-        XmlHandler::write(systemLogsElem, "visible", systemLogsVisible);
-        XmlHandler::write(systemLogsElem, "left", systemLogsLeft);
-        XmlHandler::write(systemLogsElem, "top", systemLogsTop);
-        XmlHandler::write(systemLogsElem, "width", systemLogsWidth);
-        XmlHandler::write(systemLogsElem, "height", systemLogsHeight);
+    // Topic window
+    XmlHandler::write(rootElem, "topic_window_visible", topicWindowVisible);
 
-        // Topic window
-        XmlHandler::write(rootElem, "topic_window_visible", topicWindowVisible);
+    // Time stamp
+    XmlHandler::write(rootElem, "time_stamp_policy", (int) timeStampPolicy);
+    XmlHandler::write(rootElem, "time_stamp_in_tell_tabs", timeStampInTellTabs);
 
-        // Time stamp
-        XmlHandler::write(rootElem, "time_stamp_policy", (int) timeStampPolicy);
-        XmlHandler::write(rootElem, "time_stamp_in_tell_tabs", timeStampInTellTabs);
+    // Keep alive
+    XmlHandler::write(rootElem, "keep_alive", keepAlive);
 
-        // Keep alive
-        XmlHandler::write(rootElem, "keep_alive", keepAlive);
+    // Logs
+    QDomElement logsElem = document.createElement("logs");
+    rootElem.appendChild(logsElem);
+    XmlHandler::write(logsElem, "enabled", logsEnabled);
+    XmlHandler::write(logsElem, "default_dir", logsDefaultDir);
+    XmlHandler::write(logsElem, "dir", logsDefaultDir ? "" : logsDir);
+    XmlHandler::write(logsElem, "file_policy", (int) logsFilePolicy);
+    XmlHandler::write(logsElem, "time_stamp", logsTimeStamp);
 
-        // Logs
-        QDomElement logsElem = document.createElement("logs");
-        rootElem.appendChild(logsElem);
-        XmlHandler::write(logsElem, "enabled", logsEnabled);
-        XmlHandler::write(logsElem, "default_dir", logsDefaultDir);
-        XmlHandler::write(logsElem, "dir", logsDefaultDir ? "" : logsDir);
-        XmlHandler::write(logsElem, "file_policy", (int) logsFilePolicy);
-        XmlHandler::write(logsElem, "time_stamp", logsTimeStamp);
+    // Tab for...
+    XmlHandler::write(rootElem, "tab_for_who", tabForWho);
+    XmlHandler::write(rootElem, "tab_for_wall", tabForWall);
+    XmlHandler::write(rootElem, "tab_for_finger", tabForFinger);
 
-        // Tab for...
-        XmlHandler::write(rootElem, "tab_for_who", tabForWho);
-        XmlHandler::write(rootElem, "tab_for_wall", tabForWall);
-        XmlHandler::write(rootElem, "tab_for_finger", tabForFinger);
+    // Client version
+    XmlHandler::write(rootElem, "client_version", QString(VERSION));
 
-        // Client version
-        XmlHandler::write(rootElem, "client_version", QString(VERSION));
+    // Tray
+    QDomElement trayElem = document.createElement("tray");
+    rootElem.appendChild(trayElem);
+    XmlHandler::write(trayElem, "enabled", trayEnabled);
+    XmlHandler::write(trayElem, "always_visible", trayAlwaysVisible);
+    XmlHandler::write(trayElem, "hide_from_task_bar", trayHideFromTaskBar);
 
-        // Tray
-        QDomElement trayElem = document.createElement("tray");
-        rootElem.appendChild(trayElem);
-        XmlHandler::write(trayElem, "enabled", trayEnabled);
-        XmlHandler::write(trayElem, "always_visible", trayAlwaysVisible);
-        XmlHandler::write(trayElem, "hide_from_task_bar", trayHideFromTaskBar);
+    // Warningo
+    QDomElement warningoElem = document.createElement("warningo");
+    rootElem.appendChild(warningoElem);
+    XmlHandler::write(warningoElem, "enabled", warningoEnabled);
+    XmlHandler::write(warningoElem, "life_time", warningoLifeTime);
+    XmlHandler::write(warningoElem, "location", (int) warningoLocation);
+    XmlHandler::write(warningoElem, "private", warningoPrivate);
+    XmlHandler::write(warningoElem, "highlight", warningoHighlight);
 
-        // Warningo
-        QDomElement warningoElem = document.createElement("warningo");
-        rootElem.appendChild(warningoElem);
-        XmlHandler::write(warningoElem, "enabled", warningoEnabled);
-        XmlHandler::write(warningoElem, "life_time", warningoLifeTime);
-        XmlHandler::write(warningoElem, "location", (int) warningoLocation);
-        XmlHandler::write(warningoElem, "private", warningoPrivate);
-        XmlHandler::write(warningoElem, "highlight", warningoHighlight);
+    // Tabs
+    QDomElement tabsElem = document.createElement("tabs");
+    rootElem.appendChild(tabsElem);
+    XmlHandler::write(tabsElem, "all_in_one", tabsAllInOne);
+    XmlHandler::write(tabsElem, "all_in_top", tabsAllInTop);
+    XmlHandler::write(tabsElem, "super_in_top", tabsSuperOnTop);
+    XmlHandler::write(tabsElem, "in_top", tabsOnTop);
+    XmlHandler::write(tabsElem, "icons", tabsIcons);
 
-        // Tabs
-        QDomElement tabsElem = document.createElement("tabs");
-        rootElem.appendChild(tabsElem);
-        XmlHandler::write(tabsElem, "all_in_one", tabsAllInOne);
-        XmlHandler::write(tabsElem, "all_in_top", tabsAllInTop);
-        XmlHandler::write(tabsElem, "super_in_top", tabsSuperOnTop);
-        XmlHandler::write(tabsElem, "in_top", tabsOnTop);
-        XmlHandler::write(tabsElem, "icons", tabsIcons);
+    // Links
+    XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
 
-        // Links
-        XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
+    // Away Separator line
+    QDomElement awaySepElem = document.createElement("away_separator");
+    rootElem.appendChild(awaySepElem);
+    XmlHandler::write(awaySepElem, "enabled", awaySeparatorLines);
+    XmlHandler::write(awaySepElem, "color", awaySeparatorColor.name());
+    XmlHandler::write(awaySepElem, "length", awaySeparatorLength);
+    XmlHandler::write(awaySepElem, "period", awaySeparatorPeriod);
 
-        // Away Separator line
-        QDomElement awaySepElem = document.createElement("away_separator");
-        rootElem.appendChild(awaySepElem);
-        XmlHandler::write(awaySepElem, "enabled", awaySeparatorLines);
-        XmlHandler::write(awaySepElem, "color", awaySeparatorColor.name());
-        XmlHandler::write(awaySepElem, "length", awaySeparatorLength);
-        XmlHandler::write(awaySepElem, "period", awaySeparatorPeriod);
+    XmlHandler::write(rootElem, "copy_on_selection", copyOnSelection);
 
-        XmlHandler::write(rootElem, "copy_on_selection", copyOnSelection);
+    // Autoconnection
+    QDomElement autoconnectionElem = document.createElement("autoconnection");
+    rootElem.appendChild(autoconnectionElem);
+    XmlHandler::write(autoconnectionElem, "enabled", autoconnection);
+    XmlHandler::write(autoconnectionElem, "delay", autoconnectionDelay);
 
-        // Autoconnection
-        QDomElement autoconnectionElem = document.createElement("autoconnection");
-        rootElem.appendChild(autoconnectionElem);
-        XmlHandler::write(autoconnectionElem, "enabled", autoconnection);
-        XmlHandler::write(autoconnectionElem, "delay", autoconnectionDelay);
+    // Sound
+    QDomElement soundElem = document.createElement("sound");
+    rootElem.appendChild(soundElem);
+    QDomElement beepElem = document.createElement("beep");
+    soundElem.appendChild(beepElem);
+    XmlHandler::write(beepElem, "enabled", soundBeepEnabled);
+    XmlHandler::write(beepElem, "default", soundBeepDefault);
+    XmlHandler::write(beepElem, "filename", soundBeepFileName);
+    QDomElement aboutMeElem = document.createElement("about_me");
+    soundElem.appendChild(aboutMeElem);
+    XmlHandler::write(aboutMeElem, "enabled", soundAboutMeEnabled);
+    XmlHandler::write(aboutMeElem, "default", soundAboutMeDefault);
+    XmlHandler::write(aboutMeElem, "filename", soundAboutMeFileName);
 
-        // Sound
-        QDomElement soundElem = document.createElement("sound");
-        rootElem.appendChild(soundElem);
-        QDomElement beepElem = document.createElement("beep");
-        soundElem.appendChild(beepElem);
-        XmlHandler::write(beepElem, "enabled", soundBeepEnabled);
-        XmlHandler::write(beepElem, "default", soundBeepDefault);
-        XmlHandler::write(beepElem, "filename", soundBeepFileName);
-        QDomElement aboutMeElem = document.createElement("about_me");
-        soundElem.appendChild(aboutMeElem);
-        XmlHandler::write(aboutMeElem, "enabled", soundAboutMeEnabled);
-        XmlHandler::write(aboutMeElem, "default", soundAboutMeDefault);
-        XmlHandler::write(aboutMeElem, "filename", soundAboutMeFileName);
+    // Idle
+    QDomElement idleElem = document.createElement("idle");
+    rootElem.appendChild(idleElem);
+    XmlHandler::write(idleElem, "away", idleAway);
+    XmlHandler::write(idleElem, "away_timeout", idleAwayTimeout);
+    QDomElement expressionsElem = document.createElement("away_bypass_expressions");
+    idleElem.appendChild(expressionsElem);
+    foreach (const QString &str, idleAwayBypassExpressions)
+    {
+        QDomElement expressionElem = document.createElement("expression");
+        expressionsElem.appendChild(expressionElem);
+        QDomText t = document.createTextNode(str);
+        expressionElem.appendChild(t);
+    }
+    XmlHandler::write(idleElem, "quit", idleQuit);
+    XmlHandler::write(idleElem, "quit_timeout", idleQuitTimeout);
 
-        // Idle
-        QDomElement idleElem = document.createElement("idle");
-        rootElem.appendChild(idleElem);
-        XmlHandler::write(idleElem, "away", idleAway);
-        XmlHandler::write(idleElem, "away_timeout", idleAwayTimeout);
-        QDomElement expressionsElem = document.createElement("away_bypass_expressions");
-        idleElem.appendChild(expressionsElem);
-        foreach (const QString &str, idleAwayBypassExpressions)
-        {
-            QDomElement expressionElem = document.createElement("expression");
-            expressionsElem.appendChild(expressionElem);
-            QDomText t = document.createTextNode(str);
-            expressionElem.appendChild(t);
-        }
-        XmlHandler::write(idleElem, "quit", idleQuit);
-        XmlHandler::write(idleElem, "quit_timeout", idleQuitTimeout);
+    // Session config
+    QDomElement sessionsElem = document.createElement("sessions");
+    rootElem.appendChild(sessionsElem);
+    for (int i = 0; i < m_sessionConfigList.count(); i++)
+    {
+        QDomElement elem = document.createElement("session");
+        sessionsElem.appendChild(elem);
+        m_sessionConfigList.value(i)->save(elem);
+    }
 
-        // Session config
-        QDomElement sessionsElem = document.createElement("sessions");
-        rootElem.appendChild(sessionsElem);
-        for (int i = 0; i < m_sessionConfigList.count(); i++)
-        {
-            QDomElement elem = document.createElement("session");
-            sessionsElem.appendChild(elem);
-            m_sessionConfigList.value(i)->save(elem);
-        }
+    XmlHandler::write(rootElem, "behind_nat", behindNAT);
+    XmlHandler::write(rootElem, "transfer_port", transferPort);
+    XmlHandler::write(rootElem, "transfer_init", transferInit);
 
-        XmlHandler::write(rootElem, "behind_nat", behindNAT);
-        XmlHandler::write(rootElem, "transfer_port", transferPort);
-        XmlHandler::write(rootElem, "transfer_init", transferInit);
+    // Skin
+    m_textSkin.save(rootElem);
 
-        // Skin
-        m_textSkin.save(rootElem);
-
-        // Save
-        QString xml = document.toString();
-        QTextStream out(&file);
-        out << xml.toLatin1();
-    } else
-        QMessageBox::critical(0, "Error", "The profiles directory does not exists!");
+    // Save
+    QString xml = document.toString();
+    QTextStream out(&file);
+    out << xml.toLatin1();
 }
 
 SessionConfig *Profile::sessionConfigAt(int i) const
@@ -516,9 +523,6 @@ const QList<SessionConfig *> Profile::sessionConfigs() const
 
 Profile &Profile::operator=(const Profile &profile)
 {
-    m_name = profile.m_name;
-    m_description = profile.m_description;
-
     mainWidth = profile.mainWidth;
     mainHeight = profile.mainHeight;
     mainLeft = profile.mainLeft;
@@ -628,9 +632,8 @@ QString Profile::getBeepFileName()
 {
     if (soundBeepDefault)
     {
-        QDir profilesDir(QApplication::applicationDirPath());
-        if (profilesDir.cd("resources"))
-            return profilesDir.absoluteFilePath("notify.wav");
+        QDir resourcesDir(QDir(QCoreApplication::applicationDirPath()).filePath("resources"));
+        return resourcesDir.filePath("notify.wav");
     }
     else
         return soundBeepFileName;
@@ -641,9 +644,8 @@ QString Profile::getAboutMeFileName()
 {
     if (soundAboutMeDefault)
     {
-        QDir profilesDir(QApplication::applicationDirPath());
-        if (profilesDir.cd("resources"))
-            return profilesDir.absoluteFilePath("notify.wav");
+        QDir resourcesDir(QDir(QCoreApplication::applicationDirPath()).filePath("resources"));
+        return resourcesDir.filePath("notify.wav");
     }
     else
         return soundAboutMeFileName;

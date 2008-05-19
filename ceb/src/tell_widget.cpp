@@ -24,13 +24,12 @@
 #include <QDir>
 
 #include "tell_widget.h"
-#include "profile_manager.h"
+#include "profile.h"
 #include "lua_utils.h"
 
 void TellWidget::init()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    const TextSkin &textSkin = profile.textSkin();
+    const TextSkin &textSkin = Profile::instance().textSkin();
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(1);
     QPalette palette;
@@ -55,7 +54,7 @@ void TellWidget::init()
     m_textEditOutput->setReadOnly(true);
     m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = m_textEditOutput->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
 	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     m_textEditOutput->setPalette(palette);
     QSizePolicy sizePolicy = outputWidget->sizePolicy();
@@ -64,7 +63,7 @@ void TellWidget::init()
     connect(m_textEditOutput, SIGNAL(myKeyPressed(const QKeyEvent &)),
             this, SLOT(outputKeyPressed(const QKeyEvent &)));
     splitterOutIn->addWidget(outputWidget);
-//	m_textEditOutput->setCurrentFont(QFont(profile.globalFontName, profile.globalFontSize, 0));
+//	m_textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
     connect(m_textEditOutput, SIGNAL(sendToChat(const QString &)),
             this, SLOT(outputFilterSendToChat(const QString &)));
 
@@ -85,7 +84,7 @@ void TellWidget::init()
     m_historyWidget = new HistoryWidget;
     m_historyWidget->setMinimumHeight(20);
     palette = m_historyWidget->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     m_historyWidget->setPalette(palette);
     m_historyWidget->setFont(textSkin.inputTextFont().font());
     connect(m_historyWidget, SIGNAL(textValidated(const QString &)),
@@ -180,12 +179,10 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
     QScrollBar *sb = m_textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
 
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     bool displayTimeStamp = false;
 
-    if (profile.timeStampInTellTabs)
-        switch (profile.timeStampPolicy)
+    if (Profile::instance().timeStampInTellTabs)
+        switch (Profile::instance().timeStampPolicy)
         {
         case Profile::Policy_Classic:
             displayTimeStamp = m_session->away();
@@ -214,7 +211,7 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
         int beforeNum = (80 - middleLine.length()) / 2;
         int afterNum = 80 - beforeNum - middleLine.length();
         QString sepLine = QString(beforeNum, '-') + middleLine + QString(afterNum, '-');
-        m_textEditOutput->addNewLine(sepLine, profile.textSkin().textFont().font(),
+        m_textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
         QColor(0, 0, 150));
 	}
 	else if (!youTalk && m_chatBlock != chatBlockHim)
@@ -224,12 +221,12 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
         int beforeNum = (80 - middleLine.length()) / 2;
         int afterNum = 80 - beforeNum - middleLine.length();
         QString sepLine = QString(beforeNum, '-') + middleLine + QString(afterNum, '-');
-        m_textEditOutput->addNewLine(sepLine, profile.textSkin().textFont().font(),
+        m_textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
         QColor(150, 0, 0));
 	}
 
 	m_textEditOutput->addNewLine(sentence,
-        QFont(profile.globalFontName, profile.globalFontSize, 0),
+        QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0),
         QColor(0, 0, 0));*/
 
     if (scrollDown)
@@ -314,11 +311,10 @@ void TellWidget::setUserAway(bool userAway)
 
 void TellWidget::refreshFonts()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    m_historyWidget->setFont(profile.textSkin().inputTextFont().font());
+    m_historyWidget->setFont(Profile::instance().textSkin().inputTextFont().font());
 
     QPalette palette = m_historyWidget->palette();
-    palette.setColor(QPalette::Text, profile.textSkin().inputTextFont().color());
+    palette.setColor(QPalette::Text, Profile::instance().textSkin().inputTextFont().color());
     m_historyWidget->setPalette(palette);
 }
 

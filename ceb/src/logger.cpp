@@ -22,7 +22,7 @@
 #include <QTextStream>
 
 #include "logger.h"
-#include "profile_manager.h"
+#include "profile.h"
 
 Logger *Logger::_instance = 0;
 
@@ -60,13 +60,11 @@ Logger::~Logger()
 
 QString Logger::getLogsDir()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (profile.logsDefaultDir)
+    if (Profile::instance().logsDefaultDir)
         return QApplication::applicationDirPath() + "/logs/";
     else
     {
-        QString logsDir = profile.logsDir;
+        QString logsDir = Profile::instance().logsDir;
         if (!logsDir.isEmpty() && logsDir[logsDir.length() - 1] != '/')
             logsDir += "/";
         return logsDir;
@@ -75,11 +73,9 @@ QString Logger::getLogsDir()
 
 QString Logger::getFileName(const QString &prefix)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QString fileName = QDir::convertSeparators(getLogsDir()) + prefix;
 
-    switch (profile.logsFilePolicy)
+    switch (Profile::instance().logsFilePolicy)
     {
     case Profile::LogFilePolicy_Daily:
         return fileName + " - " + getCurrentDay() + ".log";
@@ -94,9 +90,7 @@ QString Logger::getFileName(const QString &prefix)
 
 void Logger::log(const QString &prefix, const QString &line)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (!profile.logsEnabled)
+    if (!Profile::instance().logsEnabled)
         return;
 
     QDir dir(getLogsDir());

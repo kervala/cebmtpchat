@@ -29,7 +29,7 @@
 
 #include "version.h"
 #include "channel_widget.h"
-#include "profile_manager.h"
+#include "profile.h"
 #include "mtp_token_info.h"
 #include "lua_utils.h"
 #include "transfers_manager.h"
@@ -51,8 +51,6 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
 
 void ChannelWidget::init()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(2);
 
@@ -70,10 +68,10 @@ void ChannelWidget::init()
     lineEditTopic->installEventFilter(this);
     lineEditTopic->setReadOnly(true);
     QPalette palette = lineEditTopic->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     lineEditTopic->setPalette(palette);
     topicLayout->addWidget(lineEditTopic);
-    widgetTopic->setVisible(profile.topicWindowVisible);
+    widgetTopic->setVisible(Profile::instance().topicWindowVisible);
 
     // In/Out Splitter
     splitterOutIn = new QSplitter;
@@ -108,7 +106,7 @@ void ChannelWidget::init()
     textEditOutput->setReadOnly(true);
     textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = textEditOutput->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
 	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     textEditOutput->setPalette(palette);
     sizePolicy = outputWidget->sizePolicy();
@@ -119,7 +117,7 @@ void ChannelWidget::init()
     connect(textEditOutput, SIGNAL(sendToChat(const QString &)),
             this, SLOT(outputFilterSendToChat(const QString &)));
     splitterOutIn->addWidget(splitterOutWho);
-//	textEditOutput->setCurrentFont(QFont(profile.globalFontName, profile.globalFontSize, 0));
+//	textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
 
     // Search widget
     _searchWidget = new SearchWidget;
@@ -171,7 +169,7 @@ void ChannelWidget::init()
    listWidgetWho->addAction(action);*/
 
     palette = listWidgetWho->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     listWidgetWho->setPalette(palette);
     listWidgetWho->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     whoLayout->addWidget(listWidgetWho);
@@ -197,7 +195,7 @@ void ChannelWidget::init()
     // LineEdit
     lineEditWidget = new ChatLineWidget;
     palette = lineEditWidget->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     lineEditWidget->setPalette(palette);
     connect(lineEditWidget, SIGNAL(textValidated(const QString &)),
             this, SLOT(sendText(const QString &)));
@@ -208,7 +206,7 @@ void ChannelWidget::init()
     // HistoryWidget
     historyWidget = new HistoryWidget;
     palette = historyWidget->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     historyWidget->setPalette(palette);
     historyWidget->setCompletionMode(true);
     connect(historyWidget, SIGNAL(textValidated(const QString &)),
@@ -286,10 +284,9 @@ QListWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
 
 void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QColor color(0, 0, 0);
-/*	QFont normalFont(profile.globalFontName, profile.globalFontSize, 0);
-	QFont timeStampFont(profile.globalFontName, 6, 0);*/
+/*	QFont normalFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0);
+	QFont timeStampFont(Profile::instance().globalFontName, 6, 0);*/
     QScrollBar *sb = textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
     switch(event.token())
@@ -315,15 +312,15 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
     case Token_YouReply:
         return;
     case Token_WallBegin:
-        if (profile.tabForWall)
+        if (Profile::instance().tabForWall)
             return;
         break;
     case Token_WallEnd:
-        if (profile.tabForWall)
+        if (Profile::instance().tabForWall)
             return;
         break;
     case Token_WallLine:
-        if (profile.tabForWall)
+        if (Profile::instance().tabForWall)
             return;
         break;
     case Token_WhoBegin:
@@ -331,26 +328,26 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         historyWidget->clearCompletionWords();
         if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
             return;
-        if (profile.tabForWho)
+        if (Profile::instance().tabForWho)
             return;
         break;
     case Token_WhoSeparator:
         if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
             return;
-        if (profile.tabForWho)
+        if (Profile::instance().tabForWho)
             return;
         break;
     case Token_WhoEnd:
         labelWhoTitle->setText(event.arguments()[2] + tr(" users"));
         if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
             return;
-        if (profile.tabForWho)
+        if (Profile::instance().tabForWho)
             return;
         break;
     case Token_WhoEndNoUser:
         if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
             return;
-        if (profile.tabForWho)
+        if (Profile::instance().tabForWho)
             return;
         break;
     case Token_WhoLine:
@@ -368,14 +365,14 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
             historyWidget->addCompletionWord(event.arguments()[1]);
         if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
             return;
-        if (profile.tabForWho)
+        if (Profile::instance().tabForWho)
             return;
     }
     break;
     case Token_FingerBegin:
     case Token_FingerEnd:
     case Token_FingerLine:
-        if (profile.tabForFinger)
+        if (Profile::instance().tabForFinger)
             return;
         break;
     case Token_SomeoneAway:
@@ -397,9 +394,9 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
         if (item)
             item->setIcon(QIcon(":/images/away.png"));
-        colorizeChatItems(profile.textSkin().awayBackgroundColor());
-        if (profile.awaySeparatorLines) // Away separator
-            textEditOutput->addNewLine(profile.getAwaySeparator(), profile.textSkin().textFont().font(), profile.awaySeparatorColor);
+        colorizeChatItems(Profile::instance().textSkin().awayBackgroundColor());
+        if (Profile::instance().awaySeparatorLines) // Away separator
+            textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
         textEditOutput->isAway = true;
     }
     break;
@@ -408,9 +405,9 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
         if (item)
             item->setIcon(QIcon(":/images/here.png"));
-        colorizeChatItems(profile.textSkin().backgroundColor());
-        if (profile.awaySeparatorLines) // Away separator
-            textEditOutput->addNewLine(profile.getAwaySeparator(), profile.textSkin().textFont().font(), profile.awaySeparatorColor);
+        colorizeChatItems(Profile::instance().textSkin().backgroundColor());
+        if (Profile::instance().awaySeparatorLines) // Away separator
+            textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
         textEditOutput->isAway = false;
     }
     break;
@@ -443,7 +440,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
             m_session->setConfig(sessionConfig);
 
             // Record in session configs
-            SessionConfig *profileConfig = profile.getSessionConfig(sessionConfig.name());
+            SessionConfig *profileConfig = Profile::instance().getSessionConfig(sessionConfig.name());
             if (profileConfig)
                 profileConfig->setBackupServers(m_backupServers);
         }
@@ -554,7 +551,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
     bool setTimeStamp = false;
 
     if (m_session->away())
-        switch (profile.timeStampPolicy)
+        switch (Profile::instance().timeStampPolicy)
         {
         case Profile::Policy_Classic:
         case Profile::Policy_Always:
@@ -563,7 +560,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         default:;
         }
     else
-        switch (profile.timeStampPolicy)
+        switch (Profile::instance().timeStampPolicy)
         {
         case Profile::Policy_Always:
             setTimeStamp = true;
@@ -578,7 +575,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
     if (event.token() == Token_IndicatedActiveServer)
         textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(event.arguments()[0]).
                                    arg(event.arguments()[1].trimmed()),
-                                   profile.textSkin().textFont().font(), QColor(255, 0, 0));
+                                   Profile::instance().textSkin().textFont().font(), QColor(255, 0, 0));
 
     if (scrollDown)
         textEditOutput->scrollOutputToBottom();
@@ -623,23 +620,21 @@ void ChannelWidget::hideTopicWindow()
 
 void ChannelWidget::sessionConnecting()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     textEditOutput->addNewLine(tr("Attempt to connect ") + m_session->serverAddress() +
                                ":" + QString::number(m_session->serverPort()) + ".........",
-                               profile.textSkin().textFont().font(),
+                               Profile::instance().textSkin().textFont().font(),
                                QColor(0, 0, 200));
     textEditOutput->scrollOutputToBottom();
 }
 
 void ChannelWidget::sessionConnected()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    colorizeChatItems(profile.textSkin().backgroundColor());
+    colorizeChatItems(Profile::instance().textSkin().backgroundColor());
     stackedWidgetEntry->setCurrentIndex(0);
 
-    textEditOutput->addString(tr("successful."), profile.textSkin().textFont().font(),
+    textEditOutput->addString(tr("successful."), Profile::instance().textSkin().textFont().font(),
                               QColor(0, 200, 0));
-    textEditOutput->addNewLine("-", profile.textSkin().textFont().font(),
+    textEditOutput->addNewLine("-", Profile::instance().textSkin().textFont().font(),
                                QColor(200, 0, 0));
 
     textEditOutput->scrollOutputToBottom();
@@ -647,8 +642,6 @@ void ChannelWidget::sessionConnected()
 
 void ChannelWidget::sessionLogged()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Send "set client"
     setClientTicketID = m_session->requestTicket(MtpAnalyzer::Command_SetClient);
     m_session->send("set client CeB Alpha " + QString(VERSION));
@@ -663,10 +656,10 @@ void ChannelWidget::sessionLogged()
     stackedWidgetEntry->setCurrentIndex(1);
 
     // Start (or not) the keep alive timer
-    if (profile.keepAlive)
+    if (Profile::instance().keepAlive)
     {
         timerKeepAlive.start();
-        timerKeepAlive.setInterval(profile.keepAlive * 1000);
+        timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
     }
 
     regExpAboutMe = QRegExp("(^|\\W)" + m_session->serverLogin() + "(\\W|$)", Qt::CaseInsensitive);
@@ -674,21 +667,18 @@ void ChannelWidget::sessionLogged()
 
 void ChannelWidget::sessionDisconnected()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     // Stop the keep alive timer
     if (timerKeepAlive.isActive())
         timerKeepAlive.stop();
     listWidgetWho->clear();
-    colorizeChatItems(profile.textSkin().awayBackgroundColor());
+    colorizeChatItems(Profile::instance().textSkin().awayBackgroundColor());
     labelWhoTitle->setText("");
 }
 
 void ChannelWidget::sessionSocketError(const QString &errorStr)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     textEditOutput->addNewLine(errorStr,
-                               profile.textSkin().textFont().font(),
+                               Profile::instance().textSkin().textFont().font(),
                                QColor(200, 0, 0));
 
     textEditOutput->scrollOutputToBottom();
@@ -716,18 +706,14 @@ void ChannelWidget::outputKeyPressed(const QKeyEvent &e)
 
 void ChannelWidget::splitterInOutMoved(int, int)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    SessionConfig *config = profile.getSessionConfig(m_session->config().name());
+    SessionConfig *config = Profile::instance().getSessionConfig(m_session->config().name());
     if (config)
         config->setEntryHeight(stackedWidgetEntry->height());
 }
 
 void ChannelWidget::splitterOutWhoMoved(int, int)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    SessionConfig *config = profile.getSessionConfig(m_session->config().name());
+    SessionConfig *config = Profile::instance().getSessionConfig(m_session->config().name());
     if (config)
         config->setWhoWidth(listWidgetWho->width());
 }
@@ -757,9 +743,7 @@ void ChannelWidget::timerTimeout()
 
 void ChannelWidget::refreshKeepAlivePolicy()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if (!profile.keepAlive)
+    if (!Profile::instance().keepAlive)
     {
         if (timerKeepAlive.isActive())
             timerKeepAlive.stop();
@@ -768,14 +752,14 @@ void ChannelWidget::refreshKeepAlivePolicy()
     {
         if (!timerKeepAlive.isActive())
         {
-            timerKeepAlive.setInterval(profile.keepAlive * 1000);
+            timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
             if (m_session && m_session->isLogged())
                 timerKeepAlive.start();
         }
-        else if (timerKeepAlive.interval() != profile.keepAlive * 1000)
+        else if (timerKeepAlive.interval() != Profile::instance().keepAlive * 1000)
         {
             timerKeepAlive.stop();
-            timerKeepAlive.setInterval(profile.keepAlive * 1000);
+            timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
             timerKeepAlive.start();
         }
     }
@@ -789,7 +773,7 @@ void ChannelWidget::refreshWhoColumn()
 
 void ChannelWidget::refreshFonts()
 {
-    const TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    const TextSkin &textSkin = Profile::instance().textSkin();
     QPalette palette;
     lineEditTopic->setFont(textSkin.topicTextFont().font());
     palette = lineEditTopic->palette();

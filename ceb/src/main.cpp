@@ -19,40 +19,37 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QTranslator>
+#include <QDesktopServices>
 
 #include "my_application.h"
 #include "main_window.h"
-#include "profile_manager.h"
 #include "general_config.h"
 #include "session_manager.h"
 #include "language_manager.h"
 #include "token_display.h"
 #include "modifier.h"
+#include "profile.h"
 
 int main(int argc, char **argv)
 {
-    int n = 64;
-    QString str = QObject::tr("There are %n elements in your list", "", n);
-
     MyApplication a(argc, argv);
+
+    a.setApplicationName("CeB");
+    a.setOrganizationName("http://www.melting-pot.org");
+    a.setOrganizationName("MeltingPot");
 
     TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 //	openModifiers(); // Load LUA modifiers
 
     a.setWindowIcon(QIcon(":/images/ceb.png"));
-    ProfileManager &manager = ProfileManager::instance();
-    if (!manager.currentProfile())
-    {
-        QMessageBox::critical(0, "Error", "profile file no specified and default file is missing. Aborting.");
-        return 1;
-    }
 
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QTranslator translator;
 
-    if (!profile.language.isEmpty())
+    Profile::instance().load();
+
+    if (Profile::instance().language != "")
     {
-        QString fileName = LanguageManager::getLanguageFileName(profile.language);
+        QString fileName = LanguageManager::getLanguageFileName(Profile::instance().language);
         if (!fileName.isEmpty())
         {
             translator.load(fileName);
@@ -66,6 +63,8 @@ int main(int argc, char **argv)
     int appRes = a.exec();
 
     closeModifiers(); // Close all lua chunks
+
+    Profile::instance().save();
 
     return appRes;
 }

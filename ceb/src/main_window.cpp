@@ -38,26 +38,25 @@
 
 #include "version.h"
 #include "dialog_settings.h"
-#include "profile_manager.h"
 #include "dialog_about.h"
 #include "dialog_session_config.h"
 #include "session_manager.h"
 #include "dialog_update.h"
 #include "dialog_warningo.h"
 #include "dialog_whatsnew.h"
+#include "profile.h"
 
 #include "main_window.h"
 
 MainWindow::MainWindow()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     setWindowTitle("CeB");
 
     trayMenu = new QMenu(this);
     trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
-    if (profile.trayEnabled && profile.trayAlwaysVisible)
+    if (Profile::instance().trayEnabled && Profile::instance().trayAlwaysVisible)
         trayIcon->show();
 
     SessionManager &sessionManager = SessionManager::instance();
@@ -82,21 +81,21 @@ MainWindow::MainWindow()
     DialogSystem::init(this);
     systemDialog = DialogSystem::instance();
     connect(systemDialog, SIGNAL(hideSystemDialog()), this, SLOT(hideSystemDialog()));
-    if (profile.systemLogsWidth != -1)
+    if (Profile::instance().systemLogsWidth != -1)
     {
-        systemDialog->move(profile.systemLogsLeft, profile.systemLogsTop);
-        systemDialog->resize(profile.systemLogsWidth, profile.systemLogsHeight);
+        systemDialog->move(Profile::instance().systemLogsLeft, Profile::instance().systemLogsTop);
+        systemDialog->resize(Profile::instance().systemLogsWidth, Profile::instance().systemLogsHeight);
     }
-    if (profile.systemLogsVisible)
+    if (Profile::instance().systemLogsVisible)
         systemDialog->show();
 
     int w, h, l, t;
-    if (profile.mainWidth != -1)
+    if (Profile::instance().mainWidth != -1)
     {
-        w = profile.mainWidth;
-        h = profile.mainHeight;
-        l = profile.mainLeft;
-        t = profile.mainTop;
+        w = Profile::instance().mainWidth;
+        h = Profile::instance().mainHeight;
+        l = Profile::instance().mainLeft;
+        t = Profile::instance().mainTop;
     }
     else
     {
@@ -118,7 +117,7 @@ MainWindow::MainWindow()
     applyProfileOnMultiTabWidget();
 
     // Autoconnect connections
-    foreach (SessionConfig *config, profile.sessionConfigs())
+    foreach (SessionConfig *config, Profile::instance().sessionConfigs())
         if ((*config).autoconnect())
             connectTo(*config);
 
@@ -147,9 +146,9 @@ MainWindow::MainWindow()
     actionSignalMapper = new QSignalMapper(this);
     connect(actionSignalMapper, SIGNAL(mapped(int)),
             this, SLOT(executeAction(int)));
-    for (int i = 0; i < profile.actionManager.actions().count(); ++i)
+    for (int i = 0; i < Profile::instance().actionManager.actions().count(); ++i)
     {
-        const Action &action = profile.actionManager.actions()[i];
+        const Action &action = Profile::instance().actionManager.actions()[i];
         QShortcut *shortcut = new QShortcut(action.keySequence(), this);
         connect(shortcut, SIGNAL(activated()), actionSignalMapper, SLOT(map()));
         actionSignalMapper->setMapping(shortcut, action.actionType());
@@ -168,7 +167,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     recordCurrentProfileDatas();
 
     // Save current profile
-    ProfileManager::instance().currentProfile()->save();
+    Profile::instance().save();
 
     // Hide tray
     trayIcon->hide();
@@ -178,21 +177,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::recordCurrentProfileDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
+    // Pos and size
     QPoint p = pos();
     QSize s = size();
-    profile.mainWidth = s.width();
-    profile.mainHeight = s.height();
-    profile.mainLeft = p.x();
-    profile.mainTop = p.y();
+    Profile::instance().mainWidth = s.width();
+    Profile::instance().mainHeight = s.height();
+    Profile::instance().mainLeft = p.x();
+    Profile::instance().mainTop = p.y();
 
     // System logs
-    profile.systemLogsVisible = systemDialog->isVisible();
-    profile.systemLogsLeft = systemDialog->x();
-    profile.systemLogsTop = systemDialog->y();
-    profile.systemLogsWidth = systemDialog->width();
-    profile.systemLogsHeight = systemDialog->height();
+    Profile::instance().systemLogsVisible = systemDialog->isVisible();
+    Profile::instance().systemLogsLeft = systemDialog->x();
+    Profile::instance().systemLogsTop = systemDialog->y();
+    Profile::instance().systemLogsWidth = systemDialog->width();
+    Profile::instance().systemLogsHeight = systemDialog->height();
 }
 
 void MainWindow::makeMenuBar()
@@ -235,19 +233,17 @@ void MainWindow::makeMenuBar()
     // View menu
     QMenu *menuView = mbMain->addMenu(tr("&View"));
 
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     actionViewTopic = menuView->addAction(tr("&Topic window"));
     actionViewTopic->setCheckable(true);
     connect(actionViewTopic, SIGNAL(triggered()), this, SLOT(showTopicWindow()));
-    actionViewTopic->setChecked(profile.topicWindowVisible);
+    actionViewTopic->setChecked(Profile::instance().topicWindowVisible);
 
     menuView->addSeparator();
 
     actionSystemLogs = menuView->addAction(tr("&System logs"));
     actionSystemLogs->setCheckable(true);
     connect(actionSystemLogs, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
-    actionSystemLogs->setChecked(profile.systemLogsVisible);
+    actionSystemLogs->setChecked(Profile::instance().systemLogsVisible);
 
     connect(menuView->addAction(tr("Open &logs directory")), SIGNAL(triggered()), this, SLOT(showLogsDir()));
     connect(menuView->addAction(tr("&Messages")), SIGNAL(triggered()), this, SLOT(showMessages()));
@@ -309,8 +305,7 @@ void MainWindow::makeConnectionsActions()
 {
     mConnectTo->clear();
 
-    const Profile &profile = *ProfileManager::instance().currentProfile();
-    foreach (SessionConfig *config, profile.sessionConfigs())
+    foreach (SessionConfig *config, Profile::instance().sessionConfigs())
     {
         QString caption = config->name() + " (" + config->address() + ")";
         QAction *action = mConnectTo->addAction(caption);
@@ -329,15 +324,14 @@ void MainWindow::makeConnectionsActions()
 
 void MainWindow::newConnection()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     SessionConfig templateConfig = SessionConfig::getTemplate();
-    templateConfig.setName(profile.getUniqSessionConfigName());
+    templateConfig.setName(Profile::instance().getUniqSessionConfigName());
     DialogSessionConfig dialogSessionConfig(templateConfig, this);
     if (dialogSessionConfig.exec() == QDialog::Accepted)
     {
         SessionConfig newConfig;
         dialogSessionConfig.get(newConfig);
-        profile.addSessionConfig(newConfig);
+        Profile::instance().addSessionConfig(newConfig);
 
         // Connect to
         connectTo(newConfig);
@@ -367,9 +361,8 @@ void MainWindow::closeConnection()
 
 void MainWindow::editConnectionConfig()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     SessionConfig *pConfig =
-        profile.getSessionConfig(getCurrentSession()->config().name());
+        Profile::instance().getSessionConfig(getCurrentSession()->config().name());
 
     DialogSessionConfig dialogSessionConfig(*pConfig, this);
     if (dialogSessionConfig.exec() == QDialog::Accepted)
@@ -401,8 +394,7 @@ void MainWindow::showSystemLogs()
 void MainWindow::showTopicWindow()
 {
     // Change profile datas
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    profile.topicWindowVisible = actionViewTopic->isChecked();
+    Profile::instance().topicWindowVisible = actionViewTopic->isChecked();
 
     // Change controls
     for (int i = 0; i < mtwMain->count(); i++)
@@ -410,7 +402,7 @@ void MainWindow::showTopicWindow()
         ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
         if (w)
         {
-            if (profile.topicWindowVisible)
+            if (Profile::instance().topicWindowVisible)
                 w->showTopicWindow();
             else
                 w->hideTopicWindow();
@@ -479,14 +471,12 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
 
 void MainWindow::connectTo(const QString &configName)
 {
-    const Profile &profile = *ProfileManager::instance().currentProfile();
-    connectTo(*profile.getSessionConfig(configName));
+    connectTo(*Profile::instance().getSessionConfig(configName));
 }
 
 void MainWindow::connectToFromMenu(const QString &configName)
 {
-    const Profile &profile = *ProfileManager::instance().currentProfile();
-    ChannelWidget *widget = connectTo(*profile.getSessionConfig(configName));
+    ChannelWidget *widget = connectTo(*Profile::instance().getSessionConfig(configName));
     if (widget)
         widget->applyFirstShow();
 }
@@ -498,18 +488,16 @@ void MainWindow::hideSystemDialog()
 
 void MainWindow::refreshProfileSettings()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Tray stuffs
-    if (profile.trayEnabled)
+    if (Profile::instance().trayEnabled)
     {
-        if (profile.trayHideFromTaskBar && isMinimized())
+        if (Profile::instance().trayHideFromTaskBar && isMinimized())
             hide();
-        else if (!profile.trayHideFromTaskBar && !isVisible())
+        else if (!Profile::instance().trayHideFromTaskBar && !isVisible())
             trayIcon->show();
         else
         {
-            if (profile.trayAlwaysVisible)
+            if (Profile::instance().trayAlwaysVisible)
                 trayIcon->show();
             else
                 trayIcon->hide();
@@ -524,7 +512,7 @@ void MainWindow::refreshProfileSettings()
     // Update stuffs
 #ifdef Q_OS_WIN32
     mbMain->update();
-    actionCheckForUpdate->setVisible(profile.checkForUpdate);
+    actionCheckForUpdate->setVisible(Profile::instance().checkForUpdate);
 #endif // Q_OS_WIN32
 
     // Tabs stuffs
@@ -563,9 +551,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
     if (event.ticketID() >= 0)
         return;
 
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    if ((profile.trayHideFromTaskBar && !isVisible()) || QApplication::activeWindow() != this)
+    if ((Profile::instance().trayHideFromTaskBar && !isVisible()) || QApplication::activeWindow() != this)
     {
         bool showWarningo = false;
         bool changeTray = false;
@@ -574,7 +560,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
         case Token_SomeoneTellsYou:
         case Token_SomeoneAsksYou:
         case Token_SomeoneReplies:
-            showWarningo = profile.warningoPrivate;
+            showWarningo = Profile::instance().warningoPrivate;
             changeTray = true;
             trayTalkAboutMe = true;
             break;
@@ -589,7 +575,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
             QString sentence = event.arguments()[2];
             if (sentence.indexOf(session->regExpAboutMe()) >= 0)
             {
-                showWarningo = profile.warningoHighlight;
+                showWarningo = Profile::instance().warningoHighlight;
                 changeTray = true;
                 trayTalkAboutMe = true;
             }
@@ -613,7 +599,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
         {
             if (changeTray)
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
-            if (showWarningo && profile.warningoEnabled)
+            if (showWarningo && Profile::instance().warningoEnabled)
             {
                 DialogWarningo *dialog = new DialogWarningo(session->config().name(), event.line(), 0);
                 dialog->move(0, 0);
@@ -626,8 +612,6 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
 
 void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     switch(event.token())
     {
     case Token_LoginAsked:
@@ -656,9 +640,9 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
     case Token_SomeoneTellsYou:
     case Token_SomeoneAsksYou:
     case Token_SomeoneReplies:
-        if (profile.soundAboutMeEnabled)
+        if (Profile::instance().soundAboutMeEnabled)
         {
-            QSound s(profile.getAboutMeFileName());
+            QSound s(Profile::instance().getAboutMeFileName());
             s.play();
         }
     case Token_YouTellToSomeone:
@@ -675,15 +659,15 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
     }
     break;
     case Token_SomeoneBeepsYou:
-        if (profile.soundBeepEnabled)
+        if (Profile::instance().soundBeepEnabled)
         {
-            QSound s(profile.getBeepFileName());
+            QSound s(Profile::instance().getBeepFileName());
             s.play();
         }
         break;
     case Token_WallBegin:
         // New tab?
-        if (event.ticketID() == -1 && profile.tabForWall)
+        if (event.ticketID() == -1 && Profile::instance().tabForWall)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "wall");
             if (!widget)
@@ -696,7 +680,7 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         break;
     case Token_FingerBegin:
         // New tab?
-        if (event.ticketID() == -1 && profile.tabForFinger)
+        if (event.ticketID() == -1 && Profile::instance().tabForFinger)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "finger");
             if (!widget)
@@ -709,7 +693,7 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         break;
     case Token_WhoBegin:
         // New tab?
-        if (event.ticketID() == -1 && profile.tabForWho)
+        if (event.ticketID() == -1 && Profile::instance().tabForWho)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "who");
             if (!widget)
@@ -799,9 +783,9 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         QString sentence = event.arguments()[2];
         if (sentence.indexOf(session->regExpAboutMe()) >= 0)
         {
-            if (profile.soundAboutMeEnabled)
+            if (Profile::instance().soundAboutMeEnabled)
             {
-                QSound s(profile.getAboutMeFileName());
+                QSound s(Profile::instance().getAboutMeFileName());
                 s.play();
             }
         }
@@ -840,13 +824,12 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     if (reason != QSystemTrayIcon::Trigger)
         return;
 
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    if (profile.trayEnabled && profile.trayHideFromTaskBar)
+    if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
         show();
     if (isMinimized())
         showNormal();
     activateWindow();
-    if (profile.trayEnabled && !profile.trayAlwaysVisible)
+    if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
         trayIcon->hide();
 }
 
@@ -866,12 +849,11 @@ void MainWindow::showEvent(QShowEvent *)
     {
         m_firstShow = false;
 
-        Profile &profile = *ProfileManager::instance().currentProfile();
-        if (VERSION != profile.clientVersion)
+        if (VERSION != Profile::instance().clientVersion)
             launchWhatsNew();
 
         // Default connect to
-        if (!profile.sessionConfigs().count())
+        if (!Profile::instance().sessionConfigs().count())
             newConnection();
     }
 }
@@ -890,18 +872,16 @@ void MainWindow::checkForUpdate()
 
 void MainWindow::applyProfileOnMultiTabWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Display mode
-    mtwMain->setDisplayMode(profile.tabsAllInOne ? MultiTabWidget::DisplayMode_AllInOneRow :
+    mtwMain->setDisplayMode(Profile::instance().tabsAllInOne ? MultiTabWidget::DisplayMode_AllInOneRow :
                             MultiTabWidget::DisplayMode_Hierarchical);
 
     // Tabs location
-    mtwMain->setAllInOneRowLocation(profile.tabsAllInTop ? MultiTabWidget::TabLocation_North :
+    mtwMain->setAllInOneRowLocation(Profile::instance().tabsAllInTop ? MultiTabWidget::TabLocation_North :
                                     MultiTabWidget::TabLocation_South);
-    mtwMain->setSuperLocation(profile.tabsSuperOnTop ? MultiTabWidget::TabLocation_North :
+    mtwMain->setSuperLocation(Profile::instance().tabsSuperOnTop ? MultiTabWidget::TabLocation_North :
                               MultiTabWidget::TabLocation_South);
-    mtwMain->setSubLocation(profile.tabsOnTop ? MultiTabWidget::TabLocation_North :
+    mtwMain->setSubLocation(Profile::instance().tabsOnTop ? MultiTabWidget::TabLocation_North :
                             MultiTabWidget::TabLocation_South);
 }
 
@@ -969,13 +949,12 @@ void MainWindow::closeTabWidget()
 
 void MainWindow::highlightSessionWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     SessionWidget *widget = qobject_cast<SessionWidget*>(sender());
 
     switch (widget->highlightType())
     {
     case SessionWidget::NoHighlight:
-        if (!profile.tabsIcons)
+        if (!Profile::instance().tabsIcons)
         {
             widget->setStared(false);
             mtwMain->renameLabel(widget, widget->caption());
@@ -987,7 +966,7 @@ void MainWindow::highlightSessionWidget()
         if (widget == mtwMain->focusedWidget())
             return;
 
-        if (!profile.tabsIcons)
+        if (!Profile::instance().tabsIcons)
         {
             widget->setStared(true);
             mtwMain->renameLabel(widget, widget->caption());
@@ -1000,7 +979,7 @@ void MainWindow::highlightSessionWidget()
         if (widget == mtwMain->focusedWidget())
             return;
 
-        if (!profile.tabsIcons)
+        if (!Profile::instance().tabsIcons)
         {
             widget->setStared(true);
             mtwMain->renameLabel(widget, widget->caption());
@@ -1070,14 +1049,12 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
 
 void MainWindow::focusedWidgetChanged(QWidget *widget)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
     if (sessionWidget)
     {
         sessionWidget->focusIt();
         sessionWidget->setStared(false);
-        if (!profile.tabsIcons)
+        if (!Profile::instance().tabsIcons)
             mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
         mtwMain->changeTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
         sessionWidget->applyFirstShow();
@@ -1117,14 +1094,12 @@ void MainWindow::tellSessionAsked(const QString &login)
 
 void MainWindow::showLogsDir()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Determine the QUrl of the logs path
     QUrl url;
-    if (profile.logsDefaultDir)
+    if (Profile::instance().logsDefaultDir)
         url = QUrl::fromLocalFile(QDir(QApplication::applicationDirPath()).filePath("logs"));
     else
-        url = QUrl::fromLocalFile(profile.logsDir);
+        url = QUrl::fromLocalFile(Profile::instance().logsDir);
 
     // Launch it
     QDesktopServices::openUrl(url);

@@ -21,7 +21,7 @@
 
 #include "session.h"
 #include "dialog_system.h"
-#include "profile_manager.h"
+#include "profile.h"
 
 Session::Session(QObject *parent) : QObject(parent)
 {
@@ -116,7 +116,6 @@ void Session::stop()
 void Session::send(const QString &message, bool killIdle)
 {
     QTextCodec *codec = QTextCodec::codecForMib(m_config->encodingMib());
-    Profile &profile = *ProfileManager::instance().currentProfile();
     Q_ASSERT_X(codec, "send()", "bad codec mib!");
 
     if (m_socket->state() != QAbstractSocket::ConnectedState)
@@ -124,7 +123,7 @@ void Session::send(const QString &message, bool killIdle)
 
     // Don't sent autoaway off only for "quit"... cannot bypass aliases :/
     QRegExp r("^quit(| (.*))$");
-    if (killIdle && m_autoAway && isLogged() && away() && !r.exactMatch(message) && !profile.matchIdleAwayBypassExpressions(message))
+    if (killIdle && m_autoAway && isLogged() && away() && !r.exactMatch(message) && !Profile::instance().matchIdleAwayBypassExpressions(message))
     {
         m_socket->write("set away off\n");
         m_autoAway = false;

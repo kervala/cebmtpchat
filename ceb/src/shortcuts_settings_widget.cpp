@@ -19,7 +19,7 @@
 #include <QFileDialog>
 #include <QHeaderView>
 
-#include "profile_manager.h"
+#include "profile.h"
 #include "dialog_shortcut.h"
 #include "shortcuts_settings_widget.h"
 
@@ -61,7 +61,7 @@ void ShortcutsSettingsWidget::feedProfile(Profile &profile)
 
 void ShortcutsSettingsWidget::treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-    ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+    ActionManager &actionManager = Profile::instance().actionManager;
     const Action &action = actionManager.actions()[current.row()];
     if (action.keySequence().isEmpty())
         pushButtonChange->setText(tr("None"));
@@ -80,7 +80,7 @@ void ShortcutsSettingsWidget::treeActionFocusedChanged(const QModelIndex &curren
 
 void ShortcutsSettingsWidget::on_pushButtonChange_clicked()
 {
-    ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+    ActionManager &actionManager = Profile::instance().actionManager;
     QModelIndex index = treeView->selectionModel()->currentIndex();
     const Action &action = actionManager.actions()[index.row()];
     DialogShortcut dialog(this);
@@ -101,7 +101,7 @@ void ShortcutsSettingsWidget::on_radioButtonDefault_toggled(bool checked)
 {
     if (checked)
     {
-        ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+        ActionManager &actionManager = Profile::instance().actionManager;
 
         QModelIndex index = treeView->selectionModel()->currentIndex();
         const Action &action = actionManager.actions()[index.row()];
@@ -121,7 +121,7 @@ void ShortcutsSettingsWidget::actionRowChanged(const QModelIndex &topLeft, const
 {
     if (topLeft.row() == treeView->selectionModel()->currentIndex().row())
     {
-        ActionManager &actionManager = ProfileManager::instance().currentProfile()->actionManager;
+        ActionManager &actionManager = Profile::instance().actionManager;
         const Action &action = actionManager.actions()[topLeft.row()];
         if (action.keySequence().isEmpty())
             pushButtonChange->setText(tr("None"));

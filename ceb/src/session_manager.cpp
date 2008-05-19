@@ -18,7 +18,7 @@
 
 #include <QMessageBox>
 
-#include "profile_manager.h"
+#include "profile.h"
 #include "session_manager.h"
 #include "logger.h"
 
@@ -26,13 +26,11 @@ SessionManager *SessionManager::_instance = 0;
 
 SessionManager::SessionManager() : QObject()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Autoconnection timer
     connect(&timerAutoconnection, SIGNAL(timeout()), this, SLOT(timerAutoconnect()));
-    if (profile.autoconnection)
+    if (Profile::instance().autoconnection)
     {
-        timerAutoconnection.setInterval(profile.autoconnectionDelay * 1000);
+        timerAutoconnection.setInterval(Profile::instance().autoconnectionDelay * 1000);
         timerAutoconnection.start();
     }
 
@@ -111,11 +109,10 @@ void SessionManager::newToken(const TokenEvent &event)
     emit newSessionToken(session, event);
 
     // Log it
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QString line = event.line();
     if (session->away())
         line = event.timeStamp().toString("hh:mm:ss ") + line;
-    else if (profile.logsTimeStamp)
+    else if (Profile::instance().logsTimeStamp)
         line = event.timeStamp().toString("hh:mm:ss ") + line;
 
     Logger::instance().log(session->config().name(), line);
@@ -161,7 +158,6 @@ void SessionManager::timerAutoconnect()
 
 void SessionManager::doTimerIdle()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QDateTime currentDateTime = QDateTime::currentDateTime();
 
     foreach (Session *session, _sessionsList)
@@ -170,11 +166,11 @@ void SessionManager::doTimerIdle()
         int minutes = session->idleStart().secsTo(currentDateTime) / 60;
 
         // Auto-away?
-        if (profile.idleAway && minutes >= profile.idleAwayTimeout && session->isLogged())
+        if (Profile::instance().idleAway && minutes >= Profile::instance().idleAwayTimeout && session->isLogged())
             session->activateAutoAway();
 
         // Auto-quit?
-        if (profile.idleQuit && minutes >= profile.idleQuitTimeout && session->isLogged())
+        if (Profile::instance().idleQuit && minutes >= Profile::instance().idleQuitTimeout && session->isLogged())
             session->send("quit CeB autoquit", false);
     }
 }

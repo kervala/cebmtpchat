@@ -22,17 +22,15 @@
 #include <QDesktopWidget>
 
 #include "dialog_warningo.h"
-#include "profile_manager.h"
+#include "profile.h"
 
 DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent) :
     QDialog(parent,
             Qt::SplashScreen | Qt::WindowStaysOnTopHint)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     setAttribute(Qt::WA_DeleteOnClose, true);
     setAttribute(Qt::WA_Disabled, true);
-    timer.setInterval(profile.warningoLifeTime);
+    timer.setInterval(Profile::instance().warningoLifeTime);
     connect(&timer, SIGNAL(timeout()), this, SLOT(endOfTimer()));
     QLabel *label = new QLabel(message);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -51,10 +49,9 @@ void DialogWarningo::endOfTimer()
 
 void DialogWarningo::showEvent(QShowEvent * event)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QDesktopWidget desktopWidget;
     QRect desktopGeometry = desktopWidget.availableGeometry();
-    switch(profile.warningoLocation)
+    switch(Profile::instance().warningoLocation)
     {
     case Profile::WarningoLocation_TopLeft:
         move(desktopGeometry.left(), desktopGeometry.top());

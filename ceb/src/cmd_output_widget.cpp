@@ -17,7 +17,7 @@
  */
 
 #include "cmd_output_widget.h"
-#include "profile_manager.h"
+#include "profile.h"
 
 #include <QVBoxLayout>
 #include <QScrollBar>
@@ -40,7 +40,6 @@ const QString &CmdOutputWidget::cmdName() const
 
 void CmdOutputWidget::init()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(2);
 
@@ -51,7 +50,7 @@ void CmdOutputWidget::init()
     m_textEditOutput->setReadOnly(true);
     m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     QPalette palette = m_textEditOutput->palette();
-    palette.setColor(QPalette::Base, profile.textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     m_textEditOutput->setPalette(palette);
     mainLayout->addWidget(m_textEditOutput);
     QSizePolicy sizePolicy = m_textEditOutput->sizePolicy();

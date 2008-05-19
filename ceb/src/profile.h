@@ -51,19 +51,13 @@ public:
     };
 
 public:
-    Profile(const QString &name);
-    Profile();
-    ~Profile();
+    static Profile &instance();
 
-    bool load(const QString &fileName);
+    bool load();
     void save() const;
 
     Profile &operator=(const Profile &profile);
 
-    inline const QString &name() { return m_name; }
-    inline void setName(const QString &name) { m_name = name; }
-    inline const QString &description() { return m_description; }
-    inline void setDescription(const QString &description) { m_description = description; }
     SessionConfig *sessionConfigAt(int i) const;
     SessionConfig *getSessionConfig(const QString &name) const;
     void addSessionConfig(const SessionConfig &config);
@@ -144,8 +138,10 @@ public:
     bool matchIdleAwayBypassExpressions(const QString &str) const;
 
 private:
-    QString m_name;
-    QString m_description;
+    Profile();
+    ~Profile();
+
+    static Profile *_instance;
     QList<SessionConfig *> m_sessionConfigList;
     TextSkin m_textSkin;
 

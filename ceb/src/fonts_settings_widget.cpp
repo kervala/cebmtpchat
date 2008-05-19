@@ -19,7 +19,7 @@
 #include <QFontDialog>
 #include <QColorDialog>
 
-#include "profile_manager.h"
+#include "profile.h"
 #include "fonts_settings_widget.h"
 
 FontsSettingsWidget::FontsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
@@ -40,7 +40,7 @@ void FontsSettingsWidget::on_listWidget_currentItemChanged(QListWidgetItem *curr
 
 void FontsSettingsWidget::fillFontWidgets(int row)
 {
-    const TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    const TextSkin &textSkin = Profile::instance().textSkin();
 
     const TextSkin::MtpFont &mtpFont = getMtpFontByRow(row);
 
@@ -72,7 +72,7 @@ void FontsSettingsWidget::fillFontWidgets(int row)
 
 void FontsSettingsWidget::on_checkBoxForceFont_toggled(bool b)
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
 
     switch (listWidget->currentRow())
     {
@@ -114,7 +114,7 @@ void FontsSettingsWidget::on_checkBoxForceFont_toggled(bool b)
 
 void FontsSettingsWidget::on_checkBoxForceColor_toggled(bool b)
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
 
     TextSkin::MtpFont *mtpFont;
     switch (listWidget->currentRow())
@@ -141,7 +141,7 @@ void FontsSettingsWidget::on_checkBoxForceColor_toggled(bool b)
 
 void FontsSettingsWidget::on_pushButtonForcedFont_clicked()
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
     bool ok;
 
     QFont font = QFontDialog::getFont(&ok, labelFont->font(), this);
@@ -164,7 +164,7 @@ void FontsSettingsWidget::on_pushButtonForcedFont_clicked()
 
 void FontsSettingsWidget::on_pushButtonForcedColor_clicked()
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
     QPalette palette = lineEditForcedColor->palette();
 
     QColor color = QColorDialog::getColor(palette.color(QPalette::Base));
@@ -186,8 +186,7 @@ void FontsSettingsWidget::on_pushButtonForcedColor_clicked()
 
 void FontsSettingsWidget::on_checkBoxForceBackgroundColor_toggled(bool b)
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
-
+    TextSkin &textSkin = Profile::instance().textSkin();
     if (b)
     {
         QPalette palette = lineEditBackgroundColor->palette();
@@ -200,8 +199,7 @@ void FontsSettingsWidget::on_checkBoxForceBackgroundColor_toggled(bool b)
 
 void FontsSettingsWidget::on_checkBoxForceAwayBackgroundColor_toggled(bool b)
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
-
+    TextSkin &textSkin = Profile::instance().textSkin();
     if (b)
     {
         QPalette palette = lineEditAwayBackgroundColor->palette();
@@ -214,7 +212,7 @@ void FontsSettingsWidget::on_checkBoxForceAwayBackgroundColor_toggled(bool b)
 
 void FontsSettingsWidget::on_pushButtonBackgroundColor_clicked()
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
     QPalette palette = lineEditBackgroundColor->palette();
 
     QColor color = QColorDialog::getColor(palette.color(QPalette::Base));
@@ -228,7 +226,7 @@ void FontsSettingsWidget::on_pushButtonBackgroundColor_clicked()
 
 void FontsSettingsWidget::on_pushButtonAwayBackgroundColor_clicked()
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
     QPalette palette = lineEditAwayBackgroundColor->palette();
 
     QColor color = QColorDialog::getColor(palette.color(QPalette::Base));
@@ -254,7 +252,7 @@ void FontsSettingsWidget::refreshListWidgetItems()
 
 TextSkin::MtpFont &FontsSettingsWidget::getMtpFontByRow(int row)
 {
-    TextSkin &textSkin = ProfileManager::instance().currentProfile()->textSkin();
+    TextSkin &textSkin = Profile::instance().textSkin();
     switch (row)
     {
     case outputRow: return textSkin.textFont();

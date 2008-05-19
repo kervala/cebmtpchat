@@ -28,7 +28,7 @@
 #include <QSound>
 
 #include "dialog_settings.h"
-#include "profile_manager.h"
+#include "profile.h"
 #include "session_config_widget.h"
 #include "language_manager.h"
 #include "sound_settings_widget.h"
@@ -61,8 +61,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     createNode(0, createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
 
     // Save old things
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    m_oldTextSkin = profile.textSkin();
+    m_oldTextSkin = Profile::instance().textSkin();
 
     // Focus on first node
     treeMain->setCurrentItem(treeMain->topLevelItem(0));
@@ -72,7 +71,6 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 
 QWidget *DialogSettings::createGeneralWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
 
@@ -91,7 +89,7 @@ QWidget *DialogSettings::createGeneralWidget()
     // Update
     checkBoxCheckForUpdate = new QCheckBox("Check for CeB update at startup");
     mainLayout->addWidget(checkBoxCheckForUpdate);
-    checkBoxCheckForUpdate->setChecked(profile.checkForUpdate);
+    checkBoxCheckForUpdate->setChecked(Profile::instance().checkForUpdate);
 
     // End spacer
     mainLayout->addStretch();
@@ -105,9 +103,9 @@ QWidget *DialogSettings::createGeneralWidget()
         displayToLanguage.insert(getLanguageDisplay(language), language);
     }
 
-    if (!profile.language.isEmpty())
+    if (!Profile::instance().language.isEmpty())
     {
-        int index = comboBoxLanguage->findText(getLanguageDisplay(profile.language));
+        int index = comboBoxLanguage->findText(getLanguageDisplay(Profile::instance().language));
         if (index >= 0)
             comboBoxLanguage->setCurrentIndex(index);
     }
@@ -118,19 +116,17 @@ QWidget *DialogSettings::createGeneralWidget()
 QWidget *DialogSettings::createShortcutsWidget()
 {
     ShortcutsSettingsWidget *widget = new ShortcutsSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 void DialogSettings::createConnectionsNodes()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     itemConnections = createNode(0, createConnectionsWidget(), "Connections", QIcon(":/images/connect.png"));
 
-    for (int i = 0; i < profile.sessionConfigs().count(); i++)
+    for (int i = 0; i < Profile::instance().sessionConfigs().count(); i++)
     {
-        const SessionConfig &config = *profile.sessionConfigs().value(i);
+        const SessionConfig &config = *Profile::instance().sessionConfigs().value(i);
 
         // Create a widget for the connection
         SessionConfigWidget *sessionConfigWidget = new SessionConfigWidget(0, true);
@@ -146,20 +142,19 @@ void DialogSettings::createConnectionsNodes()
 QWidget *DialogSettings::createFontsWidget()
 {
     FontsSettingsWidget *widget = new FontsSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createDetailedFontsWidget()
 {
     DetailedFontsSettingsWidget *widget = new DetailedFontsSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createLogsWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
@@ -198,7 +193,7 @@ QWidget *DialogSettings::createLogsWidget()
     radioButtonLogsCustomDir = new QRadioButton(tr("Custom directory: "));
     logsDirLayout->addWidget(radioButtonLogsCustomDir);
     lineEditLogsCustomDir = new QLineEdit;
-    lineEditLogsCustomDir->setText(profile.logsDir);
+    lineEditLogsCustomDir->setText(Profile::instance().logsDir);
     hLayout = new QHBoxLayout;
     hLayout->setSpacing(0);
     logsDirLayout->addLayout(hLayout);
@@ -215,13 +210,13 @@ QWidget *DialogSettings::createLogsWidget()
     connect(radioButtonLogsCustomDir, SIGNAL(toggled(bool)),
             fileButton, SLOT(setEnabled(bool)));
 
-    if (profile.logsDefaultDir)
+    if (Profile::instance().logsDefaultDir)
         radioButtonLogsDefaultDir->setChecked(true);
     else
         radioButtonLogsCustomDir->setChecked(true);
-    lineEditDefaultDir->setEnabled(profile.logsDefaultDir);
-    lineEditLogsCustomDir->setEnabled(!profile.logsDefaultDir);
-    fileButton->setEnabled(!profile.logsDefaultDir);
+    lineEditDefaultDir->setEnabled(Profile::instance().logsDefaultDir);
+    lineEditLogsCustomDir->setEnabled(!Profile::instance().logsDefaultDir);
+    fileButton->setEnabled(!Profile::instance().logsDefaultDir);
 
     // Logs file policy
     QWidget *widgetFile = new QWidget;
@@ -238,7 +233,7 @@ QWidget *DialogSettings::createLogsWidget()
     radioButtonLogsUniq = new QRadioButton(tr("Uniq"));
     logsFileLayout->addWidget(radioButtonLogsUniq);
 
-    switch (profile.logsFilePolicy)
+    switch (Profile::instance().logsFilePolicy)
     {
     case Profile::LogFilePolicy_Daily:
         radioButtonLogsDaily->setChecked(true);
@@ -254,7 +249,7 @@ QWidget *DialogSettings::createLogsWidget()
         break;
     }
 
-    groupBoxLogs->setChecked(profile.logsEnabled);
+    groupBoxLogs->setChecked(Profile::instance().logsEnabled);
 
     // Misc
     QWidget *widgetMisc = new QWidget;
@@ -262,7 +257,7 @@ QWidget *DialogSettings::createLogsWidget()
     checkBoxLogsTimeStamp = new QCheckBox(tr("Alway timestamps"));
     QVBoxLayout *miscLayout = new QVBoxLayout(widgetMisc);
     miscLayout->addWidget(checkBoxLogsTimeStamp);
-    checkBoxLogsTimeStamp->setChecked(profile.logsTimeStamp);
+    checkBoxLogsTimeStamp->setChecked(Profile::instance().logsTimeStamp);
     spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding);
     miscLayout->addItem(spacer);
 
@@ -275,8 +270,6 @@ QWidget *DialogSettings::createLogsWidget()
 
 QWidget *DialogSettings::createTrayWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
@@ -289,13 +282,13 @@ QWidget *DialogSettings::createTrayWidget()
 
     checkBoxTrayAlwaysVisible = new QCheckBox(tr("Always visible"));
     trayLayout->addWidget(checkBoxTrayAlwaysVisible);
-    checkBoxTrayAlwaysVisible->setChecked(profile.trayAlwaysVisible);
+    checkBoxTrayAlwaysVisible->setChecked(Profile::instance().trayAlwaysVisible);
 
     checkBoxTrayHideFromTaskBar = new QCheckBox(tr("Hide from task bar when minimized"));
     trayLayout->addWidget(checkBoxTrayHideFromTaskBar);
-    checkBoxTrayHideFromTaskBar->setChecked(profile.trayHideFromTaskBar);
+    checkBoxTrayHideFromTaskBar->setChecked(Profile::instance().trayHideFromTaskBar);
 
-    groupBoxTray->setChecked(profile.trayEnabled);
+    groupBoxTray->setChecked(Profile::instance().trayEnabled);
 
     // End spacer
     QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed,
@@ -308,35 +301,33 @@ QWidget *DialogSettings::createTrayWidget()
 QWidget *DialogSettings::createWarningoWidget()
 {
     WarningoSettingsWidget *widget = new WarningoSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createSoundsWidget()
 {
     SoundSettingsWidget *widget = new SoundSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createIdleWidget()
 {
     IdleSettingsWidget *widget = new IdleSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createTabsWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
 
     checkBoxTabsIcons = new QCheckBox(tr("Display icons in tabs"));
     mainLayout->addWidget(checkBoxTabsIcons);
-    checkBoxTabsIcons->setChecked(profile.tabsIcons);
+    checkBoxTabsIcons->setChecked(Profile::instance().tabsIcons);
 
     QGroupBox *groupBoxType = new QGroupBox(tr("Tabs disposition"));
     QVBoxLayout *typeLayout = new QVBoxLayout(groupBoxType);
@@ -371,7 +362,7 @@ QWidget *DialogSettings::createTabsWidget()
             SLOT(refreshTabExample(bool)));
     allInOneLocationLayout->addWidget(radioButtonTabsAllInBottom);
 
-    if (profile.tabsAllInTop)
+    if (Profile::instance().tabsAllInTop)
         radioButtonTabsAllInTop->setChecked(true);
     else
         radioButtonTabsAllInBottom->setChecked(true);
@@ -396,7 +387,7 @@ QWidget *DialogSettings::createTabsWidget()
     connect(radioButtonTabsSuperOnBottom, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     superLocationLayout->addWidget(radioButtonTabsSuperOnBottom);
-    if (profile.tabsSuperOnTop)
+    if (Profile::instance().tabsSuperOnTop)
         radioButtonTabsSuperOnTop->setChecked(true);
     else
         radioButtonTabsSuperOnBottom->setChecked(true);
@@ -412,7 +403,7 @@ QWidget *DialogSettings::createTabsWidget()
     connect(radioButtonTabsOnBottom, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     normalLocationLayout->addWidget(radioButtonTabsOnBottom);
-    if (profile.tabsOnTop)
+    if (Profile::instance().tabsOnTop)
         radioButtonTabsOnTop->setChecked(true);
     else
         radioButtonTabsOnBottom->setChecked(true);
@@ -422,7 +413,7 @@ QWidget *DialogSettings::createTabsWidget()
     connect(radioButtonTabsAllInOne, SIGNAL(toggled(bool)), this, SLOT(tabsTypeAllInOneToggled(bool)));
     connect(radioButtonTabsSuper, SIGNAL(toggled(bool)), this, SLOT(tabsTypeSuperToggled(bool)));
 
-    if (profile.tabsAllInOne)
+    if (Profile::instance().tabsAllInOne)
         radioButtonTabsAllInOne->setChecked(true);
     else
         radioButtonTabsSuper->setChecked(true);
@@ -454,14 +445,12 @@ QWidget *DialogSettings::createTabsWidget()
 QWidget *DialogSettings::createLinksWidget()
 {
     LinksSettingsWidget *widget = new LinksSettingsWidget;
-    widget->applyProfile(*ProfileManager::instance().currentProfile());
+    widget->applyProfile(Profile::instance());
     return widget;
 }
 
 QWidget *DialogSettings::createOutputWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
@@ -469,7 +458,7 @@ QWidget *DialogSettings::createOutputWidget()
     groupBoxAwaySeparator = new QGroupBox(tr("Enable away/back separator lines"));
     mainLayout->addWidget(groupBoxAwaySeparator);
     groupBoxAwaySeparator->setCheckable(true);
-    groupBoxAwaySeparator->setChecked(profile.awaySeparatorLines);
+    groupBoxAwaySeparator->setChecked(Profile::instance().awaySeparatorLines);
 
     QVBoxLayout *groupBoxAwayLayout = new QVBoxLayout(groupBoxAwaySeparator);
 
@@ -487,7 +476,7 @@ QWidget *DialogSettings::createOutputWidget()
     colorLayout->addWidget(pushButtonAwaySeparatorColor);
 
     QPalette palette = lineEditAwaySeparatorColor->palette();
-    palette.setColor(QPalette::Text, profile.awaySeparatorColor);
+    palette.setColor(QPalette::Text, Profile::instance().awaySeparatorColor);
     palette.setColor(QPalette::Base, QColor(255, 255, 240));
     lineEditAwaySeparatorColor->setPalette(palette);
 
@@ -502,7 +491,7 @@ QWidget *DialogSettings::createOutputWidget()
     lengthLayout->addWidget(spinBoxAwaySeparatorLength);
     spinBoxAwaySeparatorLength->setMinimum(1);
     spinBoxAwaySeparatorLength->setMaximum(200);
-    spinBoxAwaySeparatorLength->setValue(profile.awaySeparatorLength);
+    spinBoxAwaySeparatorLength->setValue(Profile::instance().awaySeparatorLength);
     connect(spinBoxAwaySeparatorLength, SIGNAL(valueChanged(int)),
             this, SLOT(refreshAwaySeparatorPreview()));
 
@@ -512,7 +501,7 @@ QWidget *DialogSettings::createOutputWidget()
     periodLayout->addWidget(label);
     lineEditAwaySeparatorPeriod = new QLineEdit;
     periodLayout->addWidget(lineEditAwaySeparatorPeriod);
-    lineEditAwaySeparatorPeriod->setText(profile.awaySeparatorPeriod);
+    lineEditAwaySeparatorPeriod->setText(Profile::instance().awaySeparatorPeriod);
     connect(lineEditAwaySeparatorPeriod, SIGNAL(textChanged(const QString &)),
             this, SLOT(refreshAwaySeparatorPreview()));
 
@@ -528,8 +517,6 @@ QWidget *DialogSettings::createOutputWidget()
 
 QWidget *DialogSettings::createMiscWidget()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
@@ -547,7 +534,7 @@ QWidget *DialogSettings::createMiscWidget()
     timeStampLayout->addWidget(radioButtonTimeStampNever);
     timeStampLayout->addWidget(checkBoxTimeStampInTell);
 
-    switch(profile.timeStampPolicy)
+    switch(Profile::instance().timeStampPolicy)
     {
     case Profile::Policy_Classic:
         radioButtonTimeStampClassic->setChecked(true);
@@ -560,7 +547,7 @@ QWidget *DialogSettings::createMiscWidget()
         break;
     default:;
     }
-    checkBoxTimeStampInTell->setChecked(profile.timeStampInTellTabs);
+    checkBoxTimeStampInTell->setChecked(Profile::instance().timeStampInTellTabs);
 
     checkBoxKeepAlive = new QCheckBox(tr("Keep Alive (the \"date\" command is sent frequently)"));
     mainLayout->addWidget(checkBoxKeepAlive);
@@ -580,9 +567,9 @@ QWidget *DialogSettings::createMiscWidget()
     labelKeepAliveSeconds = new QLabel("sec");
     keepAliveLayout->addWidget(labelKeepAliveSeconds);
 
-    checkBoxKeepAlive->setChecked(profile.keepAlive);
+    checkBoxKeepAlive->setChecked(Profile::instance().keepAlive);
     if (checkBoxKeepAlive->isChecked())
-        spinBoxKeepAlive->setValue(profile.keepAlive);
+        spinBoxKeepAlive->setValue(Profile::instance().keepAlive);
     else
         spinBoxKeepAlive->setValue(60);
 
@@ -598,13 +585,13 @@ QWidget *DialogSettings::createMiscWidget()
     tabsForLayout->addWidget(checkBoxTabForWall);
     tabsForLayout->addWidget(checkBoxTabForFinger);
 
-    checkBoxTabForWho->setChecked(profile.tabForWho);
-    checkBoxTabForWall->setChecked(profile.tabForWall);
-    checkBoxTabForFinger->setChecked(profile.tabForFinger);
+    checkBoxTabForWho->setChecked(Profile::instance().tabForWho);
+    checkBoxTabForWall->setChecked(Profile::instance().tabForWall);
+    checkBoxTabForFinger->setChecked(Profile::instance().tabForFinger);
 
     checkBoxCopyOnSelection = new QCheckBox(tr("Copy on selection (unix style)"));
     mainLayout->addWidget(checkBoxCopyOnSelection);
-    checkBoxCopyOnSelection->setChecked(profile.copyOnSelection);
+    checkBoxCopyOnSelection->setChecked(Profile::instance().copyOnSelection);
 
     // End spacer
     spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -679,161 +666,140 @@ void DialogSettings::getControlsDatas()
 
 void DialogSettings::getGeneralControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    QString oldLanguage = profile.language;
+    QString oldLanguage = Profile::instance().language;
     if (comboBoxLanguage->currentIndex() == 0)
-        profile.language = "";
+        Profile::instance().language = "";
     else
-        profile.language = displayToLanguage[comboBoxLanguage->currentText()];
+        Profile::instance().language = displayToLanguage[comboBoxLanguage->currentText()];
 
-    if (profile.language != oldLanguage)
+    if (Profile::instance().language != oldLanguage)
         QMessageBox::warning(this, tr("Warning"), tr("You must restart CeB to apply your language changes"));
-    profile.checkForUpdate = checkBoxCheckForUpdate->isChecked();
+    Profile::instance().checkForUpdate = checkBoxCheckForUpdate->isChecked();
 }
 
 void DialogSettings::getShortcutsControlsDatas()
 {
-    qobject_cast<ShortcutsSettingsWidget*>(shortcutsWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<ShortcutsSettingsWidget*>(shortcutsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getConnectionsControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
     for (int i = 0; i < itemConnections->childCount(); i++)
     {
         SessionConfigWidget *widget =
             qobject_cast<SessionConfigWidget*>(getWidgetByNode(itemConnections->child(i)));
 
         // Refresh config in profile
-        SessionConfig *config = profile.getSessionConfig(widget->oldName());
+        SessionConfig *config = Profile::instance().getSessionConfig(widget->oldName());
         widget->get(*config);
     }
 }
 
 void DialogSettings::getFontsControlsDatas()
 {
-    qobject_cast<FontsSettingsWidget*>(fontsWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<FontsSettingsWidget*>(fontsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getDetailedFontsControlsDatas()
 {
-    qobject_cast<DetailedFontsSettingsWidget*>(detailedFontsWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<DetailedFontsSettingsWidget*>(detailedFontsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getLogsControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    profile.logsEnabled = groupBoxLogs->isChecked();
-    profile.logsDefaultDir = radioButtonLogsDefaultDir->isChecked();
-    profile.logsDir = lineEditLogsCustomDir->text();
+    Profile::instance().logsEnabled = groupBoxLogs->isChecked();
+    Profile::instance().logsDefaultDir = radioButtonLogsDefaultDir->isChecked();
+    Profile::instance().logsDir = lineEditLogsCustomDir->text();
     if (radioButtonLogsDaily->isChecked())
-        profile.logsFilePolicy = Profile::LogFilePolicy_Daily;
+        Profile::instance().logsFilePolicy = Profile::LogFilePolicy_Daily;
     else if (radioButtonLogsWeekly->isChecked())
-        profile.logsFilePolicy = Profile::LogFilePolicy_Weekly;
+        Profile::instance().logsFilePolicy = Profile::LogFilePolicy_Weekly;
     else if (radioButtonLogsMonthly->isChecked())
-        profile.logsFilePolicy = Profile::LogFilePolicy_Monthly;
+        Profile::instance().logsFilePolicy = Profile::LogFilePolicy_Monthly;
     else if (radioButtonLogsUniq->isChecked())
-        profile.logsFilePolicy = Profile::LogFilePolicy_Uniq;
-    profile.logsTimeStamp = checkBoxLogsTimeStamp->isChecked();
+        Profile::instance().logsFilePolicy = Profile::LogFilePolicy_Uniq;
+    Profile::instance().logsTimeStamp = checkBoxLogsTimeStamp->isChecked();
 }
 
 void DialogSettings::getTrayControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    profile.trayEnabled = groupBoxTray->isChecked();
-    profile.trayAlwaysVisible = checkBoxTrayAlwaysVisible->isChecked();
-    profile.trayHideFromTaskBar = checkBoxTrayHideFromTaskBar->isChecked();
+    Profile::instance().trayEnabled = groupBoxTray->isChecked();
+    Profile::instance().trayAlwaysVisible = checkBoxTrayAlwaysVisible->isChecked();
+    Profile::instance().trayHideFromTaskBar = checkBoxTrayHideFromTaskBar->isChecked();
 }
 
 void DialogSettings::getWarningoControlsDatas()
 {
-    qobject_cast<WarningoSettingsWidget*>(warningoWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<WarningoSettingsWidget*>(warningoWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getSoundsControlsDatas()
 {
-    qobject_cast<SoundSettingsWidget*>(soundsWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<SoundSettingsWidget*>(soundsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getIdleControlsDatas()
 {
-    qobject_cast<IdleSettingsWidget*>(idleWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<IdleSettingsWidget*>(idleWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getTabsControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    profile.tabsIcons = checkBoxTabsIcons->isChecked();
-    profile.tabsAllInOne = radioButtonTabsAllInOne->isChecked();
-    profile.tabsAllInTop = radioButtonTabsAllInTop->isChecked();
-    profile.tabsSuperOnTop = radioButtonTabsSuperOnTop->isChecked();
-    profile.tabsOnTop = radioButtonTabsOnTop->isChecked();
+    Profile::instance().tabsIcons = checkBoxTabsIcons->isChecked();
+    Profile::instance().tabsAllInOne = radioButtonTabsAllInOne->isChecked();
+    Profile::instance().tabsAllInTop = radioButtonTabsAllInTop->isChecked();
+    Profile::instance().tabsSuperOnTop = radioButtonTabsSuperOnTop->isChecked();
+    Profile::instance().tabsOnTop = radioButtonTabsOnTop->isChecked();
 }
 
 void DialogSettings::getLinksControlsDatas()
 {
-    qobject_cast<LinksSettingsWidget*>(linksWidget)->feedProfile(
-        *ProfileManager::instance().currentProfile());
+    qobject_cast<LinksSettingsWidget*>(linksWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getOutputControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    profile.awaySeparatorLines = groupBoxAwaySeparator->isChecked();
+    Profile::instance().awaySeparatorLines = groupBoxAwaySeparator->isChecked();
     QPalette palette = lineEditAwaySeparatorColor->palette();
-    profile.awaySeparatorColor = palette.color(QPalette::Text);
-    profile.awaySeparatorLength = spinBoxAwaySeparatorLength->value();
-    profile.awaySeparatorPeriod = lineEditAwaySeparatorPeriod->text();
+    Profile::instance().awaySeparatorColor = palette.color(QPalette::Text);
+    Profile::instance().awaySeparatorLength = spinBoxAwaySeparatorLength->value();
+    Profile::instance().awaySeparatorPeriod = lineEditAwaySeparatorPeriod->text();
 }
 
 void DialogSettings::getMiscControlsDatas()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Time stamp
     if (radioButtonTimeStampClassic->isChecked())
-        profile.timeStampPolicy = Profile::Policy_Classic;
+        Profile::instance().timeStampPolicy = Profile::Policy_Classic;
     else if (radioButtonTimeStampAlways->isChecked())
-        profile.timeStampPolicy = Profile::Policy_Always;
+        Profile::instance().timeStampPolicy = Profile::Policy_Always;
     else if (radioButtonTimeStampNever->isChecked())
-        profile.timeStampPolicy = Profile::Policy_Never;
+        Profile::instance().timeStampPolicy = Profile::Policy_Never;
 
-    profile.timeStampInTellTabs = checkBoxTimeStampInTell->isChecked();
+    Profile::instance().timeStampInTellTabs = checkBoxTimeStampInTell->isChecked();
 
     // Keep alive
     if (checkBoxKeepAlive->isChecked())
-        profile.keepAlive = spinBoxKeepAlive->value();
+        Profile::instance().keepAlive = spinBoxKeepAlive->value();
     else
-        profile.keepAlive = 0;
+        Profile::instance().keepAlive = 0;
 
     // Tabs for...
-    profile.tabForWho = checkBoxTabForWho->isChecked();
-    profile.tabForWall = checkBoxTabForWall->isChecked();
-    profile.tabForFinger = checkBoxTabForFinger->isChecked();
+    Profile::instance().tabForWho = checkBoxTabForWho->isChecked();
+    Profile::instance().tabForWall = checkBoxTabForWall->isChecked();
+    Profile::instance().tabForFinger = checkBoxTabForFinger->isChecked();
 
-    profile.copyOnSelection = checkBoxCopyOnSelection->isChecked();
+    Profile::instance().copyOnSelection = checkBoxCopyOnSelection->isChecked();
 }
 
 void DialogSettings::newSessionConfig()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Widget
     SessionConfigWidget *sessionConfigWidget = new SessionConfigWidget(0, true);
 
     SessionConfig newConfig = SessionConfig::getTemplate();
-    newConfig.setName(profile.getUniqSessionConfigName());
-    profile.addSessionConfig(newConfig);
+    newConfig.setName(Profile::instance().getUniqSessionConfigName());
+    Profile::instance().addSessionConfig(newConfig);
     sessionConfigWidget->init(newConfig);
 
     // Node
@@ -843,13 +809,11 @@ void DialogSettings::newSessionConfig()
 
 void DialogSettings::removeSessionConfig()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     // Remove the session config
     SessionConfigWidget *widget = qobject_cast<SessionConfigWidget*>(sender());
 
     // Remove internal datas
-    profile.deleteSessionConfig(widget->oldName());
+    Profile::instance().deleteSessionConfig(widget->oldName());
 
     // Destroy the node and widget
     deleteNode(getNodeByWidget(widget));
@@ -911,9 +875,7 @@ void DialogSettings::refreshTabExample(bool)
 
 void DialogSettings::changeAwaySeparatorColor()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
-    QColor color = QColorDialog::getColor(profile.awaySeparatorColor);
+    QColor color = QColorDialog::getColor(Profile::instance().awaySeparatorColor);
     if (color.isValid())
     {
         QPalette palette = lineEditAwaySeparatorColor->palette();
@@ -934,18 +896,15 @@ void DialogSettings::awaySeparatorLengthChanged(int)
 
 void DialogSettings::refreshAwaySeparatorPreview()
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     QString period = lineEditAwaySeparatorPeriod->text();
     int length = spinBoxAwaySeparatorLength->value();
-    lineEditAwaySeparatorColor->setText(profile.getAwaySeparator(period, length));
+    lineEditAwaySeparatorColor->setText(Profile::instance().getAwaySeparator(period, length));
 }
 
 void DialogSettings::reject()
 {
     // Recopy old profile into the new
-    Profile &profile = *ProfileManager::instance().currentProfile();
-    TextSkin &newTextSkin = profile.textSkin();
+    TextSkin &newTextSkin = Profile::instance().textSkin();
     newTextSkin = m_oldTextSkin;
 
     DialogConfig::reject();

@@ -24,61 +24,61 @@
 
 class MyTextEdit : public QTextBrowser
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	bool isAway;
+    bool isAway;
 
-	MyTextEdit(QWidget *parent = 0);
+    MyTextEdit(QWidget *parent = 0);
 
-	void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
-	void addString(const QString &line, const QFont &font, const QColor &color);
-	void addNewLine(const QString &line, const QColor &color);
-	void addString(const QString &line, const QColor &color);
-	void addNewLine(const QString &line);
-	void addString(const QString &line);
-	void addSeparatorLine();
+    void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
+    void addString(const QString &line, const QFont &font, const QColor &color);
+    void addNewLine(const QString &line, const QColor &color);
+    void addString(const QString &line, const QColor &color);
+    void addNewLine(const QString &line);
+    void addString(const QString &line);
+    void addSeparatorLine();
 
-	bool allowFilters() const { return m_allowFilters; }
-	void setAllowFilters(bool value) { m_allowFilters = value; }
+    bool allowFilters() const { return m_allowFilters; }
+    void setAllowFilters(bool value) { m_allowFilters = value; }
 
-	void scrollOutputToBottom();
+    void scrollOutputToBottom();
 
 protected:
-	virtual void keyPressEvent(QKeyEvent *e);
-	virtual void mouseReleaseEvent(QMouseEvent *e);
-	virtual void contextMenuEvent(QContextMenuEvent *e);
-	virtual void resizeEvent(QResizeEvent *e);
+    virtual void keyPressEvent(QKeyEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+    virtual void contextMenuEvent(QContextMenuEvent *e);
+    virtual void resizeEvent(QResizeEvent *e);
 
 private:
-	QProcess *urlProcess;
-	QTextEdit *filterTextEdit;
-	bool m_allowFilters;
+    QProcess *urlProcess;
+    QTextEdit *filterTextEdit;
+    bool m_allowFilters;
 
-	struct UrlRange
-	{
-		int start;
-		int length;
-	};
+    struct UrlRange
+    {
+        int start;
+        int length;
+    };
 
-	QList<QRegExp> urlRegexp;
+    QList<QRegExp> urlRegexp;
 
-	void insertLine(QTextCursor &cursor, const QString &line, const QFont &font, const QColor &color);
+    void insertLine(QTextCursor &cursor, const QString &line, const QFont &font, const QColor &color);
 
 signals:
-	void myKeyPressed(const QKeyEvent &e);
+    void myKeyPressed(const QKeyEvent &e);
 
 private slots:
-	void myAnchorClicked(const QUrl &link);
-	void deleteProcLater(int exitCode);
-	void filterTriggered(QAction *action);
-	void sendIt();
+    void myAnchorClicked(const QUrl &link);
+    void deleteProcLater(int exitCode);
+    void filterTriggered(QAction *action);
+    void sendIt();
 
 public slots:
-	void setSource(const QUrl &name);
+    void setSource(const QUrl &name);
 
 signals:
-	void sendToChat(const QString &string);
+    void sendToChat(const QString &string);
 };
 
 #endif
