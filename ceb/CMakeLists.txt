@@ -21,7 +21,6 @@ SET(CEB_SRCS
 	src/dialog_settings.cpp
 	src/profile.cpp
 	src/session_config.cpp
-	src/profile_manager.cpp
 	src/general_config.cpp
 	src/session_widget.cpp
 	src/channel_widget.cpp
