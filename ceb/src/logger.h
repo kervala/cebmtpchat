@@ -28,21 +28,6 @@ class Logger : public QObject
 {
     Q_OBJECT
 
-private:
-    static Logger *_instance;
-
-    Logger();
-    ~Logger();
-
-    QString getLogsDir();
-    QString getFileName(const QString &prefix);
-    QString getCurrentDay();
-    QString getCurrentDayWeekRange();
-    QString getCurrentDayMonthRange();
-
-    QMap<QString,QFile*> files;
-    QString oldPostFix;
-
 public:
     static Logger &instance();
     static void free();
@@ -56,6 +41,23 @@ public:
     void log(const QString &prefix, const QString &line);
     // Same as above but with star padding
     void logWithStarPadding(const QString &prefix, const QString &line);
+
+    static QString getDefaultLogsDir();
+
+private:
+    static Logger *_instance;
+
+    Logger();
+    ~Logger();
+
+    static QString getLogsDir();
+    QString getFileName(const QString &prefix);
+    QString getCurrentDay();
+    QString getCurrentDayWeekRange();
+    QString getCurrentDayMonthRange();
+
+    QMap<QString,QFile*> files;
+    QString oldPostFix;
 };
 
 

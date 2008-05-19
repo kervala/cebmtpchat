@@ -27,7 +27,6 @@
 #include <QMessageBox>
 #include <QSound>
 
-#include "dialog_settings.h"
 #include "profile.h"
 #include "session_config_widget.h"
 #include "language_manager.h"
@@ -38,6 +37,9 @@
 #include "detailed_fonts_settings_widget.h"
 #include "links_settings_widget.h"
 #include "shortcuts_settings_widget.h"
+#include "logger.h"
+
+#include "dialog_settings.h"
 
 DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 {
@@ -177,7 +179,8 @@ QWidget *DialogSettings::createLogsWidget()
     logsDirLayout->addWidget(radioButtonLogsDefaultDir);
     QLineEdit *lineEditDefaultDir = new QLineEdit;
     lineEditDefaultDir->setReadOnly(true);
-    QString defaultDir = QDir::convertSeparators(QApplication::applicationDirPath() + "/logs");
+    QString defaultDir = Logger::getDefaultLogsDir();
+//        QDir::convertSeparators(QApplication::applicationDirPath() + "/logs");
     lineEditDefaultDir->setText(defaultDir);
 
     QHBoxLayout *hLayout = new QHBoxLayout;

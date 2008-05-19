@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QApplication>
 #include <QTextStream>
+#include <QDesktopServices>
 
 #include "logger.h"
 #include "profile.h"
@@ -58,10 +59,15 @@ Logger::~Logger()
     }
 }
 
+QString Logger::getDefaultLogsDir()
+{
+    return QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation)).filePath("logs");
+}
+
 QString Logger::getLogsDir()
 {
     if (Profile::instance().logsDefaultDir)
-        return QApplication::applicationDirPath() + "/logs/";
+        return getDefaultLogsDir();
     else
     {
         QString logsDir = Profile::instance().logsDir;
@@ -73,7 +79,7 @@ QString Logger::getLogsDir()
 
 QString Logger::getFileName(const QString &prefix)
 {
-    QString fileName = QDir::convertSeparators(getLogsDir()) + prefix;
+    QString fileName = QDir(getLogsDir()).filePath(prefix);
 
     switch (Profile::instance().logsFilePolicy)
     {
@@ -95,7 +101,11 @@ void Logger::log(const QString &prefix, const QString &line)
 
     QDir dir(getLogsDir());
     if (!dir.exists())
-        return;
+        if (!dir.mkpath("."))
+        {
+            qDebug("Impossible to create log dir: %s", qPrintable(dir.absolutePath()));
+            return;
+        }
 
     QString fileName = getFileName(prefix);
 
@@ -189,5 +199,3 @@ QString Logger::getCurrentDayMonthRange()
     return firstDate.toString("yyyy.MM.dd") + "-" +
         lastDate.toString("yyyy.MM.dd");
 }
-
-
