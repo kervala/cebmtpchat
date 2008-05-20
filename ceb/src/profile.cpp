@@ -27,8 +27,10 @@
 
 #include <xml_handler.h>
 
-#include "profile.h"
 #include "version.h"
+#include "global.h"
+
+#include "profile.h"
 
 Profile *Profile::_instance = 0;
 const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
@@ -127,9 +129,7 @@ void Profile::clearSessionConfigList()
 bool Profile::load()
 {
     // Load and parse
-    QDir dataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-
-    QFile file(dataDir.filePath("settings.xml"));
+    QFile file(QDir(profilePath()).filePath("settings.xml"));
 
     if (!file.exists())
     {
@@ -328,7 +328,7 @@ bool Profile::load()
 void Profile::save() const
 {
     // Save
-    QDir dataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    QDir dataDir(profilePath());
 
     dataDir.mkpath(".");
     QFile file(dataDir.filePath("settings.xml"));
@@ -661,4 +661,12 @@ bool Profile::matchIdleAwayBypassExpressions(const QString &str) const
             return true;
     }
     return false;
+}
+
+QString Profile::profilePath()
+{
+    if (Global::devMode())
+        return QDir(QCoreApplication::applicationDirPath()).filePath(qApp->applicationName());
+
+    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 }

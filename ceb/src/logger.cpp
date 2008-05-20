@@ -22,8 +22,10 @@
 #include <QTextStream>
 #include <QDesktopServices>
 
-#include "logger.h"
 #include "profile.h"
+#include "global.h"
+
+#include "logger.h"
 
 Logger *Logger::_instance = 0;
 
@@ -61,7 +63,7 @@ Logger::~Logger()
 
 QString Logger::getDefaultLogsDir()
 {
-    return QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation)).filePath("logs");
+    return QDir(Profile::profilePath()).filePath("logs");
 }
 
 QString Logger::getLogsDir()

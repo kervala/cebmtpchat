@@ -137,6 +137,8 @@ public:
     QString getAboutMeFileName();
     bool matchIdleAwayBypassExpressions(const QString &str) const;
 
+    static QString profilePath();
+
 private:
     Profile();
     ~Profile();
