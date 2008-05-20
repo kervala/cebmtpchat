@@ -20,9 +20,11 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QDesktopWidget>
+#include <QApplication>
+
+#include "profile.h"
 
 #include "dialog_warningo.h"
-#include "profile.h"
 
 DialogWarningo::DialogWarningo(const QString &title, const QString &message) :
     QDialog(0, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
@@ -48,8 +50,7 @@ void DialogWarningo::endOfTimer()
 
 void DialogWarningo::showEvent(QShowEvent *event)
 {
-    QDesktopWidget desktopWidget;
-    QRect desktopGeometry = desktopWidget.availableGeometry();
+    QRect desktopGeometry = qApp->desktop()->availableGeometry(Profile::instance().warningoScreen);
     switch(Profile::instance().warningoLocation)
     {
     case Profile::WarningoLocation_TopLeft:

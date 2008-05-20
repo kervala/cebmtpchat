@@ -92,6 +92,7 @@ public:
     bool warningoEnabled;
     int warningoLifeTime;
     WarningoLocation warningoLocation;
+    int warningoScreen;
     bool warningoPrivate;
     bool warningoHighlight;
     bool tabsAllInOne;

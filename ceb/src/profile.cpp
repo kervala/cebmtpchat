@@ -79,6 +79,7 @@ void Profile::init()
     warningoEnabled = true;
     warningoLifeTime = 3000;
     warningoLocation = WarningoLocation_TopLeft;
+    warningoScreen = 0;
     warningoPrivate = true;
     warningoHighlight = true;
     tabsAllInOne = false;
@@ -220,6 +221,7 @@ bool Profile::load()
         warningoEnabled = XmlHandler::read(warningoElem, "enabled", true);
         warningoLifeTime = XmlHandler::read(warningoElem, "life_time", 3000);
         warningoLocation = (WarningoLocation) XmlHandler::read(warningoElem, "location", 0);
+        warningoScreen = XmlHandler::read(warningoElem, "screen", 0);
         warningoPrivate = XmlHandler::read(warningoElem, "private", true);
         warningoHighlight = XmlHandler::read(warningoElem, "highlight", true);
     }
@@ -402,6 +404,7 @@ void Profile::save() const
     XmlHandler::write(warningoElem, "enabled", warningoEnabled);
     XmlHandler::write(warningoElem, "life_time", warningoLifeTime);
     XmlHandler::write(warningoElem, "location", (int) warningoLocation);
+    XmlHandler::write(warningoElem, "screen", warningoScreen);
     XmlHandler::write(warningoElem, "private", warningoPrivate);
     XmlHandler::write(warningoElem, "highlight", warningoHighlight);
 
@@ -553,6 +556,7 @@ Profile &Profile::operator=(const Profile &profile)
     warningoEnabled = profile.warningoEnabled;
     warningoLifeTime = profile.warningoLifeTime;
     warningoLocation = profile.warningoLocation;
+    warningoScreen = profile.warningoScreen;
     warningoPrivate = profile.warningoPrivate;
     warningoHighlight = profile.warningoHighlight;
     tabsAllInOne = profile.tabsAllInOne;

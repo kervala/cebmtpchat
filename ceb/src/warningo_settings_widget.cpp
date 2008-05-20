@@ -17,6 +17,7 @@
  */
 
 #include <QDesktopWidget>
+#include <QApplication>
 
 #include "warningo_settings_widget.h"
 
@@ -42,12 +43,13 @@ void WarningoSettingsWidget::applyProfile(const Profile &profile)
     default:;
     }
 
-    QDesktopWidget desktop;
+    labelScreen->setVisible(qApp->desktop()->numScreens() > 1);
+    comboBoxScreen->setVisible(qApp->desktop()->numScreens() > 1);
 
-    labelScreen->setVisible(desktop.numScreens() > 1);
-    comboBoxScreen->setVisible(desktop.numScreens() > 1);
+    for (int i = 0; i < qApp->desktop()->numScreens(); ++i)
+        comboBoxScreen->addItem(QString::number(i + 1));
 
-    
+    comboBoxScreen->setCurrentIndex(profile.warningoScreen);
 
     // Events
     checkBoxPrivateSentences->setChecked(profile.warningoPrivate);
@@ -70,6 +72,8 @@ void WarningoSettingsWidget::feedProfile(Profile &profile)
         profile.warningoLocation = Profile::WarningoLocation_BottomLeft;
     else if (radioButtonBottomRight->isChecked())
         profile.warningoLocation = Profile::WarningoLocation_BottomRight;
+
+    profile.warningoScreen = comboBoxScreen->currentIndex();
 
     // Events
     profile.warningoPrivate = checkBoxPrivateSentences->isChecked();
