@@ -30,7 +30,6 @@ DialogWarningo::DialogWarningo(const QString &title, const QString &message) :
     QDialog(0, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setAttribute(Qt::WA_Disabled, true);
     timer.setInterval(Profile::instance().warningoLifeTime);
     connect(&timer, SIGNAL(timeout()), this, SLOT(endOfTimer()));
     QLabel *label = new QLabel(message);
