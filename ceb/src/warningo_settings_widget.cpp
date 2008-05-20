@@ -16,6 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <QDesktopWidget>
+
 #include "warningo_settings_widget.h"
 
 WarningoSettingsWidget::WarningoSettingsWidget(QWidget *parent) : SettingsWidget(parent)
@@ -39,6 +41,13 @@ void WarningoSettingsWidget::applyProfile(const Profile &profile)
     case Profile::WarningoLocation_BottomRight: radioButtonBottomRight->setChecked(true); break;
     default:;
     }
+
+    QDesktopWidget desktop;
+
+    labelScreen->setVisible(desktop.numScreens() > 1);
+    comboBoxScreen->setVisible(desktop.numScreens() > 1);
+
+    
 
     // Events
     checkBoxPrivateSentences->setChecked(profile.warningoPrivate);

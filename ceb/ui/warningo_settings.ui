@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>WarningoSettings</class>
  <widget class="QWidget" name="WarningoSettings" >
   <property name="geometry" >
@@ -9,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -30,7 +27,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>396</width>
        <height>61</height>
@@ -55,7 +52,18 @@
       </property>
       <item row="0" column="0" >
        <widget class="QTabWidget" name="tabWidget" >
+        <property name="currentIndex" >
+         <number>1</number>
+        </property>
         <widget class="QWidget" name="tabLocationGeneral" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>366</width>
+           <height>200</height>
+          </rect>
+         </property>
          <attribute name="title" >
           <string>General</string>
          </attribute>
@@ -71,7 +79,7 @@
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>40</width>
               <height>20</height>
@@ -100,7 +108,7 @@
             <property name="orientation" >
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>20</width>
               <height>40</height>
@@ -118,16 +126,25 @@
          </layout>
         </widget>
         <widget class="QWidget" name="tabWarningoLocation" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>366</width>
+           <height>200</height>
+          </rect>
+         </property>
          <attribute name="title" >
           <string>Location</string>
          </attribute>
          <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="labelLocation" >
+            <property name="text" >
+             <string>Choose your Warningo location:</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0" >
            <widget class="QRadioButton" name="radioButtonTopLeft" >
             <property name="text" >
@@ -149,13 +166,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="labelLocation" >
-            <property name="text" >
-             <string>Choose your Warningo location:</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0" >
            <widget class="QRadioButton" name="radioButtonBottomRight" >
             <property name="text" >
@@ -164,11 +174,25 @@
            </widget>
           </item>
           <item row="5" column="0" >
-           <spacer>
+           <layout class="QFormLayout" name="formLayout" >
+            <item row="0" column="0" >
+             <widget class="QLabel" name="labelScreen" >
+              <property name="text" >
+               <string>On screen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QComboBox" name="comboBoxScreen" />
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="0" >
+           <spacer name="verticalSpacer" >
             <property name="orientation" >
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>20</width>
               <height>40</height>
@@ -179,6 +203,14 @@
          </layout>
         </widget>
         <widget class="QWidget" name="tabWarningoEvents" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>366</width>
+           <height>200</height>
+          </rect>
+         </property>
          <attribute name="title" >
           <string>Events</string>
          </attribute>
@@ -194,7 +226,7 @@
             <property name="orientation" >
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0" >
              <size>
               <width>20</width>
               <height>40</height>
@@ -232,7 +264,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <resources/>
  <connections/>
 </ui>

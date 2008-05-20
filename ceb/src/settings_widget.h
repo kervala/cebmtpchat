@@ -15,7 +15,7 @@
  * along with CeB; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
- 
+
 #ifndef SETTINGS_WIDGET_HPP
 #define SETTINGS_WIDGET_HPP
 
@@ -25,13 +25,13 @@
 
 class SettingsWidget : public QWidget
 {
-	  Q_OBJECT
+    Q_OBJECT
 
 public:
-      SettingsWidget(QWidget *parent = 0);
-    
+    SettingsWidget(QWidget *parent = 0) : QWidget(parent) {}
+
     virtual void applyProfile(const Profile &profile) = 0;
-	virtual void feedProfile(Profile &profile) = 0;
+    virtual void feedProfile(Profile &profile) = 0;
 };
 
 #endif
