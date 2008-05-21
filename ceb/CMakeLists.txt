@@ -21,7 +21,6 @@ SET(CEB_SRCS
 	src/dialog_settings.cpp
 	src/profile.cpp
 	src/session_config.cpp
-	src/general_config.cpp
 	src/session_widget.cpp
 	src/channel_widget.cpp
 	src/tell_widget.cpp
@@ -158,3 +157,7 @@ ELSEIF(WIN32)
             -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
 	)
 ENDIF(UNIX)
+
+message(${CMAKE_INSTALL_PREFIX})
+INSTALL(TARGETS ceb
+	RUNTIME DESTINATION bin)

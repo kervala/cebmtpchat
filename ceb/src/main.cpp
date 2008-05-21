@@ -23,7 +23,6 @@
 
 #include "my_application.h"
 #include "main_window.h"
-#include "general_config.h"
 #include "session_manager.h"
 #include "language_manager.h"
 #include "token_display.h"
