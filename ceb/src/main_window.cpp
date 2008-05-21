@@ -253,7 +253,7 @@ void MainWindow::makeMenuBar()
     QMenu *menuHelp = mbMain->addMenu(tr("&Help"));
 #ifdef Q_OS_WIN32
     connect(actionCheckForUpdate = menuHelp->addAction(tr("&Check for update...")), SIGNAL(triggered()), this, SLOT(checkForUpdate()));
-    actionCheckForUpdate->setVisible(profile.checkForUpdate);
+	actionCheckForUpdate->setVisible(Profile::instance().checkForUpdate);
 #endif
     connect(menuHelp->addAction(tr("&What's new?")), SIGNAL(triggered()), this, SLOT(launchWhatsNew()));
     menuHelp->addSeparator();
@@ -273,16 +273,14 @@ void MainWindow::makeToolBar()
 
 bool MainWindow::winEvent(MSG *message, long *result)
 {
-    Profile &profile = *ProfileManager::instance().currentProfile();
-
     if (message->message == WM_SYSCOMMAND && message->wParam == SC_MINIMIZE)
     {
-        if (profile.trayEnabled && profile.trayHideFromTaskBar)
+		if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
             hide();
-        if (profile.trayEnabled && !profile.trayAlwaysVisible)
+		if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
             trayIcon->show();
         trayTalkAboutMe = false;
-        if (profile.trayEnabled && profile.trayHideFromTaskBar)
+		if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
         {
             (*result) = false;
             return true;
