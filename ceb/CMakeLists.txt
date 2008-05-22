@@ -65,6 +65,7 @@ SET(CEB_SRCS
 	src/dialog_shortcut.cpp
 	src/search_widget.cpp
         src/global.cpp
+        src/paths.cpp
 )
 
 SET(CEB_UIS
