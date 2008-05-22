@@ -1,5 +1,6 @@
 #! /bin/bash
 
-for i in `grep "/* This file" * | cut -d ":" -f 1`; do echo $i; done > toto
-for i in `ls *.{h,cpp}`; do if [ "`grep $i toto`" = "" ]; then echo $i; fi; done
+TEMP_FILE=`mktemp`
+for i in `grep "/* This file" * | cut -d ":" -f 1`; do echo $i; done > $TEMP_FILE
+for i in `ls *.{h,cpp}`; do if [ "`grep $i $TEMP_FILE`" = "" ]; then echo $i; fi; done
 
