@@ -29,3 +29,6 @@ Under linux
 - Go to cebmtpchat directory (root) and type:
   - "cmake . && make"
   - "sudo make install"
+
+to uninstall CeB:
+  - "xargs rm < install_manifest.txt"
