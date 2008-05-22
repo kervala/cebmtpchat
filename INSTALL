@@ -1,0 +1,31 @@
+Compilation instructions
+------------------------
+
+Under windows
+-------------
+
+- Install cmake (>= 2.4.7)
+- Install Qt4 (>= 4.4.0)
+- Install Lua (>= 5.1):
+  - Create a directory named "contrib" at the same level than "max" and "ceb"
+  - Download a lua 5.1 tarball and decompress it into contrib => contrib\lua-5.1
+  - go to lua-5.1 dir and type "make mingw"
+  => It's done for lua.
+- Go to cebmtpchat directory (root) and type:
+  - "cmake -G "MinGW Makefiles" ."
+  - mingw32-make
+  => It's done for CeB, the binary will be in cebmtpchat\ceb\bin
+
+!!! CeB cannot work without the files in the cebmtpchat\ceb\share directory. !!!
+
+You must copy all that's in cebmtpchat\ceb\share\ceb beside the binary if you want to run it correctly.
+
+Under linux
+-----------
+
+- Install cmake (>= 2.4.7)
+- Install Qt4 (>= 4.4.0) (for debian/ubuntu => "sudo apt-get install qt4-dev-tools libqt4-dev")
+- Install Lua (>= 5.1) (for debian/ubuntu => "sudo apt-get install liblua5.1-0-dev")
+- Go to cebmtpchat directory (root) and type:
+  - "cmake . && make"
+  - "sudo make install"
