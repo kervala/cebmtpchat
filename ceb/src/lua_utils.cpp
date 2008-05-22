@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
 #include <QMessageBox>
+#include <QDir>
 
 extern "C" {
 #if defined(Q_OS_FREEBSD)
@@ -31,13 +31,14 @@ extern "C" {
 #endif
 }
 
+#include "paths.h"
+
 #include "lua_utils.h"
 
 QString executeLuaFilter(const QString &filterName, const QString &line)
 {
     QString result;
-    QString fileName = QApplication::applicationDirPath() + "/scripts/" +
-        filterName + ".lua";
+    QString fileName = QDir(QDir(Paths::sharePath()).filePath("scripts")).filePath(filterName + ".lua");
 
     lua_State *L = lua_open();
     luaL_openlibs(L);

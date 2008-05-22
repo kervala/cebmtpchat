@@ -180,7 +180,6 @@ QWidget *DialogSettings::createLogsWidget()
     QLineEdit *lineEditDefaultDir = new QLineEdit;
     lineEditDefaultDir->setReadOnly(true);
     QString defaultDir = Logger::getDefaultLogsDir();
-//        QDir::convertSeparators(QApplication::applicationDirPath() + "/logs");
     lineEditDefaultDir->setText(defaultDir);
 
     QHBoxLayout *hLayout = new QHBoxLayout;

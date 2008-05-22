@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
 #include <QMap>
 #include <QDir>
 #include <QMessageBox>
@@ -35,6 +34,8 @@ extern "C" {
 }
 
 #include "mtp_token_info.h"
+#include "paths.h"
+
 #include "modifier.h"
 
 class LuaScript
@@ -377,7 +378,7 @@ void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &seg
     if (luaScripts.find(token) == luaScripts.end())
     {
         // File exists now?
-        QDir modifiersDir = QDir(QDir(QApplication::applicationDirPath()).filePath("modifiers"));
+        QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
         QString fileName = modifiersDir.filePath(
             MtpTokenInfo::tokenToIDString(token).toLower() + ".lua");
         if (QFile(fileName).exists())

@@ -18,16 +18,31 @@
 
 #include <QDir>
 #include <QCoreApplication>
+#include <QDesktopServices>
+
+#include "global.h"
 
 #include "paths.h"
 
 QString Paths::sharePath()
 {
     QDir appDir(QCoreApplication::applicationDirPath());
+
+    if (Global::devMode())
+        return QDir(appDir.filePath("../share/ceb")).canonicalPath();
+
 #if defined(Q_OS_LINUX)
-    return appDir.filePath("../share");
+    return QDir(appDir.filePath("../share/ceb")).canonicalPath();
 #else
     return appDir.absolutePath();
 #endif
+}
+
+QString Paths::profilePath()
+{
+    if (Global::devMode())
+        return QDir(QCoreApplication::applicationDirPath()).filePath(qApp->applicationName());
+
+    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 }
 

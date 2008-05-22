@@ -23,9 +23,11 @@
 #include <QApplication>
 #include <QDir>
 
-#include "tell_widget.h"
 #include "profile.h"
 #include "lua_utils.h"
+#include "paths.h"
+
+#include "tell_widget.h"
 
 void TellWidget::init()
 {
@@ -330,15 +332,12 @@ void TellWidget::initScriptComboBox()
 {
     comboBoxFilter->clear();
     comboBoxFilter->addItem(tr("<no filter>"));
-    QDir profilesDir(QApplication::applicationDirPath());
+    QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
 
-    if (profilesDir.cd("scripts"))
-    {
-        QStringList nameFilters;
-        nameFilters << "*.lua";
-        foreach (QFileInfo fileInfo, profilesDir.entryInfoList(nameFilters, QDir::Files))
-            comboBoxFilter->addItem(fileInfo.baseName());
-    }
+    QStringList nameFilters;
+    nameFilters << "*.lua";
+    foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
+        comboBoxFilter->addItem(fileInfo.baseName());
 }
 
 void TellWidget::filterActivated(int)

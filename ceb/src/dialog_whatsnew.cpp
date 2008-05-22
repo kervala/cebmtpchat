@@ -16,9 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
 #include <QDir>
 #include <QMessageBox>
+
+#include "paths.h"
 
 #include "dialog_whatsnew.h"
 
@@ -27,8 +28,7 @@ DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)
     _textBrowser = new QTextBrowser;
     mainLayout->insertWidget(0, _textBrowser);
 
-    QDir dir(QApplication::applicationDirPath());
-    QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath("whatsnew.html"));
+    QUrl url = QUrl::fromLocalFile(QDir(Paths::sharePath()).filePath("whatsnew.html"));
     _textBrowser->setSource(url);
     resize(400, 250);
 }

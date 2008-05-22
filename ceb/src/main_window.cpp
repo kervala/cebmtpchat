@@ -45,6 +45,8 @@
 #include "dialog_warningo.h"
 #include "dialog_whatsnew.h"
 #include "profile.h"
+#include "logger.h"
+#include "paths.h"
 
 #include "main_window.h"
 
@@ -1095,7 +1097,7 @@ void MainWindow::showLogsDir()
     // Determine the QUrl of the logs path
     QUrl url;
     if (Profile::instance().logsDefaultDir)
-        url = QUrl::fromLocalFile(QDir(QApplication::applicationDirPath()).filePath("logs"));
+        url = QUrl::fromLocalFile(Logger::getDefaultLogsDir());
     else
         url = QUrl::fromLocalFile(Profile::instance().logsDir);
 

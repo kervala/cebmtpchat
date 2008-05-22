@@ -20,7 +20,6 @@
 #include <windows.h>
 #endif
 
-#include <QApplication>
 #include <QKeyEvent>
 #include <QTextCursor>
 #include <QMessageBox>
@@ -35,9 +34,11 @@
 #include <QScrollBar>
 #include <QDesktopServices>
 
-#include "my_textedit.h"
 #include "profile.h"
 #include "lua_utils.h"
+#include "paths.h"
+
+#include "my_textedit.h"
 
 MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(false)
 {
@@ -89,17 +90,14 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
         connect(filterMenu, SIGNAL(triggered(QAction*)),
                 this, SLOT(filterTriggered(QAction*)));
 
-        QDir profilesDir(QApplication::applicationDirPath());
+        QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
 
-        if (profilesDir.cd("scripts"))
+        QStringList nameFilters;
+        nameFilters << "*.lua";
+        foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
         {
-            QStringList nameFilters;
-            nameFilters << "*.lua";
-            foreach (QFileInfo fileInfo, profilesDir.entryInfoList(nameFilters, QDir::Files))
-            {
-                QAction *action = new QAction(fileInfo.baseName(), 0);
-                filterMenu->addAction(action);
-            }
+            QAction *action = new QAction(fileInfo.baseName(), 0);
+            filterMenu->addAction(action);
         }
 
         menu->addMenu(filterMenu);

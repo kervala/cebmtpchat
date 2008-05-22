@@ -23,12 +23,12 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDomDocument>
-#include <QDesktopServices>
 
 #include <xml_handler.h>
 
 #include "version.h"
 #include "global.h"
+#include "paths.h"
 
 #include "profile.h"
 
@@ -130,7 +130,7 @@ void Profile::clearSessionConfigList()
 bool Profile::load()
 {
     // Load and parse
-    QFile file(QDir(profilePath()).filePath("settings.xml"));
+    QFile file(QDir(Paths::profilePath()).filePath("settings.xml"));
 
     if (!file.exists())
     {
@@ -330,7 +330,7 @@ bool Profile::load()
 void Profile::save() const
 {
     // Save
-    QDir dataDir(profilePath());
+    QDir dataDir(Paths::profilePath());
 
     dataDir.mkpath(".");
     QFile file(dataDir.filePath("settings.xml"));
@@ -665,12 +665,4 @@ bool Profile::matchIdleAwayBypassExpressions(const QString &str) const
             return true;
     }
     return false;
-}
-
-QString Profile::profilePath()
-{
-    if (Global::devMode())
-        return QDir(QCoreApplication::applicationDirPath()).filePath(qApp->applicationName());
-
-    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 }

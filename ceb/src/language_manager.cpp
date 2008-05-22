@@ -21,6 +21,8 @@
 #include <QFileInfo>
 #include <QRegExp>
 
+#include "paths.h"
+
 #include "language_manager.h"
 
 bool LanguageManager::languageDisplayNameInitialized = false;
@@ -29,45 +31,37 @@ QMap<QString, QString> LanguageManager::languageDisplayNames;
 QStringList LanguageManager::getAvailableLanguages()
 {
     QStringList languages;
-    QDir dir(QApplication::applicationDirPath());
+    QDir languagesDir(QDir(Paths::sharePath()).filePath("languages"));
 
-    if (dir.cd("languages"))
+    QStringList nameFilters;
+    nameFilters << "*.qm";
+    QStringList entryList = languagesDir.entryList(nameFilters, QDir::Files);
+    for (int i = 0; i < entryList.size(); i++)
     {
-        QStringList nameFilters;
-        nameFilters << "*.qm";
-        QStringList entryList = dir.entryList(nameFilters, QDir::Files);
-        for (int i = 0; i < entryList.size(); i++)
-        {
-            QFileInfo fileInfo(dir.absoluteFilePath(entryList.at(i)));
-            QString baseName = fileInfo.baseName();
-            QRegExp regExp("_(.+)$");
-            if (regExp.lastIndexIn(baseName) >= 0)
-                languages << regExp.cap(1);
-
-        }
-
+        QFileInfo fileInfo(languagesDir.filePath(entryList.at(i)));
+        QString baseName = fileInfo.baseName();
+        QRegExp regExp("_(.+)$");
+        if (regExp.lastIndexIn(baseName) >= 0)
+            languages << regExp.cap(1);
     }
+
     return languages;
 }
 
 QString LanguageManager::getLanguageFileName(const QString &language)
 {
-    QDir dir(QApplication::applicationDirPath());
+    QDir languagesDir(QDir(Paths::sharePath()).filePath("languages"));
 
-    if (dir.cd("languages"))
+    QStringList nameFilters;
+    nameFilters << "*.qm";
+    QStringList entryList = languagesDir.entryList(nameFilters, QDir::Files);
+    for (int i = 0; i < entryList.size(); i++)
     {
-        QStringList nameFilters;
-        nameFilters << "*.qm";
-        QStringList entryList = dir.entryList(nameFilters, QDir::Files);
-        for (int i = 0; i < entryList.size(); i++)
-        {
-            QString fileName = dir.absoluteFilePath(entryList.at(i));
-            QString baseName = QFileInfo(fileName).baseName();
-            QRegExp regExp("_(.+)$");
-            if (regExp.lastIndexIn(baseName) >= 0 && regExp.cap(1) == language)
-                return fileName;
-        }
-
+        QString fileName = languagesDir.filePath(entryList.at(i));
+        QString baseName = QFileInfo(fileName).baseName();
+        QRegExp regExp("_(.+)$");
+        if (regExp.lastIndexIn(baseName) >= 0 && regExp.cap(1) == language)
+            return fileName;
     }
     return "";
 }

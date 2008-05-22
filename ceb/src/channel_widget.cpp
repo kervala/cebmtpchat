@@ -28,11 +28,13 @@
 #include <QFileDialog>
 
 #include "version.h"
-#include "channel_widget.h"
 #include "profile.h"
 #include "mtp_token_info.h"
 #include "lua_utils.h"
 #include "transfers_manager.h"
+#include "paths.h"
+
+#include "channel_widget.h"
 
 ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(session, parent)
 {
@@ -882,15 +884,12 @@ void ChannelWidget::initScriptComboBox()
 {
     comboBoxFilter->clear();
     comboBoxFilter->addItem(tr("<no filter>"));
-    QDir profilesDir(QApplication::applicationDirPath());
+    QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
 
-    if (profilesDir.cd("scripts"))
-    {
-        QStringList nameFilters;
-        nameFilters << "*.lua";
-        foreach (QFileInfo fileInfo, profilesDir.entryInfoList(nameFilters, QDir::Files))
-            comboBoxFilter->addItem(fileInfo.baseName());
-    }
+    QStringList nameFilters;
+    nameFilters << "*.lua";
+    foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
+        comboBoxFilter->addItem(fileInfo.baseName());
 }
 
 void ChannelWidget::filterActivated(int)

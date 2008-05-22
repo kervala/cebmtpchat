@@ -20,6 +20,8 @@
 #include <QSound>
 #include <QFileDialog>
 
+#include "paths.h"
+
 #include "sound_settings_widget.h"
 
 SoundSettingsWidget::SoundSettingsWidget(QWidget *parent) : SettingsWidget(parent)
@@ -58,16 +60,13 @@ void SoundSettingsWidget::feedProfile(Profile &profile)
 
 void SoundSettingsWidget::on_pushButtonBeepDefaultPlay_clicked()
 {
-    QDir appDir(QApplication::applicationDirPath());
+    QDir resourcesDir(QDir(Paths::sharePath()).filePath("resources"));
 
-    if (appDir.cd("resources"))
+    QString fileName = resourcesDir.filePath("notify.wav");
+    if (QFile::exists(fileName))
     {
-        QString fileName = appDir.absoluteFilePath("notify.wav");
-        if (QFile::exists(fileName))
-        {
-            QSound s(fileName);
-            s.play();
-        }
+        QSound s(fileName);
+        s.play();
     }
 }
 
@@ -90,16 +89,13 @@ void SoundSettingsWidget::on_toolButtonBeepCustom_clicked()
 
 void SoundSettingsWidget::on_pushButtonAboutMeDefaultPlay_clicked()
 {
-    QDir appDir(QApplication::applicationDirPath());
+    QDir resourcesDir(QDir(Paths::sharePath()).filePath("resources"));
 
-    if (appDir.cd("resources"))
+    QString fileName = resourcesDir.filePath("notify.wav");
+    if (QFile::exists(fileName))
     {
-        QString fileName = appDir.absoluteFilePath("notify.wav");
-        if (QFile::exists(fileName))
-        {
-            QSound s(fileName);
-            s.play();
-        }
+        QSound s(fileName);
+        s.play();
     }
 }
 
