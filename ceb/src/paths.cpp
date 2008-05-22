@@ -16,10 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <QDir>
+#include <QCoreApplication>
+
 #include "paths.h"
 
 QString Paths::sharePath()
 {
-    return "";
+    QDir appDir(QCoreApplication::applicationDirPath());
+#if defined(Q_OS_LINUX)
+    return appDir.filePath("../share");
+#else
+    return appDir.absolutePath();
+#endif
 }
 
