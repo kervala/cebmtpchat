@@ -22,11 +22,11 @@
 #include <QList>
 
 #include "session.h"
-#include "mtp_token.h"
+#include "token.h"
 #include "render_segment.h"
 
 void openModifiers();
-void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &segments);
+void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
 void closeModifiers();
 
 #endif

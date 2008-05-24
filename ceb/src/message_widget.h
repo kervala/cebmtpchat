@@ -62,7 +62,7 @@ private:
 private slots:
     void currentMessageChanged(const QModelIndex & current, const QModelIndex & previous);
     void removeSelectedMessage();
-    void newTokenFromSession(const TokenEvent &event);
+    void newTokenFromSession(const Token &token);
     void refreshMessages();
 };
 

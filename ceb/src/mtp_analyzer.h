@@ -22,8 +22,7 @@
 #include <QObject>
 #include <QRegExp>
 
-#include "token_event.h"
-#include "mtp_token.h"
+#include "token.h"
 
 class MtpRegExp : public QRegExp
 {
@@ -97,17 +96,17 @@ public slots:
     void dataReceived(const QString &data);
 
 signals:
-    void tokenAnalyzed(const TokenEvent &event);
+    void tokenAnalyzed(const Token &token);
 
 private:
-    static MtpToken whoTokens[];
-    static MtpToken aliasTokens[];
-    static MtpToken normalTokens[];
-    static MtpToken historyTokens[];
-    static MtpToken fingerTokens[];
-    static MtpToken wallTokens[];
-    static MtpToken messageTokens[];
-    static MtpToken helpTokens[];
+    static Token::Type whoTokens[];
+    static Token::Type aliasTokens[];
+    static Token::Type normalTokens[];
+    static Token::Type historyTokens[];
+    static Token::Type fingerTokens[];
+    static Token::Type wallTokens[];
+    static Token::Type messageTokens[];
+    static Token::Type helpTokens[];
 
     bool m_logged;
     State m_state;
@@ -123,7 +122,7 @@ private:
     void analyzeAfterLog(const QString &data);
 
     // !!! Uses <tokenRegexp> state to work !!!
-    void doTokenAnalyzed(MtpToken token, int ticketID, const QTime &timeStamp);
+    void doTokenAnalyzed(Token::Type tokenType, int ticketID, const QTime &timeStamp);
 
     void clearTickets();
 

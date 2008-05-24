@@ -21,14 +21,14 @@
 
 #include <QString>
 
-#include "mtp_token.h"
+#include "token.h"
 
 class MtpTokenInfo
 {
 public:
-    static QString tokenToIDString(MtpToken token);
-    static MtpToken IDStringToToken(const QString &ID);
-    static QString tokenToDisplayString(MtpToken token);
+    static QString tokenToIDString(Token::Type token);
+    static Token::Type IDStringToToken(const QString &ID);
+    static QString tokenToDisplayString(Token::Type token);
 };
 
 #endif

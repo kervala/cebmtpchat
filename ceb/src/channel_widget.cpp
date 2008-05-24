@@ -40,8 +40,7 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
 {
     init();
 
-    connect(m_session, SIGNAL(newToken(const TokenEvent&)),
-            this, SLOT(newTokenFromSession(const TokenEvent&)));
+    connect(m_session, SIGNAL(newToken(const Token&)), this, SLOT(newToken(const Token&)));
     connect(m_session, SIGNAL(connecting()), this, SLOT(sessionConnecting()));
     connect(m_session, SIGNAL(connected()), this, SLOT(sessionConnected()));
     connect(m_session, SIGNAL(logged()), this, SLOT(sessionLogged()));
@@ -284,114 +283,114 @@ QListWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
         return 0;
 }
 
-void ChannelWidget::newTokenFromSession(const TokenEvent &event)
+void ChannelWidget::newToken(const Token &token)
 {
     QColor color(0, 0, 0);
 /*	QFont normalFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0);
 	QFont timeStampFont(Profile::instance().globalFontName, 6, 0);*/
     QScrollBar *sb = textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_LoginAsked:
+    case Token::Token::LoginAsked:
         lineEditWidget->setEchoMode(QLineEdit::Normal);
         break;
-    case Token_PasswordAsked:
+    case Token::PasswordAsked:
         lineEditWidget->setEchoMode(QLineEdit::Password);
         break;
-    case Token_Topic:
-    case Token_YouSetTopic:
-        lineEditTopic->setText(event.arguments()[2]);
+    case Token::Topic:
+    case Token::YouSetTopic:
+        lineEditTopic->setText(token.arguments()[2]);
         break;
-    case Token_SomeoneSetTopic:
-        lineEditTopic->setText(event.arguments()[3]);
+    case Token::SomeoneSetTopic:
+        lineEditTopic->setText(token.arguments()[3]);
         break;
-    case Token_SomeoneTellsYou:
-    case Token_YouTellToSomeone:
-    case Token_SomeoneAsksYou:
-    case Token_YouAskToSomeone:
-    case Token_SomeoneReplies:
-    case Token_YouReply:
+    case Token::SomeoneTellsYou:
+    case Token::YouTellToSomeone:
+    case Token::SomeoneAsksYou:
+    case Token::YouAskToSomeone:
+    case Token::SomeoneReplies:
+    case Token::YouReply:
         return;
-    case Token_WallBegin:
+    case Token::WallBegin:
         if (Profile::instance().tabForWall)
             return;
         break;
-    case Token_WallEnd:
+    case Token::WallEnd:
         if (Profile::instance().tabForWall)
             return;
         break;
-    case Token_WallLine:
+    case Token::WallLine:
         if (Profile::instance().tabForWall)
             return;
         break;
-    case Token_WhoBegin:
+    case Token::WhoBegin:
         listWidgetWho->clear();
         historyWidget->clearCompletionWords();
-        if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
+        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
-    case Token_WhoSeparator:
-        if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::WhoSeparator:
+        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
-    case Token_WhoEnd:
-        labelWhoTitle->setText(event.arguments()[2] + tr(" users"));
-        if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::WhoEnd:
+        labelWhoTitle->setText(token.arguments()[2] + tr(" users"));
+        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
-    case Token_WhoEndNoUser:
-        if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::WhoEndNoUser:
+        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
-    case Token_WhoLine:
+    case Token::WhoLine:
     {
         QListWidgetItem *item = new QListWidgetItem(listWidgetWho);
-        item->setText(event.arguments()[1]);
+        item->setText(token.arguments()[1]);
 
-        if (event.arguments()[3] != m_session->channel())
+        if (token.arguments()[3] != m_session->channel())
             item->setIcon(QIcon(":/images/yellow-led.png"));
-        else if (event.arguments()[4] == "*Away*")
+        else if (token.arguments()[4] == "*Away*")
             item->setIcon(QIcon(":/images/away.png"));
         else
             item->setIcon(QIcon(":/images/here.png"));
-        if (event.arguments()[1].toUpper() != m_session->serverLogin().toUpper())
-            historyWidget->addCompletionWord(event.arguments()[1]);
-        if (whoTicketID == event.ticketID() && event.ticketID() >= 0)
+        if (token.arguments()[1].toUpper() != m_session->serverLogin().toUpper())
+            historyWidget->addCompletionWord(token.arguments()[1]);
+        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
     }
     break;
-    case Token_FingerBegin:
-    case Token_FingerEnd:
-    case Token_FingerLine:
+    case Token::FingerBegin:
+    case Token::FingerEnd:
+    case Token::FingerLine:
         if (Profile::instance().tabForFinger)
             return;
         break;
-    case Token_SomeoneAway:
+    case Token::SomeoneAway:
     {
-        QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
+        QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
             item->setIcon(QIcon(":/images/away.png"));
     }
     break;
-    case Token_SomeoneBack:
+    case Token::SomeoneBack:
     {
-        QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
+        QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
             item->setIcon(QIcon(":/images/here.png"));
     }
     break;
-    case Token_YouAway:
+    case Token::YouAway:
     {
         QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
         if (item)
@@ -402,7 +401,7 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         textEditOutput->isAway = true;
     }
     break;
-    case Token_YouBack:
+    case Token::YouBack:
     {
         QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
         if (item)
@@ -413,28 +412,28 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         textEditOutput->isAway = false;
     }
     break;
-    case Token_SomeoneAwayWarning:
+    case Token::SomeoneAwayWarning:
         return;
-    case Token_MessageBegin:
-        if (event.ticketID() >= 0)
+    case Token::MessageBegin:
+        if (token.ticketID() >= 0)
             return;
         break;
-    case Token_MessageLine:
-        if (event.ticketID() >= 0)
+    case Token::MessageLine:
+        if (token.ticketID() >= 0)
             return;
         break;
-    case Token_MessageEnd:
-        if (event.ticketID() >= 0)
+    case Token::MessageEnd:
+        if (token.ticketID() >= 0)
             return;
         break;
-    case Token_HelpBegin:
+    case Token::HelpBegin:
         // serverlist?
-        if ((m_backupServersHelp = (event.arguments()[1].toUpper() == "SERVERLIST")))
+        if ((m_backupServersHelp = (token.arguments()[1].toUpper() == "SERVERLIST")))
             m_backupServers.clear();
-        if (helpTicketID == event.ticketID() && event.ticketID() >= 0)
+        if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
-    case Token_HelpEndNormal:
+    case Token::HelpEndNormal:
         if (m_backupServersHelp)
         {
             SessionConfig sessionConfig = m_session->config();
@@ -446,13 +445,13 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
             if (profileConfig)
                 profileConfig->setBackupServers(m_backupServers);
         }
-    case Token_HelpEndNoHelp:
-        if (helpTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::HelpEndNoHelp:
+        if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
-    case Token_HelpLine:
+    case Token::HelpLine:
     {
-        QString str = event.arguments()[1].trimmed();
+        QString str = token.arguments()[1].trimmed();
         if (m_backupServersHelp && str != "")
         {
             QStringList strLst = str.split(":");
@@ -460,32 +459,32 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
             m_backupServers << BackupServer(strLst[0], strLst[1].toInt());
         }
     }
-    if (helpTicketID == event.ticketID() && event.ticketID() >= 0)
+    if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
         return;
     break;
-    case Token_UserLoginRenamed:
-        changeLoginInWhoColumn(event.arguments()[1], event.arguments()[2]);
+    case Token::UserLoginRenamed:
+        changeLoginInWhoColumn(token.arguments()[1], token.arguments()[2]);
         break;
-    case Token_SomeoneComesIn:
+    case Token::SomeoneComesIn:
     {
         QListWidgetItem *item = new QListWidgetItem(listWidgetWho);
-        item->setText(event.arguments()[1]);
+        item->setText(token.arguments()[1]);
         item->setIcon(QIcon(":/images/here.png"));
         labelWhoTitle->setText(QString::number(listWidgetWho->count()) + " users");
-        historyWidget->addCompletionWord(event.arguments()[1]);
+        historyWidget->addCompletionWord(token.arguments()[1]);
         item->setTextColor(Qt::red);
-        userToWhoBlinkTime[event.arguments()[1]] = 5000;
-        userToWhoAscendingOrder[event.arguments()[1]] = false;
+        userToWhoBlinkTime[token.arguments()[1]] = 5000;
+        userToWhoAscendingOrder[token.arguments()[1]] = false;
         timerWhoBlinking.start();
     }
     break;
-    case Token_SomeoneLeaves:
-    case Token_SomeoneDisconnects:
-    case Token_SomeoneIsKicked:
-    case Token_YouKickSomeone:
+    case Token::SomeoneLeaves:
+    case Token::SomeoneDisconnects:
+    case Token::SomeoneIsKicked:
+    case Token::YouKickSomeone:
     {
         // Refresh who column
-        QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
+        QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
         {
             listWidgetWho->takeItem(listWidgetWho->row(item));
@@ -496,50 +495,50 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         labelWhoTitle->setText(QString::number(listWidgetWho->count()) + tr(" users"));
 
         // History widget
-        historyWidget->removeCompletionWord(event.arguments()[1]);
+        historyWidget->removeCompletionWord(token.arguments()[1]);
     }
     break;
-    case Token_YouJoinChannel:
-    case Token_YouLeaveChannel:
+    case Token::YouJoinChannel:
+    case Token::YouLeaveChannel:
         whoTicketID = m_session->requestTicket(MtpAnalyzer::Command_Who);
         m_session->send("who all");
         break;
-    case Token_SomeoneJoinChannel:
-    case Token_SomeoneFadesIntoTheShadows:
+    case Token::SomeoneJoinChannel:
+    case Token::SomeoneFadesIntoTheShadows:
     {
-        QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
+        QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
             item->setIcon(QIcon(":/images/yellow-led.png"));
     }
     break;
-    case Token_SomeoneLeaveChannel:
-    case Token_SomeoneAppearsFromTheShadows:
+    case Token::SomeoneLeaveChannel:
+    case Token::SomeoneAppearsFromTheShadows:
     {
-        QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
+        QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
             item->setIcon(QIcon(":/images/here.png"));
     }
     break;
-    case Token_Date:
-        if (dateTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::Date:
+        if (dateTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
-    case Token_YourClientIs:
-        if (setClientTicketID == event.ticketID() && event.ticketID() >= 0)
+    case Token::YourClientIs:
+        if (setClientTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
-    case Token_SomeoneSays:
+    case Token::SomeoneSays:
     {
         // Someone talks about you?
-        QString sentence = event.arguments()[2];
+        QString sentence = token.arguments()[2];
         if (sentence.indexOf(regExpAboutMe) >= 0)
             color = QColor(200, 0, 200);
         else
             color = QColor(0, 0, 0);
     }
     break;
-    case Token_Data:
-/*TEMP		if (TransfersManager::isCommand(event.arguments()[2]))
+    case Token::Data:
+/*TEMP		if (TransfersManager::isCommand(token.arguments()[2]))
   return;*/
         break;
     default:;
@@ -547,8 +546,8 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 
     QString str = QString::number(sb->value());
 
-    QString timeStamp = event.timeStamp().toString("hh:mm:ss ");
-    QString line = event.line();
+    QString timeStamp = token.timeStamp().toString("hh:mm:ss ");
+    QString line = token.line();
 
     bool setTimeStamp = false;
 
@@ -571,12 +570,12 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
         }
 
     // Display it!
-    m_tokenRenderer.displayToken(event, setTimeStamp);
+    m_tokenRenderer.displayToken(token, setTimeStamp);
 
     // Postfix things
-    if (event.token() == Token_IndicatedActiveServer)
-        textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(event.arguments()[0]).
-                                   arg(event.arguments()[1].trimmed()),
+    if (token.type() == Token::IndicatedActiveServer)
+        textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(token.arguments()[0]).
+                                   arg(token.arguments()[1].trimmed()),
                                    Profile::instance().textSkin().textFont().font(), QColor(255, 0, 0));
 
     if (scrollDown)
@@ -589,14 +588,17 @@ void ChannelWidget::colorizeChatItems(const QColor &color)
     QPalette palette = lineEditTopic->palette();
     palette.setColor(QPalette::Base, color);
     lineEditTopic->setPalette(palette);
+
     // Output
     palette = textEditOutput->palette();
     palette.setColor(QPalette::Base, color);
     textEditOutput->setPalette(palette);
+
     // Who column
     palette = listWidgetWho->palette();
     palette.setColor(QPalette::Base, color);
     listWidgetWho->setPalette(palette);
+
     // Input
     palette = historyWidget->palette();
     palette.setColor(QPalette::Base, color);
@@ -960,12 +962,12 @@ void ChannelWidget::toggleSearchWidgetVisibility()
     if (_searchWidget->isVisible())
         _searchWidget->afterShow();
     else
-	{
-      if (stackedWidgetEntry->currentIndex() == 0)
-        lineEditWidget->setFocus();
-      else
-        historyWidget->setFocus();
-	}
+    {
+        if (stackedWidgetEntry->currentIndex() == 0)
+            lineEditWidget->setFocus();
+        else
+            historyWidget->setFocus();
+    }
 }
 
 void ChannelWidget::hideSearchWidget()

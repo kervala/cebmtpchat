@@ -125,7 +125,7 @@ private:
     int getUniqId() const;
 
 private slots:
-    void newSessionToken(Session *session, const TokenEvent &event);
+    void newSessionToken(Session *session, const Token &token);
     void newConnection();
 };
 

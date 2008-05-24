@@ -141,8 +141,8 @@ private slots:
     void connectToFromMenu(const QString &configName);
     void hideSystemDialog();
     void aboutToShowConnectionsActions();
-    void newSessionTokenForActivity(Session *session, const TokenEvent &event);
-    void newSessionToken(Session *session, const TokenEvent &event);
+    void newSessionTokenForActivity(Session *session, const Token &token);
+    void newSessionToken(Session *session, const Token &token);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void newProgramVersion(const QDate &);

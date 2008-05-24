@@ -98,7 +98,7 @@ private:
 
 private slots:
     void sendText(const QString &text);
-    void newTokenFromSession(const TokenEvent &event);
+    void newToken(const Token &token);
     void sessionConnecting();
     void sessionConnected();
     void sessionLogged();

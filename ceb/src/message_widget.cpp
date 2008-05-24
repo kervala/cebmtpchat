@@ -29,8 +29,8 @@ MessageWidget::MessageWidget(Session *session, QWidget *parent) : SessionWidget(
 {
     init();
 
-    connect(m_session, SIGNAL(newToken(const TokenEvent&)),
-            this, SLOT(newTokenFromSession(const TokenEvent&)));
+    connect(m_session, SIGNAL(newToken(const Token&)),
+            this, SLOT(newTokenFromSession(const Token&)));
 
     m_firstShow = true;
 }
@@ -176,19 +176,19 @@ void MessageWidget::removeSelectedMessage()
 			QString::number(pred + 1 - offset));
 }
 
-void MessageWidget::newTokenFromSession(const TokenEvent &event)
+void MessageWidget::newTokenFromSession(const Token &token)
 {
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_MessageEnd:
-    case Token_NoMessage:
-    case Token_MessageReceived:
-    case Token_AllMessagesCleared:
-    case Token_MessageCleared:
-    case Token_MessagesCleared:
+    case Token::MessageEnd:
+    case Token::NoMessage:
+    case Token::MessageReceived:
+    case Token::AllMessagesCleared:
+    case Token::MessageCleared:
+    case Token::MessagesCleared:
         messageModel->setMyMessages(m_session->myMessages());
         messageModel->refreshDatas();
-        if (event.token() == Token_MessageEnd)
+        if (token.type() == Token::MessageEnd)
             focusLastItem();
         break;
     default:;

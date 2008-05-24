@@ -33,7 +33,7 @@ SET(CEB_SRCS
 	src/mtp_token_info.cpp
 	src/mtp_analyzer.cpp
 	src/my_textedit.cpp
-	src/token_event.cpp
+	src/token.cpp
 	src/logger.cpp
 	src/cmd_output_widget.cpp
 	src/autoupdate.cpp

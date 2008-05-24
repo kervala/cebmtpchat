@@ -29,8 +29,8 @@ CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidg
     init();
 
     // Connect session
-    connect(m_session, SIGNAL(newToken(const TokenEvent&)),
-            this, SLOT(newTokenFromSession(const TokenEvent&)));
+    connect(m_session, SIGNAL(newToken(const Token&)),
+            this, SLOT(newTokenFromSession(const Token&)));
 }
 
 const QString &CmdOutputWidget::cmdName() const
@@ -59,36 +59,36 @@ void CmdOutputWidget::init()
     m_textEditOutput->setCurrentFont(QFont("Bitstream Vera Sans Mono", 8, 0));
 }
 
-void CmdOutputWidget::newTokenFromSession(const TokenEvent &event)
+void CmdOutputWidget::newTokenFromSession(const Token &token)
 {
     if (m_cmdName == "wall")
-        switch(event.token())
+        switch(token.type())
         {
-        case Token_WallBegin:
-        case Token_WallEnd:
-        case Token_WallLine:
+        case Token::WallBegin:
+        case Token::WallEnd:
+        case Token::WallLine:
             break;
         default:
             return;
         }
     else if (m_cmdName == "who")
-        switch(event.token())
+        switch(token.type())
         {
-        case Token_WhoBegin:
-        case Token_WhoSeparator:
-        case Token_WhoEnd:
-        case Token_WhoEndNoUser:
-        case Token_WhoLine:
+        case Token::WhoBegin:
+        case Token::WhoSeparator:
+        case Token::WhoEnd:
+        case Token::WhoEndNoUser:
+        case Token::WhoLine:
             break;
         default:
             return;
         }
     else if (m_cmdName == "finger")
-        switch(event.token())
+        switch(token.type())
         {
-        case Token_FingerBegin:
-        case Token_FingerEnd:
-        case Token_FingerLine:
+        case Token::FingerBegin:
+        case Token::FingerEnd:
+        case Token::FingerLine:
             break;
         default:
             return;
@@ -97,7 +97,7 @@ void CmdOutputWidget::newTokenFromSession(const TokenEvent &event)
     QScrollBar *sb = m_textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
 
-    m_tokenRenderer.displayToken(event);
+    m_tokenRenderer.displayToken(token);
 
     if (scrollDown)
         scrollOutputToBottom();

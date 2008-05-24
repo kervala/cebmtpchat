@@ -24,7 +24,7 @@
 
 #include "token_renderer.h"
 
-void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
+void TokenRenderer::displayToken(const Token &token, bool timeStamp)
 {
     Q_ASSERT(_textEdit);
     Q_ASSERT(_session);
@@ -37,17 +37,17 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     if (timeStamp)
     {
         lineStarted = true;
-        _textEdit->addNewLine(event.timeStamp().toString("hh:mm:ss "),
+        _textEdit->addNewLine(token.timeStamp().toString("hh:mm:ss "),
                                textSkin.timeStampFont().font(),
                                textSkin.timeStampFont().color());
     }
 
     // Compute segments
     QList<RenderSegment> segments;
-    MtpRegExp regExp = MtpAnalyzer::defaultAnalyzer.tokenRegexp()[event.token()];
-    const QString &allLine = event.arguments()[0];
-    QFont allLineFont = textSkin.tokenFont(event.token(), 0);
-    QColor allLineColor = textSkin.tokenColor(event.token(), 0);
+    MtpRegExp regExp = MtpAnalyzer::defaultAnalyzer.tokenRegexp()[token.type()];
+    const QString &allLine = token.arguments()[0];
+    QFont allLineFont = textSkin.tokenFont(token.type(), 0);
+    QColor allLineColor = textSkin.tokenColor(token.type(), 0);
 
     int iArg = 0;
     const QList<int> &arguments = regExp.arguments();
@@ -58,7 +58,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     {
         // Get first non-null argument
         while (iArg < arguments.count())
-            if (event.positions()[arguments[iArg]] >= 0)
+            if (token.positions()[arguments[iArg]] >= 0)
                 break;
             else
                 iArg++;
@@ -69,7 +69,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
         else
         {
             // Before first non-null argument
-            int argPos = event.positions()[arguments[iArg]];
+            int argPos = token.positions()[arguments[iArg]];
             if (argPos > 0)
                 segments << RenderSegment(allLine.mid(0, argPos), allLineFont, allLineColor);
         }
@@ -80,12 +80,12 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     {
         // Token arg
         int argNum = arguments[iArg];
-        int argPos = event.positions()[argNum];
-        QString arg = event.arguments()[argNum];
+        int argPos = token.positions()[argNum];
+        QString arg = token.arguments()[argNum];
 
         segments << RenderSegment(arg,
-                                  textSkin.tokenFont(event.token(), iArg + 1),
-                                  textSkin.tokenColor(event.token(), iArg + 1));
+                                  textSkin.tokenFont(token.type(), iArg + 1),
+                                  textSkin.tokenColor(token.type(), iArg + 1));
 
         // Portion after token arg
         int afterPos = argPos + arg.length();
@@ -94,13 +94,13 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
         // Get first non-null argument
         iArg++;
         while (iArg < arguments.count())
-            if (event.positions()[arguments[iArg]] >= 0)
+            if (token.positions()[arguments[iArg]] >= 0)
                 break;
             else
                 iArg++;
 
         if (iArg < arguments.count())
-            limitPos = event.positions()[arguments[iArg]] - 1;
+            limitPos = token.positions()[arguments[iArg]] - 1;
 
         if (limitPos >= afterPos)
             segments << RenderSegment(allLine.mid(afterPos, limitPos - afterPos + 1),
@@ -108,7 +108,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     }
 
     // Execute modifier
-    executeModifier(_session, event.token(), segments);
+    executeModifier(_session, token.type(), segments);
 
     // Render all
     foreach (const RenderSegment &segment, segments)

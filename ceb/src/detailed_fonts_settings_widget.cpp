@@ -31,16 +31,16 @@ DetailedFontsSettingsWidget::DetailedFontsSettingsWidget(QWidget *parent) : Sett
 
     QVBoxLayout *layout = new QVBoxLayout(frameTextEdit);
     layout->setMargin(0);
-    layout->addWidget(m_textEdit = new MyTextEdit);
+    layout->addWidget(_textEdit = new MyTextEdit);
 
     MtpAnalyzer analyzer;
 
     // Fill nodes
-    for (int i = 0; i < Token_End; ++i)
+    for (int i = 0; i < Token::End; ++i)
     {
-        QListWidgetItem *newItem = new QListWidgetItem(MtpTokenInfo::tokenToDisplayString((MtpToken) i));
+        QListWidgetItem *newItem = new QListWidgetItem(MtpTokenInfo::tokenToDisplayString((Token::Type) i));
         QFont font = newItem->font();
-        if (Profile::instance().textSkin().isForcedToken((MtpToken) i))
+        if (Profile::instance().textSkin().isForcedToken((Token::Type) i))
         {
             font.setBold(true);
             newItem->setFont(font);
@@ -57,14 +57,14 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
     if (!current)
         return;
 
-    m_currentToken = (MtpToken) listWidgetTokenTypes->row(current);
+    _currentTokenType = (Token::Type) listWidgetTokenTypes->row(current);
     labelTokenType->setText(current->text());
     listWidgetTokenArgs->clear();
-    int capCount = m_analyzer.tokenRegexp()[m_currentToken].arguments().count();
+    int capCount = _analyzer.tokenRegexp()[_currentTokenType].arguments().count();
     QListWidgetItem *newItem = new QListWidgetItem(tr("Entire line "));
     listWidgetTokenArgs->addItem(newItem);
     QFont font = newItem->font();
-    if (Profile::instance().textSkin().isForcedToken(m_currentToken, 0))
+    if (Profile::instance().textSkin().isForcedToken(_currentTokenType, 0))
     {
         font.setBold(true);
         newItem->setFont(font);
@@ -73,7 +73,7 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
     {
         QListWidgetItem *newItem = new QListWidgetItem(tr("Argument ") + QString::number(i + 1));
         QFont font = newItem->font();
-        if (Profile::instance().textSkin().isForcedToken(m_currentToken, i + 1))
+        if (Profile::instance().textSkin().isForcedToken(_currentTokenType, i + 1))
         {
             font.setBold(true);
             newItem->setFont(font);
@@ -81,7 +81,7 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
         listWidgetTokenArgs->addItem(newItem);
     }
 
-    lineEditFont->setText(m_analyzer.tokenRegexp()[m_currentToken].example());
+    lineEditFont->setText(_analyzer.tokenRegexp()[_currentTokenType].example());
 
     // Focus the first
     listWidgetTokenArgs->setCurrentRow(0);
@@ -92,18 +92,18 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenArgs_currentItemChanged(QLis
     if (!current)
         return;
 
-    m_currentArg = listWidgetTokenArgs->row(current);
+    _currentArg = listWidgetTokenArgs->row(current);
 
     const TextSkin &textSkin = Profile::instance().textSkin();
 
-    bool forcedFont = textSkin.isForcedFont(m_currentToken, m_currentArg);
-    QFont font = textSkin.tokenFont(m_currentToken, m_currentArg);
+    bool forcedFont = textSkin.isForcedFont(_currentTokenType, _currentArg);
+    QFont font = textSkin.tokenFont(_currentTokenType, _currentArg);
     labelFont->setFont(font);
     labelFont->setText(font.family() + ", " + QString::number(font.pointSize()));
     groupBoxForcedFont->setChecked(forcedFont);
 
-    bool forcedColor = textSkin.isForcedColor(m_currentToken, m_currentArg);
-    QColor color = textSkin.tokenColor(m_currentToken, m_currentArg);
+    bool forcedColor = textSkin.isForcedColor(_currentTokenType, _currentArg);
+    QColor color = textSkin.tokenColor(_currentTokenType, _currentArg);
     QPalette palette = lineEditColor->palette();
     palette.setColor(QPalette::Base, color);
     lineEditColor->setPalette(palette);
@@ -113,9 +113,9 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenArgs_currentItemChanged(QLis
 void DetailedFontsSettingsWidget::on_groupBoxForcedFont_toggled(bool b)
 {
     if (!b)
-        Profile::instance().textSkin().resetTokenFont(m_currentToken, m_currentArg);
+        Profile::instance().textSkin().resetTokenFont(_currentTokenType, _currentArg);
     else
-        Profile::instance().textSkin().setTokenFont(m_currentToken, m_currentArg, labelFont->font());
+        Profile::instance().textSkin().setTokenFont(_currentTokenType, _currentArg, labelFont->font());
 
     refreshListItemsAfterGroupBoxToggle();
 }
@@ -123,11 +123,11 @@ void DetailedFontsSettingsWidget::on_groupBoxForcedFont_toggled(bool b)
 void DetailedFontsSettingsWidget::on_groupBoxForcedColor_toggled(bool b)
 {
     if (!b)
-        Profile::instance().textSkin().resetTokenColor(m_currentToken, m_currentArg);
+        Profile::instance().textSkin().resetTokenColor(_currentTokenType, _currentArg);
     else
     {
         QPalette palette = lineEditColor->palette();
-        Profile::instance().textSkin().setTokenColor(m_currentToken, m_currentArg, palette.color(QPalette::Base));
+        Profile::instance().textSkin().setTokenColor(_currentTokenType, _currentArg, palette.color(QPalette::Base));
     }
 
     refreshListItemsAfterGroupBoxToggle();
@@ -142,7 +142,7 @@ void DetailedFontsSettingsWidget::on_pushButtonFont_clicked()
     {
         labelFont->setFont(font);
         labelFont->setText(font.family() + ", " + QString::number(font.pointSize()));
-        Profile::instance().textSkin().setTokenFont(m_currentToken, m_currentArg, font);
+        Profile::instance().textSkin().setTokenFont(_currentTokenType, _currentArg, font);
     }
 }
 
@@ -155,19 +155,19 @@ void DetailedFontsSettingsWidget::on_pushButtonColor_clicked()
     {
         palette.setColor(QPalette::Base, color);
         lineEditColor->setPalette(palette);
-        Profile::instance().textSkin().setTokenColor(m_currentToken, m_currentArg, color);
+        Profile::instance().textSkin().setTokenColor(_currentTokenType, _currentArg, color);
     }
 }
 
 void DetailedFontsSettingsWidget::refreshListItemsAfterGroupBoxToggle()
 {
-    QListWidgetItem *item = listWidgetTokenArgs->item(m_currentArg);
+    QListWidgetItem *item = listWidgetTokenArgs->item(_currentArg);
     QFont font = item->font();
-    font.setBold(Profile::instance().textSkin().isForcedToken(m_currentToken, m_currentArg));
+    font.setBold(Profile::instance().textSkin().isForcedToken(_currentTokenType, _currentArg));
     item->setFont(font);
 
-    item = listWidgetTokenTypes->item(m_currentToken);
+    item = listWidgetTokenTypes->item(_currentTokenType);
     font = item->font();
-    font.setBold(Profile::instance().textSkin().isForcedToken(m_currentToken));
+    font.setBold(Profile::instance().textSkin().isForcedToken(_currentTokenType));
     item->setFont(font);
 }

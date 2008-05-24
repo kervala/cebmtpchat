@@ -118,8 +118,8 @@ TellWidget::TellWidget(Session *session, const QString &login, QWidget *parent) 
 
     init();
 
-    connect(m_session, SIGNAL(newToken(const TokenEvent&)),
-            this, SLOT(newTokenFromSession(const TokenEvent&)));
+    connect(m_session, SIGNAL(newToken(const Token&)),
+            this, SLOT(newTokenFromSession(const Token&)));
 }
 
 void TellWidget::sendText(const QString &text)
@@ -135,40 +135,40 @@ void TellWidget::sendText(const QString &text)
     }
 }
 
-void TellWidget::newTokenFromSession(const TokenEvent &event)
+void TellWidget::newTokenFromSession(const Token &token)
 {
     QString login;
     bool youTalk = false;
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_SomeoneTellsYou:
-    case Token_SomeoneAsksYou:
-    case Token_SomeoneReplies:
-        if (event.arguments()[1] != m_login)
+    case Token::SomeoneTellsYou:
+    case Token::SomeoneAsksYou:
+    case Token::SomeoneReplies:
+        if (token.arguments()[1] != m_login)
             return;
 
         login = m_login;
         break;
-    case Token_YouTellToSomeone:
-    case Token_YouAskToSomeone:
-    case Token_YouReply:
-        if (event.arguments()[1] != m_login)
+    case Token::YouTellToSomeone:
+    case Token::YouAskToSomeone:
+    case Token::YouReply:
+        if (token.arguments()[1] != m_login)
             return;
 
         youTalk = true;
         login = m_session->serverLogin();
         break;
-/*	case Token_SomeoneComesIn:
+/*	case Token::SomeoneComesIn:
         if (event.arguments()[1] != m_login)
         return;
         break;
-	case Token_SomeoneLeaves:
-	case Token_SomeoneLeavesMsg:
-	case Token_SomeoneDisconnects:
-	case Token_SomeoneIsKicked:
-	case Token_SomeoneIsKickedMsg:
-	case Token_YouKickSomeone:
-	case Token_YouKickSomeoneMsg:
+	case Token::SomeoneLeaves:
+	case Token::SomeoneLeavesMsg:
+	case Token::SomeoneDisconnects:
+	case Token::SomeoneIsKicked:
+	case Token::SomeoneIsKickedMsg:
+	case Token::YouKickSomeone:
+	case Token::YouKickSomeoneMsg:
         if (event.arguments()[1] != m_login)
         return;
         break;*/
@@ -195,14 +195,14 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
         }
 
     QStringList args;
-    const QString &sentence = event.arguments()[2];
+    const QString &sentence = token.arguments()[2];
     args << "<" + login + "> " + sentence << login << sentence;
     QList<int> positions;
     positions << 0 << 1 << login.length() + 3;
 
-    TokenEvent translatedEvent(Token_SomeoneSays, args, positions, 0);
+    Token translatedToken(Token::SomeoneSays, args, positions, 0);
 
-    m_tokenRenderer.displayToken(translatedEvent, displayTimeStamp);
+    m_tokenRenderer.displayToken(translatedToken, displayTimeStamp);
 
 /*	if (youTalk && m_chatBlock != chatBlockYou)
 	{

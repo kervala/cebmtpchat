@@ -103,11 +103,11 @@ private slots:
     void socketDisconnected();
     void readyToRead();
     void manageError(QAbstractSocket::SocketError error);
-    void tokenAnalyzed(const TokenEvent &event);
+    void tokenAnalyzed(const Token &token);
 
 signals:
     void newData(const QString &data);
-    void newToken(const TokenEvent &event);
+    void newToken(const Token &token);
     void connecting();
     void connected();
     void disconnected();

@@ -62,8 +62,8 @@ TransfersManager *TransfersManager::_instance = 0;
 
 TransfersManager::TransfersManager() : QObject(0)
 {
-    connect(&SessionManager::instance(), SIGNAL(newSessionToken(Session *, const TokenEvent &)),
-            this, SLOT(newSessionToken(Session *, const TokenEvent &)));
+    connect(&SessionManager::instance(), SIGNAL(newSessionToken(Session *, const Token&)),
+            this, SLOT(newSessionToken(Session *, const Token&)));
 
     _tcpServer.listen(QHostAddress::Any, 4001);
     connect(&_tcpServer, SIGNAL(newConnection()),
@@ -235,13 +235,13 @@ Transfer *TransfersManager::getTransferByPeerId(Session *session, int peerId) co
     return 0;
 }
 
-void TransfersManager::newSessionToken(Session *session, const TokenEvent &event)
+void TransfersManager::newSessionToken(Session *session, const Token &token)
 {
-    if (event.token() != Token_Data)
+    if (token.type() != Token::Data)
         return;
 
-    QString nickName = event.arguments()[1];
-    QString data = event.arguments()[2];
+    QString nickName = token.arguments()[1];
+    QString data = token.arguments()[2];
 
     if (!isCommand(data))
         return;

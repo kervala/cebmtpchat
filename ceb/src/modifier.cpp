@@ -46,9 +46,9 @@ public:
     lua_State *l;
 };
 
-static QMap<MtpToken, LuaScript> luaScripts;
+static QMap<Token::Type, LuaScript> luaScripts;
 static Session *_session;
-static MtpToken _token;
+static Token::Type _token;
 static QList<RenderSegment> *_segments;
 
 int segmentsCount(lua_State *l)
@@ -380,14 +380,14 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
     return l;
 }
 
-void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &segments)
+void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
 {
-    if (luaScripts.find(token) == luaScripts.end())
+    if (luaScripts.find(tokenType) == luaScripts.end())
     {
         // File exists now?
         QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
         QString fileName = modifiersDir.filePath(
-            MtpTokenInfo::tokenToIDString(token).toLower() + ".lua");
+            MtpTokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
         if (QFile(fileName).exists())
         {
             bool error;
@@ -399,20 +399,20 @@ void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &seg
             script.filePath = fileName;
             script.fileDateTime = QFileInfo(fileName).lastModified();
             script.l = l;
-            luaScripts[token] = script;
+            luaScripts[tokenType] = script;
         }
         else
             return;
     }
 
-    LuaScript &script = luaScripts[token];
+    LuaScript &script = luaScripts[tokenType];
 
     // File already exists?
     if (!QFile(script.filePath).exists())
     {
         // Remove the script
         lua_close(script.l);
-        luaScripts.remove(token);
+        luaScripts.remove(tokenType);
         return;
     }
 
@@ -427,7 +427,7 @@ void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &seg
         if (error)
         {
             QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
-            luaScripts.remove(token);
+            luaScripts.remove(tokenType);
             return;
         }
         script.fileDateTime = fileInfo.lastModified();
@@ -435,7 +435,7 @@ void executeModifier(Session *session, MtpToken token, QList<RenderSegment> &seg
 
     // Init global variables
     _session = session;
-    _token = token;
+    _token = tokenType;
     _segments = &segments;
 
     lua_State *l = script.l;

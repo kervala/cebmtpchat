@@ -21,8 +21,8 @@
 
 #include "my_textedit.h"
 #include "settings_widget.h"
-#include "mtp_token.h"
 #include "mtp_analyzer.h"
+#include "token.h"
 #include "ui_detailed_fonts_settings.h"
 
 class DetailedFontsSettingsWidget : public SettingsWidget, private Ui::DetailedFontsSettings
@@ -36,10 +36,10 @@ public:
     void feedProfile(Profile &) {}
 
 private:
-    MyTextEdit *m_textEdit;
-    MtpAnalyzer m_analyzer;
-    MtpToken m_currentToken;
-    int m_currentArg;
+    MyTextEdit *_textEdit;
+    MtpAnalyzer _analyzer;
+    Token::Type _currentTokenType;
+    int _currentArg;
 
     void refreshListItemsAfterGroupBoxToggle();
 

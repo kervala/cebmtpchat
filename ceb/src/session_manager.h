@@ -52,7 +52,7 @@ private:
     void clearSessionsList();
 
 private slots:
-    void newToken(const TokenEvent &event);
+    void newToken(const Token &token);
     void connected();
     void disconnected();
     void loginChanged(const QString &oldLogin, const QString &newLogin);
@@ -60,7 +60,7 @@ private slots:
     void doTimerIdle();
 
 signals:
-    void newSessionToken(Session *session, const TokenEvent &event);
+    void newSessionToken(Session *session, const Token &token);
     void sessionConnected(Session *session);
     void sessionDisconnected(Session *session);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);

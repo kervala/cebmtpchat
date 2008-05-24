@@ -47,99 +47,99 @@ MtpRegExp::MtpRegExp(const QString &pattern, const QString &example) : QRegExp(p
 
 const MtpAnalyzer MtpAnalyzer::defaultAnalyzer;
 
-MtpToken MtpAnalyzer::whoTokens[] = {
-    Token_WhoSeparator,
-    Token_WhoLine,
-    Token_WhoEnd,
-    Token_WhoEndNoUser
+Token::Type MtpAnalyzer::whoTokens[] = {
+    Token::WhoSeparator,
+    Token::WhoLine,
+    Token::WhoEnd,
+    Token::WhoEndNoUser
 };
 
-MtpToken MtpAnalyzer::aliasTokens[] = {
-    Token_UserAliases,
-    Token_AliasesEnd,
-    Token_NoUserAlias,
-    Token_AliasLine
+Token::Type MtpAnalyzer::aliasTokens[] = {
+    Token::UserAliases,
+    Token::AliasesEnd,
+    Token::NoUserAlias,
+    Token::AliasLine
 };
 
-MtpToken MtpAnalyzer::normalTokens[] = {
-    Token_IndicatedActiveServer,
-    Token_Topic,
-    Token_YouSetTopic,
-    Token_SomeoneSetTopic,
-    Token_SomeoneTellsYou,
-    Token_YouTellToSomeone,
-    Token_SomeoneAsksYou,
-    Token_YouAskToSomeone,
-    Token_SomeoneReplies,
-    Token_YouReply,
-    Token_SomeoneBeepsYou,
-    Token_WallBegin,
-    Token_WhoBegin,
-    Token_HistoryBegin,
-    Token_FingerBegin,
-    Token_SomeoneShouts,
-    Token_YouShout,
-    Token_SomeoneAway,
-    Token_YouAway,
-    Token_SomeoneBack,
-    Token_YouBack,
-    Token_SomeoneAwayWarning,
-    Token_SystemAliases,
-    Token_MessageBegin,
-    Token_NoMessage,
-    Token_MessageReceived,
-    Token_AllMessagesCleared,
-    Token_MessageCleared,
-    Token_MessagesCleared,
-    Token_HelpBegin,
-    Token_UnknownUser,
-    Token_UserLoginRenamed,
-    Token_YourLoginRenamed,
-    Token_SomeoneComesIn,
-    Token_SomeoneLeaves,
-    Token_SomeoneDisconnects,
-    Token_YouLeave,
-    Token_YouJoinChannel,
-    Token_YouLeaveChannel,
-    Token_SomeoneJoinChannel,
-    Token_SomeoneFadesIntoTheShadows,
-    Token_SomeoneLeaveChannel,
-    Token_SomeoneAppearsFromTheShadows,
-    Token_YouKickSomeone,
-    Token_SomeoneIsKicked,
-    Token_YouAreKicked,
-    Token_Date,
-    Token_YourClientIs,
-    Token_MtpSays,
-    Token_SomeoneSays,
-    Token_Data,
-    Token_Unknown
+Token::Type MtpAnalyzer::normalTokens[] = {
+    Token::IndicatedActiveServer,
+    Token::Topic,
+    Token::YouSetTopic,
+    Token::SomeoneSetTopic,
+    Token::SomeoneTellsYou,
+    Token::YouTellToSomeone,
+    Token::SomeoneAsksYou,
+    Token::YouAskToSomeone,
+    Token::SomeoneReplies,
+    Token::YouReply,
+    Token::SomeoneBeepsYou,
+    Token::WallBegin,
+    Token::WhoBegin,
+    Token::HistoryBegin,
+    Token::FingerBegin,
+    Token::SomeoneShouts,
+    Token::YouShout,
+    Token::SomeoneAway,
+    Token::YouAway,
+    Token::SomeoneBack,
+    Token::YouBack,
+    Token::SomeoneAwayWarning,
+    Token::SystemAliases,
+    Token::MessageBegin,
+    Token::NoMessage,
+    Token::MessageReceived,
+    Token::AllMessagesCleared,
+    Token::MessageCleared,
+    Token::MessagesCleared,
+    Token::HelpBegin,
+    Token::UnknownUser,
+    Token::UserLoginRenamed,
+    Token::YourLoginRenamed,
+    Token::SomeoneComesIn,
+    Token::SomeoneLeaves,
+    Token::SomeoneDisconnects,
+    Token::YouLeave,
+    Token::YouJoinChannel,
+    Token::YouLeaveChannel,
+    Token::SomeoneJoinChannel,
+    Token::SomeoneFadesIntoTheShadows,
+    Token::SomeoneLeaveChannel,
+    Token::SomeoneAppearsFromTheShadows,
+    Token::YouKickSomeone,
+    Token::SomeoneIsKicked,
+    Token::YouAreKicked,
+    Token::Date,
+    Token::YourClientIs,
+    Token::MtpSays,
+    Token::SomeoneSays,
+    Token::Data,
+    Token::Unknown
 };
 
-MtpToken MtpAnalyzer::historyTokens[] = {
-    Token_HistoryEnd,
-    Token_HistoryLine
+Token::Type MtpAnalyzer::historyTokens[] = {
+    Token::HistoryEnd,
+    Token::HistoryLine
 };
 
-MtpToken MtpAnalyzer::fingerTokens[] = {
-    Token_FingerEnd,
-    Token_FingerLine
+Token::Type MtpAnalyzer::fingerTokens[] = {
+    Token::FingerEnd,
+    Token::FingerLine
 };
 
-MtpToken MtpAnalyzer::wallTokens[] = {
-    Token_WallEnd,
-    Token_WallLine
+Token::Type MtpAnalyzer::wallTokens[] = {
+    Token::WallEnd,
+    Token::WallLine
 };
 
-MtpToken MtpAnalyzer::messageTokens[] = {
-    Token_MessageEnd,
-    Token_MessageLine
+Token::Type MtpAnalyzer::messageTokens[] = {
+    Token::MessageEnd,
+    Token::MessageLine
 };
 
-MtpToken MtpAnalyzer::helpTokens[] = {
-    Token_HelpEndNormal,
-    Token_HelpEndNoHelp,
-    Token_HelpLine
+Token::Type MtpAnalyzer::helpTokens[] = {
+    Token::HelpEndNormal,
+    Token::HelpEndNoHelp,
+    Token::HelpLine
 };
 
 MtpAnalyzer::MtpAnalyzer()
@@ -155,227 +155,227 @@ MtpAnalyzer::MtpAnalyzer()
     args << 3 << 4;
     m_tokenRegexp << MtpRegExp("^<Mtp> (Active|Main) server (is|move) at ([^:]+):(.+)$",
                                QList<int>() << 3 << 4,
-                               "<Mtp> Active server is at a.b.c:4000"); // Token_IndicatedActiveServer
+                               "<Mtp> Active server is at a.b.c:4000"); // Token::IndicatedActiveServer
 
     m_tokenRegexp << MtpRegExp("^<Mtp> Login: $",
-                               "<Mtp> Login: "); // Token_LoginAsked
+                               "<Mtp> Login: "); // Token::LoginAsked
     m_tokenRegexp << MtpRegExp("^<Mtp> Invalid login, choose another one$",
-                               "<Mtp> Invalid login, choose another one"); // Token_InvalidLogin
+                               "<Mtp> Invalid login, choose another one"); // Token::InvalidLogin
     m_tokenRegexp << MtpRegExp("<Mtp> Password: $",
-                               "<Mtp> Password: "); // Token_PasswordAsked
+                               "<Mtp> Password: "); // Token::PasswordAsked
     m_tokenRegexp << MtpRegExp("^<Mtp> Incorrect password$",
-                               "<Mtp> Incorrect password"); // Token_IncorrectPassword
+                               "<Mtp> Incorrect password"); // Token::IncorrectPassword
     m_tokenRegexp << MtpRegExp("^<Mtp> Welcome, ("LOGIN_RE")\\.$",
                                QList<int>() << 1,
-                               "<Mtp> Welcome, Fooman."); // Token_Welcome
+                               "<Mtp> Welcome, Fooman."); // Token::Welcome
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") topic : (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Hall topic : Salut les poulets !"); // Token_Topic
+                               "<Mtp> Hall topic : Salut les poulets !"); // Token::Topic
     m_tokenRegexp << MtpRegExp("^<Mtp> You set channel ("LOGIN_RE") topic to (.*)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> You set channel Hall topic to Salut les poulets !"); // Token_YouSetTopic
+                               "<Mtp> You set channel Hall topic to Salut les poulets !"); // Token::YouSetTopic
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") set channel ("LOGIN_RE") topic to (.*)$",
                                QList<int>() << 1 << 2 << 3,
-                               "<Mtp> Fooman set channel Hall topic to Salut les poulets !"); // Token_SomeoneSetTopic
+                               "<Mtp> Fooman set channel Hall topic to Salut les poulets !"); // Token::SomeoneSetTopic
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") tells you: (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman tells you: espece de truite"); // Token_SomeoneTellsYou
+                               "<Mtp> Fooman tells you: espece de truite"); // Token::SomeoneTellsYou
     m_tokenRegexp << MtpRegExp("^<Mtp> You tell ("LOGIN_RE"): (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> You tell Fooman: espece de truite"); // Token_YouTellToSomeone
+                               "<Mtp> You tell Fooman: espece de truite"); // Token::YouTellToSomeone
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") asks you: (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman asks you: es-tu un saumon ou une truite ?"); // Token_SomeoneAsksYou
+                               "<Mtp> Fooman asks you: es-tu un saumon ou une truite ?"); // Token::SomeoneAsksYou
     m_tokenRegexp << MtpRegExp("^<Mtp> You ask ("LOGIN_RE"): (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> You ask Fooman: es-tu une truite ou un saumon ?"); // Token_YouAskToSomeone
+                               "<Mtp> You ask Fooman: es-tu une truite ou un saumon ?"); // Token::YouAskToSomeone
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") replies: (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman replies: vive les levures !"); // Token_SomeoneReplies
+                               "<Mtp> Fooman replies: vive les levures !"); // Token::SomeoneReplies
     m_tokenRegexp << MtpRegExp("^<Mtp> You reply to ("LOGIN_RE"): (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> You reply to Fooman: vive les levures !"); // Token_YouReply
+                               "<Mtp> You reply to Fooman: vive les levures !"); // Token::YouReply
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") beeps you$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman beeps you"); // Token_SomeoneBeepsYou
+                               "<Mtp> Fooman beeps you"); // Token::SomeoneBeepsYou
 
     m_tokenRegexp << MtpRegExp("^<Mtp> Wall :$",
-                               "<Mtp> Wall :"); // Token_WallBegin
+                               "<Mtp> Wall :"); // Token::WallBegin
     m_tokenRegexp << MtpRegExp("^<Mtp> End of Wall$",
-                               "<Mtp> End of Wall"); // Token_WallEnd
+                               "<Mtp> End of Wall"); // Token::WallEnd
     m_tokenRegexp << MtpRegExp("^([^:]*) *(\\d+:\\d+:\\d+) *(\\S+) *(.*)$",
                                QList<int>() << 1 << 2 << 3 << 4,
-                               "Fri Feb 04 2005 16:48:01 Fooman      Hello World!"); // Token_WallLine
+                               "Fri Feb 04 2005 16:48:01 Fooman      Hello World!"); // Token::WallLine
 
     m_tokenRegexp << MtpRegExp("^ Login    Group   Channel   Idle  On For C              From host$",
-                               " Login    Group   Channel   Idle  On For C              From host"); // Token_WhoBegin
+                               " Login    Group   Channel   Idle  On For C              From host"); // Token::WhoBegin
     m_tokenRegexp << MtpRegExp("^<Mtp> There (are|is) currently (\\d+) users?(( in channel ("LOGIN_RE"))|)$",
                                QList<int>() << 2 << 5,
-                               "<Mtp> There are currently 12 users in channel Hall"); // Token_WhoEnd
+                               "<Mtp> There are currently 12 users in channel Hall"); // Token::WhoEnd
     m_tokenRegexp << MtpRegExp("^<Mtp> There is nobody in channel ("LOGIN_RE")$",
                                QList<int>() << 1,
-                               "<Mtp> There is nobody in channel Hall"); // Token_WhoEndNoUser
+                               "<Mtp> There is nobody in channel Hall"); // Token::WhoEndNoUser
     m_tokenRegexp << MtpRegExp("^-------- -------- -------- ------ ------ - ------------------------------------$",
-                               "-------- -------- -------- ------ ------ - ------------------------------------"); // Token_WhoSeparator
+                               "-------- -------- -------- ------ ------ - ------------------------------------"); // Token::WhoSeparator
     m_tokenRegexp << MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *(\\w+) *(\\w+) *(.+)$",
-                               QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7); // Token_WhoLine
+                               QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7); // Token::WhoLine
 
     m_tokenRegexp << MtpRegExp("^<Mtp> History :$",
-                               "<Mtp> History :"); // Token_HistoryBegin
+                               "<Mtp> History :"); // Token::HistoryBegin
     m_tokenRegexp << MtpRegExp("^<Mtp> End of History$",
-                               "<Mtp> End of History"); // Token_HistoryEnd
+                               "<Mtp> End of History"); // Token::HistoryEnd
     m_tokenRegexp << MtpRegExp("^(\\S+) *(\\S+) *(\\S+) *(\\S+) *(\\S+) *(.+)$",
-                               QList<int>() << 1 << 2 << 3 << 4 << 5 << 6); // Token_HistoryLine
+                               QList<int>() << 1 << 2 << 3 << 4 << 5 << 6); // Token::HistoryLine
 
     m_tokenRegexp << MtpRegExp("^Login *: ("LOGIN_RE")$",
                                QList<int>() << 1,
-                               "Login  : Fooman"); // Token_FingerBegin
+                               "Login  : Fooman"); // Token::FingerBegin
     m_tokenRegexp << MtpRegExp("^<Mtp> End of finger$",
-                               "<Mtp> End of finger"); // Token_FingerEnd
+                               "<Mtp> End of finger"); // Token::FingerEnd
     m_tokenRegexp << MtpRegExp("^(.+)$",
-                               "Blablabla xann blablabla"); // Token_FingerLine
+                               "Blablabla xann blablabla"); // Token::FingerLine
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") shouts: (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman shouts: je veux etre liiibre"); // Token_SomeoneShouts
+                               "<Mtp> Fooman shouts: je veux etre liiibre"); // Token::SomeoneShouts
     m_tokenRegexp << MtpRegExp("^<Mtp> You shout: (.+)$",
                                QList<int>() << 1,
-                               "<Mtp> You shout: sortez-moi de ce programme de fou"); // Token_YouShout
+                               "<Mtp> You shout: sortez-moi de ce programme de fou"); // Token::YouShout
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") is away$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman is away"); // Token_SomeoneAway
+                               "<Mtp> Fooman is away"); // Token::SomeoneAway
     m_tokenRegexp << MtpRegExp("^(\\d+:\\d+:\\d+) (<Mtp> You are away)$",
-                               "<Mtp> You are away"); // Token_YouAway
+                               "<Mtp> You are away"); // Token::YouAway
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") is back$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman is back"); // Token_SomeoneBack
+                               "<Mtp> Fooman is back"); // Token::SomeoneBack
     m_tokenRegexp << MtpRegExp("^<Mtp> You are back$",
-                               "<Mtp> You are back"); // Token_YouBack
+                               "<Mtp> You are back"); // Token::YouBack
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") is away and may not be hearing you$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman is away and may not be hearing you"); // Token_SomeoneAwayWarning
+                               "<Mtp> Fooman is away and may not be hearing you"); // Token::SomeoneAwayWarning
 
     m_tokenRegexp << MtpRegExp("^<Mtp> System Aliases : $",
-                               "<Mtp> System aliases"); // Token_SystemAliases
+                               "<Mtp> System aliases"); // Token::SystemAliases
     m_tokenRegexp << MtpRegExp("^<Mtp> User Aliases : $",
-                               "<Mtp> User Aliases : "); // Token_UserAliases
+                               "<Mtp> User Aliases : "); // Token::UserAliases
     m_tokenRegexp << MtpRegExp("^<Mtp> End of aliases$",
-                               "<Mtp> End of aliases"); // Token_AliasesEnd
+                               "<Mtp> End of aliases"); // Token::AliasesEnd
     m_tokenRegexp << MtpRegExp("^<Mtp> You don't have any alias !$",
-                               "<Mtp> You don't have any alias !"); // Token_NoUserAlias
+                               "<Mtp> You don't have any alias !"); // Token::NoUserAlias
     m_tokenRegexp << MtpRegExp("^([^ ]+)( *.+)$",
                                QList<int>() << 1 << 2,
-                               "un_alias    ouais euhhh ok"); // Token_AliasLine
+                               "un_alias    ouais euhhh ok"); // Token::AliasLine
 
     m_tokenRegexp << MtpRegExp("^<Mtp> Your message\\(s\\) :$",
-                               "<Mtp> You message(s) :"); // Token_MessageBegin
+                               "<Mtp> You message(s) :"); // Token::MessageBegin
     m_tokenRegexp << MtpRegExp("^ *(\\S+) ([^:]+ \\d+:\\d+:\\d+) ("LOGIN_RE") : (.+)$",
-                               QList<int>() << 1 << 2 << 3 << 4); // Token_MessageLine
+                               QList<int>() << 1 << 2 << 3 << 4); // Token::MessageLine
     m_tokenRegexp << MtpRegExp("^<Mtp> You have (\\d+) messages?$",
                                QList<int>() << 1,
-                               "<Mtp> You have 14 messages"); // Token_MessageEnd
+                               "<Mtp> You have 14 messages"); // Token::MessageEnd
     m_tokenRegexp << MtpRegExp("^<Mtp> You have no message !$",
-                               "<Mtp> You have no message"); // Token_NoMessage
+                               "<Mtp> You have no message"); // Token::NoMessage
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") sends a message to you: (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman sends a message to you: huitre"); // Token_MessageReceived
+                               "<Mtp> Fooman sends a message to you: huitre"); // Token::MessageReceived
     m_tokenRegexp << MtpRegExp("^<Mtp> You clear your message\\(s\\) !$",
-                               "<Mtp> You clear your messages"); // Token_AllMessagesCleared
+                               "<Mtp> You clear your messages"); // Token::AllMessagesCleared
     m_tokenRegexp << MtpRegExp("^<Mtp> You clear message (\\d+) !$",
-                               QList<int>() << 1); // Token_MessageCleared
+                               QList<int>() << 1); // Token::MessageCleared
     m_tokenRegexp << MtpRegExp("^<Mtp> You clear messages (\\d+) to (\\d+) !$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> You clear messages 1 to 5 !"); // Token_MessagesCleared
+                               "<Mtp> You clear messages 1 to 5 !"); // Token::MessagesCleared
 
     m_tokenRegexp << MtpRegExp("^<Mtp> Help for \"(.+)\" :$",
                                QList<int>() << 1,
-                               "<Mtp> Help for ""pouet pouet"""); // Token_HelpBegin
+                               "<Mtp> Help for ""pouet pouet"""); // Token::HelpBegin
     m_tokenRegexp << MtpRegExp("^<Mtp> End of help$",
-                               "<Mtp> End of help"); // Token_HelpEndNormal
+                               "<Mtp> End of help"); // Token::HelpEndNormal
     m_tokenRegexp << MtpRegExp("^<Mtp> No help available for \"(.+)\"$",
                                QList<int>() << 1,
-                               "<Mtp> No help available for ""pouet pouet"""); // Token_HelpEndNoHelp
-    m_tokenRegexp << MtpRegExp("^(.*)$"); // Token_HelpLine
+                               "<Mtp> No help available for ""pouet pouet"""); // Token::HelpEndNoHelp
+    m_tokenRegexp << MtpRegExp("^(.*)$"); // Token::HelpLine
 
     m_tokenRegexp << MtpRegExp("^<Mtp> Unknown or unregistered user \"("LOGIN_RE")\"$",
                                QList<int>() << 1,
-                               "<Mtp> Unkown or unregistered user ""Fooman"""); // Token_UnknownUser
+                               "<Mtp> Unkown or unregistered user ""Fooman"""); // Token::UnknownUser
     m_tokenRegexp << MtpRegExp("^<Mtp> User ("LOGIN_RE") is now known as ("LOGIN_RE")$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> User Fooman is now known as Footaise"); // Token_UserLoginRenamed
+                               "<Mtp> User Fooman is now known as Footaise"); // Token::UserLoginRenamed
     m_tokenRegexp << MtpRegExp("^<Mtp> Your login name is now ("LOGIN_RE")$",
                                QList<int>() << 1,
-                               "<Mtp> You login name is now Fooman"); // Token_YourLoginRenamed
+                               "<Mtp> You login name is now Fooman"); // Token::YourLoginRenamed
 
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") comes in !",
                                QList<int>() << 1,
-                               "<Mtp> Fooman comes in !"); // Token_SomeoneComesIn
+                               "<Mtp> Fooman comes in !"); // Token::SomeoneComesIn
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") leaves(( \\((.+))\\)|) !$",
                                QList<int>() << 1 << 4,
-                               "<Mtp> Fooman leaves (crustace) !"); // Token_SomeoneLeaves
+                               "<Mtp> Fooman leaves (crustace) !"); // Token::SomeoneLeaves
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") disconnects(( \\((.+))\\)|) !$",
                                QList<int>() << 1 << 4,
-                               "<Mtp> Fooman disconnects (connection reset by huitre)"); // Token_SomeoneDisconnects
+                               "<Mtp> Fooman disconnects (connection reset by huitre)"); // Token::SomeoneDisconnects
     m_tokenRegexp << MtpRegExp("^<Mtp> You leave <Mtp> Chat !$",
-                               "<Mtp> You leave <Mtp> Chat !"); // Token_YouLeave
+                               "<Mtp> You leave <Mtp> Chat !"); // Token::YouLeave
 
     m_tokenRegexp << MtpRegExp("^<Mtp> You join channel ("LOGIN_RE")$",
                                QList<int>() << 1,
-                               "<Mtp> You join channel Foochan"); // Token_YouJoinChannel
+                               "<Mtp> You join channel Foochan"); // Token::YouJoinChannel
     m_tokenRegexp << MtpRegExp("^<Mtp> You leave channel ("LOGIN_RE")$",
                                QList<int>() << 1,
-                               "<Mtp> You leave channel Foochan"); // Token_YouLeaveChannel
+                               "<Mtp> You leave channel Foochan"); // Token::YouLeaveChannel
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") joined channel ("LOGIN_RE")$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman joined channel Foochan"); // Token_SomeoneJoinChannel
+                               "<Mtp> Fooman joined channel Foochan"); // Token::SomeoneJoinChannel
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") fades into the shadows$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman fades into the shadows"); // Token_SomeoneFadesIntoTheShadows
+                               "<Mtp> Fooman fades into the shadows"); // Token::SomeoneFadesIntoTheShadows
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") comes in from channel ("LOGIN_RE")$",
                                QList<int>() << 1 << 2,
-                               "<Mtp> Fooman coms in from channel Foochan"); // Token_SomeoneLeaveChannel
+                               "<Mtp> Fooman coms in from channel Foochan"); // Token::SomeoneLeaveChannel
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") appears from the shadows$",
                                QList<int>() << 1,
-                               "<Mtp> Fooman appears from the shadows"); // Token_SomeoneAppearsFromTheShadows
+                               "<Mtp> Fooman appears from the shadows"); // Token::SomeoneAppearsFromTheShadows
 
     m_tokenRegexp << MtpRegExp("^<Mtp> You kick ("LOGIN_RE") out(( \\((.*)\\))|) !$",
                                QList<int>() << 1 << 4,
-                               "<Mtp> You kick Fooman out (non merci)"); // Token_YouKickSomeone
+                               "<Mtp> You kick Fooman out (non merci)"); // Token::YouKickSomeone
     m_tokenRegexp << MtpRegExp("^<Mtp> ("LOGIN_RE") is kicked out by ("LOGIN_RE")(( \\((.*)\\))|) !$",
                                QList<int>() << 1 << 2 << 5,
-                               "<Mtp> Fooman is kicked out by Root (non merci) !"); // Token_SomeoneIsKicked
+                               "<Mtp> Fooman is kicked out by Root (non merci) !"); // Token::SomeoneIsKicked
     m_tokenRegexp << MtpRegExp("^<Mtp> You are kicked out by ("LOGIN_RE")(( \\((.*)\\))|) !$",
                                QList<int>() << 1 << 4,
-                               "<Mtp> You are kicked out by Root (non merci) !"); // Token_YouAreKicked
+                               "<Mtp> You are kicked out by Root (non merci) !"); // Token::YouAreKicked
 
     m_tokenRegexp << MtpRegExp("^<Mtp> The current date and time are (.+)$",
                                QList<int>() << 1,
-                               "<Mtp> The current date and time are Tuesday September 26 2006 19:22:48"); // Token_Date
+                               "<Mtp> The current date and time are Tuesday September 26 2006 19:22:48"); // Token::Date
     m_tokenRegexp << MtpRegExp("^<Mtp> Your client is now \"(.+)\"$",
                                QList<int>() << 1,
-                               "<Mtp> Your client is now \"upset\""); // Token_YourClientIs
+                               "<Mtp> Your client is now \"upset\""); // Token::YourClientIs
 
     m_tokenRegexp << MtpRegExp("^<Mtp> (.+)$",
                                QList<int>() << 1,
-                               "<Mtp> Hi all, I'm system, guys!"); // Token_MtpSays
+                               "<Mtp> Hi all, I'm system, guys!"); // Token::MtpSays
     m_tokenRegexp << MtpRegExp("^<("LOGIN_RE")> (.+)$",
                                QList<int>() << 1 << 2,
-                               "<Fooman> I see dead people. Seriously."); // Token_SomeoneSays
+                               "<Fooman> I see dead people. Seriously."); // Token::SomeoneSays
 
     m_tokenRegexp << MtpRegExp("^\\|("LOGIN_RE")\\| (.+)$",
                                QList<int>() << 1 << 2,
-                               "|Fooman| red pill or blue pill?"); // Token_Data
+                               "|Fooman| red pill or blue pill?"); // Token::Data
 
-    m_tokenRegexp << MtpRegExp(".*"); // Token_Unknown
+    m_tokenRegexp << MtpRegExp(".*"); // Token::Unknown
 
     // Fill send regexp
-    sendTokenRegexp << QRegExp("^tell ("LOGIN_RE") (.*)$"); // SendToken_Tell
-    sendTokenRegexp << QRegExp("^reply (.*)$"); // SendToken_Reply
-    sendTokenRegexp << QRegExp("^sendmsg ("LOGIN_RE") (.*)$"); // SendToken_Sendmsg
+    sendTokenRegexp << QRegExp("^tell ("LOGIN_RE") (.*)$"); // SendToken::Tell
+    sendTokenRegexp << QRegExp("^reply (.*)$"); // SendToken::Reply
+    sendTokenRegexp << QRegExp("^sendmsg ("LOGIN_RE") (.*)$"); // SendToken::Sendmsg
 }
 
 bool MtpAnalyzer::logged() const
@@ -460,12 +460,12 @@ void MtpAnalyzer::analyzeBeforeLog(const QString &data)
 {
     QVector<QString> arguments;
     QTime now = QTime::currentTime();
-    if (m_tokenRegexp[Token_IndicatedActiveServer].exactMatch(data))
-        doTokenAnalyzed(Token_IndicatedActiveServer, 0, now);
-    else if (m_tokenRegexp[Token_LoginAsked].exactMatch(data))
-        doTokenAnalyzed(Token_LoginAsked, 0, now);
-    else if (m_tokenRegexp[Token_PasswordAsked].indexIn(data) >= 0)
-        doTokenAnalyzed(Token_PasswordAsked, 0, now);
+    if (m_tokenRegexp[Token::IndicatedActiveServer].exactMatch(data))
+        doTokenAnalyzed(Token::IndicatedActiveServer, 0, now);
+    else if (m_tokenRegexp[Token::LoginAsked].exactMatch(data))
+        doTokenAnalyzed(Token::LoginAsked, 0, now);
+    else if (m_tokenRegexp[Token::PasswordAsked].indexIn(data) >= 0)
+        doTokenAnalyzed(Token::PasswordAsked, 0, now);
     else if (data.endsWith('\n'))
     {
         // Remove \r\n
@@ -481,21 +481,21 @@ void MtpAnalyzer::analyzeBeforeLog(const QString &data)
         if (newData.isEmpty())
             return;
 
-        if (m_tokenRegexp[Token_InvalidLogin].exactMatch(newData))
-            doTokenAnalyzed(Token_InvalidLogin, 0, now);
-        else if (m_tokenRegexp[Token_IncorrectPassword].exactMatch(newData))
-            doTokenAnalyzed(Token_IncorrectPassword, 0, now);
-        else if (m_tokenRegexp[Token_Welcome].exactMatch(newData))
+        if (m_tokenRegexp[Token::InvalidLogin].exactMatch(newData))
+            doTokenAnalyzed(Token::InvalidLogin, 0, now);
+        else if (m_tokenRegexp[Token::IncorrectPassword].exactMatch(newData))
+            doTokenAnalyzed(Token::IncorrectPassword, 0, now);
+        else if (m_tokenRegexp[Token::Welcome].exactMatch(newData))
         {
             m_logged = true;
-            doTokenAnalyzed(Token_Welcome, 0, now);
+            doTokenAnalyzed(Token::Welcome, 0, now);
         }
-        else if (m_tokenRegexp[Token_MtpSays].exactMatch(newData))
+        else if (m_tokenRegexp[Token::MtpSays].exactMatch(newData))
         {
-            doTokenAnalyzed(Token_MtpSays, 0, now);
+            doTokenAnalyzed(Token::MtpSays, 0, now);
         }
-        else if (m_tokenRegexp[Token_Unknown].exactMatch(newData))
-            doTokenAnalyzed(Token_Unknown, 0, now);
+        else if (m_tokenRegexp[Token::Unknown].exactMatch(newData))
+            doTokenAnalyzed(Token::Unknown, 0, now);
     }
 }
 
@@ -529,9 +529,9 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
         }
 
         bool found = false;
-        MtpToken token;
+        Token::Type token;
 
-        MtpToken *tokens;
+        Token::Type *tokens;
         int tokensSize;
 
         switch(m_state)
@@ -582,13 +582,13 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                 found = true;
                 switch(token)
                 {
-                case Token_WallBegin:
+                case Token::WallBegin:
                     m_state = State_Wall;
                     break;
-                case Token_WallEnd:
+                case Token::WallEnd:
                     m_state = State_Normal;
                     break;
-                case Token_WhoBegin:
+                case Token::WhoBegin:
                     m_state = State_Who;
                     if (tickets[Command_Who].count() > 0)
                     {
@@ -596,7 +596,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_WhoEnd:
+                case Token::WhoEnd:
                     m_state = State_Normal;
                     if (tickets[Command_Who].count() > 0)
                     {
@@ -605,7 +605,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         tickets[Command_Who].removeAt(0);
                     }
                     break;
-                case Token_WhoEndNoUser:
+                case Token::WhoEndNoUser:
                     m_state = State_Normal;
                     if (tickets[Command_Who].count() > 0)
                     {
@@ -614,33 +614,33 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         tickets[Command_Who].removeAt(0);
                     }
                     break;
-                case Token_WhoSeparator:
+                case Token::WhoSeparator:
                     if (tickets[Command_Who].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_Who][0];
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_WhoLine:
+                case Token::WhoLine:
                     if (tickets[Command_Who].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_Who][0];
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_HistoryBegin:
+                case Token::HistoryBegin:
                     m_state = State_History;
                     break;
-                case Token_HistoryEnd:
+                case Token::HistoryEnd:
                     m_state = State_Normal;
                     break;
-                case Token_FingerBegin:
+                case Token::FingerBegin:
                     m_state = State_Finger;
                     break;
-                case Token_FingerEnd:
+                case Token::FingerEnd:
                     m_state = State_Normal;
                     break;
-                case Token_YouAway:
+                case Token::YouAway:
                 {
                     m_away = true;
                     timeStamp = QTime::fromString(regExp.cap(1), "hh:mm:ss");
@@ -648,22 +648,22 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                     strList << regExp.cap(2);
                     QList<int> positions;
                     positions << 0;
-                    emit tokenAnalyzed(TokenEvent(token, strList, positions,
-                                                  ticketID, timeStamp));
+                    emit tokenAnalyzed(Token(token, strList, positions,
+                                             ticketID, timeStamp));
                     return;
                 }
-                case Token_YouBack:
+                case Token::YouBack:
                     m_away = false;
                     break;
-                case Token_SystemAliases:
+                case Token::SystemAliases:
                     m_state = State_Alias;
                     break;
-                case Token_UserAliases:
+                case Token::UserAliases:
                     break;
-                case Token_AliasesEnd:
+                case Token::AliasesEnd:
                     m_state = State_Normal;
                     break;
-                case Token_MessageBegin:
+                case Token::MessageBegin:
                     m_state = State_Message;
                     if (tickets[Command_ShowMsg].count() > 0)
                     {
@@ -671,14 +671,14 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_MessageLine:
+                case Token::MessageLine:
                     if (tickets[Command_ShowMsg].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_ShowMsg][0];
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_MessageEnd:
+                case Token::MessageEnd:
                     if (tickets[Command_ShowMsg].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_ShowMsg][0];
@@ -687,7 +687,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                     }
                     m_state = State_Normal;
                     break;
-                case Token_HelpBegin:
+                case Token::HelpBegin:
                     m_state = State_Help;
                     if (tickets[Command_Help].count() > 0)
                     {
@@ -695,8 +695,8 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_HelpEndNormal:
-                case Token_HelpEndNoHelp:
+                case Token::HelpEndNormal:
+                case Token::HelpEndNoHelp:
                     if (tickets[Command_Help].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_Help][0];
@@ -705,14 +705,14 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                     }
                     m_state = State_Normal;
                     break;
-                case Token_HelpLine:
+                case Token::HelpLine:
                     if (tickets[Command_Help].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_Help][0];
                         ticketID = ticket.ID;
                     }
                     break;
-                case Token_Date:
+                case Token::Date:
                     if (tickets[Command_Date].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_Date][0];
@@ -720,7 +720,7 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
                         tickets[Command_Date].removeAt(0);
                     }
                     break;
-                case Token_YourClientIs:
+                case Token::YourClientIs:
                     if (tickets[Command_SetClient].count() > 0)
                     {
                         CommandTicket ticket = tickets[Command_SetClient][0];
@@ -736,15 +736,15 @@ void MtpAnalyzer::analyzeAfterLog(const QString &data)
         }
 
         if (!found)
-            token = Token_Unknown;
+            token = Token::Unknown;
 
         doTokenAnalyzed(token, ticketID, timeStamp);
     }
 }
 
-void MtpAnalyzer::doTokenAnalyzed(MtpToken token, int reservation, const QTime &timeStamp)
+void MtpAnalyzer::doTokenAnalyzed(Token::Type tokenType, int reservation, const QTime &timeStamp)
 {
-    MtpRegExp &regExp = m_tokenRegexp[token];
+    MtpRegExp &regExp = m_tokenRegexp[tokenType];
 
     QList<int> positions;
     for (int i = 0; i < regExp.capturedTexts().count(); ++i)
@@ -754,8 +754,8 @@ void MtpAnalyzer::doTokenAnalyzed(MtpToken token, int reservation, const QTime &
         else
             positions << regExp.pos(i);
     }
-    emit tokenAnalyzed(TokenEvent(token, regExp.capturedTexts(), positions,
-                                  reservation, timeStamp));
+    emit tokenAnalyzed(Token(tokenType, regExp.capturedTexts(), positions,
+                             reservation, timeStamp));
 }
 
 void MtpAnalyzer::reset()

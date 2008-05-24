@@ -62,10 +62,10 @@ MainWindow::MainWindow()
         trayIcon->show();
 
     SessionManager &sessionManager = SessionManager::instance();
-    connect(&sessionManager, SIGNAL(newSessionToken(Session *, const TokenEvent &)),
-            this, SLOT(newSessionTokenForActivity(Session *, const TokenEvent &)));
-    connect(&sessionManager, SIGNAL(newSessionToken(Session *, const TokenEvent &)),
-            this, SLOT(newSessionToken(Session *, const TokenEvent &)));
+    connect(&sessionManager, SIGNAL(newSessionToken(Session *, const Token &)),
+            this, SLOT(newSessionTokenForActivity(Session *, const Token &)));
+    connect(&sessionManager, SIGNAL(newSessionToken(Session *, const Token &)),
+            this, SLOT(newSessionToken(Session *, const Token &)));
     connect(&sessionManager, SIGNAL(sessionLoginChanged(Session *, const QString &, const QString &)),
             this, SLOT(sessionLoginChanged(Session *, const QString &, const QString &)));
 
@@ -546,33 +546,33 @@ void MainWindow::aboutToShowConnectionsActions()
     makeConnectionsActions();
 }
 
-void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &event)
+void MainWindow::newSessionTokenForActivity(Session *session, const Token &token)
 {
-    if (event.ticketID() >= 0)
+    if (token.ticketID() >= 0)
         return;
 
     if ((Profile::instance().trayHideFromTaskBar && !isVisible()) || QApplication::activeWindow() != this)
     {
         bool showWarningo = false;
         bool changeTray = false;
-        switch(event.token())
+        switch(token.type())
         {
-        case Token_SomeoneTellsYou:
-        case Token_SomeoneAsksYou:
-        case Token_SomeoneReplies:
+        case Token::SomeoneTellsYou:
+        case Token::SomeoneAsksYou:
+        case Token::SomeoneReplies:
             showWarningo = Profile::instance().warningoPrivate;
             changeTray = true;
             trayTalkAboutMe = true;
             break;
-        case Token_YouAreKicked:
+        case Token::YouAreKicked:
             showWarningo = true;
             changeTray = true;
             trayTalkAboutMe = true;
             break;
-        case Token_SomeoneSays:
+        case Token::SomeoneSays:
         {
             // Someone talks about you?
-            QString sentence = event.arguments()[2];
+            QString sentence = token.arguments()[2];
             if (sentence.indexOf(session->regExpAboutMe()) >= 0)
             {
                 showWarningo = Profile::instance().warningoHighlight;
@@ -581,16 +581,16 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
             }
         }
         break;
-        case Token_SomeoneComesIn:
-        case Token_SomeoneLeaves:
-        case Token_SomeoneDisconnects:
-        case Token_YouLeave:
-        case Token_YouJoinChannel:
-        case Token_YouLeaveChannel:
-        case Token_SomeoneJoinChannel:
-        case Token_SomeoneFadesIntoTheShadows:
-        case Token_SomeoneLeaveChannel:
-        case Token_SomeoneAppearsFromTheShadows: // No Tray, No Warningo
+        case Token::SomeoneComesIn:
+        case Token::SomeoneLeaves:
+        case Token::SomeoneDisconnects:
+        case Token::YouLeave:
+        case Token::YouJoinChannel:
+        case Token::YouLeaveChannel:
+        case Token::SomeoneJoinChannel:
+        case Token::SomeoneFadesIntoTheShadows:
+        case Token::SomeoneLeaveChannel:
+        case Token::SomeoneAppearsFromTheShadows: // No Tray, No Warningo
             return;
         default:;
         }
@@ -601,7 +601,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
             if (showWarningo && Profile::instance().warningoEnabled)
             {
-                DialogWarningo *dialog = new DialogWarningo(session->config().name(), event.line());
+                DialogWarningo *dialog = new DialogWarningo(session->config().name(), token.line());
                 dialog->show();
             }
         }
@@ -610,26 +610,26 @@ void MainWindow::newSessionTokenForActivity(Session *session, const TokenEvent &
     }
 }
 
-void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
+void MainWindow::newSessionToken(Session *session, const Token &token)
 {
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_LoginAsked:
+    case Token::LoginAsked:
         if (!session->config().furtiveMode() && !session->config().login().isEmpty())
             session->send(session->config().login());
         break;
-    case Token_InvalidLogin:
+    case Token::InvalidLogin:
     {
         SessionConfig newConfig = session->config();
         newConfig.setLogin("");
         session->setConfig(newConfig);
     }
     break;
-    case Token_PasswordAsked:
+    case Token::PasswordAsked:
         if (!session->config().furtiveMode() && !session->config().password().isEmpty())
             session->send(session->config().password());
         break;
-    case Token_IncorrectPassword:
+    case Token::IncorrectPassword:
     {
         SessionConfig newConfig = session->config();
         newConfig.setLogin("");
@@ -637,87 +637,87 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         session->setConfig(newConfig);
     }
     break;
-    case Token_SomeoneTellsYou:
-    case Token_SomeoneAsksYou:
-    case Token_SomeoneReplies:
+    case Token::SomeoneTellsYou:
+    case Token::SomeoneAsksYou:
+    case Token::SomeoneReplies:
         if (Profile::instance().soundAboutMeEnabled)
         {
             QSound s(Profile::instance().getAboutMeFileName());
             s.play();
         }
-    case Token_YouTellToSomeone:
-    case Token_YouAskToSomeone:
-    case Token_YouReply:
+    case Token::YouTellToSomeone:
+    case Token::YouAskToSomeone:
+    case Token::YouReply:
     {
-        QString login = event.arguments()[1];
+        QString login = token.arguments()[1];
         TellWidget *widget = getTellWidget(session, login);
         if (!widget)
         {
             widget = newTellWidget(session, login);
-            widget->newTokenFromSession(event);
+            widget->newTokenFromSession(token);
         }
     }
     break;
-    case Token_SomeoneBeepsYou:
+    case Token::SomeoneBeepsYou:
         if (Profile::instance().soundBeepEnabled)
         {
             QSound s(Profile::instance().getBeepFileName());
             s.play();
         }
         break;
-    case Token_WallBegin:
+    case Token::WallBegin:
         // New tab?
-        if (event.ticketID() == -1 && Profile::instance().tabForWall)
+        if (token.ticketID() == -1 && Profile::instance().tabForWall)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "wall");
             if (!widget)
             {
                 widget = newCmdOutputWidget(session, "wall");
-                widget->newTokenFromSession(event);
+                widget->newTokenFromSession(token);
             }
             mtwMain->focusWidget(widget);
         }
         break;
-    case Token_FingerBegin:
+    case Token::FingerBegin:
         // New tab?
-        if (event.ticketID() == -1 && Profile::instance().tabForFinger)
+        if (token.ticketID() == -1 && Profile::instance().tabForFinger)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "finger");
             if (!widget)
             {
                 widget = newCmdOutputWidget(session, "finger");
-                widget->newTokenFromSession(event);
+                widget->newTokenFromSession(token);
             }
             mtwMain->focusWidget(widget);
         }
         break;
-    case Token_WhoBegin:
+    case Token::WhoBegin:
         // New tab?
-        if (event.ticketID() == -1 && Profile::instance().tabForWho)
+        if (token.ticketID() == -1 && Profile::instance().tabForWho)
         {
             CmdOutputWidget *widget = getCmdOutputWidget(session, "who");
             if (!widget)
             {
                 widget = newCmdOutputWidget(session, "who");
-                widget->newTokenFromSession(event);
+                widget->newTokenFromSession(token);
             }
             mtwMain->focusWidget(widget);
         }
         break;
-    case Token_WhoLine:
+    case Token::WhoLine:
     {
-        QString login = event.arguments()[1];
+        QString login = token.arguments()[1];
         TellWidget *tellWidget = getTellWidget(session, login);
         if (tellWidget)
         {
-            if (event.arguments()[4] == "*Away*")
+            if (token.arguments()[4] == "*Away*")
                 mtwMain->renameLabel(tellWidget, login + " (away)");
             else
                 mtwMain->renameLabel(tellWidget, login);
         }
     }
     break;
-    case Token_WhoEnd:
+    case Token::WhoEnd:
         // Check for tell tabs
         for (int i = 0; i < mtwMain->count(); i++)
         {
@@ -730,14 +730,14 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
             }
         }
         break;
-    case Token_SomeoneAway:
-    case Token_YouAway:
+    case Token::SomeoneAway:
+    case Token::YouAway:
     {
         QString login;
-        if (event.token() == Token_YouAway)
+        if (token.type() == Token::YouAway)
             login = session->serverLogin();
         else
-            login = event.arguments()[1];
+            login = token.arguments()[1];
 
         // Tell widget
         TellWidget *tellWidget = getTellWidget(session, login);
@@ -748,14 +748,14 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         }
     }
     break;
-    case Token_SomeoneBack:
-    case Token_YouBack:
+    case Token::SomeoneBack:
+    case Token::YouBack:
     {
         QString login;
-        if (event.token() == Token_YouBack)
+        if (token.type() == Token::YouBack)
             login = session->serverLogin();
         else
-            login = event.arguments()[1];
+            login = token.arguments()[1];
 
         // Tell widget
         TellWidget *tellWidget = getTellWidget(session, login);
@@ -766,21 +766,21 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         }
     }
     break;
-    case Token_SomeoneAwayWarning:
+    case Token::SomeoneAwayWarning:
     {
         // Tell widget
-        TellWidget *tellWidget = getTellWidget(session, event.arguments()[1]);
+        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
         if (tellWidget)
-            mtwMain->renameLabel(tellWidget, event.arguments()[1] + " (away)");
+            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " (away)");
     }
     break;
-    case Token_UserLoginRenamed:
-        sessionLoginChanged(session, event.arguments()[1], event.arguments()[2]);
+    case Token::UserLoginRenamed:
+        sessionLoginChanged(session, token.arguments()[1], token.arguments()[2]);
         break;
-    case Token_SomeoneSays:
+    case Token::SomeoneSays:
     {
         // Someone talks about you?
-        QString sentence = event.arguments()[2];
+        QString sentence = token.arguments()[2];
         if (sentence.indexOf(session->regExpAboutMe()) >= 0)
         {
             if (Profile::instance().soundAboutMeEnabled)
@@ -791,27 +791,27 @@ void MainWindow::newSessionToken(Session *session, const TokenEvent &event)
         }
     }
     break;
-    case Token_SomeoneComesIn:
+    case Token::SomeoneComesIn:
     {
-        TellWidget *tellWidget = getTellWidget(session, event.arguments()[1]);
+        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
         if (tellWidget)
-            mtwMain->renameLabel(tellWidget, event.arguments()[1]);
+            mtwMain->renameLabel(tellWidget, token.arguments()[1]);
     }
     break;
-    case Token_SomeoneLeaves:
-    case Token_SomeoneDisconnects:
-    case Token_SomeoneIsKicked:
-    case Token_YouKickSomeone:
+    case Token::SomeoneLeaves:
+    case Token::SomeoneDisconnects:
+    case Token::SomeoneIsKicked:
+    case Token::YouKickSomeone:
     {
-        TellWidget *tellWidget = getTellWidget(session, event.arguments()[1]);
+        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
         if (tellWidget)
-            mtwMain->renameLabel(tellWidget, event.arguments()[1] + " (quit)");
+            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " (quit)");
     }
     break;
-    case Token_YouJoinChannel:
-        mtwMain->renameLabel(getChannelWidget(session), event.arguments()[1]);
+    case Token::YouJoinChannel:
+        mtwMain->renameLabel(getChannelWidget(session), token.arguments()[1]);
         break;
-    case Token_YouLeaveChannel:
+    case Token::YouLeaveChannel:
         mtwMain->renameLabel(getChannelWidget(session), "Hall");
         break;
 	break;

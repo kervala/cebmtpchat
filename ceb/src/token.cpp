@@ -16,26 +16,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "token_event.h"
+#include "token.h"
 
-TokenEvent::TokenEvent(MtpToken token, const QStringList &arguments,
-                       const QList<int> &positions, int ticketID, const QTime &timeStamp)
+Token::Token(Type type, const QStringList &arguments,
+             const QList<int> &positions, int ticketID, const QTime &timeStamp)
 {
-    init(token, arguments, positions, ticketID, timeStamp);
+    init(type, arguments, positions, ticketID, timeStamp);
 }
 
-TokenEvent::TokenEvent(MtpToken token, const QStringList &arguments,
-                       const QList<int> &positions, int ticketID)
+Token::Token(Type type, const QStringList &arguments,
+             const QList<int> &positions, int ticketID)
 {
-    init(token, arguments, positions, ticketID, QTime::currentTime());
+    init(type, arguments, positions, ticketID, QTime::currentTime());
 }
 
-void TokenEvent::init(MtpToken token, const QStringList &arguments,
-                      const QList<int> &positions, int ticketID, const QTime &timeStamp)
+void Token::init(Type type, const QStringList &arguments,
+                 const QList<int> &positions, int ticketID, const QTime &timeStamp)
 {
-    m_token = token;
-    m_arguments = arguments;
-    m_positions = positions;
-    m_timeStamp = timeStamp;
-    m_ticketID = ticketID;
+    _type = type;
+    _arguments = arguments;
+    _positions = positions;
+    _timeStamp = timeStamp;
+    _ticketID = ticketID;
 }

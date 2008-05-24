@@ -36,7 +36,7 @@ public:
     virtual QString widgetCaption() const;
 
 public slots:
-    void newTokenFromSession(const TokenEvent &event);
+    void newTokenFromSession(const Token &token);
 
 private:
     QString m_cmdName;

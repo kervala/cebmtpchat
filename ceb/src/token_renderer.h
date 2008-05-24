@@ -21,14 +21,14 @@
 
 #include "session.h"
 #include "my_textedit.h"
-#include "token_event.h"
+#include "token.h"
 
 class TokenRenderer
 {
 public:
     TokenRenderer() : _session(0), _textEdit(0) {}
 
-    void displayToken(const TokenEvent &event, bool timeStamp = false);
+    void displayToken(const Token &token, bool timeStamp = false);
 
     void setTextEdit(MyTextEdit *value) { _textEdit = value; }
     void setSession(Session *session) { _session = session; }

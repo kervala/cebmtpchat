@@ -50,7 +50,7 @@ public:
     void search(); // Inherited from SessionWidget
 
 public slots:
-    void newTokenFromSession(const TokenEvent &event);
+    void newTokenFromSession(const Token &token);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

@@ -83,8 +83,8 @@ Session *SessionManager::newSession(const SessionConfig &config)
     _sessionsList << session;
     connect(session, SIGNAL(connected()), this, SLOT(connected()));
     connect(session, SIGNAL(disconnected()), this, SLOT(disconnected()));
-    connect(session, SIGNAL(newToken(const TokenEvent&)),
-            this, SLOT(newToken(const TokenEvent&)));
+    connect(session, SIGNAL(newToken(const Token&)),
+            this, SLOT(newToken(const Token&)));
     connect(session, SIGNAL(loginChanged(const QString &, const QString &)),
             this, SLOT(loginChanged(const QString &, const QString &)));
     return session;
@@ -103,17 +103,17 @@ QList<Session*> &SessionManager::sessionsList()
     return _sessionsList;
 }
 
-void SessionManager::newToken(const TokenEvent &event)
+void SessionManager::newToken(const Token &token)
 {
     Session *session = qobject_cast<Session*>(sender());
-    emit newSessionToken(session, event);
+    emit newSessionToken(session, token);
 
     // Log it
-    QString line = event.line();
+    QString line = token.line();
     if (session->away())
-        line = event.timeStamp().toString("hh:mm:ss ") + line;
+        line = token.timeStamp().toString("hh:mm:ss ") + line;
     else if (Profile::instance().logsTimeStamp)
-        line = event.timeStamp().toString("hh:mm:ss ") + line;
+        line = token.timeStamp().toString("hh:mm:ss ") + line;
 
     Logger::instance().log(session->config().name(), line);
 }

@@ -44,8 +44,8 @@ Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
     connect(m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
 
     connect(this, SIGNAL(newData(const QString &)), &m_analyzer, SLOT(dataReceived(const QString &)));
-    connect(&m_analyzer, SIGNAL(tokenAnalyzed(const TokenEvent&)),
-            this, SLOT(tokenAnalyzed(const TokenEvent &)));
+    connect(&m_analyzer, SIGNAL(tokenAnalyzed(const Token&)),
+            this, SLOT(tokenAnalyzed(const Token &)));
     m_channel = "Hall";
     m_cleanDisconnected = false;
     m_autoAway = false;
@@ -215,90 +215,90 @@ void Session::manageError(QAbstractSocket::SocketError error)
     emit socketError(str);
 }
 
-void Session::tokenAnalyzed(const TokenEvent &event)
+void Session::tokenAnalyzed(const Token &token)
 {
     m_currentLine = ""; // Re-init the current line
 
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_IndicatedActiveServer:
-        logInfo(QString("Moving to the active server (%1:%2)...").arg(event.arguments()[3]).arg(event.arguments()[4]));
+    case Token::IndicatedActiveServer:
+        logInfo(QString("Moving to the active server (%1:%2)...").arg(token.arguments()[3]).arg(token.arguments()[4]));
         break;
-    case Token_Welcome:
-        m_serverLogin = event.arguments()[1];
+    case Token::Welcome:
+        m_serverLogin = token.arguments()[1];
         m_channel = "Hall";
         m_myMessages.clear();
         m_autoAway = false;
         resetIdle();
         emit logged();
         break;
-    case Token_YourLoginRenamed:
+    case Token::YourLoginRenamed:
     {
         QString oldLogin = m_serverLogin;
-        m_serverLogin = event.arguments()[1];
+        m_serverLogin = token.arguments()[1];
         emit loginChanged(oldLogin, m_serverLogin);
     }
     break;
-    case Token_WhoBegin:
+    case Token::WhoBegin:
         m_users.clear();
         break;
-    case Token_WhoLine:
-        m_users << event.arguments()[1];
+    case Token::WhoLine:
+        m_users << token.arguments()[1];
         break;
-    case Token_MessageBegin:
+    case Token::MessageBegin:
         m_myMessages.clear();
         break;
-    case Token_MessageLine:
-        m_myMessages << MessageItem(event.arguments()[2],
-                                    event.arguments()[3],
-                                    event.arguments()[4]);
+    case Token::MessageLine:
+        m_myMessages << MessageItem(token.arguments()[2],
+                                    token.arguments()[3],
+                                    token.arguments()[4]);
         break;
-    case Token_NoMessage:
+    case Token::NoMessage:
         m_myMessages.clear();
         break;
-    case Token_MessageReceived:
+    case Token::MessageReceived:
         m_myMessages << MessageItem(QString(),
-                                    event.arguments()[1],
-                                    event.arguments()[2]);
+                                    token.arguments()[1],
+                                    token.arguments()[2]);
         break;
-    case Token_AllMessagesCleared:
+    case Token::AllMessagesCleared:
         m_myMessages.clear();
         break;
-    case Token_MessageCleared:
-        m_myMessages.removeAt(event.arguments()[1].toInt() - 1);
+    case Token::MessageCleared:
+        m_myMessages.removeAt(token.arguments()[1].toInt() - 1);
         break;
-    case Token_MessagesCleared:
+    case Token::MessagesCleared:
     {
-        int n1 = event.arguments()[1].toInt() - 1;
-        int n2 = event.arguments()[2].toInt() - 1;
+        int n1 = token.arguments()[1].toInt() - 1;
+        int n2 = token.arguments()[2].toInt() - 1;
         for (int i = n1; i <= n2; i++)
             m_myMessages.removeAt(n1);
     }
     break;
-    case Token_YouJoinChannel:
-        m_channel = event.arguments()[1];
+    case Token::YouJoinChannel:
+        m_channel = token.arguments()[1];
         break;
-    case Token_YouLeaveChannel:
+    case Token::YouLeaveChannel:
         m_channel = "Hall";
         break;
-    case Token_YouLeave:
-    case Token_YouAreKicked:
+    case Token::YouLeave:
+    case Token::YouAreKicked:
         m_cleanDisconnected = true;
         break;
-    case Token_YouBack:
+    case Token::YouBack:
         m_autoAway = false;
         break;
     default:;
     }
 
-    emit newToken(event);
+    emit newToken(token);
 
     // After signal propagation, we treat some special tokens...
-    switch(event.token())
+    switch(token.type())
     {
-    case Token_IndicatedActiveServer:
+    case Token::IndicatedActiveServer:
         stop();
-        start(event.arguments()[3], event.arguments()[4].toInt());
+        start(token.arguments()[3], token.arguments()[4].toInt());
         break;
     default:;
     }
