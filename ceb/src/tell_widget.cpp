@@ -57,7 +57,7 @@ void TellWidget::init()
     m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = m_textEditOutput->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
+    palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     m_textEditOutput->setPalette(palette);
     QSizePolicy sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setVerticalStretch(1);
@@ -138,7 +138,6 @@ void TellWidget::sendText(const QString &text)
 void TellWidget::newTokenFromSession(const TokenEvent &event)
 {
     QString login;
-    bool highlight = false;
     bool youTalk = false;
     switch(event.token())
     {
@@ -149,7 +148,6 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
             return;
 
         login = m_login;
-        highlight = true;
         break;
     case Token_YouTellToSomeone:
     case Token_YouAskToSomeone:
@@ -233,9 +231,6 @@ void TellWidget::newTokenFromSession(const TokenEvent &event)
 
     if (scrollDown)
         scrollOutputToBottom();
-
-    if (highlight)
-        sendHighlightSignal(MajorHighlight);
 }
 
 void TellWidget::scrollOutputToBottom()

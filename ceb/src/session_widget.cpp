@@ -24,8 +24,7 @@
 SessionWidget::SessionWidget(Session *session, QWidget *parent) :
     QWidget(parent),
     m_session(session),
-    m_stared(false),
-    m_highlightType(NoHighlight)
+    m_stared(false)
 {
     installEventFilter(this);
 }
@@ -71,16 +70,4 @@ bool SessionWidget::eventFilter(QObject *obj, QEvent *event)
             return false;
     }
     return QObject::eventFilter(obj, event);
-}
-
-void SessionWidget::sendHighlightSignal(HighlightType value)
-{
-    m_highlightType = value;
-    emit highlightMe();
-}
-
-void SessionWidget::focusIt()
-{
-    m_highlightType = NoHighlight;
-    emit highlightMe();
 }

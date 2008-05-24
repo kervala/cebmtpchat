@@ -140,8 +140,8 @@ MainWindow::MainWindow()
     autoUpdate.checkForUpdate();
 
     animationTimer.setInterval(10);
-    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animationTimeout()));
-    animationTimer.start();
+/*    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animationTimeout()));
+      animationTimer.start();*/
 
     m_firstShow = true;
 
@@ -449,7 +449,7 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
     ChannelWidget *channelWidget = new ChannelWidget(session);
     connect(channelWidget, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
     connect(channelWidget, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
-    connect(channelWidget, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
+//    connect(channelWidget, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
     connect(channelWidget, SIGNAL(whoUserDoubleClicked(const QString&)),
             this, SLOT(whoUserDoubleClicked(const QString&)));
     connect(channelWidget, SIGNAL(tellSessionAsked(const QString&)),
@@ -935,7 +935,7 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
-    connect(w, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
+//    connect(w, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
 
     mtwMain->addWidget(session->config().name(), w, login, false);
 
@@ -947,7 +947,7 @@ void MainWindow::closeTabWidget()
     mtwMain->removeWidget(qobject_cast<QWidget*>(sender()));
 }
 
-void MainWindow::highlightSessionWidget()
+/*void MainWindow::highlightSessionWidget()
 {
     SessionWidget *widget = qobject_cast<SessionWidget*>(sender());
 
@@ -989,7 +989,7 @@ void MainWindow::highlightSessionWidget()
         mtwMain->changeTabTextColor(widget, Qt::red);
         break;
     }
-}
+    }*/
 
 CmdOutputWidget *MainWindow::getCmdOutputWidget(Session *session, const QString &cmdName)
 {
@@ -1052,7 +1052,7 @@ void MainWindow::focusedWidgetChanged(QWidget *widget)
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
     if (sessionWidget)
     {
-        sessionWidget->focusIt();
+//        sessionWidget->focusIt();
         sessionWidget->setStared(false);
         if (!Profile::instance().tabsIcons)
             mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
@@ -1189,7 +1189,7 @@ void MainWindow::updateAccepted()
     QProcess::startDetached(qobject_cast<DialogUpdate*>(sender())->fileToLaunch());
 }
 
-void MainWindow::animationTimeout()
+/*void MainWindow::animationTimeout()
 {
     static const int increment = 20;
 
@@ -1267,7 +1267,7 @@ void MainWindow::animationTimeout()
                 mtwMain->changeTabTextColor(w, currentColor);
         }
     }
-}
+    }*/
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {

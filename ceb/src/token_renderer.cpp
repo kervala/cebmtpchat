@@ -18,15 +18,16 @@
 
 #include "profile.h"
 #include "token_display.h"
-#include "token_renderer.h"
 #include "mtp_analyzer.h"
 #include "modifier.h"
 #include "render_segment.h"
 
+#include "token_renderer.h"
+
 void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
 {
-    Q_ASSERT(m_textEdit);
-    Q_ASSERT(m_session);
+    Q_ASSERT(_textEdit);
+    Q_ASSERT(_session);
 
     const TextSkin &textSkin = Profile::instance().textSkin();
 
@@ -36,7 +37,7 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     if (timeStamp)
     {
         lineStarted = true;
-        m_textEdit->addNewLine(event.timeStamp().toString("hh:mm:ss "),
+        _textEdit->addNewLine(event.timeStamp().toString("hh:mm:ss "),
                                textSkin.timeStampFont().font(),
                                textSkin.timeStampFont().color());
     }
@@ -107,15 +108,15 @@ void TokenRenderer::displayToken(const TokenEvent &event, bool timeStamp)
     }
 
     // Execute modifier
-    executeModifier(m_session, event.token(), segments);
+    executeModifier(_session, event.token(), segments);
 
     // Render all
     foreach (const RenderSegment &segment, segments)
         if (lineStarted)
-            m_textEdit->addString(segment.text(), segment.font(), segment.color());
+            _textEdit->addString(segment.text(), segment.font(), segment.color());
         else
         {
             lineStarted = true;
-            m_textEdit->addNewLine(segment.text(), segment.font(), segment.color());
+            _textEdit->addNewLine(segment.text(), segment.font(), segment.color());
         }
 }

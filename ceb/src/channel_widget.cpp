@@ -109,7 +109,7 @@ void ChannelWidget::init()
     textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = textEditOutput->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-	palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
+    palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     textEditOutput->setPalette(palette);
     sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setHorizontalStretch(1);
@@ -483,8 +483,8 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
     case Token_SomeoneDisconnects:
     case Token_SomeoneIsKicked:
     case Token_YouKickSomeone:
-        // Refresh who column
     {
+        // Refresh who column
         QListWidgetItem *item = getWhoItemByNickname(event.arguments()[1]);
         if (item)
         {
@@ -494,10 +494,10 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 
         // Who title
         labelWhoTitle->setText(QString::number(listWidgetWho->count()) + tr(" users"));
-    }
 
-    // History widget
-    historyWidget->removeCompletionWord(event.arguments()[1]);
+        // History widget
+        historyWidget->removeCompletionWord(event.arguments()[1]);
+    }
     break;
     case Token_YouJoinChannel:
     case Token_YouLeaveChannel:
@@ -581,8 +581,6 @@ void ChannelWidget::newTokenFromSession(const TokenEvent &event)
 
     if (scrollDown)
         textEditOutput->scrollOutputToBottom();
-
-    sendHighlightSignal(MinorHighlight);
 }
 
 void ChannelWidget::colorizeChatItems(const QColor &color)

@@ -338,6 +338,12 @@ int sessionSend(lua_State *l)
     return 0;
 }
 
+int getTab(lua_State *l)
+{
+    qDebug("test");
+    return 1;
+}
+
 lua_State *loadLuaScript(const QString &filePath, bool &error)
 {
     lua_State *l = lua_open();
@@ -368,6 +374,7 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
     lua_register(l, "set_segment_bold", setSegmentBold);
     lua_register(l, "get_segment_underline", getSegmentUnderline);
     lua_register(l, "set_segment_underline", setSegmentUnderline);
+    lua_register(l, "get_tab", getTab);
 
     error = false;
     return l;

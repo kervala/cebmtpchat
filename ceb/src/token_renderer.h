@@ -26,20 +26,16 @@
 class TokenRenderer
 {
 public:
-	TokenRenderer() : m_session(0), m_textEdit(0) {}
-	TokenRenderer(MyTextEdit *textEdit) : m_session(0) { m_textEdit = textEdit; }
+    TokenRenderer() : _session(0), _textEdit(0) {}
 
-	void displayToken(const TokenEvent &event, bool timeStamp = false);
+    void displayToken(const TokenEvent &event, bool timeStamp = false);
 
-	MyTextEdit *textEdit() const { return m_textEdit; }
-	void setTextEdit(MyTextEdit *value) { m_textEdit = value; }
-
-	Session *session() const { return m_session; }
-	void setSession(Session *session) { m_session = session; }
+    void setTextEdit(MyTextEdit *value) { _textEdit = value; }
+    void setSession(Session *session) { _session = session; }
 
 private:
-	Session *m_session;
-	MyTextEdit *m_textEdit;
+    Session *_session;
+    MyTextEdit *_textEdit;
 };
 
 #endif // TOKEN_RENDERER_H
