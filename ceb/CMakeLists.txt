@@ -42,7 +42,6 @@ SET(CEB_SRCS
 	src/language_manager.cpp
 	src/message_model.cpp
 	src/message_widget.cpp
-	src/message_item.cpp
 	src/my_menubar.cpp
 	src/settings_widget.cpp
 	src/sound_settings_widget.cpp

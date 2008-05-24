@@ -25,80 +25,80 @@
 
 Session::Session(QObject *parent) : QObject(parent)
 {
-    m_config = 0;
-    m_socket = 0;
+    _config = 0;
+    _socket = 0;
 }
 
 Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
 {
-    m_config = new SessionConfig(config);
-    m_serverAddress = "";
-    m_serverPort = -1;
-    m_socket = new QTcpSocket(0);
-    connect(m_socket, SIGNAL(connected()), this, SLOT(socketConnected()));
-    connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
-    connect(m_socket, SIGNAL(readyRead()), this, SLOT(readyToRead()));
-    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+    _config = new SessionConfig(config);
+    _serverAddress = "";
+    _serverPort = -1;
+    _socket = new QTcpSocket(0);
+    connect(_socket, SIGNAL(connected()), this, SLOT(socketConnected()));
+    connect(_socket, SIGNAL(connected()), this, SIGNAL(connected()));
+    connect(_socket, SIGNAL(readyRead()), this, SLOT(readyToRead()));
+    connect(_socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(manageError(QAbstractSocket::SocketError)));
-    connect(m_socket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
-    connect(m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+    connect(_socket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
+    connect(_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
 
     connect(this, SIGNAL(newData(const QString &)), &_tokenFactory, SLOT(dataReceived(const QString &)));
     connect(&_tokenFactory, SIGNAL(newToken(const Token&)), this, SLOT(tokenAnalyzed(const Token &)));
-    m_channel = "Hall";
-    m_cleanDisconnected = false;
-    m_autoAway = false;
+    _channel = "Hall";
+    _cleanDisconnected = false;
+    _autoAway = false;
 }
 
 Session::~Session()
 {
-    if (m_socket)
+    if (_socket)
     {
         stop();
-        delete m_socket;
+        delete _socket;
     }
-    if (m_config)
-        delete m_config;
+    if (_config)
+        delete _config;
 }
 
 void Session::start(const QString &address, int port)
 {
     // If already connected => disconnect it
-    if (m_socket->state() == QAbstractSocket::ConnectedState)
+    if (_socket->state() == QAbstractSocket::ConnectedState)
         stop();
     _tokenFactory.reset();
 
     // Get the next backup server
     BackupServer newBackupServer;
 
-    if (m_config->manageBackupServers())
-        newBackupServer = m_config->nextBackupServer(m_serverAddress, m_serverPort);
+    if (_config->manageBackupServers())
+        newBackupServer = _config->nextBackupServer(_serverAddress, _serverPort);
 
     if (address == "")
     {
         if (!newBackupServer.isNull())
-            m_serverAddress = newBackupServer.address();
+            _serverAddress = newBackupServer.address();
         else
-            m_serverAddress = m_config->address();
+            _serverAddress = _config->address();
     }
     else
-        m_serverAddress = address;
+        _serverAddress = address;
 
     if (port == -1)
     {
         if (!newBackupServer.isNull())
-            m_serverPort = newBackupServer.port();
+            _serverPort = newBackupServer.port();
         else
-            m_serverPort = m_config->port();
+            _serverPort = _config->port();
     }
     else
-        m_serverPort = port;
+        _serverPort = port;
 
     // Go!
-    m_socket->connectToHost(m_serverAddress, m_serverPort, QIODevice::ReadWrite);
+    _socket->connectToHost(_serverAddress, _serverPort, QIODevice::ReadWrite);
     logInfo(QObject::tr("attempt to connect..."));
     emit connecting();
-    m_cleanDisconnected = false;
+    _cleanDisconnected = false;
 }
 
 void Session::stop()
@@ -106,26 +106,26 @@ void Session::stop()
     if (isLogged())
     {
         send("quit");
-        m_socket->waitForDisconnected(1000);
+        _socket->waitForDisconnected(1000);
     }
     else
-        m_socket->disconnectFromHost();
+        _socket->disconnectFromHost();
 }
 
 void Session::send(const QString &message, bool killIdle)
 {
-    QTextCodec *codec = QTextCodec::codecForMib(m_config->encodingMib());
+    QTextCodec *codec = QTextCodec::codecForMib(_config->encodingMib());
     Q_ASSERT_X(codec, "send()", "bad codec mib!");
 
-    if (m_socket->state() != QAbstractSocket::ConnectedState)
+    if (_socket->state() != QAbstractSocket::ConnectedState)
         return;
 
     // Don't sent autoaway off only for "quit"... cannot bypass aliases :/
     QRegExp r("^quit(| (.*))$");
-    if (killIdle && m_autoAway && isLogged() && away() && !r.exactMatch(message) && !Profile::instance().matchIdleAwayBypassExpressions(message))
+    if (killIdle && _autoAway && isLogged() && away() && !r.exactMatch(message) && !Profile::instance().matchIdleAwayBypassExpressions(message))
     {
-        m_socket->write("set away off\n");
-        m_autoAway = false;
+        _socket->write("set away off\n");
+        _autoAway = false;
     }
 
     // If message is multi-lines, split it before sending
@@ -135,7 +135,7 @@ void Session::send(const QString &message, bool killIdle)
         QString toSend = msg.replace(255, QString("%1%1").arg(QChar(255))) + '\n';
 
         // Ok, encode it and send!
-        m_socket->write(codec->fromUnicode(toSend));
+        _socket->write(codec->fromUnicode(toSend));
     }
 
     if (killIdle)
@@ -144,7 +144,7 @@ void Session::send(const QString &message, bool killIdle)
 
 QRegExp Session::regExpAboutMe() const
 {
-    return QRegExp("(^|\\W)" + m_serverLogin + "(\\W|$)", Qt::CaseInsensitive);
+    return QRegExp("(^|\\W)" + _serverLogin + "(\\W|$)", Qt::CaseInsensitive);
 }
 
 void Session::socketConnected()
@@ -159,7 +159,7 @@ void Session::socketDisconnected()
 
 QString Session::logPrefix()
 {
-    return "[" + m_config->address() + ":" + QString::number(m_config->port()) + "] ";
+    return "[" + _config->address() + ":" + QString::number(_config->port()) + "] ";
 }
 
 void Session::logInfo(const QString &message)
@@ -179,18 +179,18 @@ void Session::logSuccess(const QString &message)
 
 void Session::readyToRead()
 {
-    QTextCodec *codec = QTextCodec::codecForMib(m_config->encodingMib());
+    QTextCodec *codec = QTextCodec::codecForMib(_config->encodingMib());
     Q_ASSERT_X(codec, "readyToRead()", "bad codec mib!");
 
     char buffer[1024];
     int readCount;
 
-    readCount = m_socket->readLine(buffer, 1024);
+    readCount = _socket->readLine(buffer, 1024);
     while (readCount > 0)
     {
-        m_currentLine += codec->toUnicode(buffer);
-        emit newData(m_currentLine);
-        readCount = m_socket->readLine(buffer, 1024);
+        _currentLine += codec->toUnicode(buffer);
+        emit newData(_currentLine);
+        readCount = _socket->readLine(buffer, 1024);
     }
 }
 
@@ -207,7 +207,7 @@ void Session::manageError(QAbstractSocket::SocketError error)
         str = "Connection refused by the peer.";
         break;
     default:
-        str = "Socket error: " + m_socket->errorString();
+        str = "Socket error: " + _socket->errorString();
     }
 
     logError(str);
@@ -216,7 +216,7 @@ void Session::manageError(QAbstractSocket::SocketError error)
 
 void Session::tokenAnalyzed(const Token &token)
 {
-    m_currentLine = ""; // Re-init the current line
+    _currentLine = ""; // Re-init the current line
 
     switch(token.type())
     {
@@ -224,68 +224,68 @@ void Session::tokenAnalyzed(const Token &token)
         logInfo(QString("Moving to the active server (%1:%2)...").arg(token.arguments()[3]).arg(token.arguments()[4]));
         break;
     case Token::Welcome:
-        m_serverLogin = token.arguments()[1];
-        m_channel = "Hall";
-        m_myMessages.clear();
-        m_autoAway = false;
+        _serverLogin = token.arguments()[1];
+        _channel = "Hall";
+        _myMessages.clear();
+        _autoAway = false;
         resetIdle();
         emit logged();
         break;
     case Token::YourLoginRenamed:
     {
-        QString oldLogin = m_serverLogin;
-        m_serverLogin = token.arguments()[1];
-        emit loginChanged(oldLogin, m_serverLogin);
+        QString oldLogin = _serverLogin;
+        _serverLogin = token.arguments()[1];
+        emit loginChanged(oldLogin, _serverLogin);
     }
     break;
     case Token::WhoBegin:
-        m_users.clear();
+        _users.clear();
         break;
     case Token::WhoLine:
-        m_users << token.arguments()[1];
+        _users << token.arguments()[1];
         break;
     case Token::MessageBegin:
-        m_myMessages.clear();
+        _myMessages.clear();
         break;
     case Token::MessageLine:
-        m_myMessages << MessageItem(token.arguments()[2],
+        _myMessages << MessageItem(token.arguments()[2],
                                     token.arguments()[3],
                                     token.arguments()[4]);
         break;
     case Token::NoMessage:
-        m_myMessages.clear();
+        _myMessages.clear();
         break;
     case Token::MessageReceived:
-        m_myMessages << MessageItem(QString(),
+        _myMessages << MessageItem(QString(),
                                     token.arguments()[1],
                                     token.arguments()[2]);
         break;
     case Token::AllMessagesCleared:
-        m_myMessages.clear();
+        _myMessages.clear();
         break;
     case Token::MessageCleared:
-        m_myMessages.removeAt(token.arguments()[1].toInt() - 1);
+        _myMessages.removeAt(token.arguments()[1].toInt() - 1);
         break;
     case Token::MessagesCleared:
     {
         int n1 = token.arguments()[1].toInt() - 1;
         int n2 = token.arguments()[2].toInt() - 1;
         for (int i = n1; i <= n2; i++)
-            m_myMessages.removeAt(n1);
+            _myMessages.removeAt(n1);
     }
     break;
     case Token::YouJoinChannel:
-        m_channel = token.arguments()[1];
+        _channel = token.arguments()[1];
         break;
     case Token::YouLeaveChannel:
-        m_channel = "Hall";
+        _channel = "Hall";
         break;
     case Token::YouLeave:
     case Token::YouAreKicked:
-        m_cleanDisconnected = true;
+        _cleanDisconnected = true;
         break;
     case Token::YouBack:
-        m_autoAway = false;
+        _autoAway = false;
         break;
     default:;
     }
@@ -310,38 +310,38 @@ int Session::requestTicket(TokenFactory::Command command)
 
 bool Session::isLogged() const
 {
-    return m_socket &&
-        m_socket->state() == QAbstractSocket::ConnectedState &&
+    return _socket &&
+        _socket->state() == QAbstractSocket::ConnectedState &&
         _tokenFactory.logged();
 }
 
 void Session::resetIdle()
 {
-    m_idleStart = QDateTime::currentDateTime();
+    _idleStart = QDateTime::currentDateTime();
 }
 
 void Session::resetBackupServers()
 {
-    m_serverAddress = "";
-    m_serverPort = -1;
+    _serverAddress = "";
+    _serverPort = -1;
 }
 
 void Session::activateAutoAway()
 {
-    if (m_autoAway)
+    if (_autoAway)
         return;
 
     if (away())
         return;
 
-    m_autoAway = true;
+    _autoAway = true;
     send("set away on", false);
 }
 
 void Session::deactivateAutoAway()
 {
-    if (!m_autoAway)
+    if (!_autoAway)
         return;
 
-    m_autoAway = false;
+    _autoAway = false;
 }

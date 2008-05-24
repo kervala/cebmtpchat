@@ -46,31 +46,31 @@ public:
     // If <killIdle> is false, then idle time is not reset
     void send(const QString &message, bool killIdle = true);
 
-    const SessionConfig &config() const { return *m_config; }
-    void setConfig(const SessionConfig &config) { *m_config = config; }
+    const SessionConfig &config() const { return *_config; }
+    void setConfig(const SessionConfig &config) { *_config = config; }
 
-    const QString &serverAddress() const { return m_serverAddress; }
-    quint16 serverPort() const { return m_serverPort; }
-    const QString &serverLogin() const { return m_serverLogin; }
-    void setServerLogin(const QString &newLogin) { m_serverLogin = newLogin; }
+    const QString &serverAddress() const { return _serverAddress; }
+    quint16 serverPort() const { return _serverPort; }
+    const QString &serverLogin() const { return _serverLogin; }
+    void setServerLogin(const QString &newLogin) { _serverLogin = newLogin; }
     bool away() const { return _tokenFactory.away(); }
     bool isConnected() const
-        { return m_socket && m_socket->state() == QAbstractSocket::ConnectedState; }
-    bool cleanDisconnected() const { return m_cleanDisconnected; }
+        { return _socket && _socket->state() == QAbstractSocket::ConnectedState; }
+    bool cleanDisconnected() const { return _cleanDisconnected; }
     bool isDisconnected() const
-        { return m_socket && m_socket->state() == QAbstractSocket::UnconnectedState; }
+        { return _socket && _socket->state() == QAbstractSocket::UnconnectedState; }
     bool isLogged() const;
-    const QStringList &users() const { return m_users; }
-    const QString &channel() const { return m_channel; }
+    const QStringList &users() const { return _users; }
+    const QString &channel() const { return _channel; }
     QRegExp regExpAboutMe() const;
-    const QDateTime &idleStart() const { return m_idleStart; }
-    bool autoAwayActivated() const { return m_autoAway; }
+    const QDateTime &idleStart() const { return _idleStart; }
+    bool autoAwayActivated() const { return _autoAway; }
     void activateAutoAway();
     void deactivateAutoAway();
     const QList<MessageItem> myMessages() const
-        { return m_myMessages; }
+        { return _myMessages; }
     const TokenFactory &tokenFactory() const { return _tokenFactory; }
-    QString localAddress() const { return m_socket->localAddress().toString(); }
+    QString localAddress() const { return _socket->localAddress().toString(); }
 
     int requestTicket(TokenFactory::Command command);
 
@@ -78,19 +78,19 @@ public:
     void resetBackupServers();
 
 private:
-    SessionConfig *m_config;
-    QTcpSocket *m_socket;
-    bool m_cleanDisconnected;
+    SessionConfig *_config;
+    QTcpSocket *_socket;
+    bool _cleanDisconnected;
     TokenFactory _tokenFactory;
-    QString m_currentLine;
-    QString m_serverAddress;
-    int m_serverPort;
-    QString m_serverLogin;
-    QStringList m_users;
-    QString m_channel;
-    QList<MessageItem> m_myMessages;
-    QDateTime m_idleStart;
-    bool m_autoAway; // true when away was set automatically, false when session is considered as not auto away anymore
+    QString _currentLine;
+    QString _serverAddress;
+    int _serverPort;
+    QString _serverLogin;
+    QStringList _users;
+    QString _channel;
+    QList<MessageItem> _myMessages;
+    QDateTime _idleStart;
+    bool _autoAway; // true when away was set automatically, false when session is considered as not auto away anymore
 
     QString logPrefix();
     void logInfo(const QString &message);
