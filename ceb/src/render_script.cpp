@@ -36,7 +36,7 @@ extern "C" {
 #include "token_info.h"
 #include "paths.h"
 
-#include "modifier.h"
+#include "render_script.h"
 
 class LuaScript
 {
@@ -338,12 +338,6 @@ int sessionSend(lua_State *l)
     return 0;
 }
 
-int getTab(lua_State *l)
-{
-    qDebug("test");
-    return 1;
-}
-
 lua_State *loadLuaScript(const QString &filePath, bool &error)
 {
     lua_State *l = lua_open();
@@ -356,31 +350,30 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
         return 0;
     }
 
-    lua_register(l, "get_session_info", getSessionInfo);
-    lua_register(l, "session_send", sessionSend);
-    lua_register(l, "segments_count", segmentsCount);
-    lua_register(l, "set_segments_count", setSegmentsCount);
-    lua_register(l, "get_segment_text", getSegmentText);
-    lua_register(l, "set_segment_text", setSegmentText);
-    lua_register(l, "get_segment_color", getSegmentColor);
-    lua_register(l, "set_segment_color", setSegmentColor);
-    lua_register(l, "get_segment_font", getSegmentFont);
-    lua_register(l, "set_segment_font", setSegmentFont);
-    lua_register(l, "get_segment_size", getSegmentSize);
-    lua_register(l, "set_segment_size", setSegmentSize);
-    lua_register(l, "get_segment_italic", getSegmentItalic);
-    lua_register(l, "set_segment_italic", setSegmentItalic);
-    lua_register(l, "get_segment_bold", getSegmentBold);
-    lua_register(l, "set_segment_bold", setSegmentBold);
-    lua_register(l, "get_segment_underline", getSegmentUnderline);
-    lua_register(l, "set_segment_underline", setSegmentUnderline);
-    lua_register(l, "get_tab", getTab);
+    lua_register(l, "getSessionInfo", getSessionInfo);
+    lua_register(l, "sessionSend", sessionSend);
+    lua_register(l, "segmentsCount", segmentsCount);
+    lua_register(l, "setSegmentsCount", setSegmentsCount);
+    lua_register(l, "getSegmentText", getSegmentText);
+    lua_register(l, "setSegmentText", setSegmentText);
+    lua_register(l, "getSegmentColor", getSegmentColor);
+    lua_register(l, "setSegmentColor", setSegmentColor);
+    lua_register(l, "getSegmentFont", getSegmentFont);
+    lua_register(l, "setSegmentFont", setSegmentFont);
+    lua_register(l, "getSegmentSize", getSegmentSize);
+    lua_register(l, "setSegmentSize", setSegmentSize);
+    lua_register(l, "getSegmentItalic", getSegmentItalic);
+    lua_register(l, "setSegmentItalic", setSegmentItalic);
+    lua_register(l, "getSegmentBold", getSegmentBold);
+    lua_register(l, "setSegmentBold", setSegmentBold);
+    lua_register(l, "getSegmentUnderline", getSegmentUnderline);
+    lua_register(l, "setSegmentUnderline", setSegmentUnderline);
 
     error = false;
     return l;
 }
 
-void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
+void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
 {
     if (luaScripts.find(tokenType) == luaScripts.end())
     {
@@ -439,7 +432,7 @@ void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegmen
     _segments = &segments;
 
     lua_State *l = script.l;
-    lua_getglobal(l, "Modify"); // Function to be called
+    lua_getglobal(l, "render"); // Function to be called
 
     if (lua_pcall(l, 0, 1, 0))
     {

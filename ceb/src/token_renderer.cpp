@@ -19,7 +19,7 @@
 #include "profile.h"
 #include "token_display.h"
 #include "token_factory.h"
-#include "modifier.h"
+#include "render_script.h"
 #include "render_segment.h"
 
 #include "token_renderer.h"
@@ -108,7 +108,7 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     }
 
     // Execute modifier
-    executeModifier(_session, token.type(), segments);
+    executeRenderScript(_session, token.type(), segments);
 
     // Render all
     foreach (const RenderSegment &segment, segments)

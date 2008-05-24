@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MODIFIER_H
-#define MODIFIER_H
+#ifndef RENDER_SCRIPT_H
+#define RENDER_SCRIPT_H
 
 #include <QList>
 
@@ -25,8 +25,7 @@
 #include "token.h"
 #include "render_segment.h"
 
-void openModifiers();
-void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
+void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
 void closeModifiers();
 
 #endif

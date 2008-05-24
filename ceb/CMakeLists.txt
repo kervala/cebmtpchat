@@ -54,7 +54,7 @@ SET(CEB_SRCS
 	src/token_renderer.cpp
 	src/fonts_settings_widget.cpp
 	src/render_segment.cpp
-	src/modifier.cpp
+	src/render_script.cpp
 	src/links_settings_widget.cpp
 	src/transfers_widget.cpp
 	src/transfers_manager.cpp
