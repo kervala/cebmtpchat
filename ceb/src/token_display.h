@@ -30,14 +30,14 @@
 class TokenDisplayElement
 {
 public:
-    TokenDisplayElement() : m_font(0), m_color(0) {}
-    TokenDisplayElement(const TokenDisplayElement &source) : m_font(0), m_color(0) { operator=(source); }
+    TokenDisplayElement() : _font(0), _color(0) {}
+    TokenDisplayElement(const TokenDisplayElement &source) : _font(0), _color(0) { operator=(source); }
     virtual ~TokenDisplayElement();
 
-    QFont *font() const { return m_font; }
-    QColor *color() const { return m_color; }
+    QFont *font() const { return _font; }
+    QColor *color() const { return _color; }
 
-    bool isEmpty() const { return !m_font && !m_color; }
+    bool isEmpty() const { return !_font && !_color; }
 
     void setFont(const QFont &font);
     void resetFont();
@@ -47,8 +47,8 @@ public:
     const TokenDisplayElement &operator=(const TokenDisplayElement &source);
 
 private:
-    QFont *m_font;
-    QColor *m_color;
+    QFont *_font;
+    QColor *_color;
 };
 
 class TokenDisplay
@@ -59,11 +59,11 @@ public:
 
     void setTokenType(Token::Type tokenType);
 
-    TokenDisplayElement allDisplayElement() const { return m_elements[0]; }
-    void setAllDisplayElement(const TokenDisplayElement &value) { m_elements[0] = value; }
+    TokenDisplayElement allDisplayElement() const { return _elements[0]; }
+    void setAllDisplayElement(const TokenDisplayElement &value) { _elements[0] = value; }
 
-    QList<TokenDisplayElement> &elements() { return m_elements; }
-    const QList<TokenDisplayElement> &elements() const { return m_elements; }
+    QList<TokenDisplayElement> &elements() { return _elements; }
+    const QList<TokenDisplayElement> &elements() const { return _elements; }
 
     bool isEmpty() const;
 
@@ -71,19 +71,19 @@ private:
     static const TokenFactory _tokenFactory;
 
     Token::Type _tokenType;
-    QList<TokenDisplayElement> m_elements;
+    QList<TokenDisplayElement> _elements;
 };
 
 class TextSkin
 {
 public:
-    TextSkin() : m_isDefaultSkin(false),
-                 m_backgroundColor(0),
-                 m_awayBackgroundColor(0) { init(); }
+    TextSkin() : _isDefaultSkin(false),
+                 _backgroundColor(0),
+                 _awayBackgroundColor(0) { init(); }
     TextSkin(const TextSkin &source) { operator=(source); }
     virtual ~TextSkin();
 
-    static const TextSkin &defaultSkin() { return *m_defaultSkin; }
+    static const TextSkin &defaultSkin() { return *_defaultSkin; }
 
     static void createDefaultSkin();
 
@@ -95,57 +95,57 @@ public:
     class MtpFont
     {
     public:
-        MtpFont() : m_defaultFont(0), m_font(0), m_color(0) {}
+        MtpFont() : _defaultFont(0), _font(0), _color(0) {}
         MtpFont(const MtpFont &source) { operator=(source); }
 
-        void setDefaultFont(const MtpFont *value) { m_defaultFont = value; }
+        void setDefaultFont(const MtpFont *value) { _defaultFont = value; }
 
-        bool isForcedFont() const { return m_font; }
-        QFont font() const { if (m_font) return *m_font; else return *(m_defaultFont->m_font); }
-        void setFont(const QFont &value) { if (!m_font) m_font = new QFont;	*m_font = value; }
-        void resetFont() { if (!m_font) return;	delete m_font; m_font = 0; }
+        bool isForcedFont() const { return _font; }
+        QFont font() const { if (_font) return *_font; else return *(_defaultFont->_font); }
+        void setFont(const QFont &value) { if (!_font) _font = new QFont;	*_font = value; }
+        void resetFont() { if (!_font) return;	delete _font; _font = 0; }
 
-        bool isForcedColor() const { return m_color; }
-        QColor color() const { if (m_color) return *m_color; else return *(m_defaultFont->m_color); }
-        void setColor(const QColor &value) { if (!m_color) m_color = new QColor; *m_color = value; }
-        void resetColor() { if (!m_color) return; delete m_color; m_color = 0; }
+        bool isForcedColor() const { return _color; }
+        QColor color() const { if (_color) return *_color; else return *(_defaultFont->_color); }
+        void setColor(const QColor &value) { if (!_color) _color = new QColor; *_color = value; }
+        void resetColor() { if (!_color) return; delete _color; _color = 0; }
 
         const MtpFont &operator=(const MtpFont &source)
             {
-                if (source.m_defaultFont)
-                    m_defaultFont = source.m_defaultFont;
+                if (source._defaultFont)
+                    _defaultFont = source._defaultFont;
                 resetFont();
-                if (source.m_font)
-                    m_font = new QFont(*source.m_font);
+                if (source._font)
+                    _font = new QFont(*source._font);
                 resetColor();
-                if (source.m_color)
-                    m_color = new QColor(*source.m_color);
+                if (source._color)
+                    _color = new QColor(*source._color);
                 return *this;
             }
 
     private:
-        const MtpFont *m_defaultFont;
-        QFont *m_font;
-        QColor *m_color;
+        const MtpFont *_defaultFont;
+        QFont *_font;
+        QColor *_color;
     };
 
-    MtpFont &textFont() { return m_textFont; }
-    const MtpFont &textFont() const { return m_textFont; }
-    MtpFont &inputTextFont() { return m_inputTextFont; }
-    const MtpFont &inputTextFont() const { return m_inputTextFont; }
-    MtpFont &whoTextFont() { return m_whoTextFont; }
-    const MtpFont &whoTextFont() const { return m_whoTextFont; }
-    MtpFont &topicTextFont() { return m_topicTextFont; }
-    const MtpFont &topicTextFont() const { return m_topicTextFont; }
-    MtpFont &timeStampFont() { return m_timeStampFont; }
-    const MtpFont &timeStampFont() const { return m_timeStampFont; }
+    MtpFont &textFont() { return _textFont; }
+    const MtpFont &textFont() const { return _textFont; }
+    MtpFont &inputTextFont() { return _inputTextFont; }
+    const MtpFont &inputTextFont() const { return _inputTextFont; }
+    MtpFont &whoTextFont() { return _whoTextFont; }
+    const MtpFont &whoTextFont() const { return _whoTextFont; }
+    MtpFont &topicTextFont() { return _topicTextFont; }
+    const MtpFont &topicTextFont() const { return _topicTextFont; }
+    MtpFont &timeStampFont() { return _timeStampFont; }
+    const MtpFont &timeStampFont() const { return _timeStampFont; }
 
-    bool isForcedBackgroundColor() const { return m_backgroundColor; }
+    bool isForcedBackgroundColor() const { return _backgroundColor; }
     QColor backgroundColor() const;
     void setBackgroundColor(const QColor &value);
     void resetBackgroundColor();
 
-    bool isForcedAwayBackgroundColor() const { return m_awayBackgroundColor; }
+    bool isForcedAwayBackgroundColor() const { return _awayBackgroundColor; }
     QColor awayBackgroundColor() const;
     void setAwayBackgroundColor(const QColor &value);
     void resetAwayBackgroundColor();
@@ -165,23 +165,23 @@ public:
     const TextSkin &operator=(const TextSkin &source);
 
 private:
-    TextSkin(bool isDefaultSkin) : m_isDefaultSkin(isDefaultSkin),
-                                   m_backgroundColor(0),
-                                   m_awayBackgroundColor(0) { init(); }
+    TextSkin(bool isDefaultSkin) : _isDefaultSkin(isDefaultSkin),
+                                   _backgroundColor(0),
+                                   _awayBackgroundColor(0) { init(); }
 
-    bool m_isDefaultSkin;
-    MtpFont m_textFont;
-    MtpFont m_inputTextFont;
-    MtpFont m_whoTextFont;
-    MtpFont m_topicTextFont;
-    MtpFont m_timeStampFont;
+    bool _isDefaultSkin;
+    MtpFont _textFont;
+    MtpFont _inputTextFont;
+    MtpFont _whoTextFont;
+    MtpFont _topicTextFont;
+    MtpFont _timeStampFont;
 
-    QColor *m_backgroundColor;
-    QColor *m_awayBackgroundColor;
+    QColor *_backgroundColor;
+    QColor *_awayBackgroundColor;
 
-    QMap<Token::Type, TokenDisplay> m_tokenDisplays;
+    QMap<Token::Type, TokenDisplay> _tokenDisplays;
 
-    static TextSkin *m_defaultSkin;
+    static TextSkin *_defaultSkin;
 
     void init();
     void writeMtpFont(QDomElement &root, const QString &arg, const MtpFont &font) const;
