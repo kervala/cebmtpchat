@@ -30,7 +30,7 @@ SET(CEB_SRCS
 	src/session_manager.cpp
 	src/session_config_widget.cpp
 	src/dialog_session_config.cpp
-	src/mtp_token_info.cpp
+	src/token_info.cpp
 	src/mtp_analyzer.cpp
 	src/my_textedit.cpp
 	src/token.cpp

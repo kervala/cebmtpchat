@@ -33,7 +33,7 @@ extern "C" {
 #endif
 }
 
-#include "mtp_token_info.h"
+#include "token_info.h"
 #include "paths.h"
 
 #include "modifier.h"
@@ -387,7 +387,7 @@ void executeModifier(Session *session, Token::Type tokenType, QList<RenderSegmen
         // File exists now?
         QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
         QString fileName = modifiersDir.filePath(
-            MtpTokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
+            TokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
         if (QFile(fileName).exists())
         {
             bool error;

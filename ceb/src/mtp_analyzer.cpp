@@ -20,7 +20,8 @@
 #include <QStringList>
 #include <QMessageBox>
 
-#include "mtp_token_info.h"
+#include "token_info.h"
+
 #include "mtp_analyzer.h"
 
 #define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]{0,7}"

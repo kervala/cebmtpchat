@@ -19,7 +19,8 @@
 #include <xml_handler.h>
 
 #include "mtp_analyzer.h"
-#include "mtp_token_info.h"
+#include "token_info.h"
+
 #include "token_display.h"
 
 TokenDisplayElement::~TokenDisplayElement()
@@ -362,7 +363,7 @@ void TextSkin::load(const QDomElement &root)
     while (!tokenDisplayElem.isNull())
     {
         // "token" attribute
-        Token::Type tokenType = MtpTokenInfo::IDStringToToken(tokenDisplayElem.attribute("token"));
+        Token::Type tokenType = TokenInfo::IDStringToToken(tokenDisplayElem.attribute("token"));
 
         // Create a token display
         TokenDisplay tokenDisplay(tokenType);
@@ -440,7 +441,7 @@ void TextSkin::save(QDomElement &root) const
         TokenDisplay tokenDisplay = m_tokenDisplays[tokenType];
         QDomElement tokenDisplayElem = doc.createElement("token_display");
         tokenDisplaysElem.appendChild(tokenDisplayElem);
-        tokenDisplayElem.setAttribute("token", MtpTokenInfo::tokenToIDString(tokenType));
+        tokenDisplayElem.setAttribute("token", TokenInfo::tokenToIDString(tokenType));
 
         // Main line
         if (!tokenDisplay.allDisplayElement().isEmpty())

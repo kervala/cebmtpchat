@@ -21,9 +21,9 @@
 #include <QColorDialog>
 
 #include "profile.h"
-#include "mtp_token_info.h"
+#include "token_info.h"
+
 #include "detailed_fonts_settings_widget.h"
-#include "mtp_token_info.h"
 
 DetailedFontsSettingsWidget::DetailedFontsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
@@ -38,7 +38,7 @@ DetailedFontsSettingsWidget::DetailedFontsSettingsWidget(QWidget *parent) : Sett
     // Fill nodes
     for (int i = 0; i < Token::End; ++i)
     {
-        QListWidgetItem *newItem = new QListWidgetItem(MtpTokenInfo::tokenToDisplayString((Token::Type) i));
+        QListWidgetItem *newItem = new QListWidgetItem(TokenInfo::tokenToDisplayString((Token::Type) i));
         QFont font = newItem->font();
         if (Profile::instance().textSkin().isForcedToken((Token::Type) i))
         {

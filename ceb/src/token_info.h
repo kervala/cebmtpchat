@@ -16,19 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MTP_TOKEN_INFO_H
-#define MTP_TOKEN_INFO_H
+#ifndef TOKEN_INFO_H
+#define TOKEN_INFO_H
 
 #include <QString>
 
 #include "token.h"
 
-class MtpTokenInfo
+namespace TokenInfo
 {
-public:
-    static QString tokenToIDString(Token::Type token);
-    static Token::Type IDStringToToken(const QString &ID);
-    static QString tokenToDisplayString(Token::Type token);
+    QString tokenToIDString(Token::Type token);
+    Token::Type IDStringToToken(const QString &ID);
+    QString tokenToDisplayString(Token::Type token);
 };
 
 #endif

@@ -29,7 +29,7 @@
 
 #include "version.h"
 #include "profile.h"
-#include "mtp_token_info.h"
+#include "token_info.h"
 #include "lua_utils.h"
 #include "transfers_manager.h"
 #include "paths.h"

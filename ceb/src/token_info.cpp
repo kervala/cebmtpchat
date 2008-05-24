@@ -18,9 +18,9 @@
 
 #include <QObject>
 
-#include "mtp_token_info.h"
+#include "token_info.h"
 
-QString MtpTokenInfo::tokenToIDString(Token::Type token)
+QString TokenInfo::tokenToIDString(Token::Type token)
 {
     switch (token)
     {
@@ -122,7 +122,7 @@ QString MtpTokenInfo::tokenToIDString(Token::Type token)
     }
 }
 
-Token::Type MtpTokenInfo::IDStringToToken(const QString &ID)
+Token::Type TokenInfo::IDStringToToken(const QString &ID)
 {
     for (int i = 0; i < Token::End; ++i)
         if (tokenToIDString((Token::Type) i).toUpper() == ID.toUpper())
@@ -130,7 +130,7 @@ Token::Type MtpTokenInfo::IDStringToToken(const QString &ID)
     return Token::Unknown;
 }
 
-QString MtpTokenInfo::tokenToDisplayString(Token::Type token)
+QString TokenInfo::tokenToDisplayString(Token::Type token)
 {
     switch (token)
     {
