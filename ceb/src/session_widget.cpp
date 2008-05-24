@@ -23,15 +23,15 @@
 
 SessionWidget::SessionWidget(Session *session, QWidget *parent) :
     QWidget(parent),
-    m_session(session),
-    m_stared(false)
+    _session(session),
+    _stared(false)
 {
     installEventFilter(this);
 }
 
 QString SessionWidget::caption() const
 {
-    if (m_stared)
+    if (_stared)
         return widgetCaption() + " *";
     return widgetCaption();
 }

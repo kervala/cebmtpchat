@@ -30,20 +30,21 @@ class SessionWidget : public QWidget
 public:
     SessionWidget(Session *session, QWidget *parent = 0);
 
-    Session *session() { return m_session; }
+    Session *session() { return _session; }
 
     QString caption() const;
 
-    bool stared() const { return m_stared; }
-    void setStared(bool stared) { m_stared = stared; }
+    bool stared() const { return _stared; }
+    void setStared(bool stared) { _stared = stared; }
 
     virtual void applyFirstShow() {}
 
     virtual void search() {} // Activate the search widget (in ChannelWidget and TellWidget for instance)
 
 protected:
-    Session *m_session;
-    bool m_stared;
+    Session *_session;
+    bool _stared;
+
     virtual QString widgetCaption() const = 0;
 
     bool eventFilter(QObject *obj, QEvent *event); // catch some events

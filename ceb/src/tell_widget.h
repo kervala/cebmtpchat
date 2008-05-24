@@ -60,14 +60,14 @@ private:
     static const int chatBlockYou = 1;
     static const int chatBlockHim = 2;
 
-    bool m_firstShow;
-    QString m_login;
-    MyTextEdit *m_textEditOutput;
-    HistoryWidget *m_historyWidget;
-    bool m_userAway;
-    QComboBox *comboBoxFilter;
-    TokenRenderer m_tokenRenderer;
-    int m_chatBlock;
+    bool _firstShow;
+    QString _login;
+    MyTextEdit *_textEditOutput;
+    HistoryWidget *_historyWidget;
+    bool _userAway;
+    QComboBox *_comboBoxFilter;
+    TokenRenderer _tokenRenderer;
+    int _chatBlock;
     SearchWidget *_searchWidget;
 
     void init();

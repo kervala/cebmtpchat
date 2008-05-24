@@ -29,17 +29,17 @@ MessageWidget::MessageWidget(Session *session, QWidget *parent) : SessionWidget(
 {
     init();
 
-    connect(m_session, SIGNAL(newToken(const Token&)),
+    connect(_session, SIGNAL(newToken(const Token&)),
             this, SLOT(newTokenFromSession(const Token&)));
 
-    m_firstShow = true;
+    _firstShow = true;
 }
 
 void MessageWidget::showEvent(QShowEvent *)
 {
-    if (m_firstShow)
+    if (_firstShow)
     {
-        m_firstShow = false;
+        _firstShow = false;
         focusLastItem();
     }
 }
@@ -49,7 +49,7 @@ void MessageWidget::init()
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(2);
 
-    splitterMain = new QSplitter;
+    QSplitter *splitterMain = new QSplitter;
     mainLayout->addWidget(splitterMain);
     splitterMain->setOrientation(Qt::Vertical);
 
@@ -67,34 +67,33 @@ void MessageWidget::init()
     FilterWidget *filterWidget = new FilterWidget;
     messagesLayout->addWidget(filterWidget);
 
-    treeViewMessages = new QTreeView;
+    _treeViewMessages = new QTreeView;
+    messagesLayout->addWidget(_treeViewMessages);
+    _sortModel = new GenericSortModel(this);
+    _sortModel->setSourceModel(_messageModel = new MessageModel(_session->myMessages()));
+    _treeViewMessages->setModel(_sortModel);
+    filterWidget->setTreeView(_treeViewMessages);
+    _treeViewMessages->setRootIsDecorated(false);
+    _treeViewMessages->setAlternatingRowColors(true);
+    _treeViewMessages->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    _treeViewMessages->header()->setSortIndicatorShown(true);
+    _treeViewMessages->header()->setClickable(true);
+    _treeViewMessages->header()->setStretchLastSection(false);
+    _treeViewMessages->resizeColumnToContents(0);
+    _treeViewMessages->resizeColumnToContents(2);
+    _treeViewMessages->resizeColumnToContents(3);
+    _treeViewMessages->header()->resizeSection(1, 400);
+    _treeViewMessages->header()->setSortIndicator(0, Qt::DescendingOrder);
+    _sortModel->sort(0, Qt::DescendingOrder);
 
-    messagesLayout->addWidget(treeViewMessages);
-    m_sortModel = new GenericSortModel(this);
-    m_sortModel->setSourceModel(messageModel = new MessageModel(m_session->myMessages()));
-    treeViewMessages->setModel(m_sortModel);
-    filterWidget->setTreeView(treeViewMessages);
-    treeViewMessages->setRootIsDecorated(false);
-    treeViewMessages->setAlternatingRowColors(true);
-    treeViewMessages->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    treeViewMessages->header()->setSortIndicatorShown(true);
-    treeViewMessages->header()->setClickable(true);
-    treeViewMessages->header()->setStretchLastSection(false);
-    treeViewMessages->resizeColumnToContents(0);
-    treeViewMessages->resizeColumnToContents(2);
-    treeViewMessages->resizeColumnToContents(3);
-    treeViewMessages->header()->resizeSection(1, 400);
-    treeViewMessages->header()->setSortIndicator(0, Qt::DescendingOrder);
-    m_sortModel->sort(0, Qt::DescendingOrder);
-
-    connect(treeViewMessages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
+    connect(_treeViewMessages->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(currentMessageChanged(const QModelIndex &, const QModelIndex &)));
 
     QHBoxLayout *bottomLayout = new QHBoxLayout;
     bottomLayout->setMargin(0);
     messagesLayout->addLayout(bottomLayout);
 
-    pushButtonRefresh = new QPushButton(tr("&Refresh"));
+    QPushButton *pushButtonRefresh = new QPushButton(tr("&Refresh"));
     connect(pushButtonRefresh, SIGNAL(clicked()), this, SLOT(refreshMessages()));
     bottomLayout->addWidget(pushButtonRefresh);
 
@@ -102,14 +101,14 @@ void MessageWidget::init()
                                           QSizePolicy::Fixed);
     bottomLayout->addItem(spacer);
 
-    pushButtonRemove = new QPushButton(tr("Re&move"));
+    QPushButton *pushButtonRemove = new QPushButton(tr("Re&move"));
     pushButtonRemove->setIcon(QIcon(":/images/remove.png"));
     bottomLayout->addWidget(pushButtonRemove);
     connect(pushButtonRemove, SIGNAL(clicked()), this, SLOT(removeSelectedMessage()));
 
-    textEditMessage = new MyTextEdit;
-    textEditMessage->setReadOnly(true);
-    splitterMain->addWidget(textEditMessage);
+    _textEditMessage = new MyTextEdit;
+    _textEditMessage->setReadOnly(true);
+    splitterMain->addWidget(_textEditMessage);
     splitterMain->setCollapsible(0, false);
     splitterMain->setCollapsible(1, false);
 
@@ -121,23 +120,23 @@ void MessageWidget::init()
 
 void MessageWidget::currentMessageChanged(const QModelIndex & current, const QModelIndex &)
 {
-    textEditMessage->clear();
-    QModelIndex currentSource = m_sortModel->mapToSource(current);
-    const MessageItem &message = messageModel->myMessages()[currentSource.row()];
-    textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));
+    _textEditMessage->clear();
+    QModelIndex currentSource = _sortModel->mapToSource(current);
+    const MessageItem &message = _messageModel->myMessages()[currentSource.row()];
+    _textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));
 }
 
 void MessageWidget::removeSelectedMessage()
 {
-    if (!m_session->isLogged())
+    if (!_session->isLogged())
         return;
 
     // Get all selected ID
-    QModelIndexList list = treeViewMessages->selectionModel()->selectedIndexes();
+    QModelIndexList list = _treeViewMessages->selectionModel()->selectedIndexes();
     QList<int> indexes;
     foreach (const QModelIndex &index, list)
     {
-        QModelIndex sourceIndex = m_sortModel->mapToSource(index);
+        QModelIndex sourceIndex = _sortModel->mapToSource(index);
         int i = sourceIndex.row();
         if (indexes.indexOf(i) < 0)
             indexes << i;
@@ -159,10 +158,10 @@ void MessageWidget::removeSelectedMessage()
         {
             // Remove the old range
             if (pred == low) // Single
-                m_session->send("clearmsg " + QString::number(low + 1 - offset));
+                _session->send("clearmsg " + QString::number(low + 1 - offset));
             else // Range
-                m_session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
-                                QString::number(pred + 1 - offset));
+                _session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
+                               QString::number(pred + 1 - offset));
             offset += pred - low + 1;
             low = indexes[i];
             pred = low;
@@ -170,10 +169,10 @@ void MessageWidget::removeSelectedMessage()
     }
     // Remove the old range
     if (pred == low) // Single
-        m_session->send("clearmsg " + QString::number(low + 1 - offset));
+        _session->send("clearmsg " + QString::number(low + 1 - offset));
     else // Range
-        m_session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
-			QString::number(pred + 1 - offset));
+        _session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
+                       QString::number(pred + 1 - offset));
 }
 
 void MessageWidget::newTokenFromSession(const Token &token)
@@ -186,8 +185,8 @@ void MessageWidget::newTokenFromSession(const Token &token)
     case Token::AllMessagesCleared:
     case Token::MessageCleared:
     case Token::MessagesCleared:
-        messageModel->setMyMessages(m_session->myMessages());
-        messageModel->refreshDatas();
+        _messageModel->setMyMessages(_session->myMessages());
+        _messageModel->refreshDatas();
         if (token.type() == Token::MessageEnd)
             focusLastItem();
         break;
@@ -197,11 +196,11 @@ void MessageWidget::newTokenFromSession(const Token &token)
 
 void MessageWidget::refreshMessages()
 {
-    if (!m_session->isLogged())
+    if (!_session->isLogged())
         return;
 
-    m_session->requestTicket(TokenFactory::Command_ShowMsg);
-    m_session->send("showmsg");
+    _session->requestTicket(TokenFactory::Command_ShowMsg);
+    _session->send("showmsg");
 }
 
 QString MessageWidget::widgetCaption() const
@@ -211,12 +210,12 @@ QString MessageWidget::widgetCaption() const
 
 void MessageWidget::focusLastItem()
 {
-    if (m_sortModel->rowCount())
+    if (_sortModel->rowCount())
     {
-        QModelIndex lastIndex = m_sortModel->mapFromSource(messageModel->index(messageModel->rowCount() - 1, 0));
+        QModelIndex lastIndex = _sortModel->mapFromSource(_messageModel->index(_messageModel->rowCount() - 1, 0));
 
-        treeViewMessages->selectionModel()->select(lastIndex,
-                                                   QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-        treeViewMessages->setCurrentIndex(lastIndex);
+        _treeViewMessages->selectionModel()->select(lastIndex,
+                                                    QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+        _treeViewMessages->setCurrentIndex(lastIndex);
     }
 }

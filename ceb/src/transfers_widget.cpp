@@ -56,7 +56,7 @@ void TransfersWidget::createTransfersWidgets()
     _widgetsLayout->setSpacing(0);
     mainAreaLayout->addLayout(_widgetsLayout);
 
-    foreach (Transfer *transfer, TransfersManager::instance().getTransfers(m_session))
+    foreach (Transfer *transfer, TransfersManager::instance().getTransfers(_session))
     {
         QWidget *newWidget = createTransferWidget(transfer);
         _widgetsLayout->addWidget(newWidget);
@@ -75,12 +75,12 @@ void TransfersWidget::createTransfersWidgets()
     QPushButton *cleanButton = new QPushButton(tr("Clean all finished transfers"));
     bottomLayout->addWidget(cleanButton);
     connect(cleanButton, SIGNAL(clicked()),
-            this, SLOT(cleanFinishedTransfers()));	
+            this, SLOT(cleanFinishedTransfers()));
 }
 
 void TransfersWidget::transferAdded(Transfer *transfer)
 {
-    if (transfer->session() != m_session)
+    if (transfer->session() != _session)
         return;
 
     QWidget *newWidget = createTransferWidget(transfer);
@@ -104,7 +104,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
     {
         QHBoxLayout *layout = new QHBoxLayout(widget);
         layout->setMargin(2);
-		
+
         switch (transfer->state())
         {
         case Transfer::Initiated:
@@ -116,11 +116,11 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             QLabel *label = new QLabel(transfer->nickName() + " wants to send you:");
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
-            labelLayout->addWidget(fileLabel);		
-		
+            labelLayout->addWidget(fileLabel);
+
             QSpacerItem *spacerItem = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed);
             layout->addItem(spacerItem);
-		
+
             TransferPushButton *pushButtonAccept = new TransferPushButton(tr("Accept"), transfer);
             layout->addWidget(pushButtonAccept);
             connect(pushButtonAccept, SIGNAL(clicked()),
@@ -129,7 +129,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             layout->addWidget(pushButtonRefuse);
             connect(pushButtonRefuse, SIGNAL(clicked()),
                     this, SLOT(refuseFile()));
-        }		
+        }
         break;
         case Transfer::Refused:
         {
@@ -144,7 +144,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
             fileLabel->setPalette(palette);
-            labelLayout->addWidget(fileLabel);		
+            labelLayout->addWidget(fileLabel);
         }
         break;
         case Transfer::Canceled:
@@ -160,7 +160,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
             fileLabel->setPalette(palette);
-            labelLayout->addWidget(fileLabel);		
+            labelLayout->addWidget(fileLabel);
         }
         break;
         case Transfer::Accepted:
@@ -173,7 +173,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
 
             QLabel *label = new QLabel("Downloading <b>" + transfer->baseFileName() + "</b> from <b>" + transfer->nickName() + "</b>");
             leftLayout->addWidget(label);
-			
+
             QProgressBar *progressBar = new QProgressBar;
             leftLayout->addWidget(progressBar);
 
@@ -183,7 +183,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             // Right (buttons)
             QVBoxLayout *rightLayout = new QVBoxLayout;
             rightLayout->setMargin(0);
-            rightLayout->setSpacing(6);			
+            rightLayout->setSpacing(6);
             layout->addLayout(rightLayout);
             QPushButton *pushButtonPause = new QPushButton(tr("Pause"));
             rightLayout->addWidget(pushButtonPause);
@@ -203,7 +203,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
         switch (transfer->state())
         {
         case Transfer::Initiated:
-        {		
+        {
             QVBoxLayout *labelLayout = new QVBoxLayout;
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
@@ -211,11 +211,11 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             QLabel *label = new QLabel("You want to send to " + transfer->nickName() + ":");
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
-            labelLayout->addWidget(fileLabel);		
-		
+            labelLayout->addWidget(fileLabel);
+
             QSpacerItem *spacerItem = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed);
             layout->addItem(spacerItem);
-	
+
             TransferPushButton *pushButtonCancel = new TransferPushButton(tr("Cancel"), transfer);
             layout->addWidget(pushButtonCancel);
             connect(pushButtonCancel, SIGNAL(clicked()),
@@ -264,7 +264,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
 
             QLabel *label = new QLabel("Uploading <b>" + transfer->baseFileName() + "</b> to <b>" + transfer->nickName() + "</b>");
             leftLayout->addWidget(label);
-			
+
             QProgressBar *progressBar = new QProgressBar;
             leftLayout->addWidget(progressBar);
 
@@ -274,7 +274,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             // Right (buttons)
             QVBoxLayout *rightLayout = new QVBoxLayout;
             rightLayout->setMargin(0);
-            rightLayout->setSpacing(6);			
+            rightLayout->setSpacing(6);
             layout->addLayout(rightLayout);
             QPushButton *pushButtonPause = new QPushButton(tr("Pause"));
             rightLayout->addWidget(pushButtonPause);
@@ -302,14 +302,14 @@ QWidget *TransfersWidget::getWidget(Transfer *transfer)
             return widget;
         else if (widget)
             qDebug("PAS GLOP: %d", widget->transfer());
-		
+
     }
     return 0;
 }
 
 void TransfersWidget::transferStateChanged(Transfer *transfer)
 {
-    if (transfer->session() != m_session)
+    if (transfer->session() != _session)
         return;
 
     TransferWidget *widget = qobject_cast<TransferWidget*>(getWidget(transfer));
@@ -355,17 +355,15 @@ void TransfersWidget::acceptFile()
 
 void TransfersWidget::refuseFile()
 {
-    TransfersManager::instance().refuse(
-        qobject_cast<TransferPushButton*>(sender())->transfer());
+    TransfersManager::instance().refuse(qobject_cast<TransferPushButton*>(sender())->transfer());
 }
 
 void TransfersWidget::cancelFile()
 {
-    TransfersManager::instance().cancel(
-        qobject_cast<TransferPushButton*>(sender())->transfer());
+    TransfersManager::instance().cancel(qobject_cast<TransferPushButton*>(sender())->transfer());
 }
 
 void TransfersWidget::cleanFinishedTransfers()
 {
-    TransfersManager::instance().cleanUpFinishedTransfers(m_session);
+    TransfersManager::instance().cleanUpFinishedTransfers(_session);
 }

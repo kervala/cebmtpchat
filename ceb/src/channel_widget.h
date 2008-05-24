@@ -61,32 +61,31 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    QWidget *widgetTopic;
-    QLineEdit *lineEditTopic;
-    QSplitter *splitterOutIn;
-    QSplitter *splitterOutWho;
-    MyTextEdit *textEditOutput;
+    QWidget *_widgetTopic;
+    QLineEdit *_lineEditTopic;
+    QSplitter *_splitterOutIn;
+    QSplitter *_splitterOutWho;
+    MyTextEdit *_textEditOutput;
     SearchWidget *_searchWidget;
-    QLabel *labelWhoTitle;
-    QListWidget *listWidgetWho;
-    QStackedWidget *stackedWidgetEntry;
-    ChatLineWidget *lineEditWidget;
-    HistoryWidget *historyWidget;
-    QComboBox *comboBoxFilter;
-    TokenRenderer m_tokenRenderer;
-
-    int whoTicketID;
-    int dateTicketID;
-    int setClientTicketID;
-    int helpTicketID;
-    QTimer timerKeepAlive;
-    QTimer timerWhoBlinking;
-    QMap<QString,int> userToWhoBlinkTime;
-    QMap<QString,bool> userToWhoAscendingOrder;
-    QRegExp regExpAboutMe;
-    bool firstShow;
-    QList<BackupServer> m_backupServers;
-    bool m_backupServersHelp; // Is true if the current help is about serverlist
+    QLabel *_labelWhoTitle;
+    QListWidget *_listWidgetWho;
+    QStackedWidget *_stackedWidgetEntry;
+    ChatLineWidget *_lineEditWidget;
+    HistoryWidget *_historyWidget;
+    QComboBox *_comboBoxFilter;
+    TokenRenderer _tokenRenderer;
+    int _whoTicketID;
+    int _dateTicketID;
+    int _setClientTicketID;
+    int _helpTicketID;
+    QTimer _timerKeepAlive;
+    QTimer _timerWhoBlinking;
+    QMap<QString,int> _userToWhoBlinkTime;
+    QMap<QString,bool> _userToWhoAscendingOrder;
+    QRegExp _regExpAboutMe;
+    bool _firstShow;
+    QList<BackupServer> _backupServers;
+    bool _backupServersHelp; // Is true if the current help is about serverlist
 
     void init();
     QListWidgetItem *getWhoItemByNickname(const QString &nickname);

@@ -48,25 +48,25 @@ void TellWidget::init()
     outputLayout->setMargin(0);
     splitterOutIn->addWidget(outputWidget);
 
-    m_textEditOutput = new MyTextEdit;
-    outputLayout->addWidget(m_textEditOutput);
-    m_tokenRenderer.setTextEdit(m_textEditOutput);
-    m_tokenRenderer.setSession(m_session);
-    m_textEditOutput->setAllowFilters(true);
-    m_textEditOutput->setReadOnly(true);
-    m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    palette = m_textEditOutput->palette();
+    _textEditOutput = new MyTextEdit;
+    outputLayout->addWidget(_textEditOutput);
+    _tokenRenderer.setTextEdit(_textEditOutput);
+    _tokenRenderer.setSession(_session);
+    _textEditOutput->setAllowFilters(true);
+    _textEditOutput->setReadOnly(true);
+    _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    palette = _textEditOutput->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
-    m_textEditOutput->setPalette(palette);
+    _textEditOutput->setPalette(palette);
     QSizePolicy sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setVerticalStretch(1);
     outputWidget->setSizePolicy(sizePolicy);
-    connect(m_textEditOutput, SIGNAL(myKeyPressed(const QKeyEvent &)),
+    connect(_textEditOutput, SIGNAL(myKeyPressed(const QKeyEvent &)),
             this, SLOT(outputKeyPressed(const QKeyEvent &)));
     splitterOutIn->addWidget(outputWidget);
-//	m_textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
-    connect(m_textEditOutput, SIGNAL(sendToChat(const QString &)),
+//	_textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
+    connect(_textEditOutput, SIGNAL(sendToChat(const QString &)),
             this, SLOT(outputFilterSendToChat(const QString &)));
 
     // Search widget
@@ -74,7 +74,7 @@ void TellWidget::init()
     outputLayout->addWidget(_searchWidget);
     connect(_searchWidget, SIGNAL(hideMe()), this, SLOT(hideSearchWidget()));
     _searchWidget->setVisible(false);
-    _searchWidget->setTextWidget(m_textEditOutput);
+    _searchWidget->setTextWidget(_textEditOutput);
 
     // Bottom input
     QWidget *inputWidget = new QWidget;
@@ -83,56 +83,53 @@ void TellWidget::init()
     inputLayout->setMargin(0);
 
     // Main input
-    m_historyWidget = new HistoryWidget;
-    m_historyWidget->setMinimumHeight(20);
-    palette = m_historyWidget->palette();
+    _historyWidget = new HistoryWidget;
+    _historyWidget->setMinimumHeight(20);
+    palette = _historyWidget->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    m_historyWidget->setPalette(palette);
-    m_historyWidget->setFont(textSkin.inputTextFont().font());
-    connect(m_historyWidget, SIGNAL(textValidated(const QString &)),
+    _historyWidget->setPalette(palette);
+    _historyWidget->setFont(textSkin.inputTextFont().font());
+    connect(_historyWidget, SIGNAL(textValidated(const QString &)),
             this, SLOT(sendText(const QString &)));
-    connect(m_historyWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
-    connect(m_historyWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
-    inputLayout->addWidget(m_historyWidget);
+    connect(_historyWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
+    connect(_historyWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
+    inputLayout->addWidget(_historyWidget);
 
     // Filter combobox
-    comboBoxFilter = new QComboBox;
-    connect(comboBoxFilter, SIGNAL(activated(int)), this, SLOT(filterActivated(int)));
-    inputLayout->addWidget(comboBoxFilter);
+    _comboBoxFilter = new QComboBox;
+    connect(_comboBoxFilter, SIGNAL(activated(int)), this, SLOT(filterActivated(int)));
+    inputLayout->addWidget(_comboBoxFilter);
 
     initScriptComboBox();
 
     QList<int> list2;
     list2.append(0);
-    list2.append(m_session->config().entryHeight());
+    list2.append(_session->config().entryHeight());
     splitterOutIn->setSizes(list2);
 
-    m_firstShow = true;
-    m_userAway = false;
-    m_chatBlock = chatBlockNoOne;
+    _firstShow = true;
+    _userAway = false;
+    _chatBlock = chatBlockNoOne;
 }
 
 TellWidget::TellWidget(Session *session, const QString &login, QWidget *parent) : SessionWidget(session, parent)
 {
-    m_login = login;
+    _login = login;
 
     init();
 
-    connect(m_session, SIGNAL(newToken(const Token&)),
+    connect(_session, SIGNAL(newToken(const Token&)),
             this, SLOT(newTokenFromSession(const Token&)));
 }
 
 void TellWidget::sendText(const QString &text)
 {
     QString toSend = text;
-    if (comboBoxFilter->currentIndex())
-        toSend = executeLuaFilter(comboBoxFilter->currentText(), text);
+    if (_comboBoxFilter->currentIndex())
+        toSend = executeLuaFilter(_comboBoxFilter->currentText(), text);
 
     foreach (QString line, toSend.split('\n'))
-    {
-
-        m_session->send("tell " + m_login + " " + line);
-    }
+        _session->send("tell " + _login + " " + line);
 }
 
 void TellWidget::newTokenFromSession(const Token &token)
@@ -144,22 +141,22 @@ void TellWidget::newTokenFromSession(const Token &token)
     case Token::SomeoneTellsYou:
     case Token::SomeoneAsksYou:
     case Token::SomeoneReplies:
-        if (token.arguments()[1] != m_login)
+        if (token.arguments()[1] != _login)
             return;
 
-        login = m_login;
+        login = _login;
         break;
     case Token::YouTellToSomeone:
     case Token::YouAskToSomeone:
     case Token::YouReply:
-        if (token.arguments()[1] != m_login)
+        if (token.arguments()[1] != _login)
             return;
 
         youTalk = true;
-        login = m_session->serverLogin();
+        login = _session->serverLogin();
         break;
 /*	case Token::SomeoneComesIn:
-        if (event.arguments()[1] != m_login)
+        if (event.arguments()[1] != _login)
         return;
         break;
 	case Token::SomeoneLeaves:
@@ -169,14 +166,14 @@ void TellWidget::newTokenFromSession(const Token &token)
 	case Token::SomeoneIsKickedMsg:
 	case Token::YouKickSomeone:
 	case Token::YouKickSomeoneMsg:
-        if (event.arguments()[1] != m_login)
+        if (event.arguments()[1] != _login)
         return;
         break;*/
     default:
         return;
     }
 
-    QScrollBar *sb = m_textEditOutput->verticalScrollBar();
+    QScrollBar *sb = _textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
 
     bool displayTimeStamp = false;
@@ -185,7 +182,7 @@ void TellWidget::newTokenFromSession(const Token &token)
         switch (Profile::instance().timeStampPolicy)
         {
         case Profile::Policy_Classic:
-            displayTimeStamp = m_session->away();
+            displayTimeStamp = _session->away();
             break;
         case Profile::Policy_Always:
             displayTimeStamp = true;
@@ -202,30 +199,30 @@ void TellWidget::newTokenFromSession(const Token &token)
 
     Token translatedToken(Token::SomeoneSays, args, positions, 0);
 
-    m_tokenRenderer.displayToken(translatedToken, displayTimeStamp);
+    _tokenRenderer.displayToken(translatedToken, displayTimeStamp);
 
-/*	if (youTalk && m_chatBlock != chatBlockYou)
+/*	if (youTalk && _chatBlock != chatBlockYou)
 	{
-        m_chatBlock = chatBlockYou;
+        _chatBlock = chatBlockYou;
         QString middleLine = QString("<" + login + ">");
         int beforeNum = (80 - middleLine.length()) / 2;
         int afterNum = 80 - beforeNum - middleLine.length();
         QString sepLine = QString(beforeNum, '-') + middleLine + QString(afterNum, '-');
-        m_textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
+        _textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
         QColor(0, 0, 150));
 	}
-	else if (!youTalk && m_chatBlock != chatBlockHim)
+	else if (!youTalk && _chatBlock != chatBlockHim)
 	{
-        m_chatBlock = chatBlockHim;
+        _chatBlock = chatBlockHim;
         QString middleLine = QString("<" + login + ">");
         int beforeNum = (80 - middleLine.length()) / 2;
         int afterNum = 80 - beforeNum - middleLine.length();
         QString sepLine = QString(beforeNum, '-') + middleLine + QString(afterNum, '-');
-        m_textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
+        _textEditOutput->addNewLine(sepLine, Profile::instance().textSkin().textFont().font(),
         QColor(150, 0, 0));
 	}
 
-	m_textEditOutput->addNewLine(sentence,
+	_textEditOutput->addNewLine(sentence,
         QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0),
         QColor(0, 0, 0));*/
 
@@ -235,32 +232,32 @@ void TellWidget::newTokenFromSession(const Token &token)
 
 void TellWidget::scrollOutputToBottom()
 {
-    QScrollBar *sb = m_textEditOutput->verticalScrollBar();
+    QScrollBar *sb = _textEditOutput->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
 
 void TellWidget::setTextColor(int r, int g, int b)
 {
-    m_textEditOutput->setTextColor(QColor(r, g, b));
+    _textEditOutput->setTextColor(QColor(r, g, b));
 }
 
 void TellWidget::applyFirstShow()
 {
-    if (m_firstShow)
+    if (_firstShow)
     {
-        m_firstShow = false;
-        m_historyWidget->setFocus();
+        _firstShow = false;
+        _historyWidget->setFocus();
     }
 }
 
 const QString &TellWidget::login() const
 {
-    return m_login;
+    return _login;
 }
 
 void TellWidget::setLogin(const QString &newLogin)
 {
-    m_login = newLogin;
+    _login = newLogin;
 }
 
 void TellWidget::outputKeyPressed(const QKeyEvent &e)
@@ -271,73 +268,71 @@ void TellWidget::outputKeyPressed(const QKeyEvent &e)
         return;
 
     QKeyEvent event(QEvent::KeyPress, e.key(), e.modifiers(), e.text(), e.isAutoRepeat(), e.count());
-    QApplication::sendEvent(m_historyWidget, &event);
-    m_historyWidget->setFocus();
+    QApplication::sendEvent(_historyWidget, &event);
+    _historyWidget->setFocus();
 }
 
 void TellWidget::historyPageUp()
 {
     // Send the event to the output text
     QKeyEvent event(QEvent::KeyPress, Qt::Key_PageUp, Qt::NoModifier);
-    QApplication::sendEvent(m_textEditOutput, &event);
+    QApplication::sendEvent(_textEditOutput, &event);
 }
 
 void TellWidget::historyPageDown()
 {
     // Send the event to the output text
     QKeyEvent event(QEvent::KeyPress, Qt::Key_PageDown, Qt::NoModifier);
-    QApplication::sendEvent(m_textEditOutput, &event);
+    QApplication::sendEvent(_textEditOutput, &event);
 }
 
 QString TellWidget::widgetCaption() const
 {
-    if (m_userAway)
-        return m_login + " (away)";
-    return m_login;
+    if (_userAway)
+        return _login + " (away)";
+    return _login;
 }
 
 bool TellWidget::userAway() const
 {
-    return m_userAway;
+    return _userAway;
 }
 
 void TellWidget::setUserAway(bool userAway)
 {
-    m_userAway = userAway;
+    _userAway = userAway;
 }
 
 void TellWidget::refreshFonts()
 {
-    m_historyWidget->setFont(Profile::instance().textSkin().inputTextFont().font());
+    _historyWidget->setFont(Profile::instance().textSkin().inputTextFont().font());
 
-    QPalette palette = m_historyWidget->palette();
+    QPalette palette = _historyWidget->palette();
     palette.setColor(QPalette::Text, Profile::instance().textSkin().inputTextFont().color());
-    m_historyWidget->setPalette(palette);
+    _historyWidget->setPalette(palette);
 }
 
 void TellWidget::outputFilterSendToChat(const QString &text)
 {
     foreach (QString line, text.split('\n'))
-    {
-        m_session->send("tell " + m_login + " " + line);
-    }
+        _session->send("tell " + _login + " " + line);
 }
 
 void TellWidget::initScriptComboBox()
 {
-    comboBoxFilter->clear();
-    comboBoxFilter->addItem(tr("<no filter>"));
+    _comboBoxFilter->clear();
+    _comboBoxFilter->addItem(tr("<no filter>"));
     QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
 
     QStringList nameFilters;
     nameFilters << "*.lua";
     foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
-        comboBoxFilter->addItem(fileInfo.baseName());
+        _comboBoxFilter->addItem(fileInfo.baseName());
 }
 
 void TellWidget::filterActivated(int)
 {
-    m_historyWidget->setFocus();
+    _historyWidget->setFocus();
 }
 
 void TellWidget::toggleSearchWidgetVisibility()
@@ -347,7 +342,7 @@ void TellWidget::toggleSearchWidgetVisibility()
     if (_searchWidget->isVisible())
         _searchWidget->afterShow();
     else
-        m_historyWidget->setFocus();
+        _historyWidget->setFocus();
 }
 
 void TellWidget::hideSearchWidget()

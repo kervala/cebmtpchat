@@ -29,7 +29,7 @@ CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidg
     init();
 
     // Connect session
-    connect(m_session, SIGNAL(newToken(const Token&)),
+    connect(_session, SIGNAL(newToken(const Token&)),
             this, SLOT(newTokenFromSession(const Token&)));
 }
 
@@ -46,7 +46,7 @@ void CmdOutputWidget::init()
     // Main output
     m_textEditOutput = new MyTextEdit;
     m_tokenRenderer.setTextEdit(m_textEditOutput);
-    m_tokenRenderer.setSession(m_session);
+    m_tokenRenderer.setSession(_session);
     m_textEditOutput->setReadOnly(true);
     m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     QPalette palette = m_textEditOutput->palette();

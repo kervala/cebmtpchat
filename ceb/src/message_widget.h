@@ -46,15 +46,12 @@ protected:
     void showEvent(QShowEvent *event);
 
 private:
-    bool m_firstShow;
-    QSplitter *splitterMain;
-    QTreeView *treeViewMessages;
-    QPushButton *pushButtonRefresh;
-    QPushButton *pushButtonRemove;
-    MyTextEdit *textEditMessage;
-    GenericSortModel *m_sortModel;
-    MessageModel *messageModel;
-    int showMsgTicketID;
+    bool _firstShow;
+    QTreeView *_treeViewMessages;
+    MyTextEdit *_textEditMessage;
+    GenericSortModel *_sortModel;
+    MessageModel *_messageModel;
+    int _showMsgTicketID;
 
     void init();
     void focusLastItem();

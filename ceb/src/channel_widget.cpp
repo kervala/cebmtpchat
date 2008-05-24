@@ -40,13 +40,13 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
 {
     init();
 
-    connect(m_session, SIGNAL(newToken(const Token&)), this, SLOT(newToken(const Token&)));
-    connect(m_session, SIGNAL(connecting()), this, SLOT(sessionConnecting()));
-    connect(m_session, SIGNAL(connected()), this, SLOT(sessionConnected()));
-    connect(m_session, SIGNAL(logged()), this, SLOT(sessionLogged()));
-    connect(m_session, SIGNAL(disconnected()), this, SLOT(sessionDisconnected()));
-    connect(m_session, SIGNAL(socketError(const QString &)), this, SLOT(sessionSocketError(const QString &)));
-    connect(m_session, SIGNAL(loginChanged(const QString &, const QString &)),
+    connect(_session, SIGNAL(newToken(const Token&)), this, SLOT(newToken(const Token&)));
+    connect(_session, SIGNAL(connecting()), this, SLOT(sessionConnecting()));
+    connect(_session, SIGNAL(connected()), this, SLOT(sessionConnected()));
+    connect(_session, SIGNAL(logged()), this, SLOT(sessionLogged()));
+    connect(_session, SIGNAL(disconnected()), this, SLOT(sessionDisconnected()));
+    connect(_session, SIGNAL(socketError(const QString &)), this, SLOT(sessionSocketError(const QString &)));
+    connect(_session, SIGNAL(loginChanged(const QString &, const QString &)),
             this, SLOT(loginChanged(const QString &, const QString &)));
 }
 
@@ -56,186 +56,186 @@ void ChannelWidget::init()
     mainLayout->setMargin(2);
 
     // Keep alive timer
-    connect(&timerKeepAlive, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+    connect(&_timerKeepAlive, SIGNAL(timeout()), this, SLOT(timerTimeout()));
 
     // Topic
-    widgetTopic = new QWidget(this);
-    QHBoxLayout *topicLayout = new QHBoxLayout(widgetTopic);
+    _widgetTopic = new QWidget(this);
+    QHBoxLayout *topicLayout = new QHBoxLayout(_widgetTopic);
     topicLayout->setMargin(0);
-    mainLayout->addWidget(widgetTopic);
+    mainLayout->addWidget(_widgetTopic);
     QLabel *labelTopic = new QLabel("Topic: ");
     topicLayout->addWidget(labelTopic);
-    lineEditTopic = new QLineEdit;
-    lineEditTopic->installEventFilter(this);
-    lineEditTopic->setReadOnly(true);
-    QPalette palette = lineEditTopic->palette();
+    _lineEditTopic = new QLineEdit;
+    _lineEditTopic->installEventFilter(this);
+    _lineEditTopic->setReadOnly(true);
+    QPalette palette = _lineEditTopic->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    lineEditTopic->setPalette(palette);
-    topicLayout->addWidget(lineEditTopic);
-    widgetTopic->setVisible(Profile::instance().topicWindowVisible);
+    _lineEditTopic->setPalette(palette);
+    topicLayout->addWidget(_lineEditTopic);
+    _widgetTopic->setVisible(Profile::instance().topicWindowVisible);
 
     // In/Out Splitter
-    splitterOutIn = new QSplitter;
-    mainLayout->addWidget(splitterOutIn);
-    splitterOutIn->setChildrenCollapsible(false);
-    splitterOutIn->setOrientation(Qt::Vertical);
-    connect(splitterOutIn, SIGNAL(splitterMoved(int, int)),
+    _splitterOutIn = new QSplitter;
+    mainLayout->addWidget(_splitterOutIn);
+    _splitterOutIn->setChildrenCollapsible(false);
+    _splitterOutIn->setOrientation(Qt::Vertical);
+    connect(_splitterOutIn, SIGNAL(splitterMoved(int, int)),
             this, SLOT(splitterInOutMoved(int, int)));
 
     // Output and Who
-    splitterOutWho = new QSplitter;
-    splitterOutIn->addWidget(splitterOutWho);
-    splitterOutWho->setOrientation(Qt::Horizontal);
-    connect(splitterOutWho, SIGNAL(splitterMoved(int, int)),
+    _splitterOutWho = new QSplitter;
+    _splitterOutIn->addWidget(_splitterOutWho);
+    _splitterOutWho->setOrientation(Qt::Horizontal);
+    connect(_splitterOutWho, SIGNAL(splitterMoved(int, int)),
             this, SLOT(splitterOutWhoMoved(int, int)));
-    splitterOutWho->setChildrenCollapsible(false);
-    QSizePolicy sizePolicy = splitterOutWho->sizePolicy();
+    _splitterOutWho->setChildrenCollapsible(false);
+    QSizePolicy sizePolicy = _splitterOutWho->sizePolicy();
     sizePolicy.setVerticalStretch(1);
-    splitterOutWho->setSizePolicy(sizePolicy);
+    _splitterOutWho->setSizePolicy(sizePolicy);
 
     // Main output
     QWidget *outputWidget = new QWidget;
     QVBoxLayout *outputLayout = new QVBoxLayout(outputWidget);
     outputLayout->setMargin(0);
-    splitterOutWho->addWidget(outputWidget);
+    _splitterOutWho->addWidget(outputWidget);
 
-    textEditOutput = new MyTextEdit;
-    outputLayout->addWidget(textEditOutput);
-    m_tokenRenderer.setTextEdit(textEditOutput);
-    m_tokenRenderer.setSession(m_session);
-    textEditOutput->setAllowFilters(true);
-    textEditOutput->setReadOnly(true);
-    textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    palette = textEditOutput->palette();
+    _textEditOutput = new MyTextEdit;
+    outputLayout->addWidget(_textEditOutput);
+    _tokenRenderer.setTextEdit(_textEditOutput);
+    _tokenRenderer.setSession(_session);
+    _textEditOutput->setAllowFilters(true);
+    _textEditOutput->setReadOnly(true);
+    _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    palette =_textEditOutput->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
-    textEditOutput->setPalette(palette);
+    _textEditOutput->setPalette(palette);
     sizePolicy = outputWidget->sizePolicy();
     sizePolicy.setHorizontalStretch(1);
     outputWidget->setSizePolicy(sizePolicy);
-    connect(textEditOutput, SIGNAL(myKeyPressed(const QKeyEvent &)),
+    connect(_textEditOutput, SIGNAL(myKeyPressed(const QKeyEvent &)),
             this, SLOT(outputKeyPressed(const QKeyEvent &)));
-    connect(textEditOutput, SIGNAL(sendToChat(const QString &)),
+    connect(_textEditOutput, SIGNAL(sendToChat(const QString &)),
             this, SLOT(outputFilterSendToChat(const QString &)));
-    splitterOutIn->addWidget(splitterOutWho);
-//	textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
+    _splitterOutIn->addWidget(_splitterOutWho);
+//_textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
 
     // Search widget
     _searchWidget = new SearchWidget;
     outputLayout->addWidget(_searchWidget);
     connect(_searchWidget, SIGNAL(hideMe()), this, SLOT(hideSearchWidget()));
     _searchWidget->setVisible(false);
-    _searchWidget->setTextWidget(textEditOutput);
+    _searchWidget->setTextWidget(_textEditOutput);
 
     // Who column
     QWidget *whoWidget = new QWidget;
-    splitterOutWho->addWidget(whoWidget);
+    _splitterOutWho->addWidget(whoWidget);
     QVBoxLayout *whoLayout = new QVBoxLayout(whoWidget);
     whoLayout->setMargin(0);
-    splitterOutWho->addWidget(whoWidget);
+    _splitterOutWho->addWidget(whoWidget);
 
     QFrame *whoTitleFrame = new QFrame;
     whoTitleFrame->setFrameShape(QFrame::Box);
     whoTitleFrame->setFrameShadow(QFrame::Plain);
     whoLayout->addWidget(whoTitleFrame);
-    labelWhoTitle = new QLabel("0 users");
-    labelWhoTitle->setAlignment(Qt::AlignHCenter);
+    _labelWhoTitle = new QLabel("0 users");
+    _labelWhoTitle->setAlignment(Qt::AlignHCenter);
     QVBoxLayout *whoTitleLayout = new QVBoxLayout(whoTitleFrame);
     whoTitleLayout->setMargin(0);
-    whoTitleLayout->addWidget(labelWhoTitle);
+    whoTitleLayout->addWidget(_labelWhoTitle);
 
-    listWidgetWho = new QListWidget;
-    listWidgetWho->installEventFilter(this);
-    listWidgetWho->setContextMenuPolicy(Qt::ActionsContextMenu);
+    _listWidgetWho = new QListWidget;
+    _listWidgetWho->installEventFilter(this);
+    _listWidgetWho->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     // Who list context menu
     QAction *action = new QAction("finger", 0);
     connect(action, SIGNAL(triggered()), this, SLOT(finger()));
-    listWidgetWho->addAction(action);
+    _listWidgetWho->addAction(action);
 
     action = new QAction("beep", 0);
     connect(action, SIGNAL(triggered()), this, SLOT(beep()));
-    listWidgetWho->addAction(action);
+    _listWidgetWho->addAction(action);
 
     action = new QAction("kick", 0);
     connect(action, SIGNAL(triggered()), this, SLOT(kick()));
-    listWidgetWho->addAction(action);
+    _listWidgetWho->addAction(action);
 
     action = new QAction("initiate a tell session", 0);
     connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
-    listWidgetWho->addAction(action);
+    _listWidgetWho->addAction(action);
 
 /* WAITING FOR FILE TRANSFER	action = new QAction("send a file...", 0);
    connect(action, SIGNAL(triggered()), this, SLOT(sendAFile()));
-   listWidgetWho->addAction(action);*/
+   _listWidgetWho->addAction(action);*/
 
-    palette = listWidgetWho->palette();
+    palette = _listWidgetWho->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    listWidgetWho->setPalette(palette);
-    listWidgetWho->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    whoLayout->addWidget(listWidgetWho);
-    connect(listWidgetWho, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+    _listWidgetWho->setPalette(palette);
+    _listWidgetWho->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    whoLayout->addWidget(_listWidgetWho);
+    connect(_listWidgetWho, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(whoItemDoubleClicked(QListWidgetItem*)));
 
     QList<int> list1;
     list1.append(0);
-    list1.append(m_session->config().whoWidth());
-    splitterOutWho->setSizes(list1);
+    list1.append(_session->config().whoWidth());
+    _splitterOutWho->setSizes(list1);
 
     // Input widget
     QWidget *inputWidget = new QWidget;
     QHBoxLayout *inputLayout = new QHBoxLayout(inputWidget);
     inputLayout->setMargin(0);
-    splitterOutIn->addWidget(inputWidget);
+    _splitterOutIn->addWidget(inputWidget);
 
     // Main input
-    stackedWidgetEntry = new QStackedWidget;
-    inputLayout->addWidget(stackedWidgetEntry);
-    stackedWidgetEntry->setMinimumHeight(20);
+    _stackedWidgetEntry = new QStackedWidget;
+    inputLayout->addWidget(_stackedWidgetEntry);
+    _stackedWidgetEntry->setMinimumHeight(20);
 
     // LineEdit
-    lineEditWidget = new ChatLineWidget;
-    palette = lineEditWidget->palette();
+    _lineEditWidget = new ChatLineWidget;
+    palette = _lineEditWidget->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    lineEditWidget->setPalette(palette);
-    connect(lineEditWidget, SIGNAL(textValidated(const QString &)),
+    _lineEditWidget->setPalette(palette);
+    connect(_lineEditWidget, SIGNAL(textValidated(const QString &)),
             this, SLOT(sendText(const QString &)));
-    connect(lineEditWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
-    connect(lineEditWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
-    stackedWidgetEntry->addWidget(lineEditWidget);
+    connect(_lineEditWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
+    connect(_lineEditWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
+    _stackedWidgetEntry->addWidget(_lineEditWidget);
 
     // HistoryWidget
-    historyWidget = new HistoryWidget;
-    palette = historyWidget->palette();
+    _historyWidget = new HistoryWidget;
+    palette = _historyWidget->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    historyWidget->setPalette(palette);
-    historyWidget->setCompletionMode(true);
-    connect(historyWidget, SIGNAL(textValidated(const QString &)),
+    _historyWidget->setPalette(palette);
+    _historyWidget->setCompletionMode(true);
+    connect(_historyWidget, SIGNAL(textValidated(const QString &)),
             this, SLOT(sendText(const QString &)));
-    connect(historyWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
-    connect(historyWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
-    stackedWidgetEntry->addWidget(historyWidget);
+    connect(_historyWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
+    connect(_historyWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
+    _stackedWidgetEntry->addWidget(_historyWidget);
 
-    stackedWidgetEntry->setCurrentIndex(0);
+    _stackedWidgetEntry->setCurrentIndex(0);
 
     // Filter combobox
-    comboBoxFilter = new QComboBox;
-    connect(comboBoxFilter, SIGNAL(activated(int)), this, SLOT(filterActivated(int)));
-    inputLayout->addWidget(comboBoxFilter);
+    _comboBoxFilter = new QComboBox;
+    connect(_comboBoxFilter, SIGNAL(activated(int)), this, SLOT(filterActivated(int)));
+    inputLayout->addWidget(_comboBoxFilter);
 
     initScriptComboBox();
 
     QList<int> list2;
     list2.append(0);
-    list2.append(m_session->config().entryHeight());
-    splitterOutIn->setSizes(list2);
+    list2.append(_session->config().entryHeight());
+    _splitterOutIn->setSizes(list2);
 
     refreshFonts();
 
-    firstShow = true;
+    _firstShow = true;
 
-    timerWhoBlinking.setInterval(10);
-    connect(&timerWhoBlinking, SIGNAL(timeout()), this, SLOT(whoBlinking()));
+    _timerWhoBlinking.setInterval(10);
+    connect(&_timerWhoBlinking, SIGNAL(timeout()), this, SLOT(whoBlinking()));
 }
 
 bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
@@ -250,7 +250,7 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
             toggleSearchWidgetVisibility();
     }
 
-    if (obj == listWidgetWho || obj == lineEditTopic)
+    if (obj == _listWidgetWho || obj == _lineEditTopic)
     {
         if (event->type() == QEvent::KeyPress)
         {
@@ -267,16 +267,16 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
 void ChannelWidget::sendText(const QString &text)
 {
     // Filter?
-    if (comboBoxFilter->currentIndex())
-        m_session->send(executeLuaFilter(comboBoxFilter->currentText(), text));
+    if (_comboBoxFilter->currentIndex())
+        _session->send(executeLuaFilter(_comboBoxFilter->currentText(), text));
     else
-        m_session->send(text);
+        _session->send(text);
 }
 
 QListWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
 {
     QList<QListWidgetItem*> items =
-        listWidgetWho->findItems(nickname, Qt::MatchWildcard);
+        _listWidgetWho->findItems(nickname, Qt::MatchWildcard);
     if (items.count() > 0)
         return items[0];
     else
@@ -288,22 +288,22 @@ void ChannelWidget::newToken(const Token &token)
     QColor color(0, 0, 0);
 /*	QFont normalFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0);
 	QFont timeStampFont(Profile::instance().globalFontName, 6, 0);*/
-    QScrollBar *sb = textEditOutput->verticalScrollBar();
+    QScrollBar *sb =_textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
     switch(token.type())
     {
     case Token::Token::LoginAsked:
-        lineEditWidget->setEchoMode(QLineEdit::Normal);
+        _lineEditWidget->setEchoMode(QLineEdit::Normal);
         break;
     case Token::PasswordAsked:
-        lineEditWidget->setEchoMode(QLineEdit::Password);
+        _lineEditWidget->setEchoMode(QLineEdit::Password);
         break;
     case Token::Topic:
     case Token::YouSetTopic:
-        lineEditTopic->setText(token.arguments()[2]);
+        _lineEditTopic->setText(token.arguments()[2]);
         break;
     case Token::SomeoneSetTopic:
-        lineEditTopic->setText(token.arguments()[3]);
+        _lineEditTopic->setText(token.arguments()[3]);
         break;
     case Token::SomeoneTellsYou:
     case Token::YouTellToSomeone:
@@ -325,46 +325,46 @@ void ChannelWidget::newToken(const Token &token)
             return;
         break;
     case Token::WhoBegin:
-        listWidgetWho->clear();
-        historyWidget->clearCompletionWords();
-        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
+        _listWidgetWho->clear();
+        _historyWidget->clearCompletionWords();
+        if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
     case Token::WhoSeparator:
-        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
     case Token::WhoEnd:
-        labelWhoTitle->setText(token.arguments()[2] + tr(" users"));
-        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
+        _labelWhoTitle->setText(token.arguments()[2] + tr(" users"));
+        if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
     case Token::WhoEndNoUser:
-        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
         break;
     case Token::WhoLine:
     {
-        QListWidgetItem *item = new QListWidgetItem(listWidgetWho);
+        QListWidgetItem *item = new QListWidgetItem(_listWidgetWho);
         item->setText(token.arguments()[1]);
 
-        if (token.arguments()[3] != m_session->channel())
+        if (token.arguments()[3] != _session->channel())
             item->setIcon(QIcon(":/images/yellow-led.png"));
         else if (token.arguments()[4] == "*Away*")
             item->setIcon(QIcon(":/images/away.png"));
         else
             item->setIcon(QIcon(":/images/here.png"));
-        if (token.arguments()[1].toUpper() != m_session->serverLogin().toUpper())
-            historyWidget->addCompletionWord(token.arguments()[1]);
-        if (whoTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (token.arguments()[1].toUpper() != _session->serverLogin().toUpper())
+            _historyWidget->addCompletionWord(token.arguments()[1]);
+        if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         if (Profile::instance().tabForWho)
             return;
@@ -392,24 +392,24 @@ void ChannelWidget::newToken(const Token &token)
     break;
     case Token::YouAway:
     {
-        QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
+        QListWidgetItem *item = getWhoItemByNickname(_session->serverLogin());
         if (item)
             item->setIcon(QIcon(":/images/away.png"));
         colorizeChatItems(Profile::instance().textSkin().awayBackgroundColor());
         if (Profile::instance().awaySeparatorLines) // Away separator
-            textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
-        textEditOutput->isAway = true;
+           _textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
+       _textEditOutput->isAway = true;
     }
     break;
     case Token::YouBack:
     {
-        QListWidgetItem *item = getWhoItemByNickname(m_session->serverLogin());
+        QListWidgetItem *item = getWhoItemByNickname(_session->serverLogin());
         if (item)
             item->setIcon(QIcon(":/images/here.png"));
         colorizeChatItems(Profile::instance().textSkin().backgroundColor());
         if (Profile::instance().awaySeparatorLines) // Away separator
-            textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
-        textEditOutput->isAway = false;
+           _textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
+       _textEditOutput->isAway = false;
     }
     break;
     case Token::SomeoneAwayWarning:
@@ -428,38 +428,38 @@ void ChannelWidget::newToken(const Token &token)
         break;
     case Token::HelpBegin:
         // serverlist?
-        if ((m_backupServersHelp = (token.arguments()[1].toUpper() == "SERVERLIST")))
-            m_backupServers.clear();
-        if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
+        if ((_backupServersHelp = (token.arguments()[1].toUpper() == "SERVERLIST")))
+            _backupServers.clear();
+        if (_helpTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
     case Token::HelpEndNormal:
-        if (m_backupServersHelp)
+        if (_backupServersHelp)
         {
-            SessionConfig sessionConfig = m_session->config();
-            sessionConfig.setBackupServers(m_backupServers);
-            m_session->setConfig(sessionConfig);
+            SessionConfig sessionConfig = _session->config();
+            sessionConfig.setBackupServers(_backupServers);
+            _session->setConfig(sessionConfig);
 
             // Record in session configs
             SessionConfig *profileConfig = Profile::instance().getSessionConfig(sessionConfig.name());
             if (profileConfig)
-                profileConfig->setBackupServers(m_backupServers);
+                profileConfig->setBackupServers(_backupServers);
         }
     case Token::HelpEndNoHelp:
-        if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (_helpTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
     case Token::HelpLine:
     {
         QString str = token.arguments()[1].trimmed();
-        if (m_backupServersHelp && str != "")
+        if (_backupServersHelp && str != "")
         {
             QStringList strLst = str.split(":");
 
-            m_backupServers << BackupServer(strLst[0], strLst[1].toInt());
+            _backupServers << BackupServer(strLst[0], strLst[1].toInt());
         }
     }
-    if (helpTicketID == token.ticketID() && token.ticketID() >= 0)
+    if (_helpTicketID == token.ticketID() && token.ticketID() >= 0)
         return;
     break;
     case Token::UserLoginRenamed:
@@ -467,15 +467,15 @@ void ChannelWidget::newToken(const Token &token)
         break;
     case Token::SomeoneComesIn:
     {
-        QListWidgetItem *item = new QListWidgetItem(listWidgetWho);
+        QListWidgetItem *item = new QListWidgetItem(_listWidgetWho);
         item->setText(token.arguments()[1]);
         item->setIcon(QIcon(":/images/here.png"));
-        labelWhoTitle->setText(QString::number(listWidgetWho->count()) + " users");
-        historyWidget->addCompletionWord(token.arguments()[1]);
+        _labelWhoTitle->setText(QString::number(_listWidgetWho->count()) + " users");
+        _historyWidget->addCompletionWord(token.arguments()[1]);
         item->setTextColor(Qt::red);
-        userToWhoBlinkTime[token.arguments()[1]] = 5000;
-        userToWhoAscendingOrder[token.arguments()[1]] = false;
-        timerWhoBlinking.start();
+        _userToWhoBlinkTime[token.arguments()[1]] = 5000;
+        _userToWhoAscendingOrder[token.arguments()[1]] = false;
+        _timerWhoBlinking.start();
     }
     break;
     case Token::SomeoneLeaves:
@@ -487,21 +487,21 @@ void ChannelWidget::newToken(const Token &token)
         QListWidgetItem *item = getWhoItemByNickname(token.arguments()[1]);
         if (item)
         {
-            listWidgetWho->takeItem(listWidgetWho->row(item));
+            _listWidgetWho->takeItem(_listWidgetWho->row(item));
             delete item;
         }
 
         // Who title
-        labelWhoTitle->setText(QString::number(listWidgetWho->count()) + tr(" users"));
+        _labelWhoTitle->setText(QString::number(_listWidgetWho->count()) + tr(" users"));
 
         // History widget
-        historyWidget->removeCompletionWord(token.arguments()[1]);
+        _historyWidget->removeCompletionWord(token.arguments()[1]);
     }
     break;
     case Token::YouJoinChannel:
     case Token::YouLeaveChannel:
-        whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
-        m_session->send("who all");
+        _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
+        _session->send("who all");
         break;
     case Token::SomeoneJoinChannel:
     case Token::SomeoneFadesIntoTheShadows:
@@ -520,18 +520,18 @@ void ChannelWidget::newToken(const Token &token)
     }
     break;
     case Token::Date:
-        if (dateTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (_dateTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
     case Token::YourClientIs:
-        if (setClientTicketID == token.ticketID() && token.ticketID() >= 0)
+        if (_setClientTicketID == token.ticketID() && token.ticketID() >= 0)
             return;
         break;
     case Token::SomeoneSays:
     {
         // Someone talks about you?
         QString sentence = token.arguments()[2];
-        if (sentence.indexOf(regExpAboutMe) >= 0)
+        if (sentence.indexOf(_regExpAboutMe) >= 0)
             color = QColor(200, 0, 200);
         else
             color = QColor(0, 0, 0);
@@ -551,7 +551,7 @@ void ChannelWidget::newToken(const Token &token)
 
     bool setTimeStamp = false;
 
-    if (m_session->away())
+    if (_session->away())
         switch (Profile::instance().timeStampPolicy)
         {
         case Profile::Policy_Classic:
@@ -570,120 +570,120 @@ void ChannelWidget::newToken(const Token &token)
         }
 
     // Display it!
-    m_tokenRenderer.displayToken(token, setTimeStamp);
+    _tokenRenderer.displayToken(token, setTimeStamp);
 
     // Postfix things
     if (token.type() == Token::IndicatedActiveServer)
-        textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(token.arguments()[0]).
+       _textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(token.arguments()[0]).
                                    arg(token.arguments()[1].trimmed()),
                                    Profile::instance().textSkin().textFont().font(), QColor(255, 0, 0));
 
     if (scrollDown)
-        textEditOutput->scrollOutputToBottom();
+       _textEditOutput->scrollOutputToBottom();
 }
 
 void ChannelWidget::colorizeChatItems(const QColor &color)
 {
     // Topic
-    QPalette palette = lineEditTopic->palette();
+    QPalette palette = _lineEditTopic->palette();
     palette.setColor(QPalette::Base, color);
-    lineEditTopic->setPalette(palette);
+    _lineEditTopic->setPalette(palette);
 
     // Output
-    palette = textEditOutput->palette();
+    palette =_textEditOutput->palette();
     palette.setColor(QPalette::Base, color);
-    textEditOutput->setPalette(palette);
+   _textEditOutput->setPalette(palette);
 
     // Who column
-    palette = listWidgetWho->palette();
+    palette = _listWidgetWho->palette();
     palette.setColor(QPalette::Base, color);
-    listWidgetWho->setPalette(palette);
+    _listWidgetWho->setPalette(palette);
 
     // Input
-    palette = historyWidget->palette();
+    palette = _historyWidget->palette();
     palette.setColor(QPalette::Base, color);
-    historyWidget->setPalette(palette);
+    _historyWidget->setPalette(palette);
 }
 
 bool ChannelWidget::topicWindowVisible()
 {
-    return widgetTopic->isVisible();
+    return _widgetTopic->isVisible();
 }
 
 void ChannelWidget::showTopicWindow()
 {
-    widgetTopic->show();
+    _widgetTopic->show();
 }
 
 void ChannelWidget::hideTopicWindow()
 {
-    widgetTopic->hide();
+    _widgetTopic->hide();
 }
 
 void ChannelWidget::sessionConnecting()
 {
-    textEditOutput->addNewLine(tr("Attempt to connect ") + m_session->serverAddress() +
-                               ":" + QString::number(m_session->serverPort()) + ".........",
+   _textEditOutput->addNewLine(tr("Attempt to connect ") + _session->serverAddress() +
+                               ":" + QString::number(_session->serverPort()) + ".........",
                                Profile::instance().textSkin().textFont().font(),
                                QColor(0, 0, 200));
-    textEditOutput->scrollOutputToBottom();
+   _textEditOutput->scrollOutputToBottom();
 }
 
 void ChannelWidget::sessionConnected()
 {
     colorizeChatItems(Profile::instance().textSkin().backgroundColor());
-    stackedWidgetEntry->setCurrentIndex(0);
+    _stackedWidgetEntry->setCurrentIndex(0);
 
-    textEditOutput->addString(tr("successful."), Profile::instance().textSkin().textFont().font(),
+   _textEditOutput->addString(tr("successful."), Profile::instance().textSkin().textFont().font(),
                               QColor(0, 200, 0));
-    textEditOutput->addNewLine("-", Profile::instance().textSkin().textFont().font(),
+   _textEditOutput->addNewLine("-", Profile::instance().textSkin().textFont().font(),
                                QColor(200, 0, 0));
 
-    textEditOutput->scrollOutputToBottom();
+   _textEditOutput->scrollOutputToBottom();
 }
 
 void ChannelWidget::sessionLogged()
 {
     // Send "set client"
-    setClientTicketID = m_session->requestTicket(TokenFactory::Command_SetClient);
-    m_session->send("set client CeB Alpha " + QString(VERSION));
+    _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
+    _session->send("set client CeB Alpha " + QString(VERSION));
 
     // Send first who
-    whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
-    m_session->send("who all");
-    helpTicketID = m_session->requestTicket(TokenFactory::Command_Help);
-    m_session->send("help serverlist");
+    _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
+    _session->send("who all");
+    _helpTicketID = _session->requestTicket(TokenFactory::Command_Help);
+    _session->send("help serverlist");
 
     // Switch entry widget
-    stackedWidgetEntry->setCurrentIndex(1);
+    _stackedWidgetEntry->setCurrentIndex(1);
 
     // Start (or not) the keep alive timer
     if (Profile::instance().keepAlive)
     {
-        timerKeepAlive.start();
-        timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
+        _timerKeepAlive.start();
+        _timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
     }
 
-    regExpAboutMe = QRegExp("(^|\\W)" + m_session->serverLogin() + "(\\W|$)", Qt::CaseInsensitive);
+    _regExpAboutMe = QRegExp("(^|\\W)" + _session->serverLogin() + "(\\W|$)", Qt::CaseInsensitive);
 }
 
 void ChannelWidget::sessionDisconnected()
 {
     // Stop the keep alive timer
-    if (timerKeepAlive.isActive())
-        timerKeepAlive.stop();
-    listWidgetWho->clear();
+    if (_timerKeepAlive.isActive())
+        _timerKeepAlive.stop();
+    _listWidgetWho->clear();
     colorizeChatItems(Profile::instance().textSkin().awayBackgroundColor());
-    labelWhoTitle->setText("");
+    _labelWhoTitle->setText("");
 }
 
 void ChannelWidget::sessionSocketError(const QString &errorStr)
 {
-    textEditOutput->addNewLine(errorStr,
+   _textEditOutput->addNewLine(errorStr,
                                Profile::instance().textSkin().textFont().font(),
                                QColor(200, 0, 0));
 
-    textEditOutput->scrollOutputToBottom();
+   _textEditOutput->scrollOutputToBottom();
 }
 
 void ChannelWidget::outputKeyPressed(const QKeyEvent &e)
@@ -694,52 +694,52 @@ void ChannelWidget::outputKeyPressed(const QKeyEvent &e)
         return;
 
     QKeyEvent event(QEvent::KeyPress, e.key(), e.modifiers(), e.text(), e.isAutoRepeat(), e.count());
-    if (stackedWidgetEntry->currentIndex() == 0)
+    if (_stackedWidgetEntry->currentIndex() == 0)
     {
-        QApplication::sendEvent(lineEditWidget, &event);
-        lineEditWidget->setFocus();
+        QApplication::sendEvent(_lineEditWidget, &event);
+        _lineEditWidget->setFocus();
     }
     else
     {
-        QApplication::sendEvent(historyWidget, &event);
-        historyWidget->setFocus();
+        QApplication::sendEvent(_historyWidget, &event);
+        _historyWidget->setFocus();
     }
 }
 
 void ChannelWidget::splitterInOutMoved(int, int)
 {
-    SessionConfig *config = Profile::instance().getSessionConfig(m_session->config().name());
+    SessionConfig *config = Profile::instance().getSessionConfig(_session->config().name());
     if (config)
-        config->setEntryHeight(stackedWidgetEntry->height());
+        config->setEntryHeight(_stackedWidgetEntry->height());
 }
 
 void ChannelWidget::splitterOutWhoMoved(int, int)
 {
-    SessionConfig *config = Profile::instance().getSessionConfig(m_session->config().name());
+    SessionConfig *config = Profile::instance().getSessionConfig(_session->config().name());
     if (config)
-        config->setWhoWidth(listWidgetWho->width());
+        config->setWhoWidth(_listWidgetWho->width());
 }
 
 void ChannelWidget::historyPageUp()
 {
     // Send the event to the output text
     QKeyEvent event(QEvent::KeyPress, Qt::Key_PageUp, Qt::NoModifier);
-    QApplication::sendEvent(textEditOutput, &event);
+    QApplication::sendEvent(_textEditOutput, &event);
 }
 
 void ChannelWidget::historyPageDown()
 {
     // Send the event to the output text
     QKeyEvent event(QEvent::KeyPress, Qt::Key_PageDown, Qt::NoModifier);
-    QApplication::sendEvent(textEditOutput, &event);
+    QApplication::sendEvent(_textEditOutput, &event);
 }
 
 void ChannelWidget::timerTimeout()
 {
-    if (m_session && m_session->isLogged())
+    if (_session && _session->isLogged())
     {
-        dateTicketID = m_session->requestTicket(TokenFactory::Command_Date);
-        m_session->send("date", false);
+        _dateTicketID = _session->requestTicket(TokenFactory::Command_Date);
+        _session->send("date", false);
     }
 }
 
@@ -747,55 +747,55 @@ void ChannelWidget::refreshKeepAlivePolicy()
 {
     if (!Profile::instance().keepAlive)
     {
-        if (timerKeepAlive.isActive())
-            timerKeepAlive.stop();
+        if (_timerKeepAlive.isActive())
+            _timerKeepAlive.stop();
     }
     else
     {
-        if (!timerKeepAlive.isActive())
+        if (!_timerKeepAlive.isActive())
         {
-            timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
-            if (m_session && m_session->isLogged())
-                timerKeepAlive.start();
+            _timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
+            if (_session && _session->isLogged())
+                _timerKeepAlive.start();
         }
-        else if (timerKeepAlive.interval() != Profile::instance().keepAlive * 1000)
+        else if (_timerKeepAlive.interval() != Profile::instance().keepAlive * 1000)
         {
-            timerKeepAlive.stop();
-            timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
-            timerKeepAlive.start();
+            _timerKeepAlive.stop();
+            _timerKeepAlive.setInterval(Profile::instance().keepAlive * 1000);
+            _timerKeepAlive.start();
         }
     }
 }
 
 void ChannelWidget::refreshWhoColumn()
 {
-    whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
-    m_session->send("who all");
+    _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
+    _session->send("who all");
 }
 
 void ChannelWidget::refreshFonts()
 {
     const TextSkin &textSkin = Profile::instance().textSkin();
     QPalette palette;
-    lineEditTopic->setFont(textSkin.topicTextFont().font());
-    palette = lineEditTopic->palette();
+    _lineEditTopic->setFont(textSkin.topicTextFont().font());
+    palette = _lineEditTopic->palette();
     palette.setColor(QPalette::Text, textSkin.topicTextFont().color());
-    lineEditTopic->setPalette(palette);
+    _lineEditTopic->setPalette(palette);
 
-    lineEditWidget->setFont(textSkin.inputTextFont().font());
-    palette = lineEditWidget->palette();
+    _lineEditWidget->setFont(textSkin.inputTextFont().font());
+    palette = _lineEditWidget->palette();
     palette.setColor(QPalette::Text, textSkin.inputTextFont().color());
-    lineEditWidget->setPalette(palette);
+    _lineEditWidget->setPalette(palette);
 
-    historyWidget->setFont(textSkin.inputTextFont().font());
-    palette = historyWidget->palette();
+    _historyWidget->setFont(textSkin.inputTextFont().font());
+    palette = _historyWidget->palette();
     palette.setColor(QPalette::Text, textSkin.inputTextFont().color());
-    historyWidget->setPalette(palette);
+    _historyWidget->setPalette(palette);
 
-    listWidgetWho->setFont(textSkin.whoTextFont().font());
-    palette = listWidgetWho->palette();
+    _listWidgetWho->setFont(textSkin.whoTextFont().font());
+    palette = _listWidgetWho->palette();
     palette.setColor(QPalette::Text, textSkin.whoTextFont().color());
-    listWidgetWho->setPalette(palette);
+    _listWidgetWho->setPalette(palette);
 }
 
 void ChannelWidget::whoItemDoubleClicked(QListWidgetItem *item)
@@ -806,7 +806,7 @@ void ChannelWidget::whoItemDoubleClicked(QListWidgetItem *item)
 
 void ChannelWidget::loginChanged(const QString &oldLogin, const QString &newLogin)
 {
-    regExpAboutMe = QRegExp("(^|\\W)" + newLogin + "(\\W|$)", Qt::CaseInsensitive);
+    _regExpAboutMe = QRegExp("(^|\\W)" + newLogin + "(\\W|$)", Qt::CaseInsensitive);
     changeLoginInWhoColumn(oldLogin, newLogin);
 }
 
@@ -819,35 +819,35 @@ void ChannelWidget::changeLoginInWhoColumn(const QString &oldLogin, const QStrin
 
 void ChannelWidget::finger()
 {
-    QListWidgetItem *item = listWidgetWho->currentItem();
+    QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        m_session->send("finger " + item->text());
+        _session->send("finger " + item->text());
 }
 
 void ChannelWidget::beep()
 {
-    QListWidgetItem *item = listWidgetWho->currentItem();
+    QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        m_session->send("beep " + item->text());
+        _session->send("beep " + item->text());
 }
 
 void ChannelWidget::kick()
 {
-    QListWidgetItem *item = listWidgetWho->currentItem();
+    QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        m_session->send("kick " + item->text());
+        _session->send("kick " + item->text());
 }
 
 void ChannelWidget::initiateTellSession()
 {
-    QListWidgetItem *item = listWidgetWho->currentItem();
+    QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
         emit tellSessionAsked(item->text());
 }
 
 void ChannelWidget::sendAFile()
 {
-    QListWidgetItem *item = listWidgetWho->currentItem();
+    QListWidgetItem *item = _listWidgetWho->currentItem();
     if (!item)
         return;
 
@@ -859,69 +859,69 @@ void ChannelWidget::sendAFile()
     if (fileName == "")
         return;
 
-    TransfersManager::instance().propose(m_session, nick, fileName);
+    TransfersManager::instance().propose(_session, nick, fileName);
 }
 
 void ChannelWidget::applyFirstShow()
 {
-    if (firstShow)
+    if (_firstShow)
     {
-        firstShow = false;
-        textEditOutput->scrollOutputToBottom();
-        if (stackedWidgetEntry->currentWidget() == lineEditWidget)
-            lineEditWidget->setFocus();
+        _firstShow = false;
+        _textEditOutput->scrollOutputToBottom();
+        if (_stackedWidgetEntry->currentWidget() == _lineEditWidget)
+            _lineEditWidget->setFocus();
         else
-            historyWidget->setFocus();
+            _historyWidget->setFocus();
     }
 }
 
 QString ChannelWidget::widgetCaption() const
 {
-    return m_session->channel();
+    return _session->channel();
 }
 
 void ChannelWidget::initScriptComboBox()
 {
-    comboBoxFilter->clear();
-    comboBoxFilter->addItem(tr("<no filter>"));
+    _comboBoxFilter->clear();
+    _comboBoxFilter->addItem(tr("<no filter>"));
     QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
 
     QStringList nameFilters;
     nameFilters << "*.lua";
     foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
-        comboBoxFilter->addItem(fileInfo.baseName());
+        _comboBoxFilter->addItem(fileInfo.baseName());
 }
 
 void ChannelWidget::filterActivated(int)
 {
-    if (stackedWidgetEntry->currentWidget() == lineEditWidget)
-        lineEditWidget->setFocus();
+    if (_stackedWidgetEntry->currentWidget() == _lineEditWidget)
+        _lineEditWidget->setFocus();
     else
-        historyWidget->setFocus();
+        _historyWidget->setFocus();
 }
 
 void ChannelWidget::outputFilterSendToChat(const QString &text)
 {
-    m_session->send(text);
+    _session->send(text);
 }
 
 void ChannelWidget::whoBlinking()
 {
     bool stopAll = true;
-    foreach (const QString &user, userToWhoBlinkTime.keys())
+    foreach (const QString &user, _userToWhoBlinkTime.keys())
     {
-        int blinkTime = userToWhoBlinkTime[user];
+        int blinkTime = _userToWhoBlinkTime[user];
         if (blinkTime > 0)
         {
             stopAll = false;
             // It remains time to blink
-            userToWhoBlinkTime[user] = blinkTime - timerWhoBlinking.interval();
+            _userToWhoBlinkTime[user] = blinkTime - _timerWhoBlinking.interval();
             QListWidgetItem *item = getWhoItemByNickname(user);
             if (item)
             {
                 QColor currentColor = item->textColor();
                 int red = currentColor.red();
-                if (userToWhoAscendingOrder[user])
+                if (_userToWhoAscendingOrder[user])
                 {
                     if (red < 255)
                     {
@@ -931,7 +931,7 @@ void ChannelWidget::whoBlinking()
                             currentColor.setRed(255);
                     }
                     else
-                        userToWhoAscendingOrder[user] = false;
+                        _userToWhoAscendingOrder[user] = false;
                 } else
                 {
                     if (red > 0)
@@ -942,17 +942,17 @@ void ChannelWidget::whoBlinking()
                             currentColor.setRed(0);
                     }
                     else
-                        userToWhoAscendingOrder[user] = true;
+                        _userToWhoAscendingOrder[user] = true;
                 }
                 item->setTextColor(currentColor);
             }
 
-            if (userToWhoBlinkTime[user] <= 0 && item)
+            if (_userToWhoBlinkTime[user] <= 0 && item)
                 item->setTextColor(item->listWidget()->palette().color(QPalette::WindowText));
         }
     }
     if (stopAll)
-        timerWhoBlinking.stop();
+        _timerWhoBlinking.stop();
 }
 
 void ChannelWidget::toggleSearchWidgetVisibility()
@@ -963,10 +963,10 @@ void ChannelWidget::toggleSearchWidgetVisibility()
         _searchWidget->afterShow();
     else
     {
-        if (stackedWidgetEntry->currentIndex() == 0)
-            lineEditWidget->setFocus();
+        if (_stackedWidgetEntry->currentIndex() == 0)
+            _lineEditWidget->setFocus();
         else
-            historyWidget->setFocus();
+            _historyWidget->setFocus();
     }
 }
 

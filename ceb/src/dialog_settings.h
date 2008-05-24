@@ -47,82 +47,82 @@ protected slots:
 
 private:
     // General
-    QComboBox *comboBoxLanguage;
-    QCheckBox *checkBoxCheckForUpdate;
+    QComboBox *_comboBoxLanguage;
+    QCheckBox *_checkBoxCheckForUpdate;
 
     // Shortcuts
-    QWidget *shortcutsWidget;
+    QWidget *_shortcutsWidget;
 
     // Connections
-    QTreeWidgetItem *itemConnections;
-    QPushButton *pushButtonNewConnection;
+    QTreeWidgetItem *_itemConnections;
+    QPushButton *_pushButtonNewConnection;
 
     // Fonts
-    QWidget *fontsWidget;
+    QWidget *_fontsWidget;
 
     // Detailed fonts
-    QWidget *detailedFontsWidget;
+    QWidget *_detailedFontsWidget;
 
     // Logs
-    QGroupBox *groupBoxLogs;
-    QRadioButton *radioButtonLogsDefaultDir;
-    QRadioButton *radioButtonLogsCustomDir;
-    QLineEdit *lineEditLogsCustomDir;
-    QRadioButton *radioButtonLogsDaily;
-    QRadioButton *radioButtonLogsWeekly;
-    QRadioButton *radioButtonLogsMonthly;
-    QRadioButton *radioButtonLogsUniq;
-    QCheckBox *checkBoxLogsTimeStamp;
+    QGroupBox *_groupBoxLogs;
+    QRadioButton *_radioButtonLogsDefaultDir;
+    QRadioButton *_radioButtonLogsCustomDir;
+    QLineEdit *_lineEditLogsCustomDir;
+    QRadioButton *_radioButtonLogsDaily;
+    QRadioButton *_radioButtonLogsWeekly;
+    QRadioButton *_radioButtonLogsMonthly;
+    QRadioButton *_radioButtonLogsUniq;
+    QCheckBox *_checkBoxLogsTimeStamp;
 
     // Tray
-    QGroupBox *groupBoxTray;
-    QCheckBox *checkBoxTrayAlwaysVisible;
-    QCheckBox *checkBoxTrayHideFromTaskBar;
+    QGroupBox *_groupBoxTray;
+    QCheckBox *_checkBoxTrayAlwaysVisible;
+    QCheckBox *_checkBoxTrayHideFromTaskBar;
 
     // Warningo
-    QWidget *warningoWidget;
+    QWidget *_warningoWidget;
 
     // Sounds
-    QWidget *soundsWidget;
+    QWidget *_soundsWidget;
 
     // Idle
-    QWidget *idleWidget;
+    QWidget *_idleWidget;
 
     // Tabs
-    QCheckBox *checkBoxTabsIcons;
-    QStackedWidget *stackedWidgetTabs;
-    QRadioButton *radioButtonTabsAllInOne;
-    QRadioButton *radioButtonTabsAllInTop;
-    QRadioButton *radioButtonTabsAllInBottom;
-    QRadioButton *radioButtonTabsSuper;
-    QRadioButton *radioButtonTabsSuperOnTop;
-    QRadioButton *radioButtonTabsSuperOnBottom;
-    QRadioButton *radioButtonTabsOnTop;
-    QRadioButton *radioButtonTabsOnBottom;
-    MultiTabWidget *mtwExample;
+    QCheckBox *_checkBoxTabsIcons;
+    QStackedWidget *_stackedWidgetTabs;
+    QRadioButton *_radioButtonTabsAllInOne;
+    QRadioButton *_radioButtonTabsAllInTop;
+    QRadioButton *_radioButtonTabsAllInBottom;
+    QRadioButton *_radioButtonTabsSuper;
+    QRadioButton *_radioButtonTabsSuperOnTop;
+    QRadioButton *_radioButtonTabsSuperOnBottom;
+    QRadioButton *_radioButtonTabsOnTop;
+    QRadioButton *_radioButtonTabsOnBottom;
+    MultiTabWidget *_mtwExample;
 
     // Links
-    QWidget *linksWidget;
+    QWidget *_linksWidget;
 
     // Output
-    QGroupBox *groupBoxAwaySeparator;
-    QLineEdit *lineEditAwaySeparatorColor;
-    QPushButton *pushButtonAwaySeparatorColor;
-    QSpinBox *spinBoxAwaySeparatorLength;
-    QLineEdit *lineEditAwaySeparatorPeriod;
+    QGroupBox *_groupBoxAwaySeparator;
+    QLineEdit *_lineEditAwaySeparatorColor;
+    QPushButton *_pushButtonAwaySeparatorColor;
+    QSpinBox *_spinBoxAwaySeparatorLength;
+    QLineEdit *_lineEditAwaySeparatorPeriod;
 
     // Misc
-    QRadioButton *radioButtonTimeStampClassic;
-    QRadioButton *radioButtonTimeStampAlways;
-    QRadioButton *radioButtonTimeStampNever;
-    QCheckBox *checkBoxTimeStampInTell;
-    QCheckBox *checkBoxKeepAlive;
-    QSpinBox *spinBoxKeepAlive;
-    QLabel *labelKeepAliveSeconds;
-    QCheckBox *checkBoxTabForWho;
-    QCheckBox *checkBoxTabForWall;
-    QCheckBox *checkBoxTabForFinger;
-    QCheckBox *checkBoxCopyOnSelection;
+    QRadioButton *_radioButtonTimeStampClassic;
+    QRadioButton *_radioButtonTimeStampAlways;
+    QRadioButton *_radioButtonTimeStampNever;
+    QCheckBox *_checkBoxTimeStampInTell;
+    QCheckBox *_checkBoxKeepAlive;
+    QSpinBox *_spinBoxKeepAlive;
+    QLabel *_labelKeepAliveSeconds;
+    QCheckBox *_checkBoxTabForWho;
+    QCheckBox *_checkBoxTabForWall;
+    QCheckBox *_checkBoxTabForFinger;
+    QCheckBox *_checkBoxCopyOnSelection;
 
     QWidget *createGeneralWidget();
     QWidget *createShortcutsWidget();
@@ -139,6 +139,8 @@ private:
     QWidget *createLinksWidget();
     QWidget *createOutputWidget();
     QWidget *createMiscWidget();
+
+    TextSkin _oldTextSkin;
 
     bool verifyControlsDatas();
 
@@ -161,8 +163,6 @@ private:
 
     QMap<QString, QString> displayToLanguage;
     QString getLanguageDisplay(const QString &language);
-
-    TextSkin m_oldTextSkin;
 
 private slots:
     void newSessionConfig();
