@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 
     int appRes = a.exec();
 
-    closeModifiers(); // Close all lua chunks
+    Script::closeModifiers(); // Close all lua chunks
 
     Profile::instance().save();
 

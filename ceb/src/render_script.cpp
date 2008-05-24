@@ -373,7 +373,7 @@ lua_State *loadLuaScript(const QString &filePath, bool &error)
     return l;
 }
 
-void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
+void Script::executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
 {
     if (luaScripts.find(tokenType) == luaScripts.end())
     {
@@ -442,7 +442,7 @@ void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSe
     }
 }
 
-void closeModifiers()
+void Script::closeModifiers()
 {
     foreach (const LuaScript &script, luaScripts)
         lua_close(script.l);

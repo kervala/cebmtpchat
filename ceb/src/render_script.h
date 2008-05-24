@@ -25,7 +25,10 @@
 #include "token.h"
 #include "render_segment.h"
 
-void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
-void closeModifiers();
+namespace Script
+{
+    void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
+    void closeModifiers();
+}
 
 #endif
