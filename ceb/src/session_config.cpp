@@ -22,11 +22,11 @@
 
 SessionConfig::SessionConfig()
 {
-    m_port = 4000;
-    m_furtiveMode = false;
-    m_autoconnect = false;
-    m_entryHeight = 30;
-    m_whoWidth = 80;
+    _port = 4000;
+    _furtiveMode = false;
+    _autoconnect = false;
+    _entryHeight = 30;
+    _whoWidth = 80;
 }
 
 SessionConfig::SessionConfig(const SessionConfig &config)
@@ -36,18 +36,18 @@ SessionConfig::SessionConfig(const SessionConfig &config)
 
 void SessionConfig::load(const QDomElement &rootElem)
 {
-    m_name = XmlHandler::read(rootElem, "name", "<noname>");
-    m_description = XmlHandler::read(rootElem, "description", "");
-    m_address = XmlHandler::read(rootElem, "address", "");
-    m_port = XmlHandler::read(rootElem, "port", 4000);
-    m_login = XmlHandler::read(rootElem, "login", "");
-    m_password = XmlHandler::read(rootElem, "password", "");
-    m_furtiveMode = XmlHandler::read(rootElem, "furtive_mode", false);
-    m_autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
-    m_manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
-    m_encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
-    m_entryHeight = XmlHandler::read(rootElem, "entry_height", 30);
-    m_whoWidth = XmlHandler::read(rootElem, "who_width", 80);
+    _name = XmlHandler::read(rootElem, "name", "<noname>");
+    _description = XmlHandler::read(rootElem, "description", "");
+    _address = XmlHandler::read(rootElem, "address", "");
+    _port = XmlHandler::read(rootElem, "port", 4000);
+    _login = XmlHandler::read(rootElem, "login", "");
+    _password = XmlHandler::read(rootElem, "password", "");
+    _furtiveMode = XmlHandler::read(rootElem, "furtive_mode", false);
+    _autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
+    _manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
+    _encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
+    _entryHeight = XmlHandler::read(rootElem, "entry_height", 30);
+    _whoWidth = XmlHandler::read(rootElem, "who_width", 80);
 
     // Backup servers
     const QDomElement backupServersElem = rootElem.firstChildElement("backup_servers");
@@ -56,7 +56,7 @@ void SessionConfig::load(const QDomElement &rootElem)
         QDomElement backupElem = backupServersElem.firstChildElement("backup_server");
         while (!backupElem.isNull())
         {
-            m_backupServers << BackupServer(XmlHandler::read(backupElem, "address", ""),
+            _backupServers << BackupServer(XmlHandler::read(backupElem, "address", ""),
                                             XmlHandler::read(backupElem, "port", 0));
             backupElem = backupElem.nextSiblingElement("backup_server");
         }
@@ -65,23 +65,23 @@ void SessionConfig::load(const QDomElement &rootElem)
 
 void SessionConfig::save(QDomElement &rootElem)
 {
-    XmlHandler::write(rootElem, "name", m_name);
-    XmlHandler::write(rootElem, "description", m_description);
-    XmlHandler::write(rootElem, "address", m_address);
-    XmlHandler::write(rootElem, "port", m_port);
-    XmlHandler::write(rootElem, "login", m_login);
-    XmlHandler::write(rootElem, "password", m_password);
-    XmlHandler::write(rootElem, "furtive_mode", m_furtiveMode);
-    XmlHandler::write(rootElem, "autoconnect", m_autoconnect);
-    XmlHandler::write(rootElem, "manage_backup_servers", m_manageBackupServers);
-    XmlHandler::write(rootElem, "encoding_mib", m_encodingMib);
-    XmlHandler::write(rootElem, "entry_height", m_entryHeight);
-    XmlHandler::write(rootElem, "who_width", m_whoWidth);
+    XmlHandler::write(rootElem, "name", _name);
+    XmlHandler::write(rootElem, "description", _description);
+    XmlHandler::write(rootElem, "address", _address);
+    XmlHandler::write(rootElem, "port", _port);
+    XmlHandler::write(rootElem, "login", _login);
+    XmlHandler::write(rootElem, "password", _password);
+    XmlHandler::write(rootElem, "furtive_mode", _furtiveMode);
+    XmlHandler::write(rootElem, "autoconnect", _autoconnect);
+    XmlHandler::write(rootElem, "manage_backup_servers", _manageBackupServers);
+    XmlHandler::write(rootElem, "encoding_mib", _encodingMib);
+    XmlHandler::write(rootElem, "entry_height", _entryHeight);
+    XmlHandler::write(rootElem, "who_width", _whoWidth);
 
     // Backup servers
     QDomElement serversElem = rootElem.ownerDocument().createElement("backup_servers");
     rootElem.appendChild(serversElem);
-    foreach (const BackupServer &server, m_backupServers)
+    foreach (const BackupServer &server, _backupServers)
     {
         QDomElement elem = rootElem.ownerDocument().createElement("backup_server");
         serversElem.appendChild(elem);
@@ -93,14 +93,14 @@ void SessionConfig::save(QDomElement &rootElem)
 SessionConfig &SessionConfig::getTemplate()
 {
     SessionConfig *config = new SessionConfig;
-    config->m_address = "mtpchat.melting-pot.org";
-    config->m_port = 4000;
-    config->m_description = QObject::tr("Official mtp server");
-    config->m_autoconnect = false;
-    config->m_manageBackupServers = true;
-    config->m_encodingMib = 111; // ISO-8859-15
-    config->m_entryHeight = 30;
-    config->m_whoWidth = 80;
+    config->_address = "mtpchat.melting-pot.org";
+    config->_port = 4000;
+    config->_description = QObject::tr("Official mtp server");
+    config->_autoconnect = false;
+    config->_manageBackupServers = true;
+    config->_encodingMib = 111; // ISO-8859-15
+    config->_entryHeight = 30;
+    config->_whoWidth = 80;
 
     // Default backup servers
     QList<BackupServer> backupServers;
@@ -113,15 +113,15 @@ SessionConfig &SessionConfig::getTemplate()
 BackupServer SessionConfig::nextBackupServer(const QString address, int port) const
 {
     int i = 0;
-    foreach (const BackupServer &server, m_backupServers)
+    foreach (const BackupServer &server, _backupServers)
     {
         if (server.address().toUpper() == address.toUpper() && server.port() == port)
-            return m_backupServers[(i + 1) % m_backupServers.count()];
+            return _backupServers[(i + 1) % _backupServers.count()];
 
         i++;
     }
-    if (address != "" && m_backupServers.count() > 0)
-        return m_backupServers[0];
+    if (address != "" && _backupServers.count() > 0)
+        return _backupServers[0];
 
     return BackupServer();
 }

@@ -119,11 +119,11 @@ Profile::~Profile()
 
 void Profile::clearSessionConfigList()
 {
-    while (m_sessionConfigList.count() > 0)
+    while (_sessionConfigList.count() > 0)
     {
-        SessionConfig *config = m_sessionConfigList.value(0);
+        SessionConfig *config = _sessionConfigList.value(0);
         delete config;
-        m_sessionConfigList.removeAt(0);
+        _sessionConfigList.removeAt(0);
     }
 }
 
@@ -311,7 +311,7 @@ bool Profile::load()
         while (!sessionElem.isNull())
         {
             SessionConfig *config = new SessionConfig;
-            m_sessionConfigList << config;
+            _sessionConfigList << config;
             config->load(sessionElem);
             sessionElem = sessionElem.nextSiblingElement("session");
         }
@@ -322,7 +322,7 @@ bool Profile::load()
     transferInit = XmlHandler::read(rootElem, "transfer_init", false);
 
     // Text skin
-    m_textSkin.load(rootElem);
+    _textSkin.load(rootElem);
 
     return true;
 }
@@ -470,11 +470,11 @@ void Profile::save() const
     // Session config
     QDomElement sessionsElem = document.createElement("sessions");
     rootElem.appendChild(sessionsElem);
-    for (int i = 0; i < m_sessionConfigList.count(); i++)
+    for (int i = 0; i < _sessionConfigList.count(); i++)
     {
         QDomElement elem = document.createElement("session");
         sessionsElem.appendChild(elem);
-        m_sessionConfigList.value(i)->save(elem);
+        _sessionConfigList.value(i)->save(elem);
     }
 
     XmlHandler::write(rootElem, "behind_nat", behindNAT);
@@ -482,7 +482,7 @@ void Profile::save() const
     XmlHandler::write(rootElem, "transfer_init", transferInit);
 
     // Skin
-    m_textSkin.save(rootElem);
+    _textSkin.save(rootElem);
 
     // Save
     QString xml = document.toString();
@@ -492,12 +492,12 @@ void Profile::save() const
 
 SessionConfig *Profile::sessionConfigAt(int i) const
 {
-    return m_sessionConfigList.value(i);;
+    return _sessionConfigList.value(i);;
 }
 
 SessionConfig *Profile::getSessionConfig(const QString &name) const
 {
-    foreach (SessionConfig *pConfig, m_sessionConfigList)
+    foreach (SessionConfig *pConfig, _sessionConfigList)
         if (pConfig->name() == name)
             return pConfig;
     return 0;
@@ -506,7 +506,7 @@ SessionConfig *Profile::getSessionConfig(const QString &name) const
 void Profile::addSessionConfig(const SessionConfig &config)
 {
     SessionConfig *newConfig = new SessionConfig(config);
-    m_sessionConfigList << newConfig;
+    _sessionConfigList << newConfig;
 }
 
 void Profile::deleteSessionConfig(const QString &name)
@@ -514,14 +514,14 @@ void Profile::deleteSessionConfig(const QString &name)
     SessionConfig *config = getSessionConfig(name);
     if (config)
     {
-        m_sessionConfigList.removeAt(m_sessionConfigList.indexOf(config));
+        _sessionConfigList.removeAt(_sessionConfigList.indexOf(config));
         delete config;
     }
 }
 
 const QList<SessionConfig *> Profile::sessionConfigs() const
 {
-    return m_sessionConfigList;
+    return _sessionConfigList;
 }
 
 Profile &Profile::operator=(const Profile &profile)
@@ -593,14 +593,14 @@ Profile &Profile::operator=(const Profile &profile)
 
 QString Profile::getUniqSessionConfigName()
 {
-    for (int i = 0; i <= m_sessionConfigList.count(); i++)
+    for (int i = 0; i <= _sessionConfigList.count(); i++)
     {
         QString tempName = "connection_" + QString::number(i);
         bool found = false;
 
-        for (int j = 0; j < m_sessionConfigList.count(); j++)
+        for (int j = 0; j < _sessionConfigList.count(); j++)
         {
-            const QString &sessionName = m_sessionConfigList.value(j)->name();
+            const QString &sessionName = _sessionConfigList.value(j)->name();
             if (!sessionName.localeAwareCompare(tempName, sessionName))
             {
                 found = true;
@@ -610,7 +610,7 @@ QString Profile::getUniqSessionConfigName()
         if (!found)
             return tempName;
     }
-    return "connection_" + QString::number(m_sessionConfigList.count());
+    return "connection_" + QString::number(_sessionConfigList.count());
 }
 
 QString Profile::getAwaySeparator()

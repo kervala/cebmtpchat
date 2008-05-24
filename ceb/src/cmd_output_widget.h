@@ -31,7 +31,7 @@ class CmdOutputWidget : public SessionWidget
 public:
     CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent = 0);
 
-    const QString &cmdName() const;
+    const QString &cmdName() const { return _cmdName; }
 
     virtual QString widgetCaption() const;
 
@@ -39,10 +39,10 @@ public slots:
     void newTokenFromSession(const Token &token);
 
 private:
-    QString m_cmdName;
+    QString _cmdName;
 
-    MyTextEdit *m_textEditOutput;
-    TokenRenderer m_tokenRenderer;
+    MyTextEdit *_textEditOutput;
+    TokenRenderer _tokenRenderer;
 
     void init();
     void scrollOutputToBottom();

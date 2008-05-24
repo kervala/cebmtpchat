@@ -22,20 +22,14 @@
 #include <QVBoxLayout>
 #include <QScrollBar>
 
-CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent) : SessionWidget(session, parent)
+CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent) : SessionWidget(session, parent),
+                                                                                              _cmdName(cmdName)
 {
-    m_cmdName = cmdName;
-
     init();
 
     // Connect session
     connect(_session, SIGNAL(newToken(const Token&)),
             this, SLOT(newTokenFromSession(const Token&)));
-}
-
-const QString &CmdOutputWidget::cmdName() const
-{
-    return m_cmdName;
 }
 
 void CmdOutputWidget::init()
@@ -44,24 +38,24 @@ void CmdOutputWidget::init()
     mainLayout->setMargin(2);
 
     // Main output
-    m_textEditOutput = new MyTextEdit;
-    m_tokenRenderer.setTextEdit(m_textEditOutput);
-    m_tokenRenderer.setSession(_session);
-    m_textEditOutput->setReadOnly(true);
-    m_textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    QPalette palette = m_textEditOutput->palette();
+    _textEditOutput = new MyTextEdit;
+    _tokenRenderer.setTextEdit(_textEditOutput);
+    _tokenRenderer.setSession(_session);
+    _textEditOutput->setReadOnly(true);
+    _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    QPalette palette = _textEditOutput->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    m_textEditOutput->setPalette(palette);
-    mainLayout->addWidget(m_textEditOutput);
-    QSizePolicy sizePolicy = m_textEditOutput->sizePolicy();
+    _textEditOutput->setPalette(palette);
+    mainLayout->addWidget(_textEditOutput);
+    QSizePolicy sizePolicy = _textEditOutput->sizePolicy();
     sizePolicy.setHorizontalStretch(1);
-    m_textEditOutput->setSizePolicy(sizePolicy);
-    m_textEditOutput->setCurrentFont(QFont("Bitstream Vera Sans Mono", 8, 0));
+    _textEditOutput->setSizePolicy(sizePolicy);
+    _textEditOutput->setCurrentFont(QFont("Bitstream Vera Sans Mono", 8, 0));
 }
 
 void CmdOutputWidget::newTokenFromSession(const Token &token)
 {
-    if (m_cmdName == "wall")
+    if (_cmdName == "wall")
         switch(token.type())
         {
         case Token::WallBegin:
@@ -71,7 +65,7 @@ void CmdOutputWidget::newTokenFromSession(const Token &token)
         default:
             return;
         }
-    else if (m_cmdName == "who")
+    else if (_cmdName == "who")
         switch(token.type())
         {
         case Token::WhoBegin:
@@ -83,7 +77,7 @@ void CmdOutputWidget::newTokenFromSession(const Token &token)
         default:
             return;
         }
-    else if (m_cmdName == "finger")
+    else if (_cmdName == "finger")
         switch(token.type())
         {
         case Token::FingerBegin:
@@ -94,10 +88,10 @@ void CmdOutputWidget::newTokenFromSession(const Token &token)
             return;
         }
 
-    QScrollBar *sb = m_textEditOutput->verticalScrollBar();
+    QScrollBar *sb = _textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
 
-    m_tokenRenderer.displayToken(token);
+    _tokenRenderer.displayToken(token);
 
     if (scrollDown)
         scrollOutputToBottom();
@@ -105,11 +99,11 @@ void CmdOutputWidget::newTokenFromSession(const Token &token)
 
 void CmdOutputWidget::scrollOutputToBottom()
 {
-    QScrollBar *sb = m_textEditOutput->verticalScrollBar();
+    QScrollBar *sb = _textEditOutput->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
 
 QString CmdOutputWidget::widgetCaption() const
 {
-    return m_cmdName;
+    return _cmdName;
 }

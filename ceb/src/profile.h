@@ -128,7 +128,7 @@ public:
 
     ActionManager actionManager;
 
-    TextSkin &textSkin() { return m_textSkin; }
+    TextSkin &textSkin() { return _textSkin; }
 
     const QList<SessionConfig *> sessionConfigs() const;
     QString getUniqSessionConfigName();
@@ -143,8 +143,8 @@ private:
     ~Profile();
 
     static Profile *_instance;
-    QList<SessionConfig *> m_sessionConfigList;
-    TextSkin m_textSkin;
+    QList<SessionConfig *> _sessionConfigList;
+    TextSkin _textSkin;
 
     void clearSessionConfigList();
     void init();
