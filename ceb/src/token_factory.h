@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MTP_ANALYZER_H
-#define MTP_ANALYZER_H
+#ifndef TOKEN_FACTORY_H
+#define TOKEN_FACTORY_H
 
 #include <QObject>
 #include <QRegExp>
@@ -27,20 +27,27 @@
 class MtpRegExp : public QRegExp
 {
 public:
-    MtpRegExp(const QString &pattern, const QList<int> arguments, const QString &example);
-    MtpRegExp(const QString &pattern, const QString &example);
-    MtpRegExp(const QString &pattern, const QList<int> arguments);
+    MtpRegExp(const QString &pattern, const QList<int> arguments, const QString &example) :
+        QRegExp(pattern),
+        _arguments(arguments),
+        _example(example) {}
+    MtpRegExp(const QString &pattern, const QString &example) :
+        QRegExp(pattern),
+        _example(example) {}
+    MtpRegExp(const QString &pattern, const QList<int> arguments) :
+        QRegExp(pattern),
+        _arguments(arguments) {}
     MtpRegExp(const QString &pattern) : QRegExp(pattern) {}
 
-    const QList<int> &arguments() const { return m_arguments; }
-    const QString &example() const { return m_example; }
+    const QList<int> &arguments() const { return _arguments; }
+    const QString &example() const { return _example; }
 
 private:
-    QList<int> m_arguments;
-    QString m_example;
+    QList<int> _arguments;
+    QString _example;
 };
 
-class MtpAnalyzer : public QObject
+class TokenFactory : public QObject
 {
     Q_OBJECT
 
@@ -77,26 +84,26 @@ public:
         int ID;
     };
 
-    MtpAnalyzer();
+    TokenFactory();
 
-    bool logged() const;
-    State state() const;
-    bool away() const;
+    bool logged() const { return _logged; }
+    State state() const { return _state; }
+    bool away() const { return _away; }
 
     QStringList split(const QString &message);
     void reset();
 
     int requestTicket(Command command);
 
-    const QList<MtpRegExp> &tokenRegexp() const { return m_tokenRegexp; }
+    const QList<MtpRegExp> &tokenRegexp() const { return _tokenRegexp; }
 
-    static const MtpAnalyzer defaultAnalyzer;
+    static const TokenFactory defaultFactory;
 
 public slots:
     void dataReceived(const QString &data);
 
 signals:
-    void tokenAnalyzed(const Token &token);
+    void newToken(const Token &token);
 
 private:
     static Token::Type whoTokens[];
@@ -108,13 +115,13 @@ private:
     static Token::Type messageTokens[];
     static Token::Type helpTokens[];
 
-    bool m_logged;
-    State m_state;
-    bool m_away;
+    bool _logged;
+    State _state;
+    bool _away;
 
-    QList<MtpRegExp> m_tokenRegexp;
-    QList<QRegExp> sendTokenRegexp;
-    QRegExp timeRegexp;
+    QList<MtpRegExp> _tokenRegexp;
+    QList<QRegExp> _sendTokenRegexp;
+    QRegExp _timeRegexp;
 
     QList<CommandTicket> tickets[Command_Count];
 

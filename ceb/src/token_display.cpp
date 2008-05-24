@@ -18,7 +18,7 @@
 
 #include <xml_handler.h>
 
-#include "mtp_analyzer.h"
+#include "token_factory.h"
 #include "token_info.h"
 
 #include "token_display.h"
@@ -94,7 +94,7 @@ void TokenDisplayElement::resetColor()
 
 ///////////////////////////////////////////////////////////
 
-const MtpAnalyzer TokenDisplay::m_analyzer;
+const TokenFactory TokenDisplay::_tokenFactory;
 
 TokenDisplay::TokenDisplay(Token::Type tokenType)
 {
@@ -114,7 +114,7 @@ void TokenDisplay::setTokenType(Token::Type tokenType)
     m_elements << TokenDisplayElement();
 
     // Other arguments
-    const MtpRegExp &regExp = m_analyzer.tokenRegexp()[_tokenType];
+    const MtpRegExp &regExp = _tokenFactory.tokenRegexp()[_tokenType];
     for (int i = 0; i < regExp.arguments().count(); ++i)
         m_elements << TokenDisplayElement();
 }

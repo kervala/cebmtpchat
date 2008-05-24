@@ -500,7 +500,7 @@ void ChannelWidget::newToken(const Token &token)
     break;
     case Token::YouJoinChannel:
     case Token::YouLeaveChannel:
-        whoTicketID = m_session->requestTicket(MtpAnalyzer::Command_Who);
+        whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
         m_session->send("who all");
         break;
     case Token::SomeoneJoinChannel:
@@ -645,13 +645,13 @@ void ChannelWidget::sessionConnected()
 void ChannelWidget::sessionLogged()
 {
     // Send "set client"
-    setClientTicketID = m_session->requestTicket(MtpAnalyzer::Command_SetClient);
+    setClientTicketID = m_session->requestTicket(TokenFactory::Command_SetClient);
     m_session->send("set client CeB Alpha " + QString(VERSION));
 
     // Send first who
-    whoTicketID = m_session->requestTicket(MtpAnalyzer::Command_Who);
+    whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
     m_session->send("who all");
-    helpTicketID = m_session->requestTicket(MtpAnalyzer::Command_Help);
+    helpTicketID = m_session->requestTicket(TokenFactory::Command_Help);
     m_session->send("help serverlist");
 
     // Switch entry widget
@@ -738,7 +738,7 @@ void ChannelWidget::timerTimeout()
 {
     if (m_session && m_session->isLogged())
     {
-        dateTicketID = m_session->requestTicket(MtpAnalyzer::Command_Date);
+        dateTicketID = m_session->requestTicket(TokenFactory::Command_Date);
         m_session->send("date", false);
     }
 }
@@ -769,7 +769,7 @@ void ChannelWidget::refreshKeepAlivePolicy()
 
 void ChannelWidget::refreshWhoColumn()
 {
-    whoTicketID = m_session->requestTicket(MtpAnalyzer::Command_Who);
+    whoTicketID = m_session->requestTicket(TokenFactory::Command_Who);
     m_session->send("who all");
 }
 

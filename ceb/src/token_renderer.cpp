@@ -18,7 +18,7 @@
 
 #include "profile.h"
 #include "token_display.h"
-#include "mtp_analyzer.h"
+#include "token_factory.h"
 #include "modifier.h"
 #include "render_segment.h"
 
@@ -44,7 +44,7 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
 
     // Compute segments
     QList<RenderSegment> segments;
-    MtpRegExp regExp = MtpAnalyzer::defaultAnalyzer.tokenRegexp()[token.type()];
+    MtpRegExp regExp = TokenFactory::defaultFactory.tokenRegexp()[token.type()];
     const QString &allLine = token.arguments()[0];
     QFont allLineFont = textSkin.tokenFont(token.type(), 0);
     QColor allLineColor = textSkin.tokenColor(token.type(), 0);

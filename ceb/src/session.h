@@ -24,7 +24,7 @@
 #include <QHostAddress>
 
 #include "session_config.h"
-#include "mtp_analyzer.h"
+#include "token_factory.h"
 #include "message_item.h"
 
 class Session : public QObject
@@ -53,7 +53,7 @@ public:
     quint16 serverPort() const { return m_serverPort; }
     const QString &serverLogin() const { return m_serverLogin; }
     void setServerLogin(const QString &newLogin) { m_serverLogin = newLogin; }
-    bool away() const { return m_analyzer.away(); }
+    bool away() const { return _tokenFactory.away(); }
     bool isConnected() const
         { return m_socket && m_socket->state() == QAbstractSocket::ConnectedState; }
     bool cleanDisconnected() const { return m_cleanDisconnected; }
@@ -69,10 +69,10 @@ public:
     void deactivateAutoAway();
     const QList<MessageItem> myMessages() const
         { return m_myMessages; }
-    const MtpAnalyzer &analyzer() const { return m_analyzer; }
+    const TokenFactory &tokenFactory() const { return _tokenFactory; }
     QString localAddress() const { return m_socket->localAddress().toString(); }
 
-    int requestTicket(MtpAnalyzer::Command command);
+    int requestTicket(TokenFactory::Command command);
 
     // Reset the backup servers ring
     void resetBackupServers();
@@ -81,7 +81,7 @@ private:
     SessionConfig *m_config;
     QTcpSocket *m_socket;
     bool m_cleanDisconnected;
-    MtpAnalyzer m_analyzer;
+    TokenFactory _tokenFactory;
     QString m_currentLine;
     QString m_serverAddress;
     int m_serverPort;

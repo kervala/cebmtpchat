@@ -31,7 +31,7 @@ SET(CEB_SRCS
 	src/session_config_widget.cpp
 	src/dialog_session_config.cpp
 	src/token_info.cpp
-	src/mtp_analyzer.cpp
+	src/token_factory.cpp
 	src/my_textedit.cpp
 	src/token.cpp
 	src/logger.cpp
@@ -99,7 +99,7 @@ SET(CEB_MOCH
 	src/session_manager.h
 	src/session_config_widget.h
 	src/dialog_session_config.h
-	src/mtp_analyzer.h
+	src/token_factory.h
 	src/my_textedit.h
 	src/logger.h
 	src/cmd_output_widget.h

@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QDomElement>
 
-#include "mtp_analyzer.h"
+#include "token_factory.h"
 
 class TokenDisplayElement
 {
@@ -68,7 +68,7 @@ public:
     bool isEmpty() const;
 
 private:
-    static const MtpAnalyzer m_analyzer;
+    static const TokenFactory _tokenFactory;
 
     Token::Type _tokenType;
     QList<TokenDisplayElement> m_elements;

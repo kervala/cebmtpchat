@@ -33,7 +33,7 @@ DetailedFontsSettingsWidget::DetailedFontsSettingsWidget(QWidget *parent) : Sett
     layout->setMargin(0);
     layout->addWidget(_textEdit = new MyTextEdit);
 
-    MtpAnalyzer analyzer;
+//    TokenFactory tokenFactory;
 
     // Fill nodes
     for (int i = 0; i < Token::End; ++i)
@@ -60,7 +60,7 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
     _currentTokenType = (Token::Type) listWidgetTokenTypes->row(current);
     labelTokenType->setText(current->text());
     listWidgetTokenArgs->clear();
-    int capCount = _analyzer.tokenRegexp()[_currentTokenType].arguments().count();
+    int capCount = _tokenFactory.tokenRegexp()[_currentTokenType].arguments().count();
     QListWidgetItem *newItem = new QListWidgetItem(tr("Entire line "));
     listWidgetTokenArgs->addItem(newItem);
     QFont font = newItem->font();
@@ -81,7 +81,7 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
         listWidgetTokenArgs->addItem(newItem);
     }
 
-    lineEditFont->setText(_analyzer.tokenRegexp()[_currentTokenType].example());
+    lineEditFont->setText(_tokenFactory.tokenRegexp()[_currentTokenType].example());
 
     // Focus the first
     listWidgetTokenArgs->setCurrentRow(0);

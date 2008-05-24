@@ -21,7 +21,7 @@
 
 #include "my_textedit.h"
 #include "settings_widget.h"
-#include "mtp_analyzer.h"
+#include "token_factory.h"
 #include "token.h"
 #include "ui_detailed_fonts_settings.h"
 
@@ -37,7 +37,7 @@ public:
 
 private:
     MyTextEdit *_textEdit;
-    MtpAnalyzer _analyzer;
+    TokenFactory _tokenFactory;
     Token::Type _currentTokenType;
     int _currentArg;
 

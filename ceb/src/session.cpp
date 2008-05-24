@@ -43,9 +43,8 @@ Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
     connect(m_socket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
     connect(m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
 
-    connect(this, SIGNAL(newData(const QString &)), &m_analyzer, SLOT(dataReceived(const QString &)));
-    connect(&m_analyzer, SIGNAL(tokenAnalyzed(const Token&)),
-            this, SLOT(tokenAnalyzed(const Token &)));
+    connect(this, SIGNAL(newData(const QString &)), &_tokenFactory, SLOT(dataReceived(const QString &)));
+    connect(&_tokenFactory, SIGNAL(newToken(const Token&)), this, SLOT(tokenAnalyzed(const Token &)));
     m_channel = "Hall";
     m_cleanDisconnected = false;
     m_autoAway = false;
@@ -67,7 +66,7 @@ void Session::start(const QString &address, int port)
     // If already connected => disconnect it
     if (m_socket->state() == QAbstractSocket::ConnectedState)
         stop();
-    m_analyzer.reset();
+    _tokenFactory.reset();
 
     // Get the next backup server
     BackupServer newBackupServer;
@@ -130,7 +129,7 @@ void Session::send(const QString &message, bool killIdle)
     }
 
     // If message is multi-lines, split it before sending
-    foreach (QString msg, m_analyzer.split(message))
+    foreach (QString msg, _tokenFactory.split(message))
     {
         // Avoid TELNET command code
         QString toSend = msg.replace(255, QString("%1%1").arg(QChar(255))) + '\n';
@@ -304,16 +303,16 @@ void Session::tokenAnalyzed(const Token &token)
     }
 }
 
-int Session::requestTicket(MtpAnalyzer::Command command)
+int Session::requestTicket(TokenFactory::Command command)
 {
-    return m_analyzer.requestTicket(command);
+    return _tokenFactory.requestTicket(command);
 }
 
 bool Session::isLogged() const
 {
     return m_socket &&
         m_socket->state() == QAbstractSocket::ConnectedState &&
-        m_analyzer.logged();
+        _tokenFactory.logged();
 }
 
 void Session::resetIdle()

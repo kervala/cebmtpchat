@@ -200,7 +200,7 @@ void MessageWidget::refreshMessages()
     if (!m_session->isLogged())
         return;
 
-    m_session->requestTicket(MtpAnalyzer::Command_ShowMsg);
+    m_session->requestTicket(TokenFactory::Command_ShowMsg);
     m_session->send("showmsg");
 }
 
