@@ -35,18 +35,10 @@ extern "C" {
 
 #include "token_info.h"
 #include "paths.h"
+#include "script.h"
 
 #include "render_script.h"
 
-class LuaScript
-{
-public:
-    QString filePath;
-    QDateTime fileDateTime;
-    lua_State *l;
-};
-
-static QMap<Token::Type, LuaScript> luaScripts;
 static Session *_session;
 static Token::Type _token;
 static QList<RenderSegment> *_segments;
