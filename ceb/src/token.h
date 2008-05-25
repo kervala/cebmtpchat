@@ -123,6 +123,7 @@ public:
 	End = Unknown
     };
 
+    Token();
     Token(Type type, const QStringList &arguments,
           const QList<int> &positions,
           int ticketID, const QTime &timeStamp);
@@ -130,6 +131,7 @@ public:
           const QList<int> &positions,
           int ticketID);
 
+    bool isValid() const { return _isValid; }
     const QString &line() const { return _arguments[0]; }
     const Type type() const { return _type; }
     const QStringList &arguments() const { return _arguments; }
@@ -138,6 +140,7 @@ public:
     int ticketID() const { return _ticketID; }
 
 private:
+    bool _isValid;
     Type _type;
     QStringList _arguments;
     QList<int> _positions;

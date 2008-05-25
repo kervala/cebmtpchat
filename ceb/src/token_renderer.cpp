@@ -108,7 +108,7 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     }
 
     // Execute modifier
-    Script::executeRenderScript(_session, token.type(), segments);
+    RenderScript::executeRenderScript(_session, token.type(), segments);
 
     // Render all
     foreach (const RenderSegment &segment, segments)

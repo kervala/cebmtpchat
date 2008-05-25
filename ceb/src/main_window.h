@@ -45,8 +45,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow();
+    static MainWindow *instance();
+
+    //! For Lua scripts
+    QWidget *getTab(Session *session, const QString &category, const QString &argument);
+    void setTabColor(QWidget *widget, const QColor &color);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -58,6 +61,8 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private:
+    static MainWindow *_instance;
+
     // Menu bar
     MyMenuBar *mbMain;
     // Connections menu
@@ -88,6 +93,9 @@ private:
     bool trayTalkAboutMe;
     AutoUpdate autoUpdate;
     QSignalMapper *actionSignalMapper;
+
+    MainWindow();
+    ~MainWindow();
 
     void makeMenuBar();
     void makeToolBar();

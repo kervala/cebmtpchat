@@ -19,9 +19,11 @@
 #include <QIODevice>
 #include <QTextCodec>
 
-#include "session.h"
 #include "dialog_system.h"
 #include "profile.h"
+#include "token_script.h"
+
+#include "session.h"
 
 Session::Session(QObject *parent) : QObject(parent)
 {
@@ -291,6 +293,9 @@ void Session::tokenAnalyzed(const Token &token)
     }
 
     emit newToken(token);
+
+    // Execute modifier
+    TokenScript::executeTokenScript(this, token);
 
     // After signal propagation, we treat some special tokens...
     switch(token.type())

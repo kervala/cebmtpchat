@@ -33,6 +33,7 @@
 #include "lua_utils.h"
 #include "transfers_manager.h"
 #include "paths.h"
+#include "main_window.h"
 
 #include "channel_widget.h"
 
@@ -580,6 +581,8 @@ void ChannelWidget::newToken(const Token &token)
 
     if (scrollDown)
        _textEditOutput->scrollOutputToBottom();
+
+    MainWindow::instance()->setTabColor(this, Qt::blue);
 }
 
 void ChannelWidget::colorizeChatItems(const QColor &color)

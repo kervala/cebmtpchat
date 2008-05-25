@@ -18,16 +18,24 @@
 
 #include "token.h"
 
+Token::Token()
+{
+    init(End, QStringList(), QList<int>(), -1, QTime());
+    _isValid = false;
+}
+
 Token::Token(Type type, const QStringList &arguments,
              const QList<int> &positions, int ticketID, const QTime &timeStamp)
 {
     init(type, arguments, positions, ticketID, timeStamp);
+    _isValid = true;
 }
 
 Token::Token(Type type, const QStringList &arguments,
              const QList<int> &positions, int ticketID)
 {
     init(type, arguments, positions, ticketID, QTime::currentTime());
+    _isValid = true;
 }
 
 void Token::init(Type type, const QStringList &arguments,

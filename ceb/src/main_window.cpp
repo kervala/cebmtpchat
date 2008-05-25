@@ -50,6 +50,16 @@
 
 #include "main_window.h"
 
+MainWindow *MainWindow::_instance = 0;
+
+MainWindow *MainWindow::instance()
+{
+    if (!_instance)
+        _instance = new MainWindow;
+
+    return _instance;
+}
+
 MainWindow::MainWindow()
 {
     setWindowTitle("CeB");
@@ -161,6 +171,18 @@ MainWindow::~MainWindow()
 {
     // Free some singletons
     SessionManager::free();
+}
+
+QWidget *MainWindow::getTab(Session *session, const QString &category, const QString &argument)
+{
+    if (!category.compare("tell"))
+        return getTellWidget(session, argument);
+    return 0;
+}
+
+void MainWindow::setTabColor(QWidget *widget, const QColor &color)
+{
+    mtwMain->changeTabTextColor(widget, color);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
