@@ -14,11 +14,17 @@ extern "C" {
 }
 
 #include "token.h"
+#include "session.h"
 
 namespace Script
 {
+    Session *getSession();
+    void setSession(Session *session);
+
     lua_State *getScript(Token::Type tokenType);
+
+    void unregisterFunction(lua_State *l, const char *name);
     void closeModifiers();
-};
+}
 
 #endif

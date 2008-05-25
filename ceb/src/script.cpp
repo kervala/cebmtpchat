@@ -21,6 +21,45 @@ namespace Script
 
     static QMap<Token::Type, LuaScript> luaScripts;
 
+    Session *g_session = 0;
+
+    Session *getSession() { return g_session; }
+    void setSession(Session *session) { g_session = session; }
+
+    int getSessionInfo(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString infoToken(lua_tostring(l, 1));
+
+        if (infoToken.toLower() == "login")
+        {
+            lua_pushstring(l, g_session->serverLogin().toLatin1());
+        } else
+            lua_pushstring(l, "");
+
+        return 1;
+    }
+
+    int sessionSend(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        g_session->send(lua_tostring(l, 1));
+
+        return 0;
+    }
+
     lua_State *loadScript(const QString &filePath, bool &error)
     {
         lua_State *l = luaL_newstate();
@@ -32,6 +71,10 @@ namespace Script
             error = true;
             return 0;
         }
+
+        // Register some basic functions
+        lua_register(l, "getSessionInfo", getSessionInfo);
+        lua_register(l, "sessionSend", sessionSend);
 
         error = false;
         return l;
@@ -96,5 +139,11 @@ namespace Script
         foreach (const LuaScript &script, luaScripts)
             lua_close(script.l);
         luaScripts.clear();
+    }
+
+    void unregisterFunction(lua_State *l, const char *name)
+    {
+        lua_pushnil(l);
+        lua_setglobal(l, name);
     }
 }

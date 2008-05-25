@@ -66,6 +66,7 @@ SET(CEB_SRCS
         src/global.cpp
         src/paths.cpp
         src/script.cpp
+        src/token_script.cpp
 )
 
 SET(CEB_UIS
