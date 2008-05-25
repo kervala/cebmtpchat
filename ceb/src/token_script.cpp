@@ -1,7 +1,9 @@
 #include <QMessageBox>
+#include <QDir>
 
 #include "script.h"
 #include "main_window.h"
+#include "paths.h"
 
 #include "token_script.h"
 
@@ -10,7 +12,7 @@ static Token g_token;
 int getTab(lua_State *l)
 {
     int n = lua_gettop(l); // Arguments number
-    if (n != 2)
+    if (n < 1 || n > 2)
         return 0;
 
     if (!lua_isstring(l, 1))
@@ -18,10 +20,12 @@ int getTab(lua_State *l)
 
     QString category(lua_tostring(l, 1));
 
-    if (!lua_isstring(l, 2))
-        return 0;
-
-    QString arg(lua_tostring(l, 2));
+    QString arg;
+    if (n == 2)
+        if (!lua_isstring(l, 2))
+            return 0;
+        else
+            arg = QString(lua_tostring(l, 2));
 
     lua_pushlightuserdata(l, MainWindow::instance()->getTab(Script::getSession(), category, arg));
 
@@ -69,12 +73,29 @@ int setTabColor(lua_State *l)
     return 0;
 }
 
+int isTabFocused(lua_State *l)
+{
+    int n = lua_gettop(l); // Arguments number
+    if (n != 1)
+        return 0;
+
+    if (!lua_islightuserdata(l, 1))
+        return 0;
+
+    QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+    lua_pushboolean(l, MainWindow::instance()->isTabFocused(tab));
+
+    return 1;
+}
+
 void TokenScript::registerFunctions(lua_State *l)
 {
     lua_register(l, "tokenArgumentCount", tokenArgumentCount);
     lua_register(l, "tokenArgument", tokenArgument);
     lua_register(l, "getTab", getTab);
     lua_register(l, "setTabColor", setTabColor);
+    lua_register(l, "isTabFocused", isTabFocused);
 }
 
 void TokenScript::unregisterFunctions(lua_State *l)
@@ -83,6 +104,7 @@ void TokenScript::unregisterFunctions(lua_State *l)
     Script::unregisterFunction(l, "tokenArgument");
     Script::unregisterFunction(l, "getTab");
     Script::unregisterFunction(l, "setTabColor");
+    Script::unregisterFunction(l, "isTabFocused");
 }
 
 void TokenScript::executeTokenScript(Session *session, const Token &token)

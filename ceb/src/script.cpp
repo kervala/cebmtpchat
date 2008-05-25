@@ -65,6 +65,15 @@ namespace Script
         lua_State *l = luaL_newstate();
         luaL_openlibs(l);
 
+        lua_getfield(l, LUA_GLOBALSINDEX, "package");   /* table to be indexed */
+        lua_getfield(l, -1, "path");        /* push result of t.x (2nd arg) */
+        lua_remove(l, -2);
+        QString path = QDir(QDir(Paths::sharePath()).filePath("modifiers")).filePath("?.lua") + ";" + QString(lua_tostring(l, -1));
+        lua_getfield(l, LUA_GLOBALSINDEX, "package");
+        lua_pushstring(l, path.toLatin1());
+        lua_setfield(l, -2, "path");
+        lua_remove(l, -1);
+
         if (luaL_loadfile(l, filePath.toLocal8Bit()) || lua_pcall(l, 0, 0, 0))
         {
             QMessageBox::critical(0, "LUA", "error in loading script " + filePath);

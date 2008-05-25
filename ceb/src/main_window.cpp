@@ -177,12 +177,19 @@ QWidget *MainWindow::getTab(Session *session, const QString &category, const QSt
 {
     if (!category.compare("tell"))
         return getTellWidget(session, argument);
+    else if (!category.compare("channel"))
+        return getChannelWidget(session);
     return 0;
 }
 
 void MainWindow::setTabColor(QWidget *widget, const QColor &color)
 {
     mtwMain->changeTabTextColor(widget, color);
+}
+
+bool MainWindow::isTabFocused(QWidget *widget)
+{
+    return widget == mtwMain->focusedWidget();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
