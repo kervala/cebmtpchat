@@ -13,24 +13,11 @@ extern "C" {
 #endif
 }
 
-#include <QString>
-#include <QDateTime>
-#include <QMap>
-
 #include "token.h"
 
 namespace Script
 {
-    class LuaScript
-    {
-    public:
-        QString filePath;
-        QDateTime fileDateTime;
-        lua_State *l;
-    };
-
-    static QMap<Token::Type, LuaScript> luaScripts;
-
+    lua_State *getScript(Token::Type tokenType);
     void closeModifiers();
 };
 

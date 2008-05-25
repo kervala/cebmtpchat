@@ -39,404 +39,347 @@ extern "C" {
 
 #include "render_script.h"
 
-static Session *_session;
-static Token::Type _token;
-static QList<RenderSegment> *_segments;
-
-int segmentsCount(lua_State *l)
+namespace Script
 {
-    lua_pushinteger(l, _segments->count());
-    return 1;
-}
+    static bool _functionsRegistered = false;
+    static Session *_session;
+    static Token::Type _token;
+    static QList<RenderSegment> *_segments;
 
-int setSegmentsCount(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int segNum = (int) lua_tonumber(l, 1);
-
-    if (segNum < _segments->count())
-        while (_segments->count() > segNum)
-            _segments->removeLast();
-    else if (segNum > _segments->count())
-        while (_segments->count() < segNum)
-            (*_segments) << RenderSegment("toto", QFont(), Qt::black);
-
-    return 0;
-}
-
-int setSegmentText(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isstring(l, 2))
-        return 0;
-
-    (*_segments)[argNum].setText(lua_tostring(l, 2));
-
-    return 0;
-}
-
-int getSegmentText(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
-    return 1;
-}
-
-int setSegmentColor(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isstring(l, 2))
-        return 0;
-
-    (*_segments)[argNum].setColor("#" + QString(lua_tostring(l, 2)));
-
-    return 0;
-}
-
-int getSegmentColor(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
-    return 1;
-}
-
-int setSegmentFont(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isstring(l, 2))
-        return 0;
-
-    QFont font = (*_segments)[argNum].font();
-    font.setFamily(QString(lua_tostring(l, 2)));
-    (*_segments)[argNum].setFont(font);
-
-    return 0;
-}
-
-int getSegmentFont(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushstring(l, (*_segments)[argNum].font().family().toLatin1());
-    return 1;
-}
-
-int setSegmentSize(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isnumber(l, 2))
-        return 0;
-
-    QFont font = (*_segments)[argNum].font();
-    font.setPointSize((int) lua_tonumber(l, 2));
-    (*_segments)[argNum].setFont(font);
-
-    return 0;
-}
-
-int getSegmentSize(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushinteger(l, (*_segments)[argNum].font().pointSize());
-    return 1;
-}
-
-int setSegmentItalic(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isboolean(l, 2))
-        return 0;
-
-    QFont font = (*_segments)[argNum].font();
-    font.setItalic(lua_toboolean(l, 2));
-    (*_segments)[argNum].setFont(font);
-
-    return 0;
-}
-
-int getSegmentItalic(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushboolean(l, (*_segments)[argNum].font().italic());
-    return 1;
-}
-
-int setSegmentBold(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isboolean(l, 2))
-        return 0;
-
-    QFont font = (*_segments)[argNum].font();
-    font.setBold(lua_toboolean(l, 2));
-    (*_segments)[argNum].setFont(font);
-
-    return 0;
-}
-
-int getSegmentBold(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushboolean(l, (*_segments)[argNum].font().bold());
-    return 1;
-}
-
-int setSegmentUnderline(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 2)
-        return 0;
-
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    if (!lua_isboolean(l, 2))
-        return 0;
-
-    QFont font = (*_segments)[argNum].font();
-    font.setUnderline(lua_toboolean(l, 2));
-    (*_segments)[argNum].setFont(font);
-
-    return 0;
-}
-
-int getSegmentUnderline(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-    if (!lua_isnumber(l, 1))
-        return 0;
-    int argNum = (int) lua_tonumber(l, 1);
-
-    lua_pushboolean(l, (*_segments)[argNum].font().underline());
-    return 1;
-}
-
-int getSessionInfo(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-
-    if (!lua_isstring(l, 1))
-        return 0;
-
-    QString infoToken(lua_tostring(l, 1));
-
-    if (infoToken.toLower() == "login")
+    int segmentsCount(lua_State *l)
     {
-        lua_pushstring(l, _session->serverLogin().toLatin1());
-    } else
-        lua_pushstring(l, "");
+        lua_pushinteger(l, _segments->count());
+        return 1;
+    }
 
-    return 1;
-}
-
-int sessionSend(lua_State *l)
-{
-    int n = lua_gettop(l); // Arguments number
-    if (n != 1)
-        return 0;
-
-    if (!lua_isstring(l, 1))
-        return 0;
-
-    _session->send(lua_tostring(l, 1));
-
-    return 0;
-}
-
-lua_State *loadLuaScript(const QString &filePath, bool &error)
-{
-    lua_State *l = lua_open();
-    luaL_openlibs(l);
-
-    if (luaL_loadfile(l, filePath.toLocal8Bit()) || lua_pcall(l, 0, 0, 0))
+    int setSegmentsCount(lua_State *l)
     {
-        QMessageBox::critical(0, "LUA", "error in loading script " + filePath);
-        error = true;
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int segNum = (int) lua_tonumber(l, 1);
+
+        if (segNum < _segments->count())
+            while (_segments->count() > segNum)
+                _segments->removeLast();
+        else if (segNum > _segments->count())
+            while (_segments->count() < segNum)
+                (*_segments) << RenderSegment("toto", QFont(), Qt::black);
+
         return 0;
     }
 
-    lua_register(l, "getSessionInfo", getSessionInfo);
-    lua_register(l, "sessionSend", sessionSend);
-    lua_register(l, "segmentsCount", segmentsCount);
-    lua_register(l, "setSegmentsCount", setSegmentsCount);
-    lua_register(l, "getSegmentText", getSegmentText);
-    lua_register(l, "setSegmentText", setSegmentText);
-    lua_register(l, "getSegmentColor", getSegmentColor);
-    lua_register(l, "setSegmentColor", setSegmentColor);
-    lua_register(l, "getSegmentFont", getSegmentFont);
-    lua_register(l, "setSegmentFont", setSegmentFont);
-    lua_register(l, "getSegmentSize", getSegmentSize);
-    lua_register(l, "setSegmentSize", setSegmentSize);
-    lua_register(l, "getSegmentItalic", getSegmentItalic);
-    lua_register(l, "setSegmentItalic", setSegmentItalic);
-    lua_register(l, "getSegmentBold", getSegmentBold);
-    lua_register(l, "setSegmentBold", setSegmentBold);
-    lua_register(l, "getSegmentUnderline", getSegmentUnderline);
-    lua_register(l, "setSegmentUnderline", setSegmentUnderline);
-
-    error = false;
-    return l;
-}
-
-void Script::executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
-{
-    if (luaScripts.find(tokenType) == luaScripts.end())
+    int setSegmentText(lua_State *l)
     {
-        // File exists now?
-        QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
-        QString fileName = modifiersDir.filePath(
-            TokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
-        if (QFile(fileName).exists())
-        {
-            bool error;
-            lua_State *l = loadLuaScript(fileName, error);
-            if (error)
-                return;
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
 
-            LuaScript script;
-            script.filePath = fileName;
-            script.fileDateTime = QFileInfo(fileName).lastModified();
-            script.l = l;
-            luaScripts[tokenType] = script;
-        }
-        else
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isstring(l, 2))
+            return 0;
+
+        (*_segments)[argNum].setText(lua_tostring(l, 2));
+
+        return 0;
+    }
+
+    int getSegmentText(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
+        return 1;
+    }
+
+    int setSegmentColor(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isstring(l, 2))
+            return 0;
+
+        (*_segments)[argNum].setColor("#" + QString(lua_tostring(l, 2)));
+
+        return 0;
+    }
+
+    int getSegmentColor(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushstring(l, (*_segments)[argNum].text().toLatin1());
+        return 1;
+    }
+
+    int setSegmentFont(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isstring(l, 2))
+            return 0;
+
+        QFont font = (*_segments)[argNum].font();
+        font.setFamily(QString(lua_tostring(l, 2)));
+        (*_segments)[argNum].setFont(font);
+
+        return 0;
+    }
+
+    int getSegmentFont(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushstring(l, (*_segments)[argNum].font().family().toLatin1());
+        return 1;
+    }
+
+    int setSegmentSize(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isnumber(l, 2))
+            return 0;
+
+        QFont font = (*_segments)[argNum].font();
+        font.setPointSize((int) lua_tonumber(l, 2));
+        (*_segments)[argNum].setFont(font);
+
+        return 0;
+    }
+
+    int getSegmentSize(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushinteger(l, (*_segments)[argNum].font().pointSize());
+        return 1;
+    }
+
+    int setSegmentItalic(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isboolean(l, 2))
+            return 0;
+
+        QFont font = (*_segments)[argNum].font();
+        font.setItalic(lua_toboolean(l, 2));
+        (*_segments)[argNum].setFont(font);
+
+        return 0;
+    }
+
+    int getSegmentItalic(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushboolean(l, (*_segments)[argNum].font().italic());
+        return 1;
+    }
+
+    int setSegmentBold(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isboolean(l, 2))
+            return 0;
+
+        QFont font = (*_segments)[argNum].font();
+        font.setBold(lua_toboolean(l, 2));
+        (*_segments)[argNum].setFont(font);
+
+        return 0;
+    }
+
+    int getSegmentBold(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushboolean(l, (*_segments)[argNum].font().bold());
+        return 1;
+    }
+
+    int setSegmentUnderline(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 2)
+            return 0;
+
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        if (!lua_isboolean(l, 2))
+            return 0;
+
+        QFont font = (*_segments)[argNum].font();
+        font.setUnderline(lua_toboolean(l, 2));
+        (*_segments)[argNum].setFont(font);
+
+        return 0;
+    }
+
+    int getSegmentUnderline(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+        if (!lua_isnumber(l, 1))
+            return 0;
+        int argNum = (int) lua_tonumber(l, 1);
+
+        lua_pushboolean(l, (*_segments)[argNum].font().underline());
+        return 1;
+    }
+
+    int getSessionInfo(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString infoToken(lua_tostring(l, 1));
+
+        if (infoToken.toLower() == "login")
+        {
+            lua_pushstring(l, _session->serverLogin().toLatin1());
+        } else
+            lua_pushstring(l, "");
+
+        return 1;
+    }
+
+    int sessionSend(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        _session->send(lua_tostring(l, 1));
+
+        return 0;
+    }
+
+    void registerFunctions(lua_State *l)
+    {
+        lua_register(l, "getSessionInfo", getSessionInfo);
+        lua_register(l, "sessionSend", sessionSend);
+        lua_register(l, "segmentsCount", segmentsCount);
+        lua_register(l, "setSegmentsCount", setSegmentsCount);
+        lua_register(l, "getSegmentText", getSegmentText);
+        lua_register(l, "setSegmentText", setSegmentText);
+        lua_register(l, "getSegmentColor", getSegmentColor);
+        lua_register(l, "setSegmentColor", setSegmentColor);
+        lua_register(l, "getSegmentFont", getSegmentFont);
+        lua_register(l, "setSegmentFont", setSegmentFont);
+        lua_register(l, "getSegmentSize", getSegmentSize);
+        lua_register(l, "setSegmentSize", setSegmentSize);
+        lua_register(l, "getSegmentItalic", getSegmentItalic);
+        lua_register(l, "setSegmentItalic", setSegmentItalic);
+        lua_register(l, "getSegmentBold", getSegmentBold);
+        lua_register(l, "setSegmentBold", setSegmentBold);
+        lua_register(l, "getSegmentUnderline", getSegmentUnderline);
+        lua_register(l, "setSegmentUnderline", setSegmentUnderline);
+    }
+
+    void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
+    {
+        lua_State *l = getScript(tokenType);
+
+        if (!l)
             return;
-    }
 
-    LuaScript &script = luaScripts[tokenType];
-
-    // File already exists?
-    if (!QFile(script.filePath).exists())
-    {
-        // Remove the script
-        lua_close(script.l);
-        luaScripts.remove(tokenType);
-        return;
-    }
-
-    // Date changed?
-    QFileInfo fileInfo(script.filePath);
-    if (fileInfo.lastModified() != script.fileDateTime)
-    {
-        // Reload it
-        lua_close(script.l);
-        bool error;
-        script.l = loadLuaScript(script.filePath, error);
-        if (error)
+        if (!_functionsRegistered)
         {
-            QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
-            luaScripts.remove(tokenType);
+            registerFunctions(l);
+            _functionsRegistered = true;
+        }
+
+        // Init global variables
+        _session = session;
+        _token = tokenType;
+        _segments = &segments;
+
+        lua_getglobal(l, "render"); // Function to be called
+
+        if (lua_pcall(l, 0, 1, 0))
+        {
+            const char *res = lua_tostring(l, -1);
+            QMessageBox::critical(0, "LUA", res);
             return;
         }
-        script.fileDateTime = fileInfo.lastModified();
     }
-
-    // Init global variables
-    _session = session;
-    _token = tokenType;
-    _segments = &segments;
-
-    lua_State *l = script.l;
-    lua_getglobal(l, "render"); // Function to be called
-
-    if (lua_pcall(l, 0, 1, 0))
-    {
-        const char *res = lua_tostring(l, -1);
-        QMessageBox::critical(0, "LUA", res);
-        return;
-    }
-}
-
-void Script::closeModifiers()
-{
-    foreach (const LuaScript &script, luaScripts)
-        lua_close(script.l);
-    luaScripts.clear();
 }

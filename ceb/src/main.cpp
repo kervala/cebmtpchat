@@ -26,7 +26,7 @@
 #include "session_manager.h"
 #include "language_manager.h"
 #include "token_display.h"
-#include "render_script.h"
+#include "script.h"
 #include "profile.h"
 
 int main(int argc, char **argv)

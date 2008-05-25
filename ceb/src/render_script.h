@@ -28,7 +28,6 @@
 namespace Script
 {
     void executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments);
-    void closeModifiers();
 }
 
 #endif
