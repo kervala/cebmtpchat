@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Modifiers - developper manual</title>
+
+</head>
+<body>
+<h1>Introduction</h1>
+Les <span style="font-style: italic;">Modifiers</span>
+vous permettent de changer le comportement de CeB à différents niveaux :<br>
+<ul>
+<li><a href="#token_rendering">Changer le rendu
+des tokens</a>&nbsp;qui seront affichés dans l'écran de
+sortie texte de CeB.</li>
+<li><a href="#token_interception">Intercepter le
+moment où de nouveaux tokens sont disponibles</a> et agir en
+conséquence à l'aide des fonctions mises à votre disposition. </li>
+</ul>
+Un <span style="font-style: italic;">token</span>
+est une unité sémantique comme "&lt;Mtp&gt; Fooman tells you:
+salut".
+&nbsp;On peut considérer que chaque ligne complète (finissant par
+un
+retour-chariot) envoyée par le serveur constitue un <span style="font-style: italic;">token</span>. CeB classe
+ces tokens par <span style="font-style: italic;">type</span>.<br>
+Si vous souhaitez écrire ou modifier un <span style="font-style: italic;">modifier</span> existant,
+créez (ou ouvrez) un fichier nommé
+&lt;tokentype&gt;.lua&nbsp;dans le répertoire des <span style="font-style: italic;">modifiers, et </span>où
+&lt;tokentype&gt; peut être pris dans la <a href="manual.html#tokens_list">liste des tokens</a>
+que vous trouverez plus bas. Notez que vos modifications seront prises
+en compte immédiatement sans avoir à redémarrer CeB.<br>
+<h1><a name="token_rendering"></a>Changer le
+rendu des tokens à l'écran</h1>
+Il
+suffit de créer une fonction Lua nommée "render()" au sein du fichier
+correspondant au type de token dont vous souhaitez changer le rendu.
+Cette fonction sera automatiquement appelée <span style="font-weight: bold;">avant </span>l'impression
+du token à l'écran.<br>
+La fonction render() du fichier someonesays.lua est un exemple de ce
+qu'il est possible de faire. Cette fonction permet de changer la
+couleur des phrases qui contiennent le nickname de l'utilisateur.<br>
+<br>
+Au sein de cette fonction, vous disposez des fonctions "bindées"
+globales suivantes :<br>
+<ul style="font-weight: bold;">
+<li>string getSessionInfo(string arg)</li>
+</ul>
+Cette méthode vous renvoie des informations concernant la session
+courante.<br>
+Par exemple : getSessionInfo("login") vous retournera "Toto" si tel est
+votre nickname.<br>
+La liste des arguments possibles est :<br>
+<ul>
+<ul>
+<li>"login" (paramètre string): vous renvoie votre login
+utilisé pour la session&nbsp;</li>
+<li>"server_address" (paramètre string): vous renvoie
+l'adresse du serveur de la session</li>
+<li>"server_port" (paramètre int): vous renvoie le port du
+serveur de la session</li>
+</ul>
+</ul>
+<ul style="font-weight: bold;">
+<li>void sessionSend(string sentence)</li>
+</ul>
+Envoie une phrase au serveur de la session courante.<br>
+C'est une méthode qui peut être utilisée pour créer par exemple une
+réponse automatisée.<br>
+<ul style="font-weight: bold;">
+<li>int segmentsCount()</li>
+</ul>
+Renvoie le nombre de segment du token courant.<br>
+Lorsqu'un
+token est reçu du serveur, il est analysé, découpé en plusieurs
+tronçons ou segments de rendu, et affiché. Chaque segment d'un token
+possède une police de caractère, une taille et une couleur propres.<br>
+Par
+exemple, dans "&lt;Toto&gt; J'adore la crème glacée",
+segmentsCount()
+renverra 4 ("&lt;", "Toto", "&gt; " et "J'adore la crème
+glacée").<br>
+<ul style="font-weight: bold;">
+<li>void setSegmentsCount(int arg)</li>
+</ul>
+Affecte le nombre de segments du token courant.<br>
+Si <span style="font-style: italic;">arg</span> est
+inférieur au nombre initial de segments, les segments en plus de <span style="font-style: italic;">arg</span>&nbsp;sont
+supprimés<br>
+Si <span style="font-style: italic;">arg</span>
+est supérieur au nombre initial de segments, autant de segments
+manquants sont ajoutés, ils ont la police de caractère par défaut, une
+couleur noire et sont vides.<br>
+<span style="text-decoration: underline;">Note:</span>
+Cette fonction peut également être utile pour annuler l'affichage d'un
+token en utilisant "setSegmentsCount(0)".<br>
+<ul style="font-weight: bold;">
+<li>string getSegmentText(int segmentNum)<br>
+</li>
+</ul>
+Renvoie le texte du segment d'index <span style="font-style: italic;">segmentNum </span>du
+token courant.<br>
+<ul style="font-weight: bold;">
+<li>void setSegmentText(int segmentNum, string text)</li>
+</ul>
+Affecte le texte du segment d'index <span style="font-style: italic;">segmentNum</span> du token
+courant.<br>
+<ul style="font-weight: bold;">
+<li>string getSegmentColor(int segmentNum)</li>
+</ul>
+Renvoie la couleur du segment d'index <span style="font-style: italic;">segmentNum </span>du
+token courant.<br>
+La chaîne renvoyée est sous la forme hexadécimale "RRGGBB" .<br>
+<ul style="font-weight: bold;">
+<li>void setSegmentColor(int segmentNum, string color)</li>
+</ul>
+Affecte la couleur du segment d'index <span style="font-style: italic;">segmentNum</span> du token
+courant.<br>
+La chaîne à affecter est sous la forme hexadécimale "RRGGBB" .<br>
+<ul style="font-weight: bold;">
+<li>string getSegmentFont(int segmentNum)</li>
+</ul>
+Renvoie le nom de la font du segment d'index <span style="font-style: italic;">segmentNum </span>du
+token courant.<br>
+<ul>
+<li><span style="font-weight: bold;">void
+setSegmentFont(int segmentNum, string fontName)</span></li>
+</ul>
+Affecte le nom de la font du segment d'index <span style="font-style: italic;">segmentNum</span> du token
+courant.<br>
+<ul style="font-weight: bold;">
+<li>int getSegmentSize(int segmentNum)</li>
+</ul>
+Renvoie la taille de la font du segment d'index <span style="font-style: italic;">segmentNum </span>du
+token courant.
+<ul style="font-weight: bold;">
+<li>void setSegmentSize(int segmentNum, int size)</li>
+</ul>
+Affecte la taille de la font du segment d'index <span style="font-style: italic;">segmentNum</span> du token
+courant.
+<ul style="font-weight: bold;">
+<li>boolean getSegmentItalic(int segmentNum)</li>
+</ul>
+Renvoie true si le segment d'index <span style="font-style: italic;">segmentNum
+</span>du token courant est en italique.
+<ul style="font-weight: bold;">
+<li>void setSegmentItalic(int segmentNum, boolean value)</li>
+</ul>
+Met ou pas en italique le segment d'index <span style="font-style: italic;">segmentNum</span>.
+<ul style="font-weight: bold;">
+<li>boolean getSegmentBold(int segmentNum)</li>
+</ul>
+Renvoie true si le segment d'index <span style="font-style: italic;">segmentNum
+</span>du token courant est en gras.
+<ul>
+<li><span style="font-weight: bold;">void
+setSegmentBold(int segmentNum, boolean value)</span></li>
+</ul>
+Met ou pas en gras le segment d'index <span style="font-style: italic;">segmentNum</span>.
+<ul style="font-weight: bold;">
+<li>boolean getSegmentUnderline(int segmentNum)</li>
+</ul>
+Renvoie true si le segment d'index <span style="font-style: italic;">segmentNum
+</span>du token courant est souligné.
+<ul style="font-weight: bold;">
+<li>void setSegmentUnderline(int segmentNum, boolean value)</li>
+</ul>
+Met ou pas en souligné le segment d'index <span style="font-style: italic;">segmentNum</span>.<br>
+<br>
+<h1><a name="token_interception"></a>L'interception
+des nouveaux tokens</h1>
+Il
+peut être intéressant dans certains cas d'être averti de l'émission de
+certains tokens pour effectuer certains traitements. C'est par exemple
+via l'interception qu'on change la couleur des onglets en fonction du
+trafic.<br>
+Cela passe par la création d'une fonction "newToken()" au sein du
+fichier correspondant au type de token à intercepter.<br>
+En outre des méthodes <span style="font-weight: bold;">getSessionInfo()</span>
+et <span style="font-weight: bold;">sessionSend()</span>
+précédemment décrites, vous disposez des fonctions "bindées" globales
+suivantes :<br>
+<ul>
+<li><span style="font-weight: bold;">int
+tokenArgumentCount()</span></li>
+</ul>
+Renvoie
+le nombre d'arguments du token. Attention, à ne pas confondre avec les
+segments de rendus. Les arguments d'un token sont les éléments
+considérés comme essentiels dans un token :<br>
+<ul>
+<ul>
+<li>Le premier argument est toujours la ligne complète brute.</li>
+<li>Dans
+le token someonetellsyou par exemple "&lt;Mtp&gt; Toto tells
+you: salut
+!" le premier argument sera "Toto" et le second "salut !".</li>
+<li>Il
+n'existe pas encore de documentation précise sur les arguments de tous
+les tokens et pour l'instant, il faudra se référer soit à une méthode
+empirique de découverte, soit au source token_factory.cpp pour les plus
+courageux ;-).<br>
+</li>
+</ul>
+</ul>
+<ul>
+<li><span style="font-weight: bold;">string
+tokenArgument(int argIndex)</span></li>
+</ul>
+Renvoie l'argument en fonction de l'index en paramètre.<br>
+<ul>
+<li><span style="font-weight: bold;">Pointer
+getTab(string category, string argument = "")</span></li>
+</ul>
+Renvoie le pointeur de l'onglet correspondant à la catégorie et à
+l'argument optionnel en paramètre.<br>
+Les différentes catégories possibles sont :<br>
+<ul>
+<ul>
+<li>"tell". Dans ce cas, l'argument correspond à la personne
+avec qui le tell est initié.</li>
+<li>"channel". Dans ce cas, aucun argument n'est nécessaire.</li>
+</ul>
+</ul>
+<ul>
+<li><span style="font-weight: bold;">void
+setTabColor(Pointer tab, string color)</span></li>
+</ul>
+Affecte la couleur du texte d'un onglet.<br>
+<ul>
+<li><span style="font-weight: bold;">boolean
+isTabFocused(Pointer tab)</span></li>
+</ul>
+Renvoie true if l'onglet en paramètre est actuellement l'onglet courant
+de CeB.<br>
+<h1><a name="tokens_list"></a>Liste des types
+de token</h1>
+Pour des détails sur le rôle de chacun des token, se référer à la boîte
+d'options des fonts de CeB.<br>
+<br>
+indicatedactiveserver<br>
+loginasked<br>
+invalidlogin<br>
+passwordasked<br>
+incorrectpassword<br>
+welcome<br>
+topic<br>
+yousettopic<br>
+someonesettopic<br>
+someonetellsyou<br>
+youtelltosomeone<br>
+someoneasksyou<br>
+youasktosomeone<br>
+someonereplies<br>
+youreply<br>
+someonebeepsyou<br>
+wallbegin<br>
+wallend<br>
+wallline<br>
+whobegin<br>
+whoend<br>
+whoendnouser<br>
+whoseparator<br>
+wholine<br>
+historybegin<br>
+historyend<br>
+historyline<br>
+fingerbegin<br>
+fingerend<br>
+fingerline<br>
+someoneshouts<br>
+youshout<br>
+someoneaway<br>
+youaway<br>
+someoneback<br>
+youback<br>
+someoneawaywarning<br>
+systemaliases<br>
+useraliases<br>
+aliasesend<br>
+nouseralias<br>
+aliasline<br>
+messagebegin<br>
+messageline<br>
+messageend<br>
+nomessage<br>
+messagereceived<br>
+allmessagescleared<br>
+messagecleared<br>
+messagescleared<br>
+helpbegin<br>
+helpendnormal<br>
+helpendnohelp<br>
+helpline<br>
+unknownuser<br>
+userloginrenamed<br>
+yourloginrenamed<br>
+someonecomesin<br>
+someoneleaves<br>
+someonedisconnects<br>
+youleave<br>
+youjoinchannel<br>
+youleavechannel<br>
+someonejoinchannel<br>
+someoneleavechannel<br>
+youkicksomeone<br>
+someoneiskicked<br>
+youarekicked<br>
+date<br>
+yourclientis<br>
+mtpsays<br>
+someonesays<br>
+data
+</body></html>
