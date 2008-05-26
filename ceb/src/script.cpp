@@ -40,6 +40,12 @@ namespace Script
         if (infoToken.toLower() == "login")
         {
             lua_pushstring(l, g_session->serverLogin().toLatin1());
+        } else if (infoToken.toLower() == "server_address")
+        {
+            lua_pushstring(l, g_session->serverAddress().toLatin1());
+        } else if (infoToken.toLower() == "server_port")
+        {
+            lua_pushnumber(l, g_session->serverPort());
         } else
             lua_pushstring(l, "");
 
