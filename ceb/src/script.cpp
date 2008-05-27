@@ -6,6 +6,7 @@
 
 #include "token_info.h"
 #include "paths.h"
+#include "profile.h"
 
 #include "script.h"
 
@@ -88,7 +89,7 @@ namespace Script
         return 0;
     }
 
-    int getProperty(lua_State *l)
+    int getPropertyGeneric(lua_State *l, const Properties &properties)
     {
         int n = lua_gettop(l);
         if (n < 1 || n > 2)
@@ -101,7 +102,7 @@ namespace Script
 
         // Default value?
         bool found = false;
-        foreach (const Property &prop, g_session->properties())
+        foreach (const Property &prop, properties)
         {
             if (!prop.name().compare(propName))
             {
@@ -122,7 +123,6 @@ namespace Script
         }
         if (!found)
         {
-            qDebug("pas trouve");
             if (lua_isnumber(l, 2))
                 lua_pushnumber(l, lua_tonumber(l, 2));
             else if (lua_isboolean(l, 2))
@@ -136,7 +136,17 @@ namespace Script
         return 1;
     }
 
-    int setProperty(lua_State *l)
+    int getSessionProperty(lua_State *l)
+    {
+        return getPropertyGeneric(l, g_session->properties());
+    }
+
+    int getProperty(lua_State *l)
+    {
+        return getPropertyGeneric(l, Profile::instance().properties);
+    }
+
+    int setPropertyGeneric(lua_State *l, Properties &properties)
     {
         int n = lua_gettop(l);
         if (n != 2)
@@ -148,13 +158,23 @@ namespace Script
         QString propName = lua_tostring(l, 1);
 
         if (lua_isnumber(l, 2))
-            g_session->properties().setValue(propName, (int) lua_tonumber(l, 2));
+            properties.setValue(propName, (int) lua_tonumber(l, 2));
         else if (lua_isboolean(l, 2))
-            g_session->properties().setValue(propName, (int) lua_toboolean(l, 2));
+            properties.setValue(propName, (int) lua_toboolean(l, 2));
         else if (lua_isstring(l, 2))
-            g_session->properties().setValue(propName, (int) lua_tostring(l, 2));
+            properties.setValue(propName, (int) lua_tostring(l, 2));
 
         return 0;
+    }
+
+    int setSessionProperty(lua_State *l)
+    {
+        return setPropertyGeneric(l, g_session->properties());
+    }
+
+    int setProperty(lua_State *l)
+    {
+        return setPropertyGeneric(l, Profile::instance().properties);
     }
 
     lua_State *loadScript(const QString &filePath, bool &error)
@@ -184,6 +204,8 @@ namespace Script
         lua_register(l, "sessionSend", sessionSend);
         lua_register(l, "getProperty", getProperty);
         lua_register(l, "setProperty", setProperty);
+        lua_register(l, "getSessionProperty", getSessionProperty);
+        lua_register(l, "setSessionProperty", setSessionProperty);
 
         error = false;
         return l;

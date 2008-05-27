@@ -121,6 +121,7 @@ public:
     bool idleQuit;
     int idleQuitTimeout;
     QString clientVersion;
+    Properties properties;
 
     bool behindNAT; // If true, CeB considere you are behind a NAT and you're not directly joinable
     int transferPort;
