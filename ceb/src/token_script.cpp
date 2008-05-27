@@ -73,6 +73,24 @@ int setTabColor(lua_State *l)
     return 0;
 }
 
+int getTabColor(lua_State *l)
+{
+    int n = lua_gettop(l);
+    if (n != 1)
+        return 0;
+
+    if (!lua_islightuserdata(l, 1))
+        return 0;
+
+    QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+    QString colorStr = MainWindow::instance()->getTabColor(tab).name();
+    colorStr = colorStr.mid(1, colorStr.length() - 1);
+    lua_pushstring(l, colorStr.toLatin1());
+
+    return 1;
+}
+
 int isTabFocused(lua_State *l)
 {
     int n = lua_gettop(l); // Arguments number
@@ -94,6 +112,7 @@ void TokenScript::registerFunctions(lua_State *l)
     lua_register(l, "tokenArgumentCount", tokenArgumentCount);
     lua_register(l, "tokenArgument", tokenArgument);
     lua_register(l, "getTab", getTab);
+    lua_register(l, "getTabColor", getTabColor);
     lua_register(l, "setTabColor", setTabColor);
     lua_register(l, "isTabFocused", isTabFocused);
 }
@@ -103,6 +122,7 @@ void TokenScript::unregisterFunctions(lua_State *l)
     Script::unregisterFunction(l, "tokenArgumentCount");
     Script::unregisterFunction(l, "tokenArgument");
     Script::unregisterFunction(l, "getTab");
+    Script::unregisterFunction(l, "getTabColor");
     Script::unregisterFunction(l, "setTabColor");
     Script::unregisterFunction(l, "isTabFocused");
 }

@@ -49,6 +49,7 @@ public:
 
     //! For Lua scripts
     QWidget *getTab(Session *session, const QString &category, const QString &argument);
+    QColor getTabColor(QWidget *widget);
     void setTabColor(QWidget *widget, const QColor &color);
     bool isTabFocused(QWidget *widget);
 

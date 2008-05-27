@@ -182,6 +182,11 @@ QWidget *MainWindow::getTab(Session *session, const QString &category, const QSt
     return 0;
 }
 
+QColor MainWindow::getTabColor(QWidget *widget)
+{
+    return mtwMain->tabTextColor(widget);
+}
+
 void MainWindow::setTabColor(QWidget *widget, const QColor &color)
 {
     mtwMain->changeTabTextColor(widget, color);

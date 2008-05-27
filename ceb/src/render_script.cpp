@@ -113,7 +113,7 @@ int getSegmentColor(lua_State *l)
         return 0;
     int argNum = (int) lua_tonumber(l, 1);
 
-    lua_pushstring(l, (*gSegments)[argNum].text().toLatin1());
+    lua_pushstring(l, (*gSegments)[argNum].color().name().toLatin1());
     return 1;
 }
 
