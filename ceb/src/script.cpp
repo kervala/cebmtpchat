@@ -26,6 +26,28 @@ namespace Script
     Session *getSession() { return g_session; }
     void setSession(Session *session) { g_session = session; }
 
+    int message(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 1)
+            return 0;
+
+        if (lua_isstring(l, 1))
+            QMessageBox::warning(0, "Lua", QString(lua_tostring(l, 1)));
+        else if (lua_isnumber(l, 1))
+            QMessageBox::warning(0, "Lua", QString::number(lua_tonumber(l, 1)));
+        else if (lua_isboolean(l, 1))
+            switch (lua_toboolean(l, 1))
+            {
+            case true:
+                QMessageBox::warning(0, "Lua", "true");
+                break;
+            case false:
+                QMessageBox::warning(0, "Lua", "false");
+                break;
+            }
+    }
+
     int getSessionInfo(lua_State *l)
     {
         int n = lua_gettop(l); // Arguments number
@@ -66,6 +88,75 @@ namespace Script
         return 0;
     }
 
+    int getProperty(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n < 1 || n > 2)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString propName = lua_tostring(l, 1);
+
+        // Default value?
+        bool found = false;
+        foreach (const Property &prop, g_session->properties())
+        {
+            if (!prop.name().compare(propName))
+            {
+                found = true;
+                switch (prop.type())
+                {
+                case Property::IntegerProperty:
+                    lua_pushnumber(l, prop.intValue());
+                    break;
+                case Property::BooleanProperty:
+                    lua_pushboolean(l, prop.boolValue());
+                    break;
+                default:
+                    lua_pushstring(l, prop.strValue().toLatin1());
+                }
+                break;
+            }
+        }
+        if (!found)
+        {
+            qDebug("pas trouve");
+            if (lua_isnumber(l, 2))
+                lua_pushnumber(l, lua_tonumber(l, 2));
+            else if (lua_isboolean(l, 2))
+                lua_pushboolean(l, lua_toboolean(l, 2));
+            else if (lua_isstring(l, 2))
+                lua_pushstring(l, lua_tostring(l, 2));
+            else
+                return 0;
+        }
+
+        return 1;
+    }
+
+    int setProperty(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 2)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString propName = lua_tostring(l, 1);
+
+        if (lua_isnumber(l, 2))
+            g_session->properties().setValue(propName, (int) lua_tonumber(l, 2));
+        else if (lua_isboolean(l, 2))
+            g_session->properties().setValue(propName, (int) lua_toboolean(l, 2));
+        else if (lua_isstring(l, 2))
+            g_session->properties().setValue(propName, (int) lua_tostring(l, 2));
+
+        return 0;
+    }
+
     lua_State *loadScript(const QString &filePath, bool &error)
     {
         lua_State *l = luaL_newstate();
@@ -88,8 +179,11 @@ namespace Script
         }
 
         // Register some basic functions
+        lua_register(l, "message", message);
         lua_register(l, "getSessionInfo", getSessionInfo);
         lua_register(l, "sessionSend", sessionSend);
+        lua_register(l, "getProperty", getProperty);
+        lua_register(l, "setProperty", setProperty);
 
         error = false;
         return l;

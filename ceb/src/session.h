@@ -71,6 +71,8 @@ public:
         { return _myMessages; }
     const TokenFactory &tokenFactory() const { return _tokenFactory; }
     QString localAddress() const { return _socket->localAddress().toString(); }
+    Properties &properties() { return _properties; }
+    const Properties &properties() const { return _properties; }
 
     int requestTicket(TokenFactory::Command command);
 
@@ -91,6 +93,7 @@ private:
     QList<MessageItem> _myMessages;
     QDateTime _idleStart;
     bool _autoAway; // true when away was set automatically, false when session is considered as not auto away anymore
+    Properties _properties;
 
     QString logPrefix();
     void logInfo(const QString &message);

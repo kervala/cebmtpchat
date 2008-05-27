@@ -474,7 +474,7 @@ void Profile::save() const
     {
         QDomElement elem = document.createElement("session");
         sessionsElem.appendChild(elem);
-        _sessionConfigList.value(i)->save(elem);
+        _sessionConfigList[i]->save(elem);
     }
 
     XmlHandler::write(rootElem, "behind_nat", behindNAT);

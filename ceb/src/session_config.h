@@ -23,6 +23,8 @@
 #include <QString>
 #include <QDomElement>
 
+#include "property.h"
+
 class BackupServer
 {
 public:
@@ -79,6 +81,8 @@ public:
 
     BackupServer nextBackupServer(const QString address, int port) const;
 
+    Properties &persistentProperties() { return _persistentProperties; }
+
     static SessionConfig &getTemplate();
 
 private:
@@ -94,6 +98,7 @@ private:
     int _encodingMib; // http://www.iana.org/assignments/character-sets
     int _entryHeight;
     int _whoWidth;
+    Properties _persistentProperties;
 
     QList<BackupServer> _backupServers;
 };

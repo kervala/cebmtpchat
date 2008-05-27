@@ -50,16 +50,20 @@ void SessionConfig::load(const QDomElement &rootElem)
     _whoWidth = XmlHandler::read(rootElem, "who_width", 80);
 
     // Backup servers
-    const QDomElement backupServersElem = rootElem.firstChildElement("backup_servers");
-    if (!backupServersElem.isNull())
+    QDomElement backupElem = rootElem.firstChildElement("backup_servers").firstChildElement("backup_server");
+    while (!backupElem.isNull())
     {
-        QDomElement backupElem = backupServersElem.firstChildElement("backup_server");
-        while (!backupElem.isNull())
-        {
-            _backupServers << BackupServer(XmlHandler::read(backupElem, "address", ""),
-                                            XmlHandler::read(backupElem, "port", 0));
-            backupElem = backupElem.nextSiblingElement("backup_server");
-        }
+        _backupServers << BackupServer(XmlHandler::read(backupElem, "address", ""),
+                                       XmlHandler::read(backupElem, "port", 0));
+        backupElem = backupElem.nextSiblingElement("backup_server");
+    }
+
+    // Persistent properties
+    QDomElement propertyElem = rootElem.firstChildElement("properties").firstChildElement("property");
+    while (!propertyElem.isNull())
+    {
+        _persistentProperties << Property(propertyElem);
+        propertyElem = propertyElem.nextSiblingElement("property");
     }
 }
 
@@ -79,14 +83,30 @@ void SessionConfig::save(QDomElement &rootElem)
     XmlHandler::write(rootElem, "who_width", _whoWidth);
 
     // Backup servers
-    QDomElement serversElem = rootElem.ownerDocument().createElement("backup_servers");
-    rootElem.appendChild(serversElem);
-    foreach (const BackupServer &server, _backupServers)
+    if (_backupServers.count())
     {
-        QDomElement elem = rootElem.ownerDocument().createElement("backup_server");
-        serversElem.appendChild(elem);
-        XmlHandler::write(elem, "address", server.address());
-        XmlHandler::write(elem, "port", server.port());
+        QDomElement serversElem = rootElem.ownerDocument().createElement("backup_servers");
+        rootElem.appendChild(serversElem);
+        foreach (const BackupServer &server, _backupServers)
+        {
+            QDomElement elem = rootElem.ownerDocument().createElement("backup_server");
+            serversElem.appendChild(elem);
+            XmlHandler::write(elem, "address", server.address());
+            XmlHandler::write(elem, "port", server.port());
+        }
+    }
+
+    // Properties
+    if (_persistentProperties.count())
+    {
+        QDomElement propertiesElem = rootElem.ownerDocument().createElement("properties");
+        rootElem.appendChild(propertiesElem);
+        foreach (const Property &property, _persistentProperties)
+        {
+            QDomElement propertyElem = rootElem.ownerDocument().createElement("property");
+            propertiesElem.appendChild(propertyElem);
+            property.save(propertyElem);
+        }
     }
 }
 
