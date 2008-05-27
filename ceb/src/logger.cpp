@@ -20,7 +20,6 @@
 #include <QDir>
 #include <QApplication>
 #include <QTextStream>
-#include <QDesktopServices>
 
 #include "profile.h"
 #include "global.h"
@@ -64,7 +63,7 @@ Logger::~Logger()
 
 QString Logger::getDefaultLogsDir()
 {
-    return QDir(Paths::profilePath()).filePath("logs");
+    return Paths::logPath();
 }
 
 QString Logger::getLogsDir()

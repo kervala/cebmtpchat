@@ -46,3 +46,8 @@ QString Paths::profilePath()
     return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 }
 
+QString Paths::logPath()
+{
+    return QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).filePath("CeB's logs");
+}
+

@@ -19,7 +19,6 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QTranslator>
-#include <QDesktopServices>
 
 #include "my_application.h"
 #include "main_window.h"
