@@ -18,6 +18,8 @@
 
 #include <xml_handler.h>
 
+#include "profile.h"
+
 #include "session_config.h"
 
 SessionConfig::SessionConfig()
@@ -62,7 +64,7 @@ void SessionConfig::load(const QDomElement &rootElem)
     QDomElement propertyElem = rootElem.firstChildElement("properties").firstChildElement("property");
     while (!propertyElem.isNull())
     {
-        _persistentProperties << Property(propertyElem);
+        _properties << Property(propertyElem);
         propertyElem = propertyElem.nextSiblingElement("property");
     }
 }
@@ -97,17 +99,18 @@ void SessionConfig::save(QDomElement &rootElem)
     }
 
     // Properties
-    if (_persistentProperties.count())
+    QDomElement propertiesElem = rootElem.ownerDocument().createElement("properties");
+    foreach (const Property &property, _properties)
     {
-        QDomElement propertiesElem = rootElem.ownerDocument().createElement("properties");
-        rootElem.appendChild(propertiesElem);
-        foreach (const Property &property, _persistentProperties)
+        if (Profile::instance().persistentSessionProperties.contains(property.name(), Qt::CaseInsensitive))
         {
             QDomElement propertyElem = rootElem.ownerDocument().createElement("property");
             propertiesElem.appendChild(propertyElem);
             property.save(propertyElem);
         }
     }
+    if (!propertiesElem.firstChildElement().isNull())
+        rootElem.appendChild(propertiesElem);
 }
 
 SessionConfig &SessionConfig::getTemplate()

@@ -5,5 +5,5 @@
 require "utils"
 
 function newToken()
-	highlightTellTab(tokenArgument(1));
+	highlightTellTab(tokenArgument(1))
 end

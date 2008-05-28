@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDomDocument>
+#include <QTextStream>
 
 #include <xml_handler.h>
 
@@ -324,6 +325,52 @@ bool Profile::load()
     // Text skin
     _textSkin.load(rootElem);
 
+
+    // Load persistent names
+    persistentProperties.clear();
+    QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
+    QFile propertiesFile(modifiersDir.filePath("properties"));
+    if (propertiesFile.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&propertiesFile);
+
+        QString line;
+        do
+        {
+            line = stream.readLine().trimmed();
+            if (line != "")
+                persistentProperties << line;
+        } while (!line.isNull());
+
+        propertiesFile.close();
+    }
+
+    persistentSessionProperties.clear();
+    QFile sessionPropertiesFile(modifiersDir.filePath("session_properties"));
+    if (sessionPropertiesFile.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&sessionPropertiesFile);
+
+        QString line;
+        do
+        {
+            line = stream.readLine().trimmed();
+            if (line != "")
+                persistentSessionProperties << line;
+        } while (!line.isNull());
+
+        sessionPropertiesFile.close();
+    }
+
+
+    // Persistent properties
+    QDomElement propertyElem = rootElem.firstChildElement("properties").firstChildElement("property");
+    while (!propertyElem.isNull())
+    {
+        properties << Property(propertyElem);
+        propertyElem = propertyElem.nextSiblingElement("property");
+    }
+
     return true;
 }
 
@@ -483,6 +530,20 @@ void Profile::save() const
 
     // Skin
     _textSkin.save(rootElem);
+
+    // Properties
+    QDomElement propertiesElem = rootElem.ownerDocument().createElement("properties");
+    foreach (const Property &property, properties)
+    {
+        if (persistentProperties.contains(property.name(), Qt::CaseInsensitive))
+        {
+            QDomElement propertyElem = rootElem.ownerDocument().createElement("property");
+            propertiesElem.appendChild(propertyElem);
+            property.save(propertyElem);
+        }
+    }
+    if (!propertiesElem.firstChildElement().isNull())
+        rootElem.appendChild(propertiesElem);
 
     // Save
     QString xml = document.toString();
