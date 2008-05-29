@@ -50,7 +50,15 @@ void CmdOutputWidget::init()
     QSizePolicy sizePolicy = _textEditOutput->sizePolicy();
     sizePolicy.setHorizontalStretch(1);
     _textEditOutput->setSizePolicy(sizePolicy);
+#ifdef Q_OS_WIN32
+    _textEditOutput->setCurrentFont(QFont("Courier New", 8, 0));
+#endif
+#if Q_OS_DARWIN
+    _textEditOutput->setCurrentFont(QFont("Monaco", 16, 0));
+#endif
+#ifdef Q_OS_LINUX
     _textEditOutput->setCurrentFont(QFont("Bitstream Vera Sans Mono", 8, 0));
+#endif
 }
 
 void CmdOutputWidget::newTokenFromSession(const Token &token)
