@@ -26,17 +26,15 @@
 
 #include "dialog_warningo.h"
 
-DialogWarningo::DialogWarningo(const QString &title, const QString &message) :
-    QDialog(0, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
+DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent) :
+    QDialog(parent, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     timer.setInterval(Profile::instance().warningoLifeTime);
     connect(&timer, SIGNAL(timeout()), this, SLOT(endOfTimer()));
-    QLabel *label = new QLabel(message);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     QGroupBox *groupBox = new QGroupBox(title);
-    QVBoxLayout *groupBoxLayout = new QVBoxLayout(groupBox);
-    groupBoxLayout->addWidget(label);
+    (new QVBoxLayout(groupBox))->addWidget(new QLabel(message));
     mainLayout->addWidget(groupBox);
     mainLayout->setMargin(0);
     adjustSize();

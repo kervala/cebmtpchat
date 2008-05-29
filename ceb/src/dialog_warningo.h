@@ -33,7 +33,7 @@ protected:
     void showEvent(QShowEvent *event);
 
 public:
-    DialogWarningo(const QString &title, const QString &message);
+    DialogWarningo(const QString &title, const QString &message, QWidget *parent = 0);
 
 private slots:
     void endOfTimer();
