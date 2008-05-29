@@ -329,10 +329,12 @@ bool MainWindow::winEvent(MSG *message, long *result)
 
 void MainWindow::makeStatusBar()
 {
+#ifdef Q_OS_DARWIN
     sbMain = new QStatusBar(this);
     setStatusBar(sbMain);
-    sbMain->showMessage("Loading...");
-    sbMain->hide();
+#endif
+/*    sbMain->showMessage("Loading...");
+	  sbMain->hide();*/
 }
 
 void MainWindow::makeConnectionsActions()
