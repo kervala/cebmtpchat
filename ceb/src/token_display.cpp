@@ -145,9 +145,12 @@ void TextSkin::init()
 #ifdef Q_OS_WIN32
         QFont font("Courier New", 8);
         QFont timeStampFont("Courier New", 7);
+#elsif Q_OS_DARWIN
+		QFont font("Monaco", 16);
+		QFont timeStampFont("Monaco", 14);
 #else
         QFont font("Bitstream Vera Sans Mono", 8);
-        QFont timeStampFont("Bitstream Vera Sans Mono", 7);
+		QFont timeStampFont("Bitstream Vera Sans Mono", 7);
 #endif
         _textFont.setFont(font);
         _textFont.setColor(Qt::black);
