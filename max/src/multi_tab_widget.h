@@ -85,7 +85,7 @@ private:
 	struct WidgetInfo {
 		QString superLabel;
 		QString label;
-		bool showSuperLabel;		
+		bool showSuperLabel;
 	};
 
 	QVBoxLayout *mainLayout;

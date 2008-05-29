@@ -47,7 +47,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *e);
-	
+
 public:
     HistoryWidget(QWidget *parent = 0);
 

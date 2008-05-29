@@ -175,7 +175,6 @@ private slots:
     void changeAwaySeparatorColor();
     void refreshAwaySeparatorPreview();
     void awaySeparatorLengthChanged(int a);
-
 };
 
 

@@ -24,13 +24,13 @@
 class ChatLineWidget : public QLineEdit
 {
 	Q_OBJECT
-	
+
 private:
-    void validateText();	
-	
+    void validateText();
+
 protected:
     void keyPressEvent(QKeyEvent *e);
-	
+
 public:
 	ChatLineWidget(QWidget *parent = 0);
 

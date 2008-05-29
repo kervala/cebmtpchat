@@ -26,7 +26,7 @@ MultiTabWidget::MultiTabWidget(QWidget *parent) : QWidget(parent)
 	_displayMode = DisplayMode_AllInOneRow;
 	_allInOneRowLocation = TabLocation_North;
 	_superLocation = TabLocation_North;
-	_subLocation = TabLocation_South;	
+	_subLocation = TabLocation_South;
 
 	mainLayout = new QVBoxLayout(this);
 	mainLayout->setMargin(0);
@@ -50,10 +50,10 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 			disconnect(tabWidgetCentral, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 			tabWidgetMain = new MyTabWidget;
-			connect(tabWidgetMain, SIGNAL(currentChanged(int)), 
+			connect(tabWidgetMain, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 			setTabWidgetPosition(tabWidgetMain, _allInOneRowLocation);
-			
+
 			while (tabWidgetCentral->count())
 			{
 				QWidget *widget = tabWidgetCentral->widget(0);
@@ -100,12 +100,12 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 						label = info.label;
 					widget->setParent(0);
 					int index = tabWidgetMain->addTab(widget, tmpIcon, label);
-					tabWidgetMain->setTabTextColor(index, tmpTextColor);					
+					tabWidgetMain->setTabTextColor(index, tmpTextColor);
 				}
-				delete tabWidget;				
+				delete tabWidget;
 			}
-			setTabWidgetPosition(tabWidgetMain, _allInOneRowLocation);			
-			connect(tabWidgetMain, SIGNAL(currentChanged(int)), 
+			setTabWidgetPosition(tabWidgetMain, _allInOneRowLocation);
+			connect(tabWidgetMain, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 		}
 		break;
@@ -121,7 +121,7 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 
 			while (tabWidgetMain->count())
 			{
-				QWidget *widget = tabWidgetMain->widget(0);	
+				QWidget *widget = tabWidgetMain->widget(0);
 				QIcon tmpIcon = tabWidgetMain->tabIcon(0);
 				QColor tmpTextColor = tabWidgetMain->tabTextColor(0);
 				tabWidgetMain->removeTab(0);
@@ -133,7 +133,7 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 			delete tabWidgetMain;
 			tabWidgetMain = 0;
 			mainLayout->addWidget(tabWidgetCentral);
-			connect(tabWidgetCentral, SIGNAL(currentChanged(int)), 
+			connect(tabWidgetCentral, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 		}
 		else if (_superLabels.count() > 1)
@@ -165,7 +165,7 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 					tabWidget = new MyTabWidget;
 					setTabWidgetPosition(tabWidget, _subLocation);
 					tabWidgetMainNew->addTab(tabWidget, superLabel);
-				}				
+				}
 				widget->setParent(0);
 				int index = tabWidget->addTab(widget, tmpIcon, widget2Info[widget].label);
 				tabWidget->setTabTextColor(index, tmpTextColor);
@@ -174,7 +174,7 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
 				for (int i = 0; i < tabWidgetMainNew->count(); i++)
 				{
 					MyTabWidget *w = qobject_cast<MyTabWidget*>(tabWidgetMainNew->widget(i));
-					connect(w, SIGNAL(currentChanged(int)), 
+					connect(w, SIGNAL(currentChanged(int)),
 						this, SLOT(fatherCurrentTabChanged(int)));
 				}
 
@@ -277,7 +277,7 @@ MyTabWidget *MultiTabWidget::getTabWidgetBySuperLabel(const QString &superLabel)
 {
 	if (_displayMode == DisplayMode_Hierarchical)
 	{
-		if (tabWidgetCentral && 
+		if (tabWidgetCentral &&
 			widget2Info[tabWidgetCentral->widget(0)].superLabel == superLabel)
 			return tabWidgetCentral;
 		else if (tabWidgetMain)
@@ -288,9 +288,9 @@ MyTabWidget *MultiTabWidget::getTabWidgetBySuperLabel(const QString &superLabel)
 				if (widget2Info[tabWidget->widget(0)].superLabel == superLabel)
 					return tabWidget;
 			}
-		}		
+		}
 	}
-	return 0;	
+	return 0;
 }
 
 MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label, bool richLabel)
@@ -301,7 +301,7 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
 		if (!tabWidgetMain)
 		{
 			tabWidgetMain = new MyTabWidget;
-			connect(tabWidgetMain, SIGNAL(currentChanged(int)), 
+			connect(tabWidgetMain, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 
 			setTabWidgetPosition(tabWidgetMain, _allInOneRowLocation);
@@ -319,7 +319,7 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
 		{
 			// No elements
 			tabWidgetCentral = new MyTabWidget;
-			connect(tabWidgetCentral, SIGNAL(currentChanged(int)), 
+			connect(tabWidgetCentral, SIGNAL(currentChanged(int)),
 				this, SLOT(fatherCurrentTabChanged(int)));
 
 			setTabWidgetPosition(tabWidgetCentral, _subLocation);
@@ -350,14 +350,14 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
 					mainLayout->addWidget(tabWidgetMain);
 					tabWidgetCentral->setParent(0);
 					tabWidgetMain->addTab(tabWidgetCentral, centralSuperLabel);
-					
+
 					// No need reference to central tab widget anymore
 					tabWidgetCentral = 0;
 				}
 
 				// Just add a new tab widget
 				MyTabWidget *tabWidget = new MyTabWidget;
-				connect(tabWidget, SIGNAL(currentChanged(int)), 
+				connect(tabWidget, SIGNAL(currentChanged(int)),
 					this, SLOT(fatherCurrentTabChanged(int)));
 				setTabWidgetPosition(tabWidget, _subLocation);
 				tabWidgetMain->addTab(tabWidget, superLabel);
@@ -388,7 +388,7 @@ void MultiTabWidget::setTabWidgetPosition(MyTabWidget *tabWidget, TabLocation ta
 {
 	switch(tabLocation)
 	{
-	case TabLocation_North: 
+	case TabLocation_North:
 		tabWidget->setTabPosition(QTabWidget::North);
 		break;
 	case TabLocation_South:
@@ -464,7 +464,7 @@ void MultiTabWidget::removeWidget(QWidget *widget)
 				widgets.removeAt(widgets.indexOf(widget));
 				cleanSuperLabel(widget2Info[widget].superLabel);
 				widget2Info.remove(widget);
-				
+
 				if (!tabWidget->count())
 				{
 					tabWidgetMain->removeTab(tabWidgetMain->indexOf(tabWidget));
@@ -530,7 +530,7 @@ void MultiTabWidget::cleanSuperLabel(const QString &superLabel)
 void MultiTabWidget::renameSuperLabel(const QString &oldSuperLabel, const QString &newSuperLabel)
 {
 	if (oldSuperLabel == newSuperLabel)
-		return;	
+		return;
 
 	// Change in internal datas
 	bool found = false;
@@ -551,7 +551,7 @@ void MultiTabWidget::renameSuperLabel(const QString &oldSuperLabel, const QStrin
 		// Re-insert a modified info
 		WidgetInfo info = widget2Info[widget];
 		info.superLabel = newSuperLabel;
-		widget2Info.insert(widget, info);	
+		widget2Info.insert(widget, info);
 	}
 
 	// Propagate in visual controls
@@ -589,7 +589,7 @@ void MultiTabWidget::renameLabel(QWidget *widget, const QString &newLabel)
 	// Change in internal datas
 	if (widget2Info.find(widget) == widget2Info.end())
 		return;
-	
+
 	// Re-insert a new info
 	WidgetInfo info = widget2Info[widget];
 	info.label = newLabel;
@@ -665,7 +665,7 @@ MyTabWidget *MultiTabWidget::getCurrentSubTabWidget()
 QList<QWidget*> MultiTabWidget::getWidgets(const QString &superLabel) const
 {
 	QList<QWidget*> list;
-	
+
 	foreach (QWidget *widget, widgets)
 		if (widget2Info[widget].superLabel == superLabel)
 			list << widget;
@@ -748,7 +748,7 @@ QWidget *MultiTabWidget::focusedWidget() const
 		}
 		break;
 	}
-	return 0;	
+	return 0;
 }
 
 void MultiTabWidget::fatherCurrentTabChanged(int index)

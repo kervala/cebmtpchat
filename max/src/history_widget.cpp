@@ -134,7 +134,7 @@ void HistoryWidget::keyPressEvent(QKeyEvent *e)
 		else if (e->modifiers() & Qt::ControlModifier &&
 			e->modifiers() & Qt::ShiftModifier)
 			emit moveLeft();
-	}	
+	}
 	else
 		QTextEdit::keyPressEvent(e);
 }
@@ -196,7 +196,7 @@ void HistoryWidget::runCompletion()
 	QString word = getWordBefore(textCursor().block().text(),
 		textCursor().position(), lettersToRemove);
 	QString wordLower = word.toLower();
-	
+
 	// Find the word in completion words
 	QString wordToInsert;
 	QMap<QString, QString>::iterator it = completionWords.find(wordLower);
@@ -221,15 +221,15 @@ void HistoryWidget::runCompletion()
 				wordToInsert = it.value();
 				break;
 			}
-		}		
+		}
 	}
 
-	if (!wordToInsert.isEmpty()) 
+	if (!wordToInsert.isEmpty())
 	{
 		// Is at first column?
 		for (int i = 0; i < lettersToRemove; i++)
 			textCursor().deletePreviousChar();
-			
+
 		if (isCursorAtLineStart())
 			wordToInsert.append(": ");
 
@@ -242,7 +242,7 @@ void HistoryWidget::runCompletion()
 QString HistoryWidget::getWordBefore(const QString &text, int position, int &lettersToRemove)
 {
 	QString word;
-	
+
 	QTextCursor cursor = textCursor();
 	cursor.movePosition(QTextCursor::StartOfLine);
 	int startLinePosition = cursor.position();
@@ -255,7 +255,7 @@ QString HistoryWidget::getWordBefore(const QString &text, int position, int &let
 		lettersToRemove = position - startLinePosition + 1;
 		return loginRegexp.cap(1);
 	}
-	
+
 	word = "";
 	for (int i = position - 1; i >= 0; i--)
 	{
@@ -265,6 +265,6 @@ QString HistoryWidget::getWordBefore(const QString &text, int position, int &let
 			break;
 	}
 	lettersToRemove = word.length();
-	
+
 	return word;
 }

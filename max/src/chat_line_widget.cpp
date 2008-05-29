@@ -53,7 +53,7 @@ void ChatLineWidget::validateText()
         return;
 
 	QString textToSend = text();
-	
+
 	clear();
     emit textValidated(textToSend);
 }

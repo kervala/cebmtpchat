@@ -15,7 +15,7 @@
     along with Max; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-    
+
 #ifndef DIALOG_BASIC_H
 #define DIALOG_BASIC_H
 

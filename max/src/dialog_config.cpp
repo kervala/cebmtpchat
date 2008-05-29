@@ -37,12 +37,12 @@ DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 	mainSplitter->addWidget(rightWidget);
 	QVBoxLayout *rightLayout = new QVBoxLayout(rightWidget);
 	rightLayout->setMargin(0);
-	
+
 	QFrame *frameTitle = new QFrame;
 	frameTitle->setFrameShape(QFrame::Panel);
 	frameTitle->setFrameShadow(QFrame::Sunken);
 	rightLayout->addWidget(frameTitle);
-	
+
 	labelTitle = new QLabel("<Empty>");
 	QVBoxLayout *titleLayout = new QVBoxLayout(frameTitle);
 	titleLayout->setMargin(0);
@@ -54,9 +54,9 @@ DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 	QPalette palette = labelTitle->palette();
 	palette.setColor(QPalette::Background, QColor(200, 200, 200));
 	labelTitle->setPalette(palette);
-	
+
 	mainStack = new QStackedWidget;
-	
+
 	QSizePolicy sizePolicy = rightWidget->sizePolicy();
 	sizePolicy.setHorizontalStretch(1);
 	rightWidget->setSizePolicy(sizePolicy);
@@ -105,13 +105,15 @@ void DialogConfig::deleteNode(QTreeWidgetItem *item)
 
 	// Delete the widget
 	delete widget;
-	
+
 	// Delete the node
 	delete item;
 }
 
 void DialogConfig::treeItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
 {
+	if (!current)
+		return;
 	mainStack->setCurrentWidget(getWidgetByNode(current));
 	labelTitle->setText(current->text(0));
 }

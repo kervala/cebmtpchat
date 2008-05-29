@@ -36,7 +36,7 @@ protected:
 	QTreeWidget *treeMain;
 	QStackedWidget *mainStack;
 	QLabel *labelTitle;
-	
+
 	QTreeWidgetItem *createNode(QTreeWidgetItem *father, QWidget *associatedWidget,
 								const QString &label, const QIcon &icon = QIcon());
 	// Destroy the node and the associated widget

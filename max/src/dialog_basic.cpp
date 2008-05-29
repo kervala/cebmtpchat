@@ -41,47 +41,47 @@ void DialogBasic::checkValues()
 
 void DialogBasic::init(bool isCloseWindow)
 {
-  mainLayout = new QVBoxLayout(this);
+	mainLayout = new QVBoxLayout(this);
 
-  QFrame *line = new QFrame(this);
-  line->setFrameShape(QFrame::HLine);
-  line->setFrameShadow(QFrame::Sunken);
-  mainLayout->addWidget(line);
+	QFrame *line = new QFrame(this);
+	line->setFrameShape(QFrame::HLine);
+	line->setFrameShadow(QFrame::Sunken);
+	mainLayout->addWidget(line);
 
-  // Bottom
-  bottomLayout = new QHBoxLayout();
-  mainLayout->addLayout(bottomLayout);
+	// Bottom
+	bottomLayout = new QHBoxLayout();
+	mainLayout->addLayout(bottomLayout);
 
-  // Ok button
-  bOk = new QPushButton(tr("&Ok"), this);
-  QSizePolicy policy = bOk->sizePolicy();
-  policy.setHorizontalPolicy(QSizePolicy::Minimum);
-  policy.setVerticalPolicy(QSizePolicy::Fixed);
-  bOk->setSizePolicy(policy);
+	// Ok button
+	bOk = new QPushButton(tr("&Ok"), this);
+	QSizePolicy policy = bOk->sizePolicy();
+	policy.setHorizontalPolicy(QSizePolicy::Minimum);
+	policy.setVerticalPolicy(QSizePolicy::Fixed);
+	bOk->setSizePolicy(policy);
 
-  if (isCloseWindow)
-	  bOk->setText(tr("&Close"));
-  else
-  {
-	  // Cancel button
-	  bCancel = new QPushButton(tr("&Cancel"), this);
-	  policy = bCancel->sizePolicy();
-	  policy.setHorizontalPolicy(QSizePolicy::Minimum);
-	  policy.setVerticalPolicy(QSizePolicy::Fixed);
-	  bCancel->setSizePolicy(policy);
-  }
+	if (isCloseWindow)
+		bOk->setText(tr("&Close"));
+	else
+	{
+		// Cancel button
+		bCancel = new QPushButton(tr("&Cancel"), this);
+		policy = bCancel->sizePolicy();
+		policy.setHorizontalPolicy(QSizePolicy::Minimum);
+		policy.setVerticalPolicy(QSizePolicy::Fixed);
+		bCancel->setSizePolicy(policy);
+	}
 
-  QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                                        QSizePolicy::Fixed);
-  bottomLayout->addItem(spacer);
-  bottomLayout->addWidget(bOk);
-  if (!isCloseWindow)
-	  bottomLayout->addWidget(bCancel);
+	QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding,
+										  QSizePolicy::Fixed);
+	bottomLayout->addItem(spacer);
+	bottomLayout->addWidget(bOk);
+	if (!isCloseWindow)
+		bottomLayout->addWidget(bCancel);
 
-  resize(500, 350);
-  mainLayout->setMargin(2);
+	resize(500, 350);
+	mainLayout->setMargin(2);
 
-  connect(bOk, SIGNAL(clicked()), this, SLOT(checkValues()));
-  if (!isCloseWindow)
-	  connect(bCancel, SIGNAL(clicked()), this, SLOT(reject()));
+	connect(bOk, SIGNAL(clicked()), this, SLOT(checkValues()));
+	if (!isCloseWindow)
+		connect(bCancel, SIGNAL(clicked()), this, SLOT(reject()));
 }

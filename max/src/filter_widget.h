@@ -21,7 +21,7 @@ private:
 	QLineEdit *m_lineEditFilter;
 	QComboBox *m_comboBoxColumn;
 	QToolButton *m_clearToolButton;
-	
+
 	QTreeView *m_treeView;
 
 	GenericSortModel *getProxyModel() const;

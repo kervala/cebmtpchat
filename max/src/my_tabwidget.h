@@ -11,7 +11,7 @@ public:
 	MyTabWidget(QWidget *parent = 0);
 
 	QColor tabTextColor(int tabIndex) const;
-	void setTabTextColor(int tabIndex, const QColor &color);	
+	void setTabTextColor(int tabIndex, const QColor &color);
 	QRect tabRect(int tabIndex) const;
 };
 
