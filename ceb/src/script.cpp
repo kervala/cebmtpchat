@@ -162,7 +162,7 @@ namespace Script
         else if (lua_isboolean(l, 2))
             properties.setValue(propName, (bool) lua_toboolean(l, 2));
         else if (lua_isstring(l, 2))
-            properties.setValue(propName, lua_tostring(l, 2));
+            properties.setValue(propName, QString(lua_tostring(l, 2)));
 
         return 0;
     }
