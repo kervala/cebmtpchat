@@ -27,7 +27,7 @@
 #include "dialog_warningo.h"
 
 DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent) :
-    QDialog(parent, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint)
+QDialog(parent, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::ToolTip)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     timer.setInterval(Profile::instance().warningoLifeTime);
