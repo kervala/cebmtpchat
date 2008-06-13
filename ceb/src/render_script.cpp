@@ -324,7 +324,36 @@ void RenderScript::unregisterFunctions(lua_State *l)
 
 void RenderScript::executeRenderScript(Session *session, Token::Type tokenType, QList<RenderSegment> &segments)
 {
-    lua_State *l = Script::getScript(tokenType);
+    bool bypassAncestor = false;
+    lua_State *l = Script::getUserScript(tokenType);
+    if (l)
+    {
+        registerFunctions(l);
+
+        // Init global variables
+        Script::setSession(session);
+        gSegments = &segments;
+
+        lua_getglobal(l, "render"); // Function to be called
+
+        int top = lua_gettop(l);
+        if (!lua_isnil(l, top))
+        {
+            if (lua_pcall(l, 0, 1, 0))
+                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        }
+
+        int n = lua_gettop(l); // Arguments number
+        if (n && lua_isboolean(l, 2))
+            bypassAncestor = lua_toboolean(l, 2);
+
+        unregisterFunctions(l);
+    }
+
+    if (bypassAncestor)
+        return;
+
+    l = Script::getScript(tokenType);
 
     if (!l)
         return;

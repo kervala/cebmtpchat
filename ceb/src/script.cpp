@@ -21,6 +21,7 @@ namespace Script
     };
 
     static QMap<Token::Type, LuaScript> luaScripts;
+    static QMap<Token::Type, LuaScript> userLuaScripts;
 
     Session *g_session = 0;
 
@@ -177,7 +178,7 @@ namespace Script
         return setPropertyGeneric(l, Profile::instance().properties);
     }
 
-    lua_State *loadScript(const QString &filePath, bool &error)
+    lua_State *loadScript(const QString &filePath, bool userScript, bool &error)
     {
         lua_State *l = luaL_newstate();
         luaL_openlibs(l);
@@ -185,7 +186,10 @@ namespace Script
         lua_getfield(l, LUA_GLOBALSINDEX, "package");   /* table to be indexed */
         lua_getfield(l, -1, "path");        /* push result of t.x (2nd arg) */
         lua_remove(l, -2);
-        QString path = QDir(QDir(Paths::sharePath()).filePath("modifiers")).filePath("?.lua") + ";" + QString(lua_tostring(l, -1));
+        QString path = QDir(QDir(Paths::sharePath()).filePath("modifiers")).filePath("?.lua") + ";";
+        if (userScript)
+            path += QDir(QDir(Paths::profilePath()).filePath("modifiers")).filePath("?.lua") + ";";
+        path += QString(lua_tostring(l, -1));
         lua_getfield(l, LUA_GLOBALSINDEX, "package");
         lua_pushstring(l, path.toLatin1());
         lua_setfield(l, -2, "path");
@@ -221,7 +225,7 @@ namespace Script
             if (QFile(fileName).exists())
             {
                 bool error;
-                lua_State *l = loadScript(fileName, error);
+                lua_State *l = loadScript(fileName, false, error);
                 if (error)
                     return 0;
 
@@ -252,11 +256,65 @@ namespace Script
             // Reload it
             lua_close(script.l);
             bool error;
-            script.l = loadScript(script.filePath, error);
+            script.l = loadScript(script.filePath, false, error);
             if (error)
             {
                 QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
                 luaScripts.remove(tokenType);
+                return 0;
+            }
+            script.fileDateTime = fileInfo.lastModified();
+        }
+
+        return script.l;
+    }
+
+    lua_State *getUserScript(Token::Type tokenType)
+    {
+        if (userLuaScripts.find(tokenType) == userLuaScripts.end())
+        {
+            QDir modifiersDir(QDir(Paths::profilePath()).filePath("modifiers"));
+            QString fileName = modifiersDir.filePath(
+                TokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
+            if (QFile(fileName).exists())
+            {
+                bool error;
+                lua_State *l = loadScript(fileName, true, error);
+                if (error)
+                    return 0;
+
+                LuaScript script;
+                script.filePath = fileName;
+                script.fileDateTime = QFileInfo(fileName).lastModified();
+                script.l = l;
+                userLuaScripts[tokenType] = script;
+            } else
+                return 0;
+        }
+
+        LuaScript &script = userLuaScripts[tokenType];
+
+        // If the file doesn't exist anymore, the intention of the remover is to remove the behavior too => remove the script
+        if (!QFile(script.filePath).exists())
+        {
+            // Remove the script
+            lua_close(script.l);
+            userLuaScripts.remove(tokenType);
+            return 0;
+        }
+
+        // Date changed?
+        QFileInfo fileInfo(script.filePath);
+        if (fileInfo.lastModified() != script.fileDateTime)
+        {
+            // Reload it
+            lua_close(script.l);
+            bool error;
+            script.l = loadScript(script.filePath, true, error);
+            if (error)
+            {
+                QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
+                userLuaScripts.remove(tokenType);
                 return 0;
             }
             script.fileDateTime = fileInfo.lastModified();
@@ -270,6 +328,9 @@ namespace Script
         foreach (const LuaScript &script, luaScripts)
             lua_close(script.l);
         luaScripts.clear();
+        foreach (const LuaScript &script, userLuaScripts)
+            lua_close(script.l);
+        userLuaScripts.clear();
     }
 
     void unregisterFunction(lua_State *l, const char *name)

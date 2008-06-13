@@ -129,7 +129,37 @@ void TokenScript::unregisterFunctions(lua_State *l)
 
 void TokenScript::executeTokenScript(Session *session, const Token &token)
 {
-    lua_State *l = Script::getScript(token.type());
+    bool bypassAncestor = false;
+
+    lua_State *l = Script::getUserScript(token.type());
+    if (l)
+    {
+        registerFunctions(l);
+
+        // Init global variables
+        Script::setSession(session);
+        g_token = token;
+
+        lua_getglobal(l, "newToken"); // Function to be called
+
+        int top = lua_gettop(l);
+        if (!lua_isnil(l, top))
+        {
+            if (lua_pcall(l, 0, 1, 0))
+                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        }
+
+        int n = lua_gettop(l); // Arguments number
+        if (n && lua_isboolean(l, 2))
+            bypassAncestor = lua_toboolean(l, 2);
+
+        unregisterFunctions(l);
+    }
+
+    if (bypassAncestor)
+        return;
+
+    l = Script::getScript(token.type());
 
     if (!l)
         return;

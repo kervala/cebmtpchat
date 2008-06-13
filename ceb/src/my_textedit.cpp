@@ -187,10 +187,6 @@ void MyTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFon
     // Normal format
     QTextCharFormat charFormat;
     charFormat.setFont(font);
-/*	if (isAway)
-        charFormat.setBackground(QColor(215, 215, 200));
-	else
-	charFormat.setBackground(QColor(255, 255, 240));*/
     charFormat.setForeground(color);
 
     // Url format

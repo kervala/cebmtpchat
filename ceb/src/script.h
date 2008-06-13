@@ -21,6 +21,7 @@ namespace Script
     Session *getSession();
     void setSession(Session *session);
 
+    lua_State *getUserScript(Token::Type tokenType);
     lua_State *getScript(Token::Type tokenType);
 
     void unregisterFunction(lua_State *l, const char *name);
