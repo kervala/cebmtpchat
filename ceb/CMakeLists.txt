@@ -68,6 +68,7 @@ SET(CEB_SRCS
         src/script.cpp
         src/token_script.cpp
         src/property.cpp
+	src/event_script.cpp
 )
 
 SET(CEB_UIS

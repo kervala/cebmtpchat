@@ -39,7 +39,7 @@ extern "C" {
 class TokenScript
 {
 public:
-    static void executeTokenScript(Session *session, const Token &token);
+    static void executeScript(Session *session, const Token &token);
 
 private:
     static void registerFunctions(lua_State *l);

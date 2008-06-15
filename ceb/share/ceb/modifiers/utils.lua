@@ -12,6 +12,6 @@ function highlightTellTab(peer)
 
 	tab = getTab("tell", peer_login);
 	if not isTabFocused(tab) then
-		setTabColor(tab, "FF0000");
+		setTabColor(tab, "#FF0000");
 	end
 end

@@ -7,19 +7,13 @@
 #include "token_info.h"
 #include "paths.h"
 #include "profile.h"
+#include "main_window.h"
+#include "my_textedit.h"
 
 #include "script.h"
 
 namespace Script
 {
-    class LuaScript
-    {
-    public:
-        QString filePath;
-        QDateTime fileDateTime;
-        lua_State *l;
-    };
-
     static QMap<Token::Type, LuaScript> luaScripts;
     static QMap<Token::Type, LuaScript> userLuaScripts;
 
@@ -27,6 +21,16 @@ namespace Script
 
     Session *getSession() { return g_session; }
     void setSession(Session *session) { g_session = session; }
+
+    QColor colorOnStack(lua_State *l, int index)
+    {
+        if (lua_isnumber(l, index))
+            return QColor::fromRgba(lua_tonumber(l, index));
+        else if (lua_isstring(l, index))
+            return QColor(QString(lua_tostring(l, index)));
+        else
+            return QColor();
+    }
 
     int message(lua_State *l)
     {
@@ -48,6 +52,51 @@ namespace Script
                 QMessageBox::warning(0, "Lua", "false");
                 break;
             }
+    }
+
+    int debug(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 1)
+            return 0;
+
+        if (lua_isstring(l, 1))
+            qDebug(lua_tostring(l, 1));
+        else if (lua_isnumber(l, 1))
+            qDebug("%f", lua_tonumber(l, 1));
+        else if (lua_isboolean(l, 1))
+            switch (lua_toboolean(l, 1))
+            {
+            case true:
+                qDebug("true");
+                break;
+            case false:
+                qDebug("false");
+                break;
+            }
+    }
+
+    //! \brief returns a argb value in function of a string and an alpha value
+    int getColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n < 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QColor c(QString(lua_tostring(l, 1)));
+
+        if (n >= 2 && lua_isnumber(l, 2))
+        {
+            int alpha = lua_tonumber(l, 2);
+            c.setAlpha(alpha);
+        }
+
+        lua_pushnumber(l, c.rgba());
+
+        return 1;
     }
 
     int getSessionInfo(lua_State *l)
@@ -111,7 +160,7 @@ namespace Script
                 switch (prop.type())
                 {
                 case Property::IntegerProperty:
-                    lua_pushnumber(l, prop.intValue());
+                    lua_pushinteger(l, prop.intValue());
                     break;
                 case Property::BooleanProperty:
                     lua_pushboolean(l, prop.boolValue());
@@ -125,7 +174,7 @@ namespace Script
         if (!found)
         {
             if (lua_isnumber(l, 2))
-                lua_pushnumber(l, lua_tonumber(l, 2));
+                lua_pushinteger(l, lua_tointeger(l, 2));
             else if (lua_isboolean(l, 2))
                 lua_pushboolean(l, lua_toboolean(l, 2));
             else if (lua_isstring(l, 2))
@@ -159,7 +208,7 @@ namespace Script
         QString propName = lua_tostring(l, 1);
 
         if (lua_isnumber(l, 2))
-            properties.setValue(propName, (int) lua_tonumber(l, 2));
+            properties.setValue(propName, (long int) lua_tointeger(l, 2));
         else if (lua_isboolean(l, 2))
             properties.setValue(propName, (bool) lua_toboolean(l, 2));
         else if (lua_isstring(l, 2))
@@ -176,6 +225,114 @@ namespace Script
     int setProperty(lua_State *l)
     {
         return setPropertyGeneric(l, Profile::instance().properties);
+    }
+
+    int propertyExists(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 1)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString propName = lua_tostring(l, 1);
+
+        lua_pushboolean(l, Profile::instance().properties.exists(propName));
+
+        return 1;
+    }
+
+    int getTab(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n < 1 || n > 2)
+            return 0;
+
+        if (!lua_isstring(l, 1))
+            return 0;
+
+        QString category(lua_tostring(l, 1));
+
+        QString arg;
+        if (n == 2)
+            if (!lua_isstring(l, 2))
+                return 0;
+            else
+                arg = QString(lua_tostring(l, 2));
+
+        lua_pushlightuserdata(l, MainWindow::instance()->getTab(Script::getSession(), category, arg));
+
+        return 1;
+    }
+
+    int getTabColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (!n)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        lua_pushnumber(l, MainWindow::instance()->getTabColor(tab).rgba());
+
+        return 1;
+    }
+
+    int setTabColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 2)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        QColor c = Script::colorOnStack(l, 2);
+        if (c.isValid())
+            MainWindow::instance()->setTabColor(tab, c);
+
+        return 0;
+    }
+
+    int getTextBackgroundColor(lua_State *l)
+    {
+        lua_pushnumber(l, MyTextEdit::getTextBackgroundColor().rgba());
+        return 1;
+    }
+
+    int setTextBackgroundColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (!n)
+            return 0;
+
+        QColor c = Script::colorOnStack(l, 1);
+        if (c.isValid())
+            MyTextEdit::setTextBackgroundColor(c);
+
+        return 0;
+    }
+
+    int isTabFocused(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        lua_pushboolean(l, MainWindow::instance()->isTabFocused(tab));
+
+        return 1;
     }
 
     lua_State *loadScript(const QString &filePath, bool userScript, bool &error)
@@ -204,12 +361,21 @@ namespace Script
 
         // Register some basic functions
         lua_register(l, "message", message);
+        lua_register(l, "debug", debug);
+        lua_register(l, "getColor", getColor);
         lua_register(l, "getSessionInfo", getSessionInfo);
         lua_register(l, "sessionSend", sessionSend);
         lua_register(l, "getProperty", getProperty);
         lua_register(l, "setProperty", setProperty);
         lua_register(l, "getSessionProperty", getSessionProperty);
         lua_register(l, "setSessionProperty", setSessionProperty);
+        lua_register(l, "propertyExists", propertyExists);
+        lua_register(l, "getTab", getTab);
+        lua_register(l, "getTabColor", getTabColor);
+        lua_register(l, "setTabColor", setTabColor);
+        lua_register(l, "isTabFocused", isTabFocused);
+        lua_register(l, "getTextBackgroundColor", getTextBackgroundColor);
+        lua_register(l, "setTextBackgroundColor", setTextBackgroundColor);
 
         error = false;
         return l;

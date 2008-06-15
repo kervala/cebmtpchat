@@ -83,7 +83,7 @@ void Property::init(const QString &value)
     _strValue = value;
 }
 
-void Property::init(int value)
+void Property::init(long int value)
 {
     _type = IntegerProperty;
     _intValue = value;
@@ -113,7 +113,7 @@ QString Properties::getValue(const QString &propName, const QString &defaultValu
     return defaultValue;
 }
 
-int Properties::getValue(const QString &propName, int defaultValue)
+long int Properties::getValue(const QString &propName, long int defaultValue)
 {
     foreach (const Property &property, *this)
         if (!property.name().compare(propName))
@@ -145,7 +145,7 @@ void Properties::setValue(const QString &propName, const QString &value)
     (*this) << prop;
 }
 
-void Properties::setValue(const QString &propName, int value)
+void Properties::setValue(const QString &propName, long int value)
 {
     for (QList<Property>::iterator it = this->begin(); it != this->end(); ++it)
     {

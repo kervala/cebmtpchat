@@ -31,6 +31,9 @@ public:
 
     MyTextEdit(QWidget *parent = 0);
 
+    static QColor getTextBackgroundColor() { return _textBackgroundColor; }
+    static void setTextBackgroundColor(const QColor &value) { _textBackgroundColor = value; }
+
     void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
     void addString(const QString &line, const QFont &font, const QColor &color);
     void addNewLine(const QString &line, const QColor &color);
@@ -51,6 +54,8 @@ protected:
     virtual void resizeEvent(QResizeEvent *e);
 
 private:
+    static QColor _textBackgroundColor;
+
     QProcess *urlProcess;
     QTextEdit *filterTextEdit;
     bool m_allowFilters;

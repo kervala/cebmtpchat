@@ -89,17 +89,16 @@ int getSegmentText(lua_State *l)
 int setSegmentColor(lua_State *l)
 {
     int n = lua_gettop(l); // Arguments number
-    if (n != 2)
+    if (n < 2)
         return 0;
 
     if (!lua_isnumber(l, 1))
         return 0;
     int argNum = (int) lua_tonumber(l, 1);
 
-    if (!lua_isstring(l, 2))
-        return 0;
-
-    (*gSegments)[argNum].setColor("#" + QString(lua_tostring(l, 2)));
+    QColor c = Script::colorOnStack(l, 2);
+    if (c.isValid())
+        (*gSegments)[argNum].setColor(c);
 
     return 0;
 }
@@ -113,7 +112,7 @@ int getSegmentColor(lua_State *l)
         return 0;
     int argNum = (int) lua_tonumber(l, 1);
 
-    lua_pushstring(l, (*gSegments)[argNum].color().name().toLatin1());
+    lua_pushnumber(l, (*gSegments)[argNum].color().rgba());
     return 1;
 }
 

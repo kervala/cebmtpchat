@@ -49,6 +49,18 @@ int XmlHandler::read(const QDomElement &father, const QString &name, const int d
         return defaultValue;
 }
 
+int XmlHandler::read(const QDomElement &father, const QString &name, const long int defaultValue)
+{
+    QString defaultStr = QString::number(defaultValue);
+    QString strValue = read(father, name, defaultStr);
+    bool ok;
+    long int val = strValue.toLong(&ok);
+    if (ok)
+        return val;
+    else
+        return defaultValue;
+}
+
 bool XmlHandler::read(const QDomElement &father, const QString &name, const bool defaultValue)
 {
     QString defaultStr = QString::number((int) defaultValue);
@@ -79,6 +91,12 @@ void XmlHandler::write(QDomElement &father, const QString &name, char *value)
 }
 
 void XmlHandler::write(QDomElement &father, const QString &name, int value)
+{
+    QString valueStr = QString::number(value);
+    write(father, name, valueStr);
+}
+
+void XmlHandler::write(QDomElement &father, const QString &name, long int value)
 {
     QString valueStr = QString::number(value);
     write(father, name, valueStr);

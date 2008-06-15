@@ -40,6 +40,9 @@
 
 #include "my_textedit.h"
 
+QColor MyTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
+
+
 MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(false)
 {
     urlRegexp << QRegExp("http:\\/\\/\\S*");
@@ -188,6 +191,7 @@ void MyTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFon
     QTextCharFormat charFormat;
     charFormat.setFont(font);
     charFormat.setForeground(color);
+    charFormat.setBackground(_textBackgroundColor);
 
     // Url format
     QTextCharFormat urlFormat;

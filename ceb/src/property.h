@@ -36,13 +36,13 @@ public:
     Property(const QDomElement &root);
 
     void init(const QString &value);
-    void init(int value);
+    void init(long int value);
     void init(bool value);
 
     const QString &name() const { return _name; }
     Type type() const { return _type;}
     const QString &strValue() const { return _strValue; }
-    int intValue() const { return _intValue; }
+    long int intValue() const { return _intValue; }
     bool boolValue() const { return _boolValue; }
 
     bool isValid() const { return _name != ""; }
@@ -56,7 +56,7 @@ private:
     QString _name;
     Type _type;
     QString _strValue;
-    int _intValue;
+    long int _intValue;
     bool _boolValue;
 };
 
@@ -66,11 +66,11 @@ public:
     bool exists(const QString &propName) const;
 
     QString getValue(const QString &propName, const QString &defaultValue);
-    int getValue(const QString &propName, int defaultValue);
+    long int getValue(const QString &propName, long int defaultValue);
     bool getValue(const QString &propName, bool defaultValue);
 
     void setValue(const QString &propName, const QString &value);
-    void setValue(const QString &propName, int value);
+    void setValue(const QString &propName, long int value);
     void setValue(const QString &propName, bool value);
 };
 

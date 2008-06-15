@@ -28,12 +28,14 @@ public:
     static QString read(const QDomElement &father, const QString &name, const QString &defaultValue);
     static QString read(const QDomElement &father, const QString &name, const char *defaultValue);
     static int read(const QDomElement &father, const QString &name, const int defaultValue);
+    static int read(const QDomElement &father, const QString &name, const long int defaultValue);
     static bool read(const QDomElement &father, const QString &name, const bool defaultValue);
 
     // Write functions
     static void write(QDomElement &father, const QString &name, const QString &value);
     static void write(QDomElement &father, const QString &name, char *value);
     static void write(QDomElement &father, const QString &name, int value);
+    static void write(QDomElement &father, const QString &name, long int value);
     static void write(QDomElement &father, const QString &name, bool value);
 };
 

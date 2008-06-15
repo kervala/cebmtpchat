@@ -852,25 +852,25 @@ void DialogSettings::refreshTabExample(bool)
 {
     if (_radioButtonTabsAllInOne->isChecked())
     {
-        _mtwExample->setDisplayMode(MultiTabWidget::DisplayMode_AllInOneRow);
+        _mtwExample->setDisplayMode(MultiTabWidget::AllInOneRow);
 
         if (_radioButtonTabsAllInTop->isChecked())
-            _mtwExample->setAllInOneRowLocation(MultiTabWidget::TabLocation_North);
+            _mtwExample->setAllInOneRowLocation(MultiTabWidget::North);
         else
-            _mtwExample->setAllInOneRowLocation(MultiTabWidget::TabLocation_South);
+            _mtwExample->setAllInOneRowLocation(MultiTabWidget::South);
     }
     else
     {
-        _mtwExample->setDisplayMode(MultiTabWidget::DisplayMode_Hierarchical);
+        _mtwExample->setDisplayMode(MultiTabWidget::Hierarchical);
         if (_radioButtonTabsSuperOnTop->isChecked())
-            _mtwExample->setSuperLocation(MultiTabWidget::TabLocation_North);
+            _mtwExample->setSuperLocation(MultiTabWidget::North);
         else
-            _mtwExample->setSuperLocation(MultiTabWidget::TabLocation_South);
+            _mtwExample->setSuperLocation(MultiTabWidget::South);
 
         if (_radioButtonTabsOnTop->isChecked())
-            _mtwExample->setSubLocation(MultiTabWidget::TabLocation_North);
+            _mtwExample->setSubLocation(MultiTabWidget::North);
         else
-            _mtwExample->setSubLocation(MultiTabWidget::TabLocation_South);
+            _mtwExample->setSubLocation(MultiTabWidget::South);
     }
 
 }

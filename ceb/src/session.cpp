@@ -295,7 +295,7 @@ void Session::tokenAnalyzed(const Token &token)
     emit newToken(token);
 
     // Execute modifier
-    TokenScript::executeTokenScript(this, token);
+    TokenScript::executeScript(this, token);
 
     // After signal propagation, we treat some special tokens...
     switch(token.type())

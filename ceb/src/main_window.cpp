@@ -47,6 +47,7 @@
 #include "profile.h"
 #include "logger.h"
 #include "paths.h"
+#include "event_script.h"
 
 #include "main_window.h"
 
@@ -311,12 +312,12 @@ bool MainWindow::winEvent(MSG *message, long *result)
 {
     if (message->message == WM_SYSCOMMAND && message->wParam == SC_MINIMIZE)
     {
-		if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
+        if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
             hide();
-		if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
+        if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
             trayIcon->show();
         trayTalkAboutMe = false;
-		if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
+        if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
         {
             (*result) = false;
             return true;
@@ -333,8 +334,6 @@ void MainWindow::makeStatusBar()
     sbMain = new QStatusBar(this);
     setStatusBar(sbMain);
 #endif
-/*    sbMain->showMessage("Loading...");
-	  sbMain->hide();*/
 }
 
 void MainWindow::makeConnectionsActions()
@@ -872,7 +871,11 @@ bool MainWindow::event(QEvent *e)
     {
         trayIcon->setIcon(QIcon(":/images/tray-neutral.png"));
         trayTalkAboutMe = false;
-    }
+
+        EventScript::focused();
+    } else if (e->type() == QEvent::WindowDeactivate)
+        EventScript::unfocused();
+
     return QMainWindow::event(e);
 }
 
@@ -906,16 +909,16 @@ void MainWindow::checkForUpdate()
 void MainWindow::applyProfileOnMultiTabWidget()
 {
     // Display mode
-    mtwMain->setDisplayMode(Profile::instance().tabsAllInOne ? MultiTabWidget::DisplayMode_AllInOneRow :
-                            MultiTabWidget::DisplayMode_Hierarchical);
+    mtwMain->setDisplayMode(Profile::instance().tabsAllInOne ? MultiTabWidget::AllInOneRow :
+                            MultiTabWidget::Hierarchical);
 
     // Tabs location
-    mtwMain->setAllInOneRowLocation(Profile::instance().tabsAllInTop ? MultiTabWidget::TabLocation_North :
-                                    MultiTabWidget::TabLocation_South);
-    mtwMain->setSuperLocation(Profile::instance().tabsSuperOnTop ? MultiTabWidget::TabLocation_North :
-                              MultiTabWidget::TabLocation_South);
-    mtwMain->setSubLocation(Profile::instance().tabsOnTop ? MultiTabWidget::TabLocation_North :
-                            MultiTabWidget::TabLocation_South);
+    mtwMain->setAllInOneRowLocation(Profile::instance().tabsAllInTop ? MultiTabWidget::North :
+                                    MultiTabWidget::South);
+    mtwMain->setSuperLocation(Profile::instance().tabsSuperOnTop ? MultiTabWidget::North :
+                              MultiTabWidget::South);
+    mtwMain->setSubLocation(Profile::instance().tabsOnTop ? MultiTabWidget::North :
+                            MultiTabWidget::South);
 }
 
 Session *MainWindow::getCurrentSession()
@@ -977,7 +980,9 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 
 void MainWindow::closeTabWidget()
 {
+    QWidget *w = qobject_cast<QWidget*>(sender());
     mtwMain->removeWidget(qobject_cast<QWidget*>(sender()));
+    w->deleteLater();
 }
 
 /*void MainWindow::highlightSessionWidget()
