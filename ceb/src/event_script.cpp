@@ -27,7 +27,7 @@ void EventScript::executeFunction(const QString &function)
     if (l)
     {
         // Init global variables
-        lua_getglobal(l, ""); // Function to be called
+        lua_getglobal(l, function.toLatin1()); // Function to be called
 
         int top = lua_gettop(l);
         if (!lua_isnil(l, top))
@@ -85,13 +85,11 @@ lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &lu
 lua_State *EventScript::getAdminScript()
 {
     QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
-
     return getScript(modifiersDir.filePath("event.lua"), adminScript);
 }
 
 lua_State *EventScript::getUserScript()
 {
     QDir modifiersDir(QDir(Paths::profilePath()).filePath("modifiers"));
-
     return getScript(modifiersDir.filePath("event.lua"), userScript);
 }
