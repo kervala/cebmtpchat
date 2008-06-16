@@ -307,5 +307,8 @@ est renvoyée.<ul style="font-weight: bold;"><li>setProperty(string propertyName,
 la différence de getProperty(), cette fonction retourne la valeur d'une
 propriété attachée à la session courante. Dans les scripts où il n'y a
 pas de session courante, cette méthode n'a pas de sens et doit donc
-être évitée.<ul style="font-weight: bold;"><li>setSessionProperty(string propertyName, value)</li></ul><ul style="font-weight: bold;"><li>propertyExists(string propertyName)</li></ul>Il est également possible de rendre les propriétés persistantes. TODO: écrire comment.
+être évitée.<ul style="font-weight: bold;"><li>setSessionProperty(string propertyName, value)</li></ul><ul style="font-weight: bold;"><li>propertyExists(string propertyName)</li></ul><ul style="font-weight: bold;"><li>sessionPropertyExists(string propertyName)</li></ul>Il est également possible de rendre les propriétés persistantes.<br>Pour
+ceci, il suffit de rajouter une ligne dans le fichier properties (le
+créer s'il n'existe pas) dans le répertoire modifiers ou dans le
+fichier session_properties si la propriété est une propriété de session.
 </body></html>
