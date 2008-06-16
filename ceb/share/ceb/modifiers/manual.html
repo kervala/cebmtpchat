@@ -53,14 +53,14 @@ fonction existe pour des raisons de commodité, lorsqu'on a besoin d'une
 couleur non totalement opaque. Dans le cas contraire, dans toutes les
 fonctions qui nécessite une couleur, on peut passer directement la
 chaîne "#RRGGBB".<ul><li><span style="font-weight: bold;">number getTabColor(Pointer tab)</span></li></ul>Renvoie la couleur du texte de l'onglet en paramètre.<ul><li><span style="font-weight: bold;">void
-setTabColor(Pointer tab, string color)</span></li></ul>
-Affecte la couleur du texte d'un onglet.<br>
+setTabColor(Pointer tab, color)</span></li></ul>
+Affecte la couleur du texte d'un onglet.<br>Cela peut-être une chaîne de la forme "#RRGGBB" ou bien un nombre de 32 bits AARRGGBB.<br>
 <ul><li><span style="font-weight: bold;">boolean
 isTabFocused(Pointer tab)</span></li></ul>
 Renvoie true if l'onglet en paramètre est actuellement l'onglet courant
 de CeB.<br><ul style="font-weight: bold;"><li>number getTextBackgroundColor()</li></ul>Renvoie
 la couleur (sous forme de nombre stockant un unsigned int) de fond de
-texte. Habituellement cette couleur est la transparence totale.<br><ul style="font-weight: bold;"><li>void setTextBackgroundColor(couleur)</li></ul>Affecte la couleur de fond de texte. Cela peut-être une chaîne de la forme "#RRGGBB" ou bien un nombre de 32 bits AARRGGBB.<br><br>Il
+texte. Habituellement cette couleur est la transparence totale.<br><ul style="font-weight: bold;"><li>void setTextBackgroundColor(color)</li></ul>Affecte la couleur de fond de texte. <br><br>Il
 existe également un mécanisme qui permet de stocker des données
 temporairement ou non et ainsi de pouvoir communiquer entre deux
 sessions de scripts ou même entre deux exécutions de scripts différents
