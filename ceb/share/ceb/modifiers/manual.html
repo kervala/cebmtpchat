@@ -24,7 +24,36 @@ créez (ou ouvrez) un fichier nommé
 &lt;tokentype&gt;.lua&nbsp;dans le répertoire des </span><span style="font-style: italic; color: red;">modifiers de votre profil utilisateur, et </span><span style="color: red;">où
 &lt;tokentype&gt; peut être pris dans la </span><a style="color: red;" href="manual.html#tokens_list">liste des tokens</a><span style="color: red;">
 que vous trouverez plus bas. Notez que la plupart de vos modifications seront prises
-en compte immédiatement sans avoir à redémarrer CeB.</span><br><br style="color: red;">Il
+en compte immédiatement sans avoir à redémarrer CeB.</span><br><br style="color: red;">Voici les fonctions dont disposent <span style="text-decoration: underline;">tous les scripts</span>, quelque soient leur catégorie (rendu/nouveau token/event) :<br><ul style="font-weight: bold;"><li>void message(msg)</li></ul>Affiche une boite de message. msg peut être de type string, entier, boolean.<br><ul style="font-weight: bold;"><li>void debug(msg)</li></ul>Affiche un message en sortie standard (console). msg peut être de type string, entier, boolean.<ul style="font-weight: bold;"><li>string getSessionInfo(string arg)</li></ul>
+Cette méthode vous renvoie des informations concernant la session
+courante.<br>
+Par exemple : getSessionInfo("login") vous retournera "Toto" si tel est
+votre nickname.<br>
+La liste des arguments possibles est :<br>
+<ul><ul><li>"login" (paramètre string): vous renvoie votre login
+utilisé pour la session&nbsp;</li><li>"server_address" (paramètre string): vous renvoie
+l'adresse du serveur de la session</li><li>"server_port" (paramètre int): vous renvoie le port du
+serveur de la session</li></ul></ul>
+<ul style="font-weight: bold;"><li>void sessionSend(string sentence)</li></ul>
+Envoie une phrase au serveur de la session courante.<br>
+C'est une méthode qui peut être utilisée pour créer par exemple une
+réponse automatisée.<br>
+<ul><li><span style="font-weight: bold;">Pointer
+getTab(string category, string argument = "")</span></li></ul>
+Renvoie le pointeur de l'onglet correspondant à la catégorie et à
+l'argument optionnel en paramètre.<br>
+Les différentes catégories possibles sont :<br>
+<ul><ul><li>"tell". Dans ce cas, l'argument correspond à la personne
+avec qui le tell est initié.</li><li>"channel". Dans ce cas, aucun argument n'est nécessaire.</li></ul></ul>
+<ul><li><span style="font-weight: bold;">string getTabColor(Pointer tab)</span></li></ul>Renvoie la couleur du texte de l'onglet en paramètre.<ul><li><span style="font-weight: bold;">void
+setTabColor(Pointer tab, string color)</span></li></ul>
+Affecte la couleur du texte d'un onglet.<br>
+<ul><li><span style="font-weight: bold;">boolean
+isTabFocused(Pointer tab)</span></li></ul>
+Renvoie true if l'onglet en paramètre est actuellement l'onglet courant
+de CeB.<br><ul style="font-weight: bold;"><li>number getTextBackgroundColor()</li></ul>Renvoie
+la couleur (sous forme de nombre stockant un unsigned int) de fond de
+texte. Habituellement cette couleur est la transparence totale.<br><ul style="font-weight: bold;"><li>void setTextBackgroundColor(couleur)</li></ul>Affecte la couleur de fond de texte. Cela peut-être une chaîne de la forme "#RRGGBB" ou bien un nombre de 32 bits AARRGGBB.<br><br>Il
 existe également un mécanisme qui permet de stocker des données
 temporairement ou non et ainsi de pouvoir communiquer entre deux
 sessions de scripts ou même entre deux exécutions de scripts différents
@@ -41,33 +70,7 @@ qu'il est possible de faire. Cette fonction permet de changer la
 couleur des phrases qui contiennent le nickname de l'utilisateur.<br>
 <br>
 Au sein de cette fonction, vous disposez des fonctions "bindées"
-globales suivantes :<br>
-<ul style="font-weight: bold;">
-<li>string getSessionInfo(string arg)</li>
-</ul>
-Cette méthode vous renvoie des informations concernant la session
-courante.<br>
-Par exemple : getSessionInfo("login") vous retournera "Toto" si tel est
-votre nickname.<br>
-La liste des arguments possibles est :<br>
-<ul>
-<ul>
-<li>"login" (paramètre string): vous renvoie votre login
-utilisé pour la session&nbsp;</li>
-<li>"server_address" (paramètre string): vous renvoie
-l'adresse du serveur de la session</li>
-<li>"server_port" (paramètre int): vous renvoie le port du
-serveur de la session</li>
-</ul>
-</ul>
-<ul style="font-weight: bold;">
-<li>void sessionSend(string sentence)</li>
-</ul>
-Envoie une phrase au serveur de la session courante.<br>
-C'est une méthode qui peut être utilisée pour créer par exemple une
-réponse automatisée.<br>
-<ul style="font-weight: bold;">
-<li>int segmentsCount()</li>
+globales suivantes :<br><ul style="font-weight: bold;"><li>int segmentsCount()</li>
 </ul>
 Renvoie le nombre de segment du token courant.<br>
 Lorsqu'un
@@ -206,32 +209,7 @@ courageux ;-).<br>
 <li><span style="font-weight: bold;">string
 tokenArgument(int argIndex)</span></li>
 </ul>
-Renvoie l'argument en fonction de l'index en paramètre.<br>
-<ul>
-<li><span style="font-weight: bold;">Pointer
-getTab(string category, string argument = "")</span></li>
-</ul>
-Renvoie le pointeur de l'onglet correspondant à la catégorie et à
-l'argument optionnel en paramètre.<br>
-Les différentes catégories possibles sont :<br>
-<ul>
-<ul>
-<li>"tell". Dans ce cas, l'argument correspond à la personne
-avec qui le tell est initié.</li>
-<li>"channel". Dans ce cas, aucun argument n'est nécessaire.</li>
-</ul>
-</ul>
-<ul>
-<li><span style="font-weight: bold;">string getTabColor(Pointer tab)</span></li></ul>Renvoie la couleur du texte de l'onglet en paramètre.<ul><li><span style="font-weight: bold;">void
-setTabColor(Pointer tab, string color)</span></li>
-</ul>
-Affecte la couleur du texte d'un onglet.<br>
-<ul>
-<li><span style="font-weight: bold;">boolean
-isTabFocused(Pointer tab)</span></li>
-</ul>
-Renvoie true if l'onglet en paramètre est actuellement l'onglet courant
-de CeB.<br><br><h1><a name="event_file"></a>Le fichier&nbsp;event.lua</h1>Il
+Renvoie l'argument en fonction de l'index en paramètre.<br><h1><a name="event_file"></a>Le fichier&nbsp;event.lua</h1>Il
 suffit de créer/modifier le fichier event.lua situé dans le répertoire
 utilisateur et de définir au moins l'une des fonctions suivantes :<br><ul style="font-weight: bold;"><li>function focused()</li></ul>Elle
 permet d'intercepter le moment où la fenêtre principale de CeB est
@@ -323,5 +301,5 @@ est renvoyée.<ul style="font-weight: bold;"><li>setProperty(string propertyName,
 la différence de getProperty(), cette fonction retourne la valeur d'une
 propriété attachée à la session courante. Dans les scripts où il n'y a
 pas de session courante, cette méthode n'a pas de sens et doit donc
-être évitée.<ul style="font-weight: bold;"><li>setSessionProperty(string propertyName, value)</li></ul><ul style="font-weight: bold;"><li>propertyExists(string propertyName)</li></ul>
+être évitée.<ul style="font-weight: bold;"><li>setSessionProperty(string propertyName, value)</li></ul><ul style="font-weight: bold;"><li>propertyExists(string propertyName)</li></ul>Il est également possible de rendre les propriétés persistantes. TODO: écrire comment.
 </body></html>
