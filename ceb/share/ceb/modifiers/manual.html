@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html><head>
-<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Modifiers - developper manual</title></head>
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Modifiers - developper manual</title>
+</head>
 <body>
 <h1>Introduction</h1>
 Les <span style="font-style: italic;">Modifiers</span>
-vous permettent de changer le comportement de CeB à différents niveaux :<br>
+vous permettent de changer le comportement de CeB à trois niveaux différents :<br>
 <ul>
 <li><a href="#token_rendering">Changer le rendu
 des tokens</a>&nbsp;qui seront affichés dans l'écran de
 sortie texte de CeB.</li>
 <li><a href="#token_interception">Intercepter le
 moment où de nouveaux tokens sont disponibles</a> et agir en
-conséquence à l'aide des fonctions mises à votre disposition. </li>
+conséquence à l'aide des fonctions mises à votre disposition.</li><li><a href="#event_file">Intercepter certains évènements de CeB</a></li>
 </ul>
 Un <span style="font-style: italic;">token</span>
 est une unité sémantique comme "&lt;Mtp&gt; Fooman tells you:
@@ -19,13 +19,12 @@ salut".
 &nbsp;On peut considérer que chaque ligne complète (finissant par
 un
 retour-chariot) envoyée par le serveur constitue un <span style="font-style: italic;">token</span>. CeB classe
-ces tokens par <span style="font-style: italic;">type</span>.<br>
-Si vous souhaitez écrire ou modifier un <span style="font-style: italic;">modifier</span> existant,
+ces tokens par <span style="font-style: italic;">type</span>.<br><span style="color: red;"><br>Si vous souhaitez créer ou éditer un </span><span style="font-style: italic; color: red;">modifier</span><span style="color: red;"> existant,
 créez (ou ouvrez) un fichier nommé
-&lt;tokentype&gt;.lua&nbsp;dans le répertoire des <span style="font-style: italic;">modifiers, et </span>où
-&lt;tokentype&gt; peut être pris dans la <a href="manual.html#tokens_list">liste des tokens</a>
-que vous trouverez plus bas. Notez que vos modifications seront prises
-en compte immédiatement sans avoir à redémarrer CeB.<br>Il
+&lt;tokentype&gt;.lua&nbsp;dans le répertoire des </span><span style="font-style: italic; color: red;">modifiers de votre profil utilisateur, et </span><span style="color: red;">où
+&lt;tokentype&gt; peut être pris dans la </span><a style="color: red;" href="manual.html#tokens_list">liste des tokens</a><span style="color: red;">
+que vous trouverez plus bas. Notez que la plupart de vos modifications seront prises
+en compte immédiatement sans avoir à redémarrer CeB.</span><br><br style="color: red;">Il
 existe également un mécanisme qui permet de stocker des données
 temporairement ou non et ainsi de pouvoir communiquer entre deux
 sessions de scripts ou même entre deux exécutions de scripts différents
@@ -232,7 +231,14 @@ Affecte la couleur du texte d'un onglet.<br>
 isTabFocused(Pointer tab)</span></li>
 </ul>
 Renvoie true if l'onglet en paramètre est actuellement l'onglet courant
-de CeB.<br>
+de CeB.<br><br><h1><a name="event_file"></a>Le fichier&nbsp;event.lua</h1>Il
+suffit de créer/modifier le fichier event.lua situé dans le répertoire
+utilisateur et de définir au moins l'une des fonctions suivantes :<br><ul style="font-weight: bold;"><li>function focused()</li></ul>Elle
+permet d'intercepter le moment où la fenêtre principale de CeB est
+activée, cela peut servir à savoir lorsque l'utilisateur place son
+client de chat en avant-plan.<br><ul style="font-weight: bold;"><li>function unfocused()</li></ul>Et
+inversement, lorsque l'utilisateur place CeB en arrière plan, ou qu'il
+le minimise, cette fonction est appelée automatiquement.
 <h1><a name="tokens_list"></a>Liste des types
 de token</h1>
 Pour des détails sur le rôle de chacun des token, se référer à la boîte
@@ -310,5 +316,12 @@ date<br>
 yourclientis<br>
 mtpsays<br>
 someonesays<br>
-data<br><h1><a name="properties_system"></a>Le système de propriétés</h1>
+data<br><h1><a name="properties_system"></a>Le système de propriétés</h1>Au sein des scripts, on dispose de plusieurs fonctions liées aux propriétés :<br><ul style="font-weight: bold;"><li>getProperty(string propertyName, defaultValue)</li></ul>Cette
+fonction renvoie la valeur d'une propriété. Elle peut être de type
+string, number ou boolean. Si la propriété n'existe pas, defaultValue
+est renvoyée.<ul style="font-weight: bold;"><li>setProperty(string propertyName, value)</li></ul>Affecte une valeur à une propriété. Le type de la valeur passé est pris en compte.<ul style="font-weight: bold;"><li>getSessionProperty(string propertyName, defaultValue)</li></ul>A
+la différence de getProperty(), cette fonction retourne la valeur d'une
+propriété attachée à la session courante. Dans les scripts où il n'y a
+pas de session courante, cette méthode n'a pas de sens et doit donc
+être évitée.<ul style="font-weight: bold;"><li>setSessionProperty(string propertyName, value)</li></ul><ul style="font-weight: bold;"><li>propertyExists(string propertyName)</li></ul>
 </body></html>

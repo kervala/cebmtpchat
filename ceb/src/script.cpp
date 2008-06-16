@@ -160,7 +160,7 @@ namespace Script
                 switch (prop.type())
                 {
                 case Property::IntegerProperty:
-                    lua_pushinteger(l, prop.intValue());
+                    lua_pushnumber(l, prop.intValue());
                     break;
                 case Property::BooleanProperty:
                     lua_pushboolean(l, prop.boolValue());
@@ -174,7 +174,7 @@ namespace Script
         if (!found)
         {
             if (lua_isnumber(l, 2))
-                lua_pushinteger(l, lua_tointeger(l, 2));
+                lua_pushnumber(l, lua_tonumber(l, 2));
             else if (lua_isboolean(l, 2))
                 lua_pushboolean(l, lua_toboolean(l, 2));
             else if (lua_isstring(l, 2))
@@ -208,7 +208,7 @@ namespace Script
         QString propName = lua_tostring(l, 1);
 
         if (lua_isnumber(l, 2))
-            properties.setValue(propName, (long int) lua_tointeger(l, 2));
+            properties.setValue(propName, (long int) lua_tonumber(l, 2));
         else if (lua_isboolean(l, 2))
             properties.setValue(propName, (bool) lua_toboolean(l, 2));
         else if (lua_isstring(l, 2))
