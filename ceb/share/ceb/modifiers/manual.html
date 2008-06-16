@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Modifiers - developper manual</title>
-</head>
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Modifiers - developper manual</title></head>
 <body>
 <h1>Introduction</h1>
 Les <span style="font-style: italic;">Modifiers</span>
@@ -45,7 +44,15 @@ l'argument optionnel en paramètre.<br>
 Les différentes catégories possibles sont :<br>
 <ul><ul><li>"tell". Dans ce cas, l'argument correspond à la personne
 avec qui le tell est initié.</li><li>"channel". Dans ce cas, aucun argument n'est nécessaire.</li></ul></ul>
-<ul><li><span style="font-weight: bold;">string getTabColor(Pointer tab)</span></li></ul>Renvoie la couleur du texte de l'onglet en paramètre.<ul><li><span style="font-weight: bold;">void
+<ul><li><span style="font-weight: bold;">number getColor(string str, number alpha)</span></li></ul>Renvoie
+un nombre au format AARRGGBB (32 bits) en fonction d'un argument de
+format "#RRGGBB" et d'un deuxième argument optionnel contenant la
+proportion de composante Alpha (de 0 à 255). Si ce deuxième argument
+n'est pas fourni, la couleur sera considérée comme totalement opaque.<br>Cette
+fonction existe pour des raisons de commodité, lorsqu'on a besoin d'une
+couleur non totalement opaque. Dans le cas contraire, dans toutes les
+fonctions qui nécessite une couleur, on peut passer directement la
+chaîne "#RRGGBB".<ul><li><span style="font-weight: bold;">number getTabColor(Pointer tab)</span></li></ul>Renvoie la couleur du texte de l'onglet en paramètre.<ul><li><span style="font-weight: bold;">void
 setTabColor(Pointer tab, string color)</span></li></ul>
 Affecte la couleur du texte d'un onglet.<br>
 <ul><li><span style="font-weight: bold;">boolean
@@ -108,17 +115,16 @@ token courant.<br>
 Affecte le texte du segment d'index <span style="font-style: italic;">segmentNum</span> du token
 courant.<br>
 <ul style="font-weight: bold;">
-<li>string getSegmentColor(int segmentNum)</li>
+<li>number getSegmentColor(int segmentNum)</li>
 </ul>
 Renvoie la couleur du segment d'index <span style="font-style: italic;">segmentNum </span>du
 token courant.<br>
-La chaîne renvoyée est sous la forme hexadécimale "RRGGBB" .<br>
 <ul style="font-weight: bold;">
-<li>void setSegmentColor(int segmentNum, string color)</li>
+<li>void setSegmentColor(int segmentNum,&nbsp;color)</li>
 </ul>
 Affecte la couleur du segment d'index <span style="font-style: italic;">segmentNum</span> du token
 courant.<br>
-La chaîne à affecter est sous la forme hexadécimale "RRGGBB" .<br>
+La couleur peut être sous la forme&nbsp;"#RRGGBB" ou simplement un argument de type number.<br>
 <ul style="font-weight: bold;">
 <li>string getSegmentFont(int segmentNum)</li>
 </ul>
@@ -209,7 +215,7 @@ courageux ;-).<br>
 <li><span style="font-weight: bold;">string
 tokenArgument(int argIndex)</span></li>
 </ul>
-Renvoie l'argument en fonction de l'index en paramètre.<br><h1><a name="event_file"></a>Le fichier&nbsp;event.lua</h1>Il
+Renvoie l'argument en fonction de l'index en paramètre.<br><h1><a name="event_file"></a>Le fichier&nbsp;event.lua (l'interception des évènements)</h1>Il
 suffit de créer/modifier le fichier event.lua situé dans le répertoire
 utilisateur et de définir au moins l'une des fonctions suivantes :<br><ul style="font-weight: bold;"><li>function focused()</li></ul>Elle
 permet d'intercepter le moment où la fenêtre principale de CeB est
