@@ -18,12 +18,31 @@ salut".
 &nbsp;On peut considérer que chaque ligne complète (finissant par
 un
 retour-chariot) envoyée par le serveur constitue un <span style="font-style: italic;">token</span>. CeB classe
-ces tokens par <span style="font-style: italic;">type</span>.<br><span style="color: red;"><br>Si vous souhaitez créer ou éditer un </span><span style="font-style: italic; color: red;">modifier</span><span style="color: red;"> existant,
+ces tokens par <span style="font-style: italic;">type</span>.<br><span style="color: red;"><br><span style="color: rgb(20, 0, 0); text-decoration: underline;">Si vous souhaitez créer ou éditer un </span></span><span style="font-style: italic; color: rgb(20, 0, 0); text-decoration: underline;">modifier</span><span style="color: rgb(20, 0, 0); text-decoration: underline;"> existant,
 créez (ou ouvrez) un fichier nommé
-&lt;tokentype&gt;.lua&nbsp;dans le répertoire des </span><span style="font-style: italic; color: red;">modifiers de votre profil utilisateur, et </span><span style="color: red;">où
-&lt;tokentype&gt; peut être pris dans la </span><a style="color: red;" href="manual.html#tokens_list">liste des tokens</a><span style="color: red;">
+&lt;tokentype&gt;.lua&nbsp;dans le répertoire des </span><span style="font-style: italic; color: rgb(20, 0, 0); text-decoration: underline;">modifiers de votre profil utilisateur, et </span><span style="color: rgb(20, 0, 0); text-decoration: underline;">où
+&lt;tokentype&gt; peut être pris dans la </span><a style="color: rgb(20, 0, 0); text-decoration: underline;" href="manual.html#tokens_list">liste des tokens</a><span style="color: rgb(20, 0, 0); text-decoration: underline;">
 que vous trouverez plus bas. Notez que la plupart de vos modifications seront prises
-en compte immédiatement sans avoir à redémarrer CeB.</span><br><br style="color: red;">Voici les fonctions dont disposent <span style="text-decoration: underline;">tous les scripts</span>, quelque soient leur catégorie (rendu/nouveau token/event) :<br><ul style="font-weight: bold;"><li>void message(msg)</li></ul>Affiche une boite de message. msg peut être de type string, entier, boolean.<br><ul style="font-weight: bold;"><li>void debug(msg)</li></ul>Affiche un message en sortie standard (console). msg peut être de type string, entier, boolean.<ul style="font-weight: bold;"><li>string getSessionInfo(string arg)</li></ul>
+en compte immédiatement sans avoir à redémarrer CeB.</span><br><br><span style="font-weight: bold;">Attention,
+nouveauté ! Tous les fichiers de script existent potentiellement en
+deux versions : les scripts utilisateurs et les scripts
+administrateurs. Un script utilisateur (s'il existe) sera toujours
+appelé avant le script administrateur correspondant (s'il existe
+également), il lui est prépondérant. De fait, si vous désirez que le
+script administrateur ne soit pas appelé, c'est tout-à-fait possible;
+il suffit pour cela que la fonction de votre script utilisateur renvoie
+True. Si votre fonction ne renvoie rien ou renvoie False, alors la
+fonction du script administrateur sera appelée immédiatement après la
+fonction du script utilisateur.</span><br><br>Cette nouvelle
+fonctionnalité permet de pouvoir faire évoluer l'ensemble des scripts
+administrateurs dans les prochaines versions de CeB sans pour autant
+écraser les modifications en Lua des utilisateurs les plus chevronnés.
+:) <span style="font-weight: bold;">De fait, il n'est donc plus nécessaire et même carrément déconseillé de modifier les scripts administrateurs</span>.<br>Les
+scripts utilisateurs sont trouvables dans le répertoire modifiers dans
+le répertoire data de l'utilisateur, à côté de settings.xml. Le
+répertoire "modifiers" n'existe pas au premier lancement de CeB, il
+suffit de le créer si vous voulez écrire vos propres scripts
+utilisateurs.<br><br style="color: red;">Voici les fonctions dont disposent <span style="text-decoration: underline;">tous les scripts</span>, quelque soient leur catégorie (rendu/nouveau token/event) :<br><ul style="font-weight: bold;"><li>void message(msg)</li></ul>Affiche une boite de message. msg peut être de type string, entier, boolean.<br><ul style="font-weight: bold;"><li>void debug(msg)</li></ul>Affiche un message en sortie standard (console). msg peut être de type string, entier, boolean.<ul style="font-weight: bold;"><li>string getSessionInfo(string arg)</li></ul>
 Cette méthode vous renvoie des informations concernant la session
 courante.<br>
 Par exemple : getSessionInfo("login") vous retournera "Toto" si tel est
