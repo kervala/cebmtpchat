@@ -365,9 +365,9 @@ void TokenFactory::dataReceived(const QString &data)
 {
     // Analyze
     if (!_logged)
-        analyzeBeforeLog(data);
+        analyzeBeforeLogin(data);
     else
-        analyzeAfterLog(data);
+        analyzeAfterLogin(data);
 }
 
 QStringList TokenFactory::split(const QString &message)
@@ -424,7 +424,7 @@ QStringList TokenFactory::split(const QString &message)
     return strings;
 }
 
-void TokenFactory::analyzeBeforeLog(const QString &data)
+void TokenFactory::analyzeBeforeLogin(const QString &data)
 {
     QVector<QString> arguments;
     QTime now = QTime::currentTime();
@@ -467,7 +467,7 @@ void TokenFactory::analyzeBeforeLog(const QString &data)
     }
 }
 
-void TokenFactory::analyzeAfterLog(const QString &data)
+void TokenFactory::analyzeAfterLogin(const QString &data)
 {
     QVector<QString> arguments;
     int ticketID = -1;

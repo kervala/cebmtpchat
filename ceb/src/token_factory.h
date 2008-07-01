@@ -125,8 +125,8 @@ private:
 
     QList<CommandTicket> tickets[Command_Count];
 
-    void analyzeBeforeLog(const QString &data);
-    void analyzeAfterLog(const QString &data);
+    void analyzeBeforeLogin(const QString &data);
+    void analyzeAfterLogin(const QString &data);
 
     // !!! Uses <tokenRegexp> state to work !!!
     void doTokenAnalyzed(Token::Type tokenType, int ticketID, const QTime &timeStamp);
