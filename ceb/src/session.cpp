@@ -144,6 +144,14 @@ void Session::send(const QString &message, bool killIdle)
         resetIdle(); // Something has been sent => Idle time can be reset
 }
 
+void Session::sendCommand(const QString &command, bool killIdle)
+{
+    if (_tokenFactory.serverType() == TokenFactory::Mtp)
+        send(command, killIdle);
+    else
+        send("." + command, killIdle);
+}
+
 QRegExp Session::regExpAboutMe() const
 {
     return QRegExp("(^|\\W)" + _serverLogin + "(\\W|$)", Qt::CaseInsensitive);
@@ -226,7 +234,7 @@ void Session::tokenAnalyzed(const Token &token)
         logInfo(QString("Moving to the active server (%1:%2)...").arg(token.arguments()[3]).arg(token.arguments()[4]));
         break;
     case Token::Welcome:
-        _serverLogin = token.arguments()[1];
+        _serverLogin = token.arguments()[2];
         _channel = "Hall";
         _myMessages.clear();
         _autoAway = false;

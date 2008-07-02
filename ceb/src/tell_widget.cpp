@@ -129,7 +129,7 @@ void TellWidget::sendText(const QString &text)
         toSend = executeLuaFilter(_comboBoxFilter->currentText(), text);
 
     foreach (QString line, toSend.split('\n'))
-        _session->send("tell " + _login + " " + line);
+        _session->sendCommand("tell " + _login + " " + line);
 }
 
 void TellWidget::newTokenFromSession(const Token &token)

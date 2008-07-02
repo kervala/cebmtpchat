@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QRegExp>
+#include <QMap>
 
 #include "token.h"
 
@@ -38,6 +39,7 @@ public:
         QRegExp(pattern),
         _arguments(arguments) {}
     MtpRegExp(const QString &pattern) : QRegExp(pattern) {}
+    MtpRegExp() : QRegExp() {}
 
     const QList<int> &arguments() const { return _arguments; }
     const QString &example() const { return _example; }
@@ -52,32 +54,14 @@ class TokenFactory : public QObject
     Q_OBJECT
 
 public:
-    enum SendToken {
-        SendToken_Tell,
-        SendToken_Reply,
-        SendToken_Sendmsg
-    };
+    enum ServerType { Mtp, Ryzom };
+    enum SendToken { SendToken_Tell, SendToken_Reply, SendToken_Sendmsg };
 
-    enum State {
-        State_Normal,
-        State_Who,
-        State_History,
-        State_Finger,
-        State_Alias,
-        State_Wall,
-        State_Message,
-        State_Help
-    };
+    enum State { State_Normal, State_Who, State_History, State_Finger, State_Alias,
+                 State_Wall, State_Message, State_Help };
 
-    enum Command {
-        Command_Who = 0,
-        Command_Wall,
-        Command_Date,
-        Command_SetClient,
-        Command_ShowMsg,
-        Command_Help,
-        Command_Count
-    };
+    enum Command { Command_Who = 0, Command_Wall, Command_Date, Command_SetClient,
+                   Command_ShowMsg, Command_Help, Command_Count };
 
     struct CommandTicket {
         Command command;
@@ -89,13 +73,15 @@ public:
     bool logged() const { return _logged; }
     State state() const { return _state; }
     bool away() const { return _away; }
+    ServerType serverType() const { return _serverType; } //!< Returns the server type
+    QString serverName() const { return _serverName; } //!< Returns the server name. Usually "Mtp" but can be "SoR" or whatever else
 
     QStringList split(const QString &message);
     void reset();
 
     int requestTicket(Command command);
 
-    const QList<MtpRegExp> &tokenRegexp() const { return _tokenRegexp; }
+    const QMap<Token::Type,MtpRegExp> &tokenRegexp() const { return _tokenRegexp; }
 
     static const TokenFactory defaultFactory;
 
@@ -118,17 +104,20 @@ private:
     bool _logged;
     State _state;
     bool _away;
+    ServerType _serverType;
+    QString _serverName;
 
-    QList<MtpRegExp> _tokenRegexp;
+    QMap<Token::Type,MtpRegExp> _tokenRegexp;
     QList<QRegExp> _sendTokenRegexp;
     QRegExp _timeRegexp;
 
     QList<CommandTicket> tickets[Command_Count];
 
+    void createTokenRegularExpressions();
+
     void analyzeBeforeLogin(const QString &data);
     void analyzeAfterLogin(const QString &data);
 
-    // !!! Uses <tokenRegexp> state to work !!!
     void doTokenAnalyzed(Token::Type tokenType, int ticketID, const QTime &timeStamp);
 
     void clearTickets();

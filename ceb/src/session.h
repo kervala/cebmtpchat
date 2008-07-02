@@ -42,9 +42,12 @@ public:
     // Stop the communication
     void stop();
 
-    // Send something
+    //! Send something
     // If <killIdle> is false, then idle time is not reset
     void send(const QString &message, bool killIdle = true);
+
+    //! Send a command
+    void sendCommand(const QString &command, bool killIdle = true);
 
     const SessionConfig &config() const { return *_config; }
     void setConfig(const SessionConfig &config) { *_config = config; }

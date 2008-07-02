@@ -502,7 +502,7 @@ void ChannelWidget::newToken(const Token &token)
     case Token::YouJoinChannel:
     case Token::YouLeaveChannel:
         _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
-        _session->send("who all");
+        _session->sendCommand("who all");
         break;
     case Token::SomeoneJoinChannel:
     case Token::SomeoneFadesIntoTheShadows:
@@ -649,13 +649,13 @@ void ChannelWidget::sessionLogged()
 {
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->send("set client CeB Alpha " + QString(VERSION));
+    _session->sendCommand("set client CeB Alpha " + QString(VERSION));
 
     // Send first who
     _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
-    _session->send("who all");
+    _session->sendCommand("who all");
     _helpTicketID = _session->requestTicket(TokenFactory::Command_Help);
-    _session->send("help serverlist");
+    _session->sendCommand("help serverlist");
 
     // Switch entry widget
     _stackedWidgetEntry->setCurrentIndex(1);
@@ -742,7 +742,7 @@ void ChannelWidget::timerTimeout()
     if (_session && _session->isLogged())
     {
         _dateTicketID = _session->requestTicket(TokenFactory::Command_Date);
-        _session->send("date", false);
+        _session->sendCommand("date", false);
     }
 }
 
@@ -773,7 +773,7 @@ void ChannelWidget::refreshKeepAlivePolicy()
 void ChannelWidget::refreshWhoColumn()
 {
     _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
-    _session->send("who all");
+    _session->sendCommand("who all");
 }
 
 void ChannelWidget::refreshFonts()
@@ -824,21 +824,21 @@ void ChannelWidget::finger()
 {
     QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        _session->send("finger " + item->text());
+        _session->sendCommand("finger " + item->text());
 }
 
 void ChannelWidget::beep()
 {
     QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        _session->send("beep " + item->text());
+        _session->sendCommand("beep " + item->text());
 }
 
 void ChannelWidget::kick()
 {
     QListWidgetItem *item = _listWidgetWho->currentItem();
     if (item)
-        _session->send("kick " + item->text());
+        _session->sendCommand("kick " + item->text());
 }
 
 void ChannelWidget::initiateTellSession()
