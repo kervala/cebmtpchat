@@ -102,24 +102,13 @@ MainWindow::MainWindow()
     if (Profile::instance().systemLogsVisible)
         systemDialog->show();
 
-    int w, h, l, t;
     if (Profile::instance().mainWidth != -1)
     {
-        w = Profile::instance().mainWidth;
-        h = Profile::instance().mainHeight;
-        l = Profile::instance().mainLeft;
-        t = Profile::instance().mainTop;
+        resize(Profile::instance().mainWidth, Profile::instance().mainHeight);
+        move(Profile::instance().mainLeft, Profile::instance().mainTop);
     }
     else
-    {
-        w = 640;
-        h = 480;
-        l = 0;
-        t = 0;
-    }
-
-    resize(w, h);
-    move(l, t);
+        resize(640, 480);
 
     // Create and init multitabwidget
     mtwMain = new MultiTabWidget;
