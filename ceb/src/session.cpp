@@ -126,7 +126,10 @@ void Session::send(const QString &message, bool killIdle)
     QRegExp r("^quit(| (.*))$");
     if (killIdle && _autoAway && isLogged() && away() && !r.exactMatch(message) && !Profile::instance().matchIdleAwayBypassExpressions(message))
     {
-        _socket->write("set away off\n");
+        if (_tokenFactory.serverType() == TokenFactory::Mtp)
+            _socket->write("set away off\n");
+        else
+            _socket->write(".set away off\n");
         _autoAway = false;
     }
 
@@ -348,7 +351,7 @@ void Session::activateAutoAway()
         return;
 
     _autoAway = true;
-    send("set away on", false);
+    sendCommand("set away on", false);
 }
 
 void Session::deactivateAutoAway()
