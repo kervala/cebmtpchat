@@ -273,7 +273,7 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1,
                                   "<Mtp> Fooman is away"));
     _tokenRegexp.insert(Token::YouAway,
-                        MtpRegExp("^(\\d+:\\d+:\\d+) (<Mtp> You are away)$",
+                        MtpRegExp("^(\\d+:\\d+:\\d+) (" + QString("%1%2%3").arg("<").arg(_serverName).arg("> ") + "You are away)$",
                                   "<Mtp> You are away"));
     _tokenRegexp.insert(Token::SomeoneBack,
                         MtpRegExp(SRV_RE + "("LOGIN_RE") is back$",
@@ -371,7 +371,7 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1 << 4,
                                   "<Mtp> Fooman disconnects (connection reset by huitre)"));
     _tokenRegexp.insert(Token::YouLeave,
-                        MtpRegExp(SRV_RE + "You leave <Mtp> Chat !$",
+                        MtpRegExp(SRV_RE + "You leave " + QString("%1%2%3").arg("<").arg(_serverName).arg("> ") + "Chat !$",
                                   "<Mtp> You leave <Mtp> Chat !"));
 
     _tokenRegexp.insert(Token::YouJoinChannel,
