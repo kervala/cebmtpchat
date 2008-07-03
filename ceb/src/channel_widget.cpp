@@ -293,7 +293,7 @@ void ChannelWidget::newToken(const Token &token)
     bool scrollDown = sb->maximum() - sb->value() < 10;
     switch(token.type())
     {
-    case Token::Token::LoginAsked:
+    case Token::LoginAsked:
         _lineEditWidget->setEchoMode(QLineEdit::Normal);
         break;
     case Token::PasswordAsked:

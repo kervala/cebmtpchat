@@ -107,7 +107,7 @@ void Session::stop()
 {
     if (isLogged())
     {
-        send("quit");
+        sendCommand("quit");
         _socket->waitForDisconnected(1000);
     }
     else

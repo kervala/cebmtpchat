@@ -141,24 +141,20 @@ void TokenFactory::createTokenRegularExpressions()
 
     // Pre-login tokens
     _tokenRegexp.insert(Token::IndicatedActiveServer,
-                        MtpRegExp("^<("ID_RE")> (Active|Main) server (is|move) at ([^:]+):(.+)$",
+                        MtpRegExp("^<"ID_RE"> (Active|Main) server (is|move) at ([^:]+):(.+)$",
                                   QList<int>() << 1 << 3 << 4,
                                   "<Mtp> Active server is at a.b.c:4000"));
     _tokenRegexp.insert(Token::LoginAsked,
-                        MtpRegExp("^<("ID_RE")> Login: $",
-                                  QList<int>() << 1,
+                        MtpRegExp("^<"ID_RE"> Login: $",
                                   "<Mtp> Login: "));
     _tokenRegexp.insert(Token::InvalidLogin,
-                        MtpRegExp("^<("ID_RE")> Invalid login, choose another one$",
-                                  QList<int>() << 1,
+                        MtpRegExp("^<"ID_RE"> Invalid login, choose another one$",
                                   "<Mtp> Invalid login, choose another one"));
     _tokenRegexp.insert(Token::PasswordAsked,
-                        MtpRegExp("<("ID_RE")> Password: $",
-                                  QList<int>() << 1,
+                        MtpRegExp("<"ID_RE"> Password: $", // no ^, because there are telnet code before <Mtp> Password:
                                   "<Mtp> Password: "));
     _tokenRegexp.insert(Token::IncorrectPassword,
-                        MtpRegExp("^<("ID_RE")> Incorrect password$",
-                                  QList<int>() << 1,
+                        MtpRegExp("^<"ID_RE"> Incorrect password$",
                                   "<Mtp> Incorrect password"));
     _tokenRegexp.insert(Token::Welcome,
                         MtpRegExp("^<("ID_RE")> Welcome, ("LOGIN_RE")\\.$",
@@ -822,7 +818,6 @@ void TokenFactory::doTokenAnalyzed(Token::Type tokenType, int ticketID, const QT
         else
             positions << regExp.pos(i);
     }
-
     // We reconstruct all regular expressions
     if (tokenType == Token::Welcome)
     {
