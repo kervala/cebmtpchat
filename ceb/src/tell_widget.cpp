@@ -315,7 +315,7 @@ void TellWidget::refreshFonts()
 void TellWidget::outputFilterSendToChat(const QString &text)
 {
     foreach (QString line, text.split('\n'))
-        _session->send("tell " + _login + " " + line);
+        _session->sendCommand("tell " + _login + " " + line);
 }
 
 void TellWidget::initScriptComboBox()

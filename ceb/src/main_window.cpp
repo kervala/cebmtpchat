@@ -1365,9 +1365,9 @@ void MainWindow::executeAction(int action)
 
         session->deactivateAutoAway();
         if (session->away())
-            session->send("set away off");
+            session->sendCommand("set away off");
         else
-            session->send("set away on");
+            session->sendCommand("set away on");
         break;
     case Action::Action_Reconnect:
         reconnect();

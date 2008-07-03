@@ -158,10 +158,10 @@ void MessageWidget::removeSelectedMessage()
         {
             // Remove the old range
             if (pred == low) // Single
-                _session->send("clearmsg " + QString::number(low + 1 - offset));
+                _session->sendCommand("clearmsg " + QString::number(low + 1 - offset));
             else // Range
-                _session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
-                               QString::number(pred + 1 - offset));
+                _session->sendCommand("clearmsg " + QString::number(low + 1 - offset) + " " +
+                                      QString::number(pred + 1 - offset));
             offset += pred - low + 1;
             low = indexes[i];
             pred = low;
@@ -169,10 +169,10 @@ void MessageWidget::removeSelectedMessage()
     }
     // Remove the old range
     if (pred == low) // Single
-        _session->send("clearmsg " + QString::number(low + 1 - offset));
+        _session->sendCommand("clearmsg " + QString::number(low + 1 - offset));
     else // Range
-        _session->send("clearmsg " + QString::number(low + 1 - offset) + " " +
-                       QString::number(pred + 1 - offset));
+        _session->sendCommand("clearmsg " + QString::number(low + 1 - offset) + " " +
+                              QString::number(pred + 1 - offset));
 }
 
 void MessageWidget::newTokenFromSession(const Token &token)
@@ -200,7 +200,7 @@ void MessageWidget::refreshMessages()
         return;
 
     _session->requestTicket(TokenFactory::Command_ShowMsg);
-    _session->send("showmsg");
+    _session->sendCommand("showmsg");
 }
 
 QString MessageWidget::widgetCaption() const
