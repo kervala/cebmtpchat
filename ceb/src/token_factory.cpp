@@ -827,11 +827,9 @@ void TokenFactory::doTokenAnalyzed(Token::Type tokenType, int ticketID, const QT
     if (tokenType == Token::Welcome)
     {
         _serverName = regExp.cap(1);
-        if (!_serverName.compare("Mtp", Qt::CaseInsensitive))
-            _serverType = Mtp;
-        else if (!_serverName.compare("SoR", Qt::CaseInsensitive))
+        if (!_serverName.compare("SoR", Qt::CaseInsensitive))
             _serverType = Ryzom;
-        else // Unknown server type => considerate it like a Mtp server
+        else // Other server type => considerate it like a Mtp server
             _serverType = Mtp;
         createTokenRegularExpressions();
     }
