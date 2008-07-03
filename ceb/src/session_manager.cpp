@@ -171,6 +171,6 @@ void SessionManager::doTimerIdle()
 
         // Auto-quit?
         if (Profile::instance().idleQuit && minutes >= Profile::instance().idleQuitTimeout && session->isLogged())
-            session->send("quit CeB autoquit", false);
+            session->sendCommand("quit CeB autoquit", false);
     }
 }
