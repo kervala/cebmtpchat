@@ -24,7 +24,7 @@
 
 #include "token_factory.h"
 
-#define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]{0,7}"
+#define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]*"
 #define ID_RE "[a-zA-Z][a-zA-Z\\d]+"
 #define SRV_RE QString("%1%2%3").arg("^<").arg(_serverName).arg("> ")
 
@@ -220,14 +220,9 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1 << 2 << 3 << 4,
                                   "Fri Feb 04 2005 16:48:01 Fooman      Hello World!"));
 
-    if (_serverType == Mtp)
-        _tokenRegexp.insert(Token::WhoBegin,
-                            MtpRegExp("^ Login    Group   Channel   Idle  On For C              From host$",
-                                      " Login    Group   Channel   Idle  On For C              From host"));
-    else
-        _tokenRegexp.insert(Token::WhoBegin,
-                            MtpRegExp("^ Login        Group   Channel   Idle  On For C              From host$",
-                                      " Login        Group   Channel   Idle  On For C              From host"));
+    _tokenRegexp.insert(Token::WhoBegin,
+                        MtpRegExp("^ Login +Group +Channel +Idle +On +For +C +From +host$",
+                                  " Login    Group   Channel   Idle  On For C              From host"));
     _tokenRegexp.insert(Token::WhoEnd,
                         MtpRegExp(SRV_RE + "There (are|is) currently (\\d+) users?(( in channel ("LOGIN_RE"))|)$",
                                   QList<int>() << 2 << 5,
@@ -236,14 +231,9 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp(SRV_RE + "There is nobody in channel ("LOGIN_RE")$",
                                   QList<int>() << 1,
                                   "<Mtp> There is nobody in channel Hall"));
-    if (_serverType == Mtp)
-        _tokenRegexp.insert(Token::WhoSeparator,
-                            MtpRegExp("^-------- -------- -------- ------ ------ - ------------------------------------$",
-                                      "-------- -------- -------- ------ ------ - ------------------------------------"));
-    else
-        _tokenRegexp.insert(Token::WhoSeparator,
-                            MtpRegExp("^------------ -------- -------- ------ ------ - ------------------------------------$",
-                                      "-------- -------- -------- ------ ------ - ------------------------------------"));
+    _tokenRegexp.insert(Token::WhoSeparator,
+                        MtpRegExp("^-+ -+ -+ -+ -+ -+ -+$",
+                                  "-------- -------- -------- ------ ------ - ------------------------------------"));
     _tokenRegexp.insert(Token::WhoLine,
                         MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *(\\w+) *(\\w+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7));
