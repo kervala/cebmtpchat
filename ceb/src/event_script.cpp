@@ -29,6 +29,25 @@ Script::LuaScript userScript;
 
 QString g_entryText;
 
+int getEntry(lua_State *l)
+{
+    lua_pushstring(l, g_entryText.toLatin1());
+
+    return 1;
+}
+
+int setEntry(lua_State *l)
+{
+    int n = lua_gettop(l);
+    if (!n)
+        return 0;
+
+    if (lua_isstring(l, 1))
+        g_entryText = QString(lua_tostring(l, 1));
+
+    return 0;
+}
+
 void EventScript::focused()
 {
     executeFunction("focused");
@@ -41,11 +60,61 @@ void EventScript::unfocused()
 
 QString EventScript::newEntry(Session *session, const QString &text)
 {
-	// Set global stuff
-	Script::setSession(session);
-	g_entryText = text;
+    // Set global stuff
+    Script::setSession(session);
+    g_entryText = text;
 
-	executeFunction("newEntry");
+    bool bypassAncestor = false;
+
+    lua_State *l = getUserScript();
+    if (l)
+    {
+        lua_register(l, "getEntry", getEntry);
+        lua_register(l, "setEntry", setEntry);
+
+        // Init global variables
+        lua_getglobal(l, "newEntry"); // Function to be called
+
+        int top = lua_gettop(l);
+        if (!lua_isnil(l, top))
+        {
+            if (lua_pcall(l, 0, 1, 0))
+                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        }
+
+        int n = lua_gettop(l); // Arguments number
+        if (n && lua_isboolean(l, 2))
+            bypassAncestor = lua_toboolean(l, 2);
+
+        Script::unregisterFunction(l, "getEntry");
+        Script::unregisterFunction(l, "setEntry");
+    }
+
+    if (bypassAncestor)
+        return g_entryText;
+
+    l = getAdminScript();
+
+    if (!l)
+        return g_entryText;
+
+    lua_register(l, "getEntry", getEntry);
+    lua_register(l, "setEntry", setEntry);
+
+    // Init global variables
+    lua_getglobal(l, "newEntry"); // Function to be called
+
+    int top = lua_gettop(l);
+    if (lua_isnil(l, top))
+        return g_entryText;
+
+    if (lua_pcall(l, 0, 1, 0))
+        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+
+    Script::unregisterFunction(l, "getEntry");
+    Script::unregisterFunction(l, "setEntry");
+
+    return g_entryText;
 }
 
 void EventScript::executeFunction(const QString &function)

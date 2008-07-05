@@ -33,7 +33,7 @@
 #include "lua_utils.h"
 #include "transfers_manager.h"
 #include "paths.h"
-//#include "main_window.h"
+#include "event_script.h"
 
 #include "channel_widget.h"
 
@@ -268,10 +268,12 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
 void ChannelWidget::sendText(const QString &text)
 {
     // Filter?
+    QString scriptedText = EventScript::newEntry(_session, text);
+
     if (_comboBoxFilter->currentIndex())
-        _session->send(executeLuaFilter(_comboBoxFilter->currentText(), text));
+        _session->send(executeLuaFilter(_comboBoxFilter->currentText(), scriptedText));
     else
-        _session->send(text);
+        _session->send(scriptedText);
 }
 
 QListWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
