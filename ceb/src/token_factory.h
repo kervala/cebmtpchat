@@ -63,7 +63,8 @@ public:
     enum Command { Command_Who = 0, Command_Wall, Command_Date, Command_SetClient,
                    Command_ShowMsg, Command_Help, Command_Count };
 
-    struct CommandTicket {
+    struct CommandTicket
+	{
         Command command;
         int ID;
     };
@@ -75,6 +76,12 @@ public:
     bool away() const { return _away; }
     ServerType serverType() const { return _serverType; } //!< Returns the server type
     QString serverName() const { return _serverName; } //!< Returns the server name. Usually "Mtp" but can be "SoR" or whatever else
+
+    /*! \brief Returns the command to send to the server
+     * \param command the classical mtp form command
+     * \return the server command form (with or without ".")
+     */
+    QString serverCommand(const QString &command) const;
 
     QStringList split(const QString &message);
     void reset();

@@ -109,8 +109,7 @@ void Session::stop()
     {
         sendCommand("quit");
         _socket->waitForDisconnected(1000);
-    }
-    else
+    } else
         _socket->disconnectFromHost();
 }
 
@@ -123,13 +122,13 @@ void Session::send(const QString &message, bool killIdle)
         return;
 
     // Don't sent autoaway off only for "quit"... cannot bypass aliases :/
-    QRegExp r("^quit(| (.*))$");
-    if (killIdle && _autoAway && isLogged() && away() && !r.exactMatch(message) && !Profile::instance().matchIdleAwayBypassExpressions(message))
+    QRegExp r("^" + QRegExp::escape(_tokenFactory.serverCommand("quit")) + "(| (.*))$");
+    if (killIdle && _autoAway &&
+		isLogged() && away() &&
+		!r.exactMatch(message) &&
+		!Profile::instance().matchIdleAwayBypassExpressions(message))
     {
-        if (_tokenFactory.serverType() == TokenFactory::Mtp)
-            _socket->write("set away off\n");
-        else
-            _socket->write(".set away off\n");
+        _socket->write(codec->fromUnicode(_tokenFactory.serverCommand("set away off\n")));
         _autoAway = false;
     }
 
@@ -149,10 +148,7 @@ void Session::send(const QString &message, bool killIdle)
 
 void Session::sendCommand(const QString &command, bool killIdle)
 {
-    if (_tokenFactory.serverType() == TokenFactory::Mtp)
-        send(command, killIdle);
-    else
-        send("." + command, killIdle);
+	send(_tokenFactory.serverCommand(command), killIdle);
 }
 
 QRegExp Session::regExpAboutMe() const

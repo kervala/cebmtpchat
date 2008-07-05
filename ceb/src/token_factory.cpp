@@ -457,6 +457,14 @@ void TokenFactory::dataReceived(const QString &data)
         analyzeAfterLogin(data);
 }
 
+QString TokenFactory::serverCommand(const QString &command) const
+{
+	if (_serverType == Mtp)
+		return command;
+	else
+		return "." + command;
+}
+
 QStringList TokenFactory::split(const QString &message)
 {
     QStringList strings; // Contains the result
