@@ -52,6 +52,7 @@ namespace Script
                 QMessageBox::warning(0, "Lua", "false");
                 break;
             }
+        return 0;
     }
 
     int debug(lua_State *l)
@@ -74,6 +75,7 @@ namespace Script
                 qDebug("false");
                 break;
             }
+        return 0;
     }
 
     //! \brief returns a argb value in function of a string and an alpha value
