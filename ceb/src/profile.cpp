@@ -184,6 +184,9 @@ bool Profile::load()
     timeStampPolicy = (TimeStampPolicy) XmlHandler::read(rootElem, "time_stamp_policy", 0);
     timeStampInTellTabs = XmlHandler::read(rootElem, "time_stamp_in_tell_tabs", true);
 
+    // Actions
+    actionManager.load(rootElem);
+
     // Keep alive
     keepAlive = XmlHandler::read(rootElem, "keep_alive", 0);
 
@@ -325,7 +328,6 @@ bool Profile::load()
     // Text skin
     _textSkin.load(rootElem);
 
-
     // Load persistent names
     persistentProperties.clear();
     QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
@@ -417,6 +419,9 @@ void Profile::save() const
     // Time stamp
     XmlHandler::write(rootElem, "time_stamp_policy", (int) timeStampPolicy);
     XmlHandler::write(rootElem, "time_stamp_in_tell_tabs", timeStampInTellTabs);
+
+    // Actions
+    actionManager.save(rootElem);
 
     // Keep alive
     XmlHandler::write(rootElem, "keep_alive", keepAlive);

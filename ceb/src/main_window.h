@@ -27,6 +27,7 @@
 #include <QTabWidget>
 #include <QSignalMapper>
 #include <QSystemTrayIcon>
+#include <QShortcut>
 
 #include <multi_tab_widget.h>
 
@@ -95,6 +96,7 @@ private:
     bool trayTalkAboutMe;
     AutoUpdate autoUpdate;
     QSignalMapper *actionSignalMapper;
+    QList<QShortcut*> actionShortcuts;
 
     MainWindow();
     ~MainWindow();
@@ -130,6 +132,7 @@ private:
     void refreshProfileSettings(); // Refresh profile settings on every widget
     void applyProfileOnMultiTabWidget();
     void refreshWidgets();
+    void createActionShortcuts();
 
     ChannelWidget *connectTo(SessionConfig &config);
 

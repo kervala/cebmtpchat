@@ -30,7 +30,6 @@
 #include <QDir>
 #include <QSound>
 #include <QDesktopServices>
-#include <QShortcut>
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -148,19 +147,29 @@ MainWindow::MainWindow()
     actionSignalMapper = new QSignalMapper(this);
     connect(actionSignalMapper, SIGNAL(mapped(int)),
             this, SLOT(executeAction(int)));
-    for (int i = 0; i < Profile::instance().actionManager.actions().count(); ++i)
-    {
-        const Action &action = Profile::instance().actionManager.actions()[i];
-        QShortcut *shortcut = new QShortcut(action.keySequence(), this);
-        connect(shortcut, SIGNAL(activated()), actionSignalMapper, SLOT(map()));
-        actionSignalMapper->setMapping(shortcut, action.actionType());
-    }
+
+    createActionShortcuts();
 }
 
 MainWindow::~MainWindow()
 {
     // Free some singletons
     SessionManager::free();
+}
+
+void MainWindow::createActionShortcuts()
+{
+    qDeleteAll(actionShortcuts);
+    actionShortcuts.clear();
+
+    for (int i = 0; i < Profile::instance().actionManager.actions().count(); ++i)
+    {
+        const Action &action = Profile::instance().actionManager.actions()[i];
+        QShortcut *shortcut = new QShortcut(action.keySequence(), this);
+        actionShortcuts << shortcut;
+        connect(shortcut, SIGNAL(activated()), actionSignalMapper, SLOT(map()));
+        actionSignalMapper->setMapping(shortcut, action.actionType());
+    }
 }
 
 QWidget *MainWindow::getTab(Session *session, const QString &category, const QString &argument)
@@ -512,6 +521,9 @@ void MainWindow::hideSystemDialog()
 
 void MainWindow::refreshProfileSettings()
 {
+    // Actions shortcut stuffs
+    createActionShortcuts();
+
     // Tray stuffs
     if (Profile::instance().trayEnabled)
     {

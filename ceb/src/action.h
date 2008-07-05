@@ -21,6 +21,7 @@
 
 #include <QList>
 #include <QKeySequence>
+#include <QDomElement>
 
 class Action
 {
@@ -42,6 +43,8 @@ public:
     void resetKeySequence();
 
     const QString &caption() const { return _caption; }
+    static QString name(ActionType type);
+    static ActionType actionByName(const QString &actionName, bool *found = 0);
 
     ActionType actionType() const { return _actionType; }
 
@@ -61,6 +64,9 @@ public:
 
     Action &getAction(int index);
     Action &getAction(Action::ActionType actionType);
+
+    void load(const QDomElement &root);
+    void save(QDomElement &root) const;
 
 private:
     QList<Action> _actions;

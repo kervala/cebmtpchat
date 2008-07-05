@@ -61,8 +61,13 @@ void ShortcutsSettingsWidget::feedProfile(Profile &profile)
 
 void ShortcutsSettingsWidget::treeActionFocusedChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+    refreshShortcutSettings(current);
+}
+
+void ShortcutsSettingsWidget::refreshShortcutSettings(const QModelIndex &index)
+{
     ActionManager &actionManager = Profile::instance().actionManager;
-    const Action &action = actionManager.actions()[current.row()];
+    const Action &action = actionManager.actions()[index.row()];
     if (action.keySequence().isEmpty())
         pushButtonChange->setText(tr("None"));
     else
@@ -82,10 +87,14 @@ void ShortcutsSettingsWidget::on_pushButtonChange_clicked()
 {
     ActionManager &actionManager = Profile::instance().actionManager;
     QModelIndex index = treeView->selectionModel()->currentIndex();
-    const Action &action = actionManager.actions()[index.row()];
+    Action &action = actionManager.getAction(index.row());
     DialogShortcut dialog(this);
     dialog.init(action.keySequence());
-    dialog.exec();
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        action.setKeySequence(dialog.keySequence());
+        refreshShortcutSettings(index);
+    }
 }
 
 void ShortcutsSettingsWidget::on_radioButtonNone_toggled(bool checked)
@@ -111,10 +120,6 @@ void ShortcutsSettingsWidget::on_radioButtonDefault_toggled(bool checked)
 
 void ShortcutsSettingsWidget::on_radioButtonCustom_toggled(bool checked)
 {
-    if (checked)
-    {
-        qDebug("Custom checked");
-    }
 }
 
 void ShortcutsSettingsWidget::actionRowChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)

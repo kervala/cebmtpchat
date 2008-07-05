@@ -37,6 +37,8 @@ public:
 private:
     ActionsModel *_model;
 
+    void refreshShortcutSettings(const QModelIndex &index);
+
 private slots:
     // Automatic signals
     void on_pushButtonChange_clicked();

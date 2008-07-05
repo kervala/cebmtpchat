@@ -23,7 +23,9 @@
 
 #include "dialog_shortcut.h"
 
-DialogShortcut::DialogShortcut(QWidget *parent) : DialogBasic(parent)
+DialogShortcut::DialogShortcut(QWidget *parent)
+    : DialogBasic(parent),
+      _closeIt(false)
 {
     QHBoxLayout *topLayout = new QHBoxLayout;
     mainLayout->insertLayout(0, topLayout);
@@ -56,38 +58,29 @@ bool DialogShortcut::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (!keyEvent->text().isEmpty())
+
+        if (keyEvent->key() != Qt::Key_Shift &&
+            keyEvent->key() != Qt::Key_Control &&
+            keyEvent->key() != Qt::Key_Meta &&
+            keyEvent->key() != Qt::Key_Alt)
         {
-            int k1 = 0, k2 = 0, k3 = 0, k4 = 0;
-            if (keyEvent->modifiers() & Qt::AltModifier)
-                k1 = Qt::ALT;
-            if (keyEvent->modifiers() & Qt::ControlModifier)
-            {
-                if (k1 == 0)
-                    k1 = Qt::CTRL;
-                else
-                    k2 = Qt::CTRL;
-            }
-            if (keyEvent->modifiers() && Qt::ShiftModifier)
-            {
-                if (k1 == 0)
-                    k1 = Qt::SHIFT;
-                else if (k2 == 0)
-                    k2 = Qt::SHIFT;
-                else
-                    k3 = Qt::SHIFT;
-            }
+            _keySequence = QKeySequence(keyEvent->modifiers() + keyEvent->key());
+            _closeIt = true;
+        }
+        else
+            _keySequence = QKeySequence(keyEvent->modifiers());
 
-            if (k1 == 0)
-                k1 = keyEvent->key();
-            else if (k2 == 0)
-                k2 = keyEvent->key();
-            else if (k3 == 0)
-                k3 = keyEvent->key();
-            else
-                k4 = keyEvent->key();
+        refreshButton();
 
-            _keySequence = QKeySequence(k1, k2, k3, k4);
+        return true;
+    } else if (event->type() == QEvent::KeyRelease)
+    {
+        if (_closeIt)
+            accept();
+        else
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            _keySequence = QKeySequence(keyEvent->modifiers());
             refreshButton();
         }
         return true;

@@ -18,6 +18,8 @@
 
 #include <QObject>
 
+#include <xml_handler.h>
+
 #include "action.h"
 
 Action::Action(ActionType actionType)
@@ -42,6 +44,32 @@ Action::Action(ActionType actionType)
     default:;
     }
     _defaultKeySequence = _keySequence;
+}
+
+QString Action::name(ActionType type)
+{
+    switch (type)
+    {
+    case Action_RefreshWhoColumn: return "RefreshWhoColumn";
+    case Action_ToggleAway: return "ToggleAway";
+    case Action_Reconnect: return "Reconnect";
+    }
+}
+
+Action::ActionType Action::actionByName(const QString &actionName, bool *found)
+{
+    for (int type = 0; type <= Action_End; ++type)
+    {
+        if (!actionName.compare(name((ActionType) type)))
+        {
+            if (found)
+                *found = true;
+            return (ActionType) type;
+        }
+    }
+    if (found)
+        *found = false;
+    return Action_RefreshWhoColumn;
 }
 
 void Action::resetKeySequence()
@@ -78,4 +106,46 @@ Action &ActionManager::getAction(Action::ActionType actionType)
             return action;
     }
     return _actions[0];
+}
+
+void ActionManager::load(const QDomElement &root)
+{
+    QDomElement actionsElem = root.firstChildElement("actions");
+    if (actionsElem.isNull())
+        return;
+
+    QDomElement actionElem = actionsElem.firstChildElement("action");
+    while (!actionElem.isNull())
+    {
+        bool found;
+        Action::ActionType actionType = Action::actionByName(actionElem.attribute("type"), &found);
+        if (found)
+        {
+            Action &action = getAction(actionType);
+            action.setKeySequence(QKeySequence::fromString(XmlHandler::read(actionElem, "value", "")));
+        }
+
+        // To the next!
+        actionElem = actionElem.nextSiblingElement("action");
+    }
+
+}
+
+void ActionManager::save(QDomElement &root) const
+{
+    QDomDocument doc = root.ownerDocument();
+
+    QDomElement actionsElem = doc.createElement("actions");
+    root.appendChild(actionsElem);
+
+    foreach (const Action &action, _actions)
+    {
+        if (action.keySequence() == action.defaultKeySequence())
+            continue;
+
+        QDomElement actionElem = doc.createElement("action");
+        actionsElem.appendChild(actionElem);
+        actionElem.setAttribute("type", Action::name(action.actionType()));
+        XmlHandler::write(actionElem, "value", action.keySequence().toString());
+    }
 }

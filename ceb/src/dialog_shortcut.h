@@ -40,6 +40,7 @@ protected:
 private:
     QPushButton *_pushButtonChange;
     QKeySequence _keySequence;
+    bool _closeIt;
 
     void refreshButton();
 };
