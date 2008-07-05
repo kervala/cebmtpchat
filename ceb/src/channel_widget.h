@@ -109,7 +109,7 @@ private slots:
     void splitterOutWhoMoved(int pos, int index);
     void historyPageUp();
     void historyPageDown();
-    void timerTimeout();
+    void keepAliveTimeout();
     void whoItemDoubleClicked(QListWidgetItem *item);
     void loginChanged(const QString &oldLogin, const QString &newLogin);
     void finger();

@@ -58,7 +58,7 @@ void ChannelWidget::init()
     mainLayout->setMargin(2);
 
     // Keep alive timer
-    connect(&_timerKeepAlive, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+    connect(&_timerKeepAlive, SIGNAL(timeout()), this, SLOT(keepAliveTimeout()));
 
     // Topic
     _widgetTopic = new QWidget(this);
@@ -740,7 +740,7 @@ void ChannelWidget::historyPageDown()
     QApplication::sendEvent(_textEditOutput, &event);
 }
 
-void ChannelWidget::timerTimeout()
+void ChannelWidget::keepAliveTimeout()
 {
     if (_session && _session->isLogged())
     {
