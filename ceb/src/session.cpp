@@ -198,6 +198,16 @@ void Session::readyToRead()
     while (readCount > 0)
     {
         _currentLine += codec->toUnicode(buffer);
+
+        // Telnet codes
+        static const char clearChar[]  = { 27, '[', '2', 'J', 27, '[', '0', ';', '0', 'H', '\0' };
+        static QString clearMsg(clearChar);
+        if (_currentLine == clearMsg)
+        {
+            emit cleared();
+            _currentLine = "";
+        }
+
         emit newData(_currentLine);
         readCount = _socket->readLine(buffer, 1024);
     }

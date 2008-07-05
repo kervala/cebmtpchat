@@ -49,6 +49,7 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
     connect(_session, SIGNAL(socketError(const QString &)), this, SLOT(sessionSocketError(const QString &)));
     connect(_session, SIGNAL(loginChanged(const QString &, const QString &)),
             this, SLOT(loginChanged(const QString &, const QString &)));
+    connect(_session, SIGNAL(cleared()), this, SLOT(sessionCleared()));
 }
 
 void ChannelWidget::init()
@@ -984,4 +985,9 @@ void ChannelWidget::search()
 {
     if (!_searchWidget->isVisible())
         toggleSearchWidgetVisibility();
+}
+
+void ChannelWidget::sessionCleared()
+{
+    _textEditOutput->clear();
 }

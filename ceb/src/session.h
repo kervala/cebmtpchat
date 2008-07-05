@@ -82,6 +82,17 @@ public:
     // Reset the backup servers ring
     void resetBackupServers();
 
+signals:
+    void newData(const QString &data);
+    void newToken(const Token &token);
+    void connecting();
+    void connected();
+    void disconnected();
+    void logged();
+    void socketError(const QString &errorStr);
+    void loginChanged(const QString &oldLogin, const QString &newLogin);
+    void cleared();
+
 private:
     SessionConfig *_config;
     QTcpSocket *_socket;
@@ -110,16 +121,6 @@ private slots:
     void readyToRead();
     void manageError(QAbstractSocket::SocketError error);
     void tokenAnalyzed(const Token &token);
-
-signals:
-    void newData(const QString &data);
-    void newToken(const Token &token);
-    void connecting();
-    void connected();
-    void disconnected();
-    void logged();
-    void socketError(const QString &errorStr);
-    void loginChanged(const QString &oldLogin, const QString &newLogin);
 };
 
 #endif

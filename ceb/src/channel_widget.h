@@ -103,6 +103,7 @@ private slots:
     void sessionLogged();
     void sessionDisconnected();
     void sessionSocketError(const QString &errorStr);
+    void sessionCleared();
     void outputKeyPressed(const QKeyEvent &e);
     void splitterInOutMoved(int pos, int index);
     void splitterOutWhoMoved(int pos, int index);
