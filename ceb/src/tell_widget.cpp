@@ -110,6 +110,8 @@ void TellWidget::init()
     _firstShow = true;
     _userAway = false;
     _chatBlock = chatBlockNoOne;
+
+    refreshFonts();
 }
 
 TellWidget::TellWidget(Session *session, const QString &login, QWidget *parent) : SessionWidget(session, parent)
@@ -306,7 +308,6 @@ void TellWidget::setUserAway(bool userAway)
 void TellWidget::refreshFonts()
 {
     _historyWidget->setFont(Profile::instance().textSkin().inputTextFont().font());
-
     QPalette palette = _historyWidget->palette();
     palette.setColor(QPalette::Text, Profile::instance().textSkin().inputTextFont().color());
     _historyWidget->setPalette(palette);
