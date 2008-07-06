@@ -296,8 +296,6 @@ QListWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
 void ChannelWidget::newToken(const Token &token)
 {
     QColor color(0, 0, 0);
-/*	QFont normalFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0);
-	QFont timeStampFont(Profile::instance().globalFontName, 6, 0);*/
     QScrollBar *sb =_textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
     switch(token.type())
@@ -603,8 +601,6 @@ void ChannelWidget::newToken(const Token &token)
 
     if (scrollDown)
        _textEditOutput->scrollOutputToBottom();
-
-//    MainWindow::instance()->setTabColor(this, Qt::blue);
 }
 
 void ChannelWidget::colorizeChatItems(const QColor &color)
