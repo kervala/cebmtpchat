@@ -71,6 +71,7 @@ private:
     QListWidget *_listWidgetWho;
     QStackedWidget *_stackedWidgetEntry;
     ChatLineWidget *_lineEditWidget;
+    QString _manualPassword;
     HistoryWidget *_historyWidget;
     QComboBox *_comboBoxFilter;
     TokenRenderer _tokenRenderer;
@@ -96,6 +97,7 @@ private:
     void toggleSearchWidgetVisibility();
 
 private slots:
+    void sendLineEditText(const QString &text);
     void sendText(const QString &text);
     void newToken(const Token &token);
     void sessionConnecting();

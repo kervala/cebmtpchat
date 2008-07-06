@@ -25,15 +25,15 @@
 
 #include "session.h"
 
-Session::Session(QObject *parent) : QObject(parent)
+Session::Session(QObject *parent)
+    : QObject(parent),
+      _socket(0)
 {
-    _config = 0;
-    _socket = 0;
 }
 
 Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
 {
-    _config = new SessionConfig(config);
+    _config = config;
     _serverAddress = "";
     _serverPort = -1;
     _socket = new QTcpSocket(0);
@@ -59,8 +59,6 @@ Session::~Session()
         stop();
         delete _socket;
     }
-    if (_config)
-        delete _config;
 }
 
 void Session::start(const QString &address, int port)
@@ -73,15 +71,15 @@ void Session::start(const QString &address, int port)
     // Get the next backup server
     BackupServer newBackupServer;
 
-    if (_config->manageBackupServers())
-        newBackupServer = _config->nextBackupServer(_serverAddress, _serverPort);
+    if (_config.manageBackupServers())
+        newBackupServer = _config.nextBackupServer(_serverAddress, _serverPort);
 
     if (address == "")
     {
         if (!newBackupServer.isNull())
             _serverAddress = newBackupServer.address();
         else
-            _serverAddress = _config->address();
+            _serverAddress = _config.address();
     }
     else
         _serverAddress = address;
@@ -91,7 +89,7 @@ void Session::start(const QString &address, int port)
         if (!newBackupServer.isNull())
             _serverPort = newBackupServer.port();
         else
-            _serverPort = _config->port();
+            _serverPort = _config.port();
     }
     else
         _serverPort = port;
@@ -115,7 +113,7 @@ void Session::stop()
 
 void Session::send(const QString &message, bool killIdle)
 {
-    QTextCodec *codec = QTextCodec::codecForMib(_config->encodingMib());
+    QTextCodec *codec = QTextCodec::codecForMib(_config.encodingMib());
     Q_ASSERT_X(codec, "send()", "bad codec mib!");
 
     if (_socket->state() != QAbstractSocket::ConnectedState)
@@ -168,7 +166,7 @@ void Session::socketDisconnected()
 
 QString Session::logPrefix()
 {
-    return "[" + _config->address() + ":" + QString::number(_config->port()) + "] ";
+    return QString("[%1:%2] ").arg(_config.address()).arg(_config.port());
 }
 
 void Session::logInfo(const QString &message)
@@ -188,7 +186,7 @@ void Session::logSuccess(const QString &message)
 
 void Session::readyToRead()
 {
-    QTextCodec *codec = QTextCodec::codecForMib(_config->encodingMib());
+    QTextCodec *codec = QTextCodec::codecForMib(_config.encodingMib());
     Q_ASSERT_X(codec, "readyToRead()", "bad codec mib!");
 
     char buffer[1024];

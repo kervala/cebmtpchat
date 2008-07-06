@@ -49,8 +49,8 @@ public:
     //! Send a command
     void sendCommand(const QString &command, bool killIdle = true);
 
-    const SessionConfig &config() const { return *_config; }
-    void setConfig(const SessionConfig &config) { *_config = config; }
+    const SessionConfig &config() const { return _config; }
+    void setConfig(const SessionConfig &config) { _config = config; }
 
     const QString &serverAddress() const { return _serverAddress; }
     quint16 serverPort() const { return _serverPort; }
@@ -94,7 +94,7 @@ signals:
     void cleared();
 
 private:
-    SessionConfig *_config;
+    SessionConfig _config;
     QTcpSocket *_socket;
     bool _cleanDisconnected;
     TokenFactory _tokenFactory;

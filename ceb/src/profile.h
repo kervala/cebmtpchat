@@ -50,7 +50,6 @@ public:
         WarningoLocation_BottomRight
     };
 
-public:
     static Profile &instance();
 
     bool load();
@@ -134,6 +133,7 @@ public:
     TextSkin &textSkin() { return _textSkin; }
 
     const QList<SessionConfig *> sessionConfigs() const;
+    SessionConfig *getSessionConfigByName(const QString &name);
     QString getUniqSessionConfigName();
     QString getAwaySeparator();
     QString getAwaySeparator(QString period, int length);

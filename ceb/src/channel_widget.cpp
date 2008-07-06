@@ -120,7 +120,6 @@ void ChannelWidget::init()
     connect(_textEditOutput, SIGNAL(sendToChat(const QString &)),
             this, SLOT(outputFilterSendToChat(const QString &)));
     _splitterOutIn->addWidget(_splitterOutWho);
-//_textEditOutput->setCurrentFont(QFont(Profile::instance().globalFontName, Profile::instance().globalFontSize, 0));
 
     // Search widget
     _searchWidget = new SearchWidget;
@@ -201,7 +200,7 @@ void ChannelWidget::init()
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     _lineEditWidget->setPalette(palette);
     connect(_lineEditWidget, SIGNAL(textValidated(const QString &)),
-            this, SLOT(sendText(const QString &)));
+            this, SLOT(sendLineEditText(const QString &)));
     connect(_lineEditWidget, SIGNAL(pageUp()), this, SLOT(historyPageUp()));
     connect(_lineEditWidget, SIGNAL(pageDown()), this, SLOT(historyPageDown()));
     _stackedWidgetEntry->addWidget(_lineEditWidget);
@@ -266,6 +265,13 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
     return SessionWidget::eventFilter(obj, event);
 }
 
+void ChannelWidget::sendLineEditText(const QString &text)
+{
+    if (_lineEditWidget->echoMode() == QLineEdit::Password)
+        _manualPassword = text; // Password is manually sent
+    sendText(text);
+}
+
 void ChannelWidget::sendText(const QString &text)
 {
     // Filter?
@@ -301,6 +307,19 @@ void ChannelWidget::newToken(const Token &token)
         break;
     case Token::PasswordAsked:
         _lineEditWidget->setEchoMode(QLineEdit::Password);
+        break;
+    case Token::Welcome:
+        // Put login and password in session config
+        if (!_session->config().furtiveMode())
+        {
+            SessionConfig *config = Profile::instance().getSessionConfigByName(_session->config().name());
+            if (config)
+            {
+                config->setLogin(_session->serverLogin());
+                if (_manualPassword != "")
+                    config->setPassword(_manualPassword);
+            }
+        }
         break;
     case Token::Topic:
     case Token::YouSetTopic:
@@ -638,6 +657,7 @@ void ChannelWidget::sessionConnecting()
 void ChannelWidget::sessionConnected()
 {
     colorizeChatItems(Profile::instance().textSkin().backgroundColor());
+    _manualPassword = "";
     _stackedWidgetEntry->setCurrentIndex(0);
 
    _textEditOutput->addString(tr("successful."), Profile::instance().textSkin().textFont().font(),

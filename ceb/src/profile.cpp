@@ -590,6 +590,14 @@ const QList<SessionConfig *> Profile::sessionConfigs() const
     return _sessionConfigList;
 }
 
+SessionConfig *Profile::getSessionConfigByName(const QString &name)
+{
+    foreach (SessionConfig *config, _sessionConfigList)
+        if (!config->name().compare(name))
+            return config;
+    return 0;
+}
+
 Profile &Profile::operator=(const Profile &profile)
 {
     mainWidth = profile.mainWidth;

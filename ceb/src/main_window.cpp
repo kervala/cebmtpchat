@@ -482,7 +482,6 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
     ChannelWidget *channelWidget = new ChannelWidget(session);
     connect(channelWidget, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
     connect(channelWidget, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
-//    connect(channelWidget, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
     connect(channelWidget, SIGNAL(whoUserDoubleClicked(const QString&)),
             this, SLOT(whoUserDoubleClicked(const QString&)));
     connect(channelWidget, SIGNAL(tellSessionAsked(const QString&)),
@@ -655,6 +654,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
     {
         SessionConfig newConfig = session->config();
         newConfig.setLogin("");
+        newConfig.setPassword("");
         session->setConfig(newConfig);
     }
     break;
