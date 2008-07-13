@@ -21,7 +21,7 @@
 
 #include <QLineEdit>
 #include <QSplitter>
-#include <QListWidget>
+#include <QTreeView>
 #include <QLabel>
 #include <QTimer>
 #include <QStackedWidget>
@@ -37,6 +37,7 @@
 #include "my_textedit.h"
 #include "token_renderer.h"
 #include "search_widget.h"
+#include "who_model.h"
 
 class ChannelWidget : public SessionWidget
 {
@@ -68,7 +69,7 @@ private:
     MyTextEdit *_textEditOutput;
     SearchWidget *_searchWidget;
     QLabel *_labelWhoTitle;
-    QListWidget *_listWidgetWho;
+    QTreeView *_treeViewWho;
     QStackedWidget *_stackedWidgetEntry;
     ChatLineWidget *_lineEditWidget;
     QString _manualPassword;
@@ -86,15 +87,18 @@ private:
     QRegExp _regExpAboutMe;
     bool _firstShow;
     QList<BackupServer> _backupServers;
-    bool _backupServersHelp; // Is true if the current help is about serverlist
+    bool _backupServersHelp; // is true if the current help is about serverlist
+    WhoModel *_whoModel;
 
     void init();
-    QListWidgetItem *getWhoItemByNickname(const QString &nickname);
+//    QTableWidgetItem *getWhoItemByNickname(const QString &nickname);
+//    int getWhoRowByNickname(const QString &nickname); //!< returns -1 of <nickname> is not found
     void colorizeChatItems(const QColor &color);
     void changeLoginInWhoColumn(const QString &oldLogin,
                                 const QString &newLogin);
     void initScriptComboBox();
     void toggleSearchWidgetVisibility();
+    void refreshWhoLabel();
 
 private slots:
     void sendLineEditText(const QString &text);
@@ -112,7 +116,7 @@ private slots:
     void historyPageUp();
     void historyPageDown();
     void keepAliveTimeout();
-    void whoItemDoubleClicked(QListWidgetItem *item);
+    void whoDoubleClicked(const QModelIndex &index);
     void loginChanged(const QString &oldLogin, const QString &newLogin);
     void finger();
     void beep();
@@ -123,6 +127,9 @@ private slots:
     void outputFilterSendToChat(const QString &text);
     void whoBlinking();
     void hideSearchWidget();
+    void whoModelRowsInserted(const QModelIndex &parent, int start, int end);
+    void whoModelRowsRemoved(const QModelIndex &parent, int start, int end);
+    void whoModelReset();
 
 signals:
     void whoUserDoubleClicked(const QString &login);

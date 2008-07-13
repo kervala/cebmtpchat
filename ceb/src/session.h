@@ -26,6 +26,7 @@
 #include "session_config.h"
 #include "token_factory.h"
 #include "message_item.h"
+#include "who_user.h"
 
 class Session : public QObject
 {
@@ -63,7 +64,6 @@ public:
     bool isDisconnected() const
         { return _socket && _socket->state() == QAbstractSocket::UnconnectedState; }
     bool isLogged() const;
-    const QStringList &users() const { return _users; }
     const QString &channel() const { return _channel; }
     QRegExp regExpAboutMe() const;
     const QDateTime &idleStart() const { return _idleStart; }
@@ -76,6 +76,7 @@ public:
     QString localAddress() const { return _socket->localAddress().toString(); }
     Properties &properties() { return _properties; }
     const Properties &properties() const { return _properties; }
+    const WhoPopulation &whoPopulation() const { return _whoPopulation; }
 
     int requestTicket(TokenFactory::Command command);
 
@@ -102,12 +103,14 @@ private:
     QString _serverAddress;
     int _serverPort;
     QString _serverLogin;
-    QStringList _users;
+//    QStringList _users;
     QString _channel;
     QList<MessageItem> _myMessages;
     QDateTime _idleStart;
     bool _autoAway; // true when away was set automatically, false when session is considered as not auto away anymore
     Properties _properties;
+    WhoPopulation _whoPopulation;
+    int _getGroupTicketID;
 
     QString logPrefix();
     void logInfo(const QString &message);

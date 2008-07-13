@@ -114,6 +114,9 @@ public:
 	Date,
 	YourClientIs,
 
+        SomeoneGroup,
+        UnregisteredUser,
+
 	MtpSays,
 	SomeoneSays,
 

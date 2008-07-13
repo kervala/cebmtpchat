@@ -61,10 +61,10 @@ public:
                  State_Wall, State_Message, State_Help };
 
     enum Command { Command_Who = 0, Command_Wall, Command_Date, Command_SetClient,
-                   Command_ShowMsg, Command_Help, Command_Count };
+                   Command_ShowMsg, Command_Help, Command_GetGroup, Command_Count };
 
     struct CommandTicket
-	{
+    {
         Command command;
         int ID;
     };

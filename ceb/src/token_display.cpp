@@ -259,6 +259,8 @@ void TextSkin::init()
         setTokenColor(Token::SomeoneSays, 1, QColor(150, 0, 0));
         setTokenColor(Token::YourClientIs, 0, systemColor);
         setTokenColor(Token::YourClientIs, 1, QColor(180, 0, 180));
+        setTokenColor(Token::SomeoneGroup, 0, systemColor);
+        setTokenColor(Token::UnregisteredUser, 0, systemColor);
 
         setTokenColor(Token::Data, 0, QColor(100, 0, 0));
     }

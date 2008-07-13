@@ -95,6 +95,8 @@ Token::Type TokenFactory::normalTokens[] = {
     Token::YouAreKicked,
     Token::Date,
     Token::YourClientIs,
+    Token::SomeoneGroup,
+    Token::UnregisteredUser,
     Token::MtpSays,
     Token::SomeoneSays,
     Token::Data,
@@ -231,7 +233,7 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp("^-+ -+ -+ -+ -+ -+ -+$",
                                   "-------- -------- -------- ------ ------ - ------------------------------------"));
     _tokenRegexp.insert(Token::WhoLine,
-                        MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *(\\w+) *(\\w+) *(.+)$",
+                        MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *([^ ]+) *([^ ]+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7));
 
     _tokenRegexp.insert(Token::HistoryBegin,
@@ -417,6 +419,16 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1,
                                   "<Mtp> Your client is now \"CeB\""));
 
+    _tokenRegexp.insert(Token::SomeoneGroup,
+                        MtpRegExp(SRV_RE + "("LOGIN_RE")'group is ("LOGIN_RE")$",
+                                  QList<int>() << 1 << 2,
+                                  "<Mtp> Foo'group is Tell"));
+
+    _tokenRegexp.insert(Token::UnregisteredUser,
+                        MtpRegExp(SRV_RE + "Unregistered user ("LOGIN_RE")$",
+                                  QList<int>() << 1,
+                                  "<Mtp> Unregistered user Foo"));
+
     _tokenRegexp.insert(Token::MtpSays,
                         MtpRegExp(SRV_RE + "(.+)$",
                                   QList<int>() << 1,
@@ -459,10 +471,10 @@ void TokenFactory::dataReceived(const QString &data)
 
 QString TokenFactory::serverCommand(const QString &command) const
 {
-	if (_serverType == Mtp)
-		return command;
-	else
-		return "." + command;
+    if (_serverType == Mtp)
+        return command;
+    else
+        return "." + command;
 }
 
 QStringList TokenFactory::split(const QString &message)
@@ -662,42 +674,21 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                 case Token::WhoBegin:
                     _state = State_Who;
                     if (tickets[Command_Who].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Who][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_Who].first().ID;
                     break;
                 case Token::WhoEnd:
-                    _state = State_Normal;
-                    if (tickets[Command_Who].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Who][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_Who].removeAt(0);
-                    }
-                    break;
                 case Token::WhoEndNoUser:
                     _state = State_Normal;
                     if (tickets[Command_Who].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Who][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_Who].removeAt(0);
-                    }
+                        ticketID = tickets[Command_Who].takeFirst().ID;
                     break;
                 case Token::WhoSeparator:
                     if (tickets[Command_Who].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Who][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_Who].first().ID;
                     break;
                 case Token::WhoLine:
                     if (tickets[Command_Who].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Who][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_Who].first().ID;
                     break;
                 case Token::HistoryBegin:
                     _state = State_History;
@@ -737,67 +728,46 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                 case Token::MessageBegin:
                     _state = State_Message;
                     if (tickets[Command_ShowMsg].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_ShowMsg][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_ShowMsg].first().ID;
                     break;
                 case Token::MessageLine:
                     if (tickets[Command_ShowMsg].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_ShowMsg][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_ShowMsg].first().ID;
                     break;
                 case Token::MessageEnd:
                     if (tickets[Command_ShowMsg].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_ShowMsg][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_ShowMsg].removeAt(0);
-                    }
+                        ticketID = tickets[Command_ShowMsg].takeFirst().ID;
                     _state = State_Normal;
                     break;
                 case Token::HelpBegin:
                     _state = State_Help;
                     if (tickets[Command_Help].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Help][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_Help].first().ID;
                     break;
                 case Token::HelpEndNormal:
                 case Token::HelpEndNoHelp:
                     if (tickets[Command_Help].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Help][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_Help].removeAt(0);
-                    }
+                        ticketID = tickets[Command_Help].takeFirst().ID;
                     _state = State_Normal;
                     break;
                 case Token::HelpLine:
                     if (tickets[Command_Help].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Help][0];
-                        ticketID = ticket.ID;
-                    }
+                        ticketID = tickets[Command_Help].first().ID;
                     break;
                 case Token::Date:
                     if (tickets[Command_Date].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_Date][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_Date].removeAt(0);
-                    }
+                        ticketID = tickets[Command_Date].takeFirst().ID;
                     break;
                 case Token::YourClientIs:
                     if (tickets[Command_SetClient].count() > 0)
-                    {
-                        CommandTicket ticket = tickets[Command_SetClient][0];
-                        ticketID = ticket.ID;
-                        tickets[Command_SetClient].removeAt(0);
-                    }
+                        ticketID = tickets[Command_SetClient].takeFirst().ID;
+                    break;
+                case Token::SomeoneGroup:
+                case Token::UnregisteredUser:
+                    if (tickets[Command_GetGroup].count() > 0)
+                        ticketID = tickets[Command_GetGroup].takeFirst().ID;
+                    break;
+                case Token::MtpSays:
                     break;
                 default:;
                 }

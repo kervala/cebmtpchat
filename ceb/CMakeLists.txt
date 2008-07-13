@@ -69,6 +69,8 @@ SET(CEB_SRCS
         src/token_script.cpp
         src/property.cpp
 	src/event_script.cpp
+	src/who_user.cpp
+	src/who_model.cpp
 )
 
 SET(CEB_UIS
@@ -125,6 +127,8 @@ SET(CEB_MOCH
 	src/actions_model.h
 	src/dialog_shortcut.h
 	src/search_widget.h
+	src/who_user.h
+	src/who_model.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)

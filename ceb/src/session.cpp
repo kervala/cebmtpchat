@@ -50,6 +50,7 @@ Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
     _channel = "Hall";
     _cleanDisconnected = false;
     _autoAway = false;
+    _getGroupTicketID = -1;
 }
 
 Session::~Session()
@@ -122,9 +123,9 @@ void Session::send(const QString &message, bool killIdle)
     // Don't sent autoaway off only for "quit"... cannot bypass aliases :/
     QRegExp r("^" + QRegExp::escape(_tokenFactory.serverCommand("quit")) + "(| (.*))$");
     if (killIdle && _autoAway &&
-		isLogged() && away() &&
-		!r.exactMatch(message) &&
-		!Profile::instance().matchIdleAwayBypassExpressions(message))
+        isLogged() && away() &&
+        !r.exactMatch(message) &&
+        !Profile::instance().matchIdleAwayBypassExpressions(message))
     {
         _socket->write(codec->fromUnicode(_tokenFactory.serverCommand("set away off\n")));
         _autoAway = false;
@@ -146,7 +147,7 @@ void Session::send(const QString &message, bool killIdle)
 
 void Session::sendCommand(const QString &command, bool killIdle)
 {
-	send(_tokenFactory.serverCommand(command), killIdle);
+    send(_tokenFactory.serverCommand(command), killIdle);
 }
 
 QRegExp Session::regExpAboutMe() const
@@ -256,26 +257,29 @@ void Session::tokenAnalyzed(const Token &token)
     }
     break;
     case Token::WhoBegin:
-        _users.clear();
+        _whoPopulation.clear();
         break;
     case Token::WhoLine:
-        _users << token.arguments()[1];
+        _whoPopulation.addUser(WhoUser(token.arguments()[1], token.arguments()[2],
+                                       token.arguments()[3], token.arguments()[4],
+                                       token.arguments()[5], token.arguments()[6],
+                                       token.arguments()[7]));
         break;
     case Token::MessageBegin:
         _myMessages.clear();
         break;
     case Token::MessageLine:
         _myMessages << MessageItem(token.arguments()[2],
-                                    token.arguments()[3],
-                                    token.arguments()[4]);
+                                   token.arguments()[3],
+                                   token.arguments()[4]);
         break;
     case Token::NoMessage:
         _myMessages.clear();
         break;
     case Token::MessageReceived:
         _myMessages << MessageItem(QString(),
-                                    token.arguments()[1],
-                                    token.arguments()[2]);
+                                   token.arguments()[1],
+                                   token.arguments()[2]);
         break;
     case Token::AllMessagesCleared:
         _myMessages.clear();
@@ -292,17 +296,108 @@ void Session::tokenAnalyzed(const Token &token)
     }
     break;
     case Token::YouJoinChannel:
+    {
         _channel = token.arguments()[1];
-        break;
+        WhoUser user = _whoPopulation.userForLogin(_serverLogin);
+        user.setChannel(token.arguments()[1]);
+        _whoPopulation.changeUser(_serverLogin, user);
+    }
+    break;
     case Token::YouLeaveChannel:
+    {
         _channel = "Hall";
-        break;
+        WhoUser user = _whoPopulation.userForLogin(_serverLogin);
+        user.setChannel("Hall");
+        _whoPopulation.changeUser(_serverLogin, user);
+    }
+    break;
     case Token::YouLeave:
     case Token::YouAreKicked:
         _cleanDisconnected = true;
         break;
+    case Token::SomeoneAway:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setIdle("*away*");
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::SomeoneBack:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setIdle("");
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::YouAway:
+    {
+        WhoUser user = _whoPopulation.userForLogin(_serverLogin);
+        user.setIdle("*away*");
+        _whoPopulation.changeUser(_serverLogin, user);
+    }
+    break;
     case Token::YouBack:
+    {
+        WhoUser user = _whoPopulation.userForLogin(_serverLogin);
+        user.setIdle("");
+        _whoPopulation.changeUser(_serverLogin, user);
         _autoAway = false;
+    }
+    break;
+    case Token::SomeoneJoinChannel:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setChannel(token.arguments()[2]);
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::SomeoneFadesIntoTheShadows:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setChannel("");
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::SomeoneLeaveChannel:
+    case Token::SomeoneAppearsFromTheShadows:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setChannel(_channel);
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::UserLoginRenamed:
+    {
+        WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+        user.setLogin(token.arguments()[2]);
+        _whoPopulation.changeUser(token.arguments()[1], user);
+    }
+    break;
+    case Token::SomeoneComesIn:
+        _whoPopulation.addUser(WhoUser(token.arguments()[1], "", "Hall", "", "", "", ""));
+        // We want to know the user group
+        _getGroupTicketID = requestTicket(TokenFactory::Command_GetGroup);
+        sendCommand(QString("get %1 group").arg(token.arguments()[1]));
+        break;
+        break;
+    case Token::SomeoneLeaves:
+    case Token::SomeoneDisconnects:
+    case Token::SomeoneIsKicked:
+    case Token::YouKickSomeone:
+        _whoPopulation.removeUser(token.arguments()[1]);
+        break;
+    case Token::SomeoneGroup:
+        if (_getGroupTicketID == token.ticketID() && token.ticketID() >= 0)
+        {
+            WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
+            user.setGroup(token.arguments()[2]);
+            _whoPopulation.changeUser(token.arguments()[1], user);
+            _getGroupTicketID = -1;
+        }
+        break;
+    case Token::UnregisteredUser:
+        if (_getGroupTicketID == token.ticketID() && token.ticketID() >= 0)
+            _getGroupTicketID = -1;
         break;
     default:;
     }
