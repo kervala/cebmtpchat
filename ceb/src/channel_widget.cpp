@@ -189,8 +189,8 @@ void ChannelWidget::init()
     _treeViewWho->setPalette(palette);
     _treeViewWho->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     whoLayout->addWidget(_treeViewWho);
-/*    connect(_treeViewWho, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
-      this, SLOT(whoItemDoubleClicked(QTableWidgetItem*)));*/
+    connect(_treeViewWho, SIGNAL(doubleClicked(const QModelIndex&)),
+            this, SLOT(whoDoubleClicked(const QModelIndex&)));
 
     QList<int> list1;
     list1.append(0);
