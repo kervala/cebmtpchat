@@ -24,7 +24,8 @@
 
 #include "token_factory.h"
 
-#define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]*"
+//#define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]*" // MTP style
+#define LOGIN_RE "[a-zA-Z\\d]+"
 #define ID_RE "[a-zA-Z][a-zA-Z\\d]+"
 #define SRV_RE QString("%1%2%3").arg("^<").arg(_serverName).arg("> ")
 
