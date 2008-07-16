@@ -71,8 +71,9 @@ void IdleSettingsWidget::on_checkBoxQuit_stateChanged(int state)
 
 void IdleSettingsWidget::on_pushButtonAddExpr_clicked()
 {
-    QListWidgetItem *item = new QListWidgetItem("", listWidgetExpressions);
+    QListWidgetItem *item = new QListWidgetItem("^$");
     item->setFlags(item->flags() | Qt::ItemIsEditable);
+    listWidgetExpressions->addItem(item);
     listWidgetExpressions->setCurrentItem(item);
     listWidgetExpressions->editItem(item);
 }
