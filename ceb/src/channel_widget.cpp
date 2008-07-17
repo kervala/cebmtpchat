@@ -148,7 +148,7 @@ void ChannelWidget::init()
     whoTitleLayout->addWidget(_labelWhoTitle);
 
     _treeViewWho = new QTreeView;
-    _whoModel = new WhoModel(*_session, this);
+    _whoModel = new WhoModel(_session, this);
     _treeViewWho->setModel(_whoModel);
     connect(_whoModel, SIGNAL(modelReset()),
             this, SLOT(whoModelReset()));

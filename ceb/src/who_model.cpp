@@ -1,18 +1,19 @@
 #include <QIcon>
 
 #include "who_model.h"
+#include "event_script.h"
 
-WhoModel::WhoModel(const Session &session, QObject *parent)
+WhoModel::WhoModel(Session *session, QObject *parent)
     : QAbstractListModel(parent),
       _session(session)
 {
-    connect(&session.whoPopulation(), SIGNAL(populationReset()),
+    connect(&session->whoPopulation(), SIGNAL(populationReset()),
             this, SIGNAL(modelReset()));
-    connect(&session.whoPopulation(), SIGNAL(userAdded(int)),
+    connect(&session->whoPopulation(), SIGNAL(userAdded(int)),
             this, SLOT(userAdded(int)));
-    connect(&session.whoPopulation(), SIGNAL(userChanged(int)),
+    connect(&session->whoPopulation(), SIGNAL(userChanged(int)),
             this, SLOT(userChanged(int)));
-    connect(&session.whoPopulation(), SIGNAL(userRemoved(int)),
+    connect(&session->whoPopulation(), SIGNAL(userRemoved(int)),
             this, SLOT(userRemoved(int)));
 }
 
@@ -23,12 +24,12 @@ int WhoModel::columnCount(const QModelIndex &parent) const
 
 int WhoModel::rowCount(const QModelIndex &parent) const
 {
-    return _session.whoPopulation().users().count();
+    return _session->whoPopulation().users().count();
 }
 
 QVariant WhoModel::data(const QModelIndex &index, int role) const
 {
-    const WhoUser &user = _session.whoPopulation().users()[index.row()];
+    const WhoUser &user = _session->whoPopulation().users()[index.row()];
     switch (role)
     {
     case Qt::DisplayRole:
@@ -47,7 +48,7 @@ QVariant WhoModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/images/away.png");
             else
             {
-                if (user.channel() == _session.channel())
+                if (user.channel() == _session->channel())
                     return QIcon(":/images/here.png");
                 else
                     return QIcon(":/images/yellow-led.png");
@@ -56,6 +57,8 @@ QVariant WhoModel::data(const QModelIndex &index, int role) const
         default:;
         }
         break;
+    case Qt::BackgroundRole:
+        return EventScript::getWhoUserBackgroundColor(_session, user);
     case Qt::ToolTipRole:
         switch (index.column())
         {

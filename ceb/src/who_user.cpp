@@ -1,9 +1,23 @@
 #include "who_user.h"
 
+QString WhoUser::propertyByName(const QString &name) const
+{
+    if (!name.compare("group", Qt::CaseInsensitive))
+        return _group;
+    else if (!name.compare("client", Qt::CaseInsensitive))
+        return _client;
+    else if (!name.compare("fromHost", Qt::CaseInsensitive))
+        return _fromHost;
+    else
+        return "";
+}
+
+//////////////////////////////////////////////////
+
 WhoUser WhoPopulation::userForLogin(const QString &login) const
 {
     foreach (const WhoUser &user, _users)
-        if (!user.login().compare(login))
+        if (!user.login().compare(login, Qt::CaseInsensitive))
             return user;
     return WhoUser();
 }
@@ -11,7 +25,7 @@ WhoUser WhoPopulation::userForLogin(const QString &login) const
 int WhoPopulation::userIndexForLogin(const QString &login) const
 {
     for (int i = 0; i < _users.count(); ++i)
-        if (!_users[i].login().compare(login))
+        if (!_users[i].login().compare(login, Qt::CaseInsensitive))
             return i;
     return -1;
 }

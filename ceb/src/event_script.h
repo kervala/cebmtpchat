@@ -43,6 +43,8 @@ public:
     static void focused(); //!< called when CeB is focused
     static void unfocused(); //!< called when CeB is unfocused
 
+    static QColor getWhoUserBackgroundColor(Session *session, const WhoUser &user); //!< called to set the who column background in the model
+
     static QString newEntry(Session *session, const QString &text); //!< called when there is a new entry for a session (the user validated a new text in the channel widget
 
 private:

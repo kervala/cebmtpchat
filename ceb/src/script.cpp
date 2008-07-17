@@ -337,6 +337,60 @@ namespace Script
         return 1;
     }
 
+    int getUserCount(lua_State *l)
+    {
+        if (!g_session)
+            lua_pushnumber(l, 0);
+        else
+            lua_pushnumber(l, g_session->whoPopulation().users().count());
+        return 1;
+    }
+
+    int getUserLogin(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (!g_session || n < 1 || !lua_isnumber(l, 1))
+        {
+            lua_pushstring(l, "");
+            return 1;
+        }
+
+        int index = lua_tonumber(l, 1);
+        if (index < 0 || index >= g_session->whoPopulation().users().count())
+        {
+            lua_pushstring(l, "");
+            return 1;
+        }
+
+        lua_pushstring(l, g_session->whoPopulation().users()[index].login().toLatin1());
+        return 1;
+    }
+
+    int getUserData(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (!g_session || n < 2 || !lua_isstring(l, 1) || !lua_isstring(l, 2))
+        {
+            lua_pushstring(l, "");
+            return 1;
+        }
+
+        QString login(lua_tostring(l, 1));
+
+        WhoUser user = g_session->whoPopulation().userForLogin(login);
+        if (!user.isValid())
+        {
+            lua_pushstring(l, "");
+            return 1;
+        }
+
+        QString property(lua_tostring(l, 2));
+
+        lua_pushstring(l, user.propertyByName(property).toLatin1());
+
+        return 1;
+    }
+
     lua_State *loadScript(const QString &filePath, bool userScript, bool &error)
     {
         lua_State *l = luaL_newstate();
@@ -378,6 +432,9 @@ namespace Script
         lua_register(l, "isTabFocused", isTabFocused);
         lua_register(l, "getTextBackgroundColor", getTextBackgroundColor);
         lua_register(l, "setTextBackgroundColor", setTextBackgroundColor);
+        lua_register(l, "getUserCount", getUserCount);
+        lua_register(l, "getUserLogin", getUserLogin);
+        lua_register(l, "getUserData", getUserData);
 
         error = false;
         return l;

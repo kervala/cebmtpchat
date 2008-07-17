@@ -28,6 +28,7 @@ Script::LuaScript adminScript;
 Script::LuaScript userScript;
 
 QString g_entryText;
+QColor g_userBackgroundColor;
 
 int getEntry(lua_State *l)
 {
@@ -48,6 +49,19 @@ int setEntry(lua_State *l)
     return 0;
 }
 
+int setUserBackgroundColor(lua_State *l)
+{
+    int n = lua_gettop(l);
+    if (n < 1)
+        return 0;
+
+    QColor c = Script::colorOnStack(l, 1);
+    if (c.isValid())
+        g_userBackgroundColor = c;
+
+    return 0;
+}
+
 void EventScript::focused()
 {
     executeFunction("focused");
@@ -56,6 +70,68 @@ void EventScript::focused()
 void EventScript::unfocused()
 {
     executeFunction("unfocused");
+}
+
+QColor EventScript::getWhoUserBackgroundColor(Session *session, const WhoUser &user)
+{
+    // Set global stuff
+    Script::setSession(session);
+
+    g_userBackgroundColor = QColor(0, 0, 0, 0);
+
+    bool bypassAncestor = false;
+
+    lua_State *l = getUserScript();
+    if (l)
+    {
+//        lua_register(l, "getUserBackgroundColor", getUserBackgroundColor);
+        lua_register(l, "setUserBackgroundColor", setUserBackgroundColor);
+
+        // Init global variables
+        lua_getglobal(l, "userBackgroundColor"); // Function to be called
+
+        int top = lua_gettop(l);
+        if (!lua_isnil(l, top))
+        {
+            lua_pushstring(l, user.login().toLatin1());
+            if (lua_pcall(l, 1, 1, 0))
+                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        }
+
+        int n = lua_gettop(l); // Arguments number
+        if (n && lua_isboolean(l, 2))
+            bypassAncestor = lua_toboolean(l, 2);
+
+//        Script::unregisterFunction(l, "getUserBackgroundColor");
+        Script::unregisterFunction(l, "setUserBackgroundColor");
+    }
+
+    if (bypassAncestor)
+        return g_userBackgroundColor;
+
+    l = getAdminScript();
+
+    if (!l)
+        return g_userBackgroundColor;
+
+//    lua_register(l, "getUserBackgroundColor", getUserBackgroundColor);
+    lua_register(l, "setUserBackgroundColor", setUserBackgroundColor);
+
+    // Init global variables
+    lua_getglobal(l, "userBackgroundColor"); // Function to be called
+    lua_pushstring(l, user.login().toLatin1());
+
+    int top = lua_gettop(l);
+    if (lua_isnil(l, top))
+        return g_userBackgroundColor;
+
+    if (lua_pcall(l, 0, 1, 0))
+        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+
+//    Script::unregisterFunction(l, "getUserBackgroundColor");
+    Script::unregisterFunction(l, "setUserBackgroundColor");
+
+    return g_userBackgroundColor;
 }
 
 QString EventScript::newEntry(Session *session, const QString &text)

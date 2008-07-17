@@ -36,6 +36,8 @@ public:
 
     bool isValid() const { return _login != ""; }
 
+    QString propertyByName(const QString &name) const;
+
 private:
     QString _login;
     QString _group;
