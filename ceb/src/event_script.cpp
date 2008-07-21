@@ -237,17 +237,22 @@ lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &lu
 
     QFileInfo fileInfo(filePath);
 
-    if (luaScript.fileDateTime.isValid() && fileInfo.lastModified() != luaScript.fileDateTime)
+    bool tryToLoad = true, error = false;
+    if (!luaScript.fileDateTime.isValid()) // First load?
+        luaScript.l = Script::loadScript(filePath, false, error);
+    else if (fileInfo.lastModified() != luaScript.fileDateTime) // File changed?
+    {
         lua_close(luaScript.l); // Close the old
+        luaScript.l = Script::loadScript(filePath, false, error);
+    } else // Do nothing
+        tryToLoad = false;
 
-    bool error;
-    luaScript.l = Script::loadScript(filePath, false, error);
     if (error)
     {
         QMessageBox::critical(0, "LUA", "error in loading script " + filePath);
         return 0;
-    }
-    luaScript.fileDateTime = fileInfo.lastModified();
+    } else if (tryToLoad)
+        luaScript.fileDateTime = fileInfo.lastModified();
 
     return luaScript.l;
 }
