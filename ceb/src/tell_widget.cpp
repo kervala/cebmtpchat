@@ -131,7 +131,7 @@ void TellWidget::sendText(const QString &text)
     QString toSend = EventScript::newEntry(_session, text);
 
     if (_comboBoxFilter->currentIndex())
-        toSend = executeLuaFilter(_comboBoxFilter->currentText(), text);
+        toSend = executeLuaFilter(_comboBoxFilter->currentText(), toSend);
 
     foreach (QString line, toSend.split('\n'))
         _session->sendCommand("tell " + _login + " " + line);
