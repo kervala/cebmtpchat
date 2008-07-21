@@ -250,6 +250,7 @@ lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &lu
     if (error)
     {
         QMessageBox::critical(0, "LUA", "error in loading script " + filePath);
+		luaScript.fileDateTime = QDateTime();
         return 0;
     } else if (tryToLoad)
         luaScript.fileDateTime = fileInfo.lastModified();
