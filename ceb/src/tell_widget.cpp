@@ -28,6 +28,7 @@
 #include "paths.h"
 
 #include "tell_widget.h"
+#include "event_script.h"
 
 void TellWidget::init()
 {
@@ -126,7 +127,9 @@ TellWidget::TellWidget(Session *session, const QString &login, QWidget *parent) 
 
 void TellWidget::sendText(const QString &text)
 {
-    QString toSend = text;
+    // Filter?
+    QString toSend = EventScript::newEntry(_session, text);
+
     if (_comboBoxFilter->currentIndex())
         toSend = executeLuaFilter(_comboBoxFilter->currentText(), text);
 
