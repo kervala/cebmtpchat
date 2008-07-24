@@ -112,8 +112,8 @@ bool WhoSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) c
 
     // Same level => Group names comparison?
     if (leftUser.group() != rightUser.group())
-        return leftUser.group() < rightUser.group();
+        return _session->serverGroups().groupIndexForName(leftUser.group()) > _session->serverGroups().groupIndexForName(rightUser.group());
 
     // Same group => Alphanumeric comparison
-    return leftUser.login() < rightUser.login();
+    return leftUser.login() > rightUser.login();
 }
