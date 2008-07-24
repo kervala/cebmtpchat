@@ -315,6 +315,15 @@ void Session::tokenAnalyzed(const Token &token)
     case Token::YouAreKicked:
         _cleanDisconnected = true;
         break;
+    case Token::GroupsBegin:
+        _serverGroups.clear();
+        break;
+    case Token::GroupsLine:
+        _serverGroups.addGroup(ServerGroup(token.arguments()[1],
+                                           token.arguments()[3].toInt(),
+                                           token.arguments()[2],
+                                           token.arguments()[4]));
+        break;
     case Token::SomeoneAway:
     {
         WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);

@@ -95,3 +95,25 @@ void WhoModel::userRemoved(int userIndex)
     beginRemoveRows(QModelIndex(), userIndex, userIndex);
     endRemoveRows();
 }
+
+/////////////////////////////////////////////////
+
+bool WhoSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    const WhoUser &leftUser = _session->whoPopulation().users()[left.row()];
+    const WhoUser &rightUser = _session->whoPopulation().users()[right.row()];
+
+    ServerGroup leftGroup = _session->serverGroups().groupForName(leftUser.group());
+    ServerGroup rightGroup = _session->serverGroups().groupForName(rightUser.group());
+
+    // Not same levels?
+    if (leftGroup.level() != rightGroup.level())
+        return leftGroup.level() < rightGroup.level();
+
+    // Same level => Group names comparison?
+    if (leftUser.group() != rightUser.group())
+        return leftUser.group() < rightUser.group();
+
+    // Same group => Alphanumeric comparison
+    return leftUser.login() < rightUser.login();
+}

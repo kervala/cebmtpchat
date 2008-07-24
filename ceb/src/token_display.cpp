@@ -193,18 +193,27 @@ void TextSkin::init()
         setTokenColor(Token::SomeoneReplies, 0, systemColor);
         setTokenColor(Token::YouReply, 0, systemColor);
         setTokenColor(Token::SomeoneBeepsYou, 0, systemColor);
+
         setTokenColor(Token::WallBegin, 0, systemColor);
         setTokenColor(Token::WallEnd, 0, systemColor);
         setTokenColor(Token::WallLine, 1, QColor(0, 100, 0));
         setTokenColor(Token::WallLine, 2, QColor(0, 100, 0));
         setTokenColor(Token::WallLine, 3, QColor(180, 0, 0));
+
         setTokenColor(Token::WhoBegin, 0, systemColor);
         setTokenColor(Token::WhoSeparator, 0, systemColor);
         setTokenColor(Token::WhoEnd, 0, systemColor);
         setTokenColor(Token::WhoEnd, 1, QColor(180, 0, 180));
         setTokenColor(Token::WhoEndNoUser, 0, systemColor);
+
+        setTokenColor(Token::GroupsBegin, 0, systemColor);
+        setTokenColor(Token::GroupsSeparator, 0, systemColor);
+        setTokenColor(Token::GroupsEnd, 0, systemColor);
+        setTokenColor(Token::GroupsEnd, 1, QColor(180, 0, 180));
+
         setTokenColor(Token::HistoryBegin, 0, systemColor);
         setTokenColor(Token::HistoryEnd, 0, systemColor);
+
         setTokenColor(Token::FingerEnd, 0, systemColor);
         setTokenColor(Token::SomeoneShouts, 0, systemColor);
         setTokenColor(Token::SomeoneShouts, 2, QColor(200, 0, 0));

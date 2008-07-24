@@ -27,6 +27,7 @@
 #include "token_factory.h"
 #include "message_item.h"
 #include "who_user.h"
+#include "server_group.h"
 
 class Session : public QObject
 {
@@ -77,6 +78,7 @@ public:
     Properties &properties() { return _properties; }
     const Properties &properties() const { return _properties; }
     const WhoPopulation &whoPopulation() const { return _whoPopulation; }
+    const ServerGroups &serverGroups() const { return _serverGroups; }
 
     int requestTicket(TokenFactory::Command command);
 
@@ -103,14 +105,15 @@ private:
     QString _serverAddress;
     int _serverPort;
     QString _serverLogin;
-//    QStringList _users;
     QString _channel;
     QList<MessageItem> _myMessages;
     QDateTime _idleStart;
     bool _autoAway; // true when away was set automatically, false when session is considered as not auto away anymore
     Properties _properties;
     WhoPopulation _whoPopulation;
+    ServerGroups _serverGroups;
     int _getGroupTicketID;
+    int _groupsTicketID;
 
     QString logPrefix();
     void logInfo(const QString &message);

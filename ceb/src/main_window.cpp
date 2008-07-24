@@ -743,7 +743,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         TellWidget *tellWidget = getTellWidget(session, login);
         if (tellWidget)
         {
-            if (token.arguments()[4] == "*Away*")
+            if (!token.arguments()[4].compare("*Away*", Qt::CaseInsensitive))
                 mtwMain->renameLabel(tellWidget, login + " (away)");
             else
                 mtwMain->renameLabel(tellWidget, login);

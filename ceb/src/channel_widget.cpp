@@ -149,7 +149,11 @@ void ChannelWidget::init()
 
     _treeViewWho = new QTreeView;
     _whoModel = new WhoModel(_session, this);
-    _treeViewWho->setModel(_whoModel);
+    _whoSortModel = new WhoSortModel(_session, this);
+    _whoSortModel->setSourceModel(_whoModel);
+    _whoSortModel->setDynamicSortFilter(true);
+    _treeViewWho->setModel(_whoSortModel);
+    _treeViewWho->setSortingEnabled(true);
     connect(_whoModel, SIGNAL(modelReset()),
             this, SLOT(whoModelReset()));
     connect(_whoModel, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
@@ -297,31 +301,8 @@ void ChannelWidget::sendText(const QString &text)
         _session->send(scriptedText);
 }
 
-/*QTableWidgetItem *ChannelWidget::getWhoItemByNickname(const QString &nickname)
-{
-    for (int i = 0; i < _tableWidgetWho->rowCount(); ++i)
-    {
-        QTableWidgetItem *item = _tableWidgetWho->item(i, 0);
-        if (!item->text().compare(nickname))
-            return item;
-            }
-    return 0;
-    }*/
-
- /*int ChannelWidget::getWhoRowByNickname(const QString &nickname)
-{
-    for (int i = 0; i < _tableWidgetWho->rowCount(); ++i)
-    {
-        QTableWidgetItem *item = _tableWidgetWho->item(i, 0);
-        if (!item->text().compare(nickname))
-            return i;
-    }
-    return -1;
-    }*/
-
 void ChannelWidget::newToken(const Token &token)
 {
-//    QColor color(0, 0, 0);
     QScrollBar *sb =_textEditOutput->verticalScrollBar();
     bool scrollDown = sb->maximum() - sb->value() < 10;
     switch(token.type())
@@ -398,17 +379,6 @@ void ChannelWidget::newToken(const Token &token)
         break;
     case Token::WhoLine:
     {
-/*        QTableWidgetItem *item = new QTableWidgetItem;
-        _tableWidgetWho->setRowCount(_tableWidgetWho->rowCount() + 1);
-        _tableWidgetWho->setItem(_tableWidgetWho->rowCount() - 1, 0, item);
-        item->setText(token.arguments()[1]);
-
-        if (token.arguments()[3] != _session->channel())
-            item->setIcon(QIcon(":/images/yellow-led.png"));
-        else if (token.arguments()[4] == "*Away*")
-            item->setIcon(QIcon(":/images/away.png"));
-        else
-        item->setIcon(QIcon(":/images/here.png"));*/
         if (token.arguments()[1].toUpper() != _session->serverLogin().toUpper())
             _historyWidget->addCompletionWord(token.arguments()[1]);
         if (_whoTicketID == token.ticketID() && token.ticketID() >= 0)
@@ -417,6 +387,13 @@ void ChannelWidget::newToken(const Token &token)
             return;
     }
     break;
+    case Token::GroupsBegin:
+    case Token::GroupsSeparator:
+    case Token::GroupsEnd:
+    case Token::GroupsLine:
+        if (token.ticketID() >= 0)
+            return;
+        break;
     case Token::FingerBegin:
     case Token::FingerEnd:
     case Token::FingerLine:
@@ -489,9 +466,6 @@ void ChannelWidget::newToken(const Token &token)
     if (_helpTicketID == token.ticketID() && token.ticketID() >= 0)
         return;
     break;
-    case Token::UserLoginRenamed:
-        changeLoginInWhoColumn(token.arguments()[1], token.arguments()[2]);
-        break;
     case Token::SomeoneComesIn:
     {
         _historyWidget->addCompletionWord(token.arguments()[1]);
@@ -525,19 +499,11 @@ void ChannelWidget::newToken(const Token &token)
         if (token.ticketID() >= 0)
             return;
         break;
-    case Token::SomeoneSays:
-    {
-/*        // Someone talks about you?
-        QString sentence = token.arguments()[2];
-        if (sentence.indexOf(_regExpAboutMe) >= 0)
-            color = QColor(200, 0, 200);
-        else
-        color = QColor(0, 0, 0);*/
-    }
-    break;
     case Token::Data:
 /*TEMP		if (TransfersManager::isCommand(token.arguments()[2]))
   return;*/
+        break;
+    case Token::Unknown:
         break;
     default:;
     };
@@ -647,9 +613,15 @@ void ChannelWidget::sessionLogged()
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
     _session->sendCommand("set client CeB Alpha " + QString(VERSION));
 
+    // Send first groups command
+    _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);
+    _session->sendCommand("groups");
+
     // Send first who
     _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
     _session->sendCommand("who all");
+
+    // Get the server list
     _helpTicketID = _session->requestTicket(TokenFactory::Command_Help);
     _session->sendCommand("help serverlist");
 
@@ -809,14 +781,6 @@ void ChannelWidget::whoDoubleClicked(const QModelIndex &index)
 void ChannelWidget::loginChanged(const QString &oldLogin, const QString &newLogin)
 {
     _regExpAboutMe = QRegExp("(^|\\W)" + newLogin + "(\\W|$)", Qt::CaseInsensitive);
-    changeLoginInWhoColumn(oldLogin, newLogin);
-}
-
-void ChannelWidget::changeLoginInWhoColumn(const QString &oldLogin, const QString &newLogin)
-{
-/*    QTableWidgetItem *item = getWhoItemByNickname(oldLogin);
-    if (item)
-    item->setText(newLogin);*/
 }
 
 void ChannelWidget::finger()

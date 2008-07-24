@@ -77,6 +77,7 @@ private:
     QComboBox *_comboBoxFilter;
     TokenRenderer _tokenRenderer;
     int _whoTicketID;
+    int _groupsTicketID;
     int _dateTicketID;
     int _setClientTicketID;
     int _helpTicketID;
@@ -89,13 +90,10 @@ private:
     QList<BackupServer> _backupServers;
     bool _backupServersHelp; // is true if the current help is about serverlist
     WhoModel *_whoModel;
+    WhoSortModel *_whoSortModel;
 
     void init();
-//    QTableWidgetItem *getWhoItemByNickname(const QString &nickname);
-//    int getWhoRowByNickname(const QString &nickname); //!< returns -1 of <nickname> is not found
     void colorizeChatItems(const QColor &color);
-    void changeLoginInWhoColumn(const QString &oldLogin,
-                                const QString &newLogin);
     void initScriptComboBox();
     void toggleSearchWidgetVisibility();
     void refreshWhoLabel();

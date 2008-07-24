@@ -54,6 +54,11 @@ public:
 	WhoSeparator,
 	WhoLine,
 
+        GroupsBegin,
+        GroupsEnd,
+        GroupsSeparator,
+        GroupsLine,
+
 	HistoryBegin,
 	HistoryEnd,
 	HistoryLine,
@@ -90,6 +95,7 @@ public:
 	HelpEndNormal,
 	HelpEndNoHelp,
 	HelpLine,
+
 
 	UnknownUser,
 	UserLoginRenamed,

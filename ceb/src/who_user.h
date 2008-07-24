@@ -32,7 +32,7 @@ public:
     const QString &fromHost() const { return _fromHost; }
     void setFromHost(const QString &value) { _fromHost = value; }
 
-    bool isAway() const { return !_idle.compare("*away*"); }
+    bool isAway() const { return !_idle.compare("*away*", Qt::CaseInsensitive); }
 
     bool isValid() const { return _login != ""; }
 

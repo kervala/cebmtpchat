@@ -57,10 +57,10 @@ public:
     enum ServerType { Mtp, Ryzom };
     enum SendToken { SendToken_Tell, SendToken_Reply, SendToken_Sendmsg };
 
-    enum State { State_Normal, State_Who, State_History, State_Finger, State_Alias,
+    enum State { State_Normal, State_Who, State_Groups, State_History, State_Finger, State_Alias,
                  State_Wall, State_Message, State_Help };
 
-    enum Command { Command_Who = 0, Command_Wall, Command_Date, Command_SetClient,
+    enum Command { Command_Who = 0, Command_Groups, Command_Wall, Command_Date, Command_SetClient,
                    Command_ShowMsg, Command_Help, Command_GetGroup, Command_Count };
 
     struct CommandTicket
@@ -100,6 +100,7 @@ signals:
 
 private:
     static Token::Type whoTokens[];
+    static Token::Type groupsTokens[];
     static Token::Type aliasTokens[];
     static Token::Type normalTokens[];
     static Token::Type historyTokens[];

@@ -40,6 +40,12 @@ Token::Type TokenFactory::whoTokens[] = {
     Token::WhoEndNoUser
 };
 
+Token::Type TokenFactory::groupsTokens[] = {
+    Token::GroupsSeparator,
+    Token::GroupsEnd,
+    Token::GroupsLine
+};
+
 Token::Type TokenFactory::aliasTokens[] = {
     Token::UserAliases,
     Token::AliasesEnd,
@@ -61,6 +67,7 @@ Token::Type TokenFactory::normalTokens[] = {
     Token::SomeoneBeepsYou,
     Token::WallBegin,
     Token::WhoBegin,
+    Token::GroupsBegin,
     Token::HistoryBegin,
     Token::FingerBegin,
     Token::SomeoneShouts,
@@ -236,6 +243,33 @@ void TokenFactory::createTokenRegularExpressions()
     _tokenRegexp.insert(Token::WhoLine,
                         MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *([^ ]+) *([^ ]+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7));
+
+    if (_serverType == Mtp)
+    {
+        _tokenRegexp.insert(Token::GroupsBegin,
+                            MtpRegExp("^ Group +Leader +Lv +Full Name$",
+                                      " Group      Leader    Lv            Full Name"));
+        _tokenRegexp.insert(Token::GroupsSeparator,
+                            MtpRegExp("^-+ -+ -+ -+$",
+                                      "-------- -------- -- --------------------------------"));
+    }
+    else
+    {
+        _tokenRegexp.insert(Token::GroupsBegin,
+                            MtpRegExp("^ Group +Leader +Lv +Full Name +S$",
+                                      " Group      Leader    Lv            Full Name             S"));
+        _tokenRegexp.insert(Token::GroupsSeparator,
+                            MtpRegExp("^-+ -+ -+ -+ -+$",
+                                      "-------- ------------ -- -------------------------------- -"));
+    }
+    _tokenRegexp.insert(Token::GroupsLine,
+                        MtpRegExp("^("LOGIN_RE") *("LOGIN_RE") *(\\-?\\d+) *(.+)$",
+                                  QList<int>() << 1 << 2 << 3 << 4,
+                                  "System   Root         12 Administrators"));
+    _tokenRegexp.insert(Token::GroupsEnd,
+                        MtpRegExp(SRV_RE + "There are (\\d+) groups$",
+                                  QList<int>() << 1,
+                                  "<Mtp> There are 9 groups"));
 
     _tokenRegexp.insert(Token::HistoryBegin,
                         MtpRegExp(SRV_RE + "History :$",
@@ -616,7 +650,6 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
 
         Token::Type *tokens;
         int tokensSize;
-
         switch(_state)
         {
         case State_Normal:
@@ -626,6 +659,10 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
         case State_Who:
             tokens = whoTokens;
             tokensSize = TOKEN_A_SIZE(whoTokens);
+            break;
+        case State_Groups:
+            tokens = groupsTokens;
+            tokensSize = TOKEN_A_SIZE(groupsTokens);
             break;
         case State_History:
             tokens = historyTokens;
@@ -664,44 +701,23 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
             if (regExp.exactMatch(newData))
             {
                 found = true;
+                // set state for begin tokens and do other treatments
                 switch(token)
                 {
                 case Token::WallBegin:
                     _state = State_Wall;
                     break;
-                case Token::WallEnd:
-                    _state = State_Normal;
-                    break;
                 case Token::WhoBegin:
                     _state = State_Who;
-                    if (tickets[Command_Who].count() > 0)
-                        ticketID = tickets[Command_Who].first().ID;
                     break;
-                case Token::WhoEnd:
-                case Token::WhoEndNoUser:
-                    _state = State_Normal;
-                    if (tickets[Command_Who].count() > 0)
-                        ticketID = tickets[Command_Who].takeFirst().ID;
-                    break;
-                case Token::WhoSeparator:
-                    if (tickets[Command_Who].count() > 0)
-                        ticketID = tickets[Command_Who].first().ID;
-                    break;
-                case Token::WhoLine:
-                    if (tickets[Command_Who].count() > 0)
-                        ticketID = tickets[Command_Who].first().ID;
+                case Token::GroupsBegin:
+                    _state = State_Groups;
                     break;
                 case Token::HistoryBegin:
                     _state = State_History;
                     break;
-                case Token::HistoryEnd:
-                    _state = State_Normal;
-                    break;
                 case Token::FingerBegin:
                     _state = State_Finger;
-                    break;
-                case Token::FingerEnd:
-                    _state = State_Normal;
                     break;
                 case Token::YouAway:
                 {
@@ -721,59 +737,96 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                 case Token::SystemAliases:
                     _state = State_Alias;
                     break;
-                case Token::UserAliases:
-                    break;
-                case Token::AliasesEnd:
-                    _state = State_Normal;
-                    break;
                 case Token::MessageBegin:
                     _state = State_Message;
-                    if (tickets[Command_ShowMsg].count() > 0)
-                        ticketID = tickets[Command_ShowMsg].first().ID;
-                    break;
-                case Token::MessageLine:
-                    if (tickets[Command_ShowMsg].count() > 0)
-                        ticketID = tickets[Command_ShowMsg].first().ID;
-                    break;
-                case Token::MessageEnd:
-                    if (tickets[Command_ShowMsg].count() > 0)
-                        ticketID = tickets[Command_ShowMsg].takeFirst().ID;
-                    _state = State_Normal;
                     break;
                 case Token::HelpBegin:
                     _state = State_Help;
-                    if (tickets[Command_Help].count() > 0)
-                        ticketID = tickets[Command_Help].first().ID;
-                    break;
-                case Token::HelpEndNormal:
-                case Token::HelpEndNoHelp:
-                    if (tickets[Command_Help].count() > 0)
-                        ticketID = tickets[Command_Help].takeFirst().ID;
-                    _state = State_Normal;
-                    break;
-                case Token::HelpLine:
-                    if (tickets[Command_Help].count() > 0)
-                        ticketID = tickets[Command_Help].first().ID;
-                    break;
-                case Token::Date:
-                    if (tickets[Command_Date].count() > 0)
-                        ticketID = tickets[Command_Date].takeFirst().ID;
-                    break;
-                case Token::YourClientIs:
-                    if (tickets[Command_SetClient].count() > 0)
-                        ticketID = tickets[Command_SetClient].takeFirst().ID;
-                    break;
-                case Token::SomeoneGroup:
-                case Token::UnregisteredUser:
-                    if (tickets[Command_GetGroup].count() > 0)
-                        ticketID = tickets[Command_GetGroup].takeFirst().ID;
-                    break;
-                case Token::MtpSays:
                     break;
                 default:;
                 }
-                if (found)
+
+                // Ticket managing
+                switch (_state)
+                {
+                case State_Normal:
+                    // Stateless tickets
+                    switch (token)
+                    {
+                    case Token::Date:
+                        if (tickets[Command_Date].count() > 0)
+                            ticketID = tickets[Command_Date].takeFirst().ID;
+                        break;
+                    case Token::YourClientIs:
+                        if (tickets[Command_SetClient].count() > 0)
+                            ticketID = tickets[Command_SetClient].takeFirst().ID;
+                        break;
+                    case Token::SomeoneGroup:
+                    case Token::UnregisteredUser:
+                        if (tickets[Command_GetGroup].count() > 0)
+                            ticketID = tickets[Command_GetGroup].takeFirst().ID;
+                        break;
+                    default:;
+                    }
                     break;
+                case State_Who:
+                    if (tickets[Command_Who].count() > 0)
+                    {
+                        if (token == Token::WhoEnd || token == Token::WhoEndNoUser)
+                            ticketID = tickets[Command_Who].takeFirst().ID;
+                        else
+                            ticketID = tickets[Command_Who].first().ID;
+                    }
+                    break;
+                case State_Groups:
+                    if (tickets[Command_Groups].count() > 0)
+                    {
+                        if (token == Token::GroupsEnd)
+                            ticketID = tickets[Command_Groups].takeFirst().ID;
+                        else
+                            ticketID = tickets[Command_Groups].first().ID;
+                    }
+                    break;
+                case State_Message:
+                    if (tickets[Command_ShowMsg].count() > 0)
+                    {
+                        if (token = Token::MessageEnd)
+                            ticketID = tickets[Command_ShowMsg].takeFirst().ID;
+                        else
+                            ticketID = tickets[Command_ShowMsg].first().ID;
+                    }
+                    break;
+                case State_Help:
+                    if (tickets[Command_Help].count() > 0)
+                    {
+                        if (token == Token::HelpEndNormal || token == Token::HelpEndNoHelp)
+                            ticketID = tickets[Command_Help].takeFirst().ID;
+                        else
+                            ticketID = tickets[Command_Help].first().ID;
+                    }
+                    break;
+                default:;
+                }
+
+                // Set state for end tokens
+                switch(token)
+                {
+                case Token::WallEnd:
+                case Token::WhoEnd:
+                case Token::WhoEndNoUser:
+                case Token::GroupsEnd:
+                case Token::HistoryEnd:
+                case Token::FingerEnd:
+                case Token::AliasesEnd:
+                case Token::MessageEnd:
+                case Token::HelpEndNormal:
+                case Token::HelpEndNoHelp:
+                    _state = State_Normal;
+                    break;
+                default:;
+                }
+
+                break;
             }
         }
 

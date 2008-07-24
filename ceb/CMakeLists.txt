@@ -71,6 +71,7 @@ SET(CEB_SRCS
 	src/event_script.cpp
 	src/who_user.cpp
 	src/who_model.cpp
+	src/server_group.cpp
 )
 
 SET(CEB_UIS
@@ -129,6 +130,7 @@ SET(CEB_MOCH
 	src/search_widget.h
 	src/who_user.h
 	src/who_model.h
+	src/server_group.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
