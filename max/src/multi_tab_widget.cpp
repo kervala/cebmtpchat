@@ -27,6 +27,7 @@ MultiTabWidget::MultiTabWidget(QWidget *parent) : QWidget(parent)
     _allInOneRowLocation = North;
     _superLocation = North;
     _subLocation = South;
+    _captionMode = LabelAndSuperLabel;
 
     mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(0);
@@ -61,14 +62,8 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
                 QColor tmpTextColor = tabWidgetCentral->tabTextColor(0);
 
                 tabWidgetCentral->removeTab(0);
-                WidgetInfo info = widget2Info[widget];
-                QString label;
-                if (info.showSuperLabel)
-                    label = info.label + " (" + info.superLabel + ")";
-                else
-                    label = info.label;
                 widget->setParent(0);
-                int index = tabWidgetMain->addTab(widget, tmpIcon, label);
+                int index = tabWidgetMain->addTab(widget, tmpIcon, getCaption(widget2Info[widget]));
                 tabWidgetMain->setTabTextColor(index, tmpTextColor);
             }
             mainLayout->removeWidget(tabWidgetCentral);
@@ -93,13 +88,8 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
                     QColor tmpTextColor = tabWidget->tabTextColor(0);
                     tabWidget->removeTab(0);
                     WidgetInfo info = widget2Info[widget];
-                    QString label;
-                    if (info.showSuperLabel)
-                        label = info.label + " (" + info.superLabel + ")";
-                    else
-                        label = info.label;
                     widget->setParent(0);
-                    int index = tabWidgetMain->addTab(widget, tmpIcon, label);
+                    int index = tabWidgetMain->addTab(widget, tmpIcon, getCaption(widget2Info[widget]));
                     tabWidgetMain->setTabTextColor(index, tmpTextColor);
                 }
                 delete tabWidget;
@@ -261,14 +251,14 @@ void MultiTabWidget::setSubLocation(TabLocation tabLocation)
     _subLocation = tabLocation;
 }
 
-void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QString &label, bool richLabel)
+void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QString &label)
 {
-    storeNewWidget(superLabel, widget, label, richLabel);
+    storeNewWidget(superLabel, widget, label);
 }
 
-void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label, bool richLabel)
+void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label)
 {
-    MyTabWidget *tabWidget = storeNewWidget(superLabel, widget, label, richLabel);
+    MyTabWidget *tabWidget = storeNewWidget(superLabel, widget, label);
     if (tabWidget)
         tabWidget->setTabIcon(tabWidget->indexOf(widget), icon);
 }
@@ -293,7 +283,7 @@ MyTabWidget *MultiTabWidget::getTabWidgetBySuperLabel(const QString &superLabel)
     return 0;
 }
 
-MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label, bool richLabel)
+MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label)
 {
     switch (_displayMode)
     {
@@ -308,11 +298,13 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
             mainLayout->addWidget(tabWidgetMain);
         }
 
+        {
+            WidgetInfo info = { superLabel, label };
+            widget2Info.insert(widget, info);
+        }
+
         // Add the widget
-        if (richLabel)
-            tabWidgetMain->addTab(widget, label + " (" + superLabel + ")");
-        else
-            tabWidgetMain->addTab(widget, label);
+        tabWidgetMain->addTab(widget, getCaption(widget2Info[widget]));
         return tabWidgetMain;
     case Hierarchical:
         if (!mainLayout->count())
@@ -370,15 +362,15 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
     return 0;
 }
 
-MyTabWidget *MultiTabWidget::storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label, bool richLabel)
+MyTabWidget *MultiTabWidget::storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label)
 {
-    MyTabWidget *tabWidget = insertNewWidget(superLabel, widget, label, richLabel);
+    MyTabWidget *tabWidget = insertNewWidget(superLabel, widget, label);
     if (tabWidget)
     {
         widgets << widget;
         if (_superLabels.indexOf(superLabel) < 0)
             _superLabels << superLabel;
-        WidgetInfo info = { superLabel, label, richLabel };
+        WidgetInfo info = { superLabel, label };
         widget2Info.insert(widget, info);
     }
     return tabWidget;
@@ -563,14 +555,7 @@ void MultiTabWidget::renameSuperLabel(const QString &oldSuperLabel, const QStrin
             {
                 QWidget *widget = tabWidgetMain->widget(i);
                 if (widgetsToChange.indexOf(widget) >= 0)
-                {
-                    QString label;
-                    if (widget2Info[widget].showSuperLabel)
-                        label = widget2Info[widget].label + " (" + newSuperLabel + ")";
-                    else
-                        label = widget2Info[widget].label;
-                    tabWidgetMain->setTabText(i, label);
-                }
+                    tabWidgetMain->setTabText(i, getCaption(widget2Info[widget]));
             }
         break;
     case Hierarchical:
@@ -597,8 +582,8 @@ void MultiTabWidget::renameLabel(QWidget *widget, const QString &newLabel)
 
     // In visual controls
     MyTabWidget *tabWidget = getFatherTabWidget(widget);
-    if (_displayMode == AllInOneRow && widget2Info[widget].showSuperLabel)
-        tabWidget->setTabText(tabWidget->indexOf(widget), newLabel + " (" + widget2Info[widget].superLabel + ")");
+    if (_displayMode == AllInOneRow)
+        tabWidget->setTabText(tabWidget->indexOf(widget), getCaption(widget2Info[widget]));
     else
         tabWidget->setTabText(tabWidget->indexOf(widget), newLabel);
 }
@@ -796,4 +781,41 @@ QWidget *MultiTabWidget::widgetByTabLocation(const QPoint &p) const
             return tabWidget->widget(i);
     }
     return 0;
+}
+
+void MultiTabWidget::setCaptionMode(CaptionMode value)
+{
+    if (_captionMode == value)
+        return;
+
+    _captionMode = value;
+
+    if (_displayMode == Hierarchical)
+        return;
+
+    foreach (QWidget *widget, widgets)
+    {
+        const WidgetInfo &widgetInfo = widget2Info[widget];
+
+        MyTabWidget *tabWidget = getFatherTabWidget(widget);
+
+        tabWidget->setTabText(tabWidget->indexOf(widget), getCaption(widgetInfo));
+    }
+}
+
+QString MultiTabWidget::getCaption(const WidgetInfo &widgetInfo) const
+{
+    switch (_captionMode)
+    {
+    case LabelAndSuperLabel:
+        return widgetInfo.label + " (" + widgetInfo.superLabel + ")";
+        break;
+    case LabelOnly:
+        return widgetInfo.label;
+        break;
+    case SuperLabelOnly:
+        return widgetInfo.superLabel;
+        break;
+    default: return "";
+    }
 }
