@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QMessageBox>
 #include <QDir>
 
+#include "lua_utils.h"
 #include "script.h"
 #include "paths.h"
 
@@ -79,7 +79,7 @@ void TokenScript::executeScript(Session *session, const Token &token)
         if (!lua_isnil(l, top))
         {
             if (lua_pcall(l, 0, 1, 0))
-                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+                showLuaError(l, "error executing user newToken");
         }
 
         int n = lua_gettop(l); // Arguments number
@@ -110,7 +110,7 @@ void TokenScript::executeScript(Session *session, const Token &token)
         return;
 
     if (lua_pcall(l, 0, 1, 0))
-        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        showLuaError(l, "error executing admin newToken");
 
     unregisterFunctions(l);
 }

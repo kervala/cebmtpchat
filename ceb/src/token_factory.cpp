@@ -244,24 +244,12 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *([^ ]+) *([^ ]+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7));
 
-    if (_serverType == Mtp)
-    {
-        _tokenRegexp.insert(Token::GroupsBegin,
-                            MtpRegExp("^ Group +Leader +Lv +Full Name$",
-                                      " Group      Leader    Lv            Full Name"));
-        _tokenRegexp.insert(Token::GroupsSeparator,
-                            MtpRegExp("^-+ -+ -+ -+$",
-                                      "-------- -------- -- --------------------------------"));
-    }
-    else
-    {
-        _tokenRegexp.insert(Token::GroupsBegin,
-                            MtpRegExp("^ Group +Leader +Lv +Full Name +S$",
-                                      " Group      Leader    Lv            Full Name             S"));
-        _tokenRegexp.insert(Token::GroupsSeparator,
-                            MtpRegExp("^-+ -+ -+ -+ -+$",
-                                      "-------- ------------ -- -------------------------------- -"));
-    }
+    _tokenRegexp.insert(Token::GroupsBegin,
+                        MtpRegExp("^ Group +Leader +Lv +Full Name$",
+                                  " Group      Leader    Lv            Full Name"));
+    _tokenRegexp.insert(Token::GroupsSeparator,
+                        MtpRegExp("^-+ -+ -+ -+$",
+                                  "-------- -------- -- --------------------------------"));
     _tokenRegexp.insert(Token::GroupsLine,
                         MtpRegExp("^("LOGIN_RE") *("LOGIN_RE") *(\\-?\\d+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4,

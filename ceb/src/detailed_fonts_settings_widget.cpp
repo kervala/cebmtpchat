@@ -71,7 +71,7 @@ void DetailedFontsSettingsWidget::on_listWidgetTokenTypes_currentItemChanged(QLi
     }
     for (int i = 0; i < capCount; ++i)
     {
-        QListWidgetItem *newItem = new QListWidgetItem(tr("Argument ") + QString::number(i + 1));
+        QListWidgetItem *newItem = new QListWidgetItem(tr("Argument %1").arg(i + 1));
         QFont font = newItem->font();
         if (Profile::instance().textSkin().isForcedToken(_currentTokenType, i + 1))
         {

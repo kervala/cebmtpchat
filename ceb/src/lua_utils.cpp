@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QMessageBox>
 #include <QDir>
+#include "dialog_system.h"
 
 extern "C" {
 #if defined(Q_OS_FREEBSD)
@@ -35,6 +35,12 @@ extern "C" {
 
 #include "lua_utils.h"
 
+int showLuaError(lua_State *l, const QString &error)
+{ 
+    DialogSystem::error("LUA : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));
+    return 0; 
+}
+
 QString executeLuaFilter(const QString &filterName, const QString &line)
 {
     QString result;
@@ -45,7 +51,7 @@ QString executeLuaFilter(const QString &filterName, const QString &line)
 
     if (luaL_loadfile(L, fileName.toLatin1()) || lua_pcall(L, 0, 0, 0))
     {
-        QMessageBox::critical(0, "LUA", "error in script loading");
+        showLuaError(L, "error in script loading");
         return "";
     }
 
@@ -58,14 +64,14 @@ QString executeLuaFilter(const QString &filterName, const QString &line)
     // do the call (1 arguments, 1 result)
     if (lua_pcall(L, 1, 1, 0))
     {
-        QMessageBox::critical(0, "LUA", "error running function");
+        showLuaError(L, "error running function");
         return "";
     }
 
     // retrieve result
     if (!lua_isstring(L, -1))
     {
-        QMessageBox::warning(0, "LUA", "function must return a string");
+        showLuaError(L, "function must return a string");
         return "";
     }
     res = lua_tostring(L, -1);

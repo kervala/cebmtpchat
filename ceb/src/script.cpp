@@ -2,15 +2,16 @@
 #include <QDateTime>
 #include <QMap>
 #include <QDir>
-#include <QMessageBox>
 
 #include "token_info.h"
 #include "paths.h"
 #include "profile.h"
+#include "dialog_system.h"
 #include "main_window.h"
 #include "my_textedit.h"
 
 #include "script.h"
+#include "lua_utils.h"
 
 namespace Script
 {
@@ -39,17 +40,17 @@ namespace Script
             return 0;
 
         if (lua_isstring(l, 1))
-            QMessageBox::warning(0, "Lua", QString(lua_tostring(l, 1)));
+            DialogSystem::warning("LUA : " + QString(lua_tostring(l, 1)));
         else if (lua_isnumber(l, 1))
-            QMessageBox::warning(0, "Lua", QString::number(lua_tonumber(l, 1)));
+            DialogSystem::error("LUA : " + QString::number(lua_tonumber(l, 1)));
         else if (lua_isboolean(l, 1))
             switch (lua_toboolean(l, 1))
             {
             case true:
-                QMessageBox::warning(0, "Lua", "true");
+                DialogSystem::warning("LUA : true");
                 break;
             case false:
-                QMessageBox::warning(0, "Lua", "false");
+                DialogSystem::warning("LUA : false");
                 break;
             }
         return 0;
@@ -410,7 +411,7 @@ namespace Script
 
         if (luaL_loadfile(l, filePath.toLocal8Bit()) || lua_pcall(l, 0, 0, 0))
         {
-            QMessageBox::critical(0, "LUA", "error in loading script " + filePath);
+            showLuaError(l, "error in loading script");
             error = true;
             return 0;
         }
@@ -484,7 +485,7 @@ namespace Script
             script.l = loadScript(script.filePath, false, error);
             if (error)
             {
-                QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
+                showLuaError(script.l, "error in loading script");
                 luaScripts.remove(tokenType);
                 return 0;
             }
@@ -538,7 +539,7 @@ namespace Script
             script.l = loadScript(script.filePath, true, error);
             if (error)
             {
-                QMessageBox::critical(0, "LUA", "error in loading script " + script.filePath);
+                showLuaError(script.l, "error in loading script");
                 userLuaScripts.remove(tokenType);
                 return 0;
             }

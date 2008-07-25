@@ -18,5 +18,7 @@
 
 #include <QString>
 
-QString executeLuaFilter(const QString &filterName, const QString &line);
+struct lua_State;
 
+QString executeLuaFilter(const QString &filterName, const QString &line);
+int showLuaError(lua_State *l, const QString &error = "error");

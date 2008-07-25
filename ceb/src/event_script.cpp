@@ -17,12 +17,13 @@
  */
 
 #include <QDir>
-#include <QMessageBox>
 #include <QFileInfo>
+#include <QColor>
 
 #include "paths.h"
 
 #include "event_script.h"
+#include "lua_utils.h"
 
 Script::LuaScript adminScript;
 Script::LuaScript userScript;
@@ -94,7 +95,7 @@ QColor EventScript::getWhoUserBackgroundColor(Session *session, const WhoUser &u
         {
             lua_pushstring(l, user.login().toLatin1());
             if (lua_pcall(l, 1, 1, 0))
-                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+                showLuaError(l, "error executing user userBackgroundColor");
         }
 
         int n = lua_gettop(l); // Arguments number
@@ -123,7 +124,7 @@ QColor EventScript::getWhoUserBackgroundColor(Session *session, const WhoUser &u
 
     lua_pushstring(l, user.login().toLatin1());
     if (lua_pcall(l, 1, 1, 0))
-        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        showLuaError(l, "error executing admin userBackgroundColor ");
 
     Script::unregisterFunction(l, "setUserBackgroundColor");
 
@@ -151,7 +152,7 @@ QString EventScript::newEntry(Session *session, const QString &text)
         if (!lua_isnil(l, top))
         {
             if (lua_pcall(l, 0, 1, 0))
-                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+                showLuaError(l, "error executing user newEntry");
         }
 
         int n = lua_gettop(l); // Arguments number
@@ -181,7 +182,7 @@ QString EventScript::newEntry(Session *session, const QString &text)
         return g_entryText;
 
     if (lua_pcall(l, 0, 1, 0))
-        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        showLuaError(l, "error executing admin newEntry");
 
     Script::unregisterFunction(l, "getEntry");
     Script::unregisterFunction(l, "setEntry");
@@ -203,7 +204,7 @@ void EventScript::executeFunction(const QString &function)
         if (!lua_isnil(l, top))
         {
             if (lua_pcall(l, 0, 1, 0))
-                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+                showLuaError(l, "error executing user function " + function);
         }
 
         int n = lua_gettop(l); // Arguments number
@@ -227,7 +228,7 @@ void EventScript::executeFunction(const QString &function)
         return;
 
     if (lua_pcall(l, 0, 1, 0))
-        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        showLuaError(l, "error executing admin function " + function);
 }
 
 lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &luaScript)

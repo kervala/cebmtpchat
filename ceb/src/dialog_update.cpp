@@ -28,7 +28,7 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent)
     mainLayout->setMargin(4);
 
     // Top
-    labelUpdate = new QLabel("No newer version.");
+    labelUpdate = new QLabel(tr("No newer version."));
     mainLayout->addWidget(labelUpdate);
     progressBarUpdate = new QProgressBar;
     progressBarUpdate->setAlignment(Qt::AlignHCenter);
@@ -58,7 +58,7 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent)
     bUpdate->setEnabled(false);
 
     // Cancel button
-    bClose = new QPushButton("&Close", this);
+    bClose = new QPushButton(tr("&Close"), this);
     policy = bClose->sizePolicy();
     policy.setHorizontalPolicy(QSizePolicy::Minimum);
     policy.setVerticalPolicy(QSizePolicy::Fixed);
@@ -83,7 +83,7 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent)
 
 void DialogUpdate::newVersion(const QDate &date)
 {
-    labelUpdate->setText("New version found: " + date.toString("MM/dd/yyyy"));
+    labelUpdate->setText(tr("New version found: %1").arg(date.toString("yyyy-MM-dd")));
     QPalette palette = labelUpdate->palette();
     palette.setColor(QPalette::Foreground, Qt::blue);
     labelUpdate->setPalette(palette);
@@ -105,7 +105,7 @@ void DialogUpdate::updateDataReadProgress(int done, int total)
     progressBarUpdate->setValue(done);
 
     // Label
-    labelInfo->setText(QString::number(done/1024) + "/" + QString::number(total/1024) + "Kb");
+    labelInfo->setText(tr("%1/%2 KiB").arg(done/1024).arg(total/1024));
 }
 
 void DialogUpdate::updateDownloadEnd(const QString &fileName)

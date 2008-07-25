@@ -113,7 +113,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
             layout->addLayout(labelLayout);
-            QLabel *label = new QLabel(transfer->nickName() + " wants to send you:");
+            QLabel *label = new QLabel(tr("%1 wants to send you:").arg(transfer->nickName()));
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
             labelLayout->addWidget(fileLabel);
@@ -137,7 +137,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
             layout->addLayout(labelLayout);
-            QLabel *label = new QLabel("You have refused the sending from " + transfer->nickName() + " of:");
+            QLabel *label = new QLabel(tr("You have refused the sending from %1 of:").arg(transfer->nickName()));
             QPalette palette = label->palette();
             palette.setColor(QPalette::WindowText, QColor(100, 100, 100));
             label->setPalette(palette);
@@ -153,7 +153,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
             layout->addLayout(labelLayout);
-            QLabel *label = new QLabel(transfer->nickName() + " canceled the sending of:");
+            QLabel *label = new QLabel(tr("%1 canceled the sending of:").arg(transfer->nickName()));
             QPalette palette = label->palette();
             palette.setColor(QPalette::WindowText, QColor(100, 100, 100));
             label->setPalette(palette);
@@ -171,13 +171,13 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             leftLayout->setSpacing(6);
             layout->addLayout(leftLayout);
 
-            QLabel *label = new QLabel("Downloading <b>" + transfer->baseFileName() + "</b> from <b>" + transfer->nickName() + "</b>");
+            QLabel *label = new QLabel(tr("Downloading <b>%1</b> from <b>%2</b>").arg(transfer->baseFileName()).arg(transfer->nickName()));
             leftLayout->addWidget(label);
 
             QProgressBar *progressBar = new QProgressBar;
             leftLayout->addWidget(progressBar);
 
-            QLabel *progressLabel = new QLabel("456 ko/s");
+            QLabel *progressLabel = new QLabel(tr("456 KiB/s"));
             leftLayout->addWidget(progressLabel);
 
             // Right (buttons)
@@ -208,7 +208,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
             layout->addLayout(labelLayout);
-            QLabel *label = new QLabel("You want to send to " + transfer->nickName() + ":");
+            QLabel *label = new QLabel(tr("You want to send to %1:").arg(transfer->nickName()));
             labelLayout->addWidget(label);
             QLabel *fileLabel = new QLabel("<b>" + transfer->baseFileName() + "</b>");
             labelLayout->addWidget(fileLabel);
@@ -228,7 +228,7 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             labelLayout->setMargin(0);
             labelLayout->setSpacing(1);
             layout->addLayout(labelLayout);
-            QLabel *label = new QLabel("You have canceled the sending to " + transfer->nickName() + " of:");
+            QLabel *label = new QLabel(tr("You have canceled the sending to %1 of:").arg(transfer->nickName()));
             QPalette palette = label->palette();
             palette.setColor(QPalette::WindowText, QColor(100, 100, 100));
             label->setPalette(palette);
@@ -262,13 +262,13 @@ void TransfersWidget::fillWidget(QWidget *widget, Transfer *transfer)
             leftLayout->setSpacing(6);
             layout->addLayout(leftLayout);
 
-            QLabel *label = new QLabel("Uploading <b>" + transfer->baseFileName() + "</b> to <b>" + transfer->nickName() + "</b>");
+            QLabel *label = new QLabel(tr("Uploading <b>%1</b> to <b>%2</b>").arg(transfer->baseFileName()).arg(transfer->nickName()));
             leftLayout->addWidget(label);
 
             QProgressBar *progressBar = new QProgressBar;
             leftLayout->addWidget(progressBar);
 
-            QLabel *progressLabel = new QLabel("456 ko/s");
+            QLabel *progressLabel = new QLabel(tr("456 KiB/s"));
             leftLayout->addWidget(progressLabel);
 
             // Right (buttons)

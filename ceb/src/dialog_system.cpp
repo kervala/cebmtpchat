@@ -42,7 +42,7 @@ DialogSystem::DialogSystem(QWidget *parent) : QDialog(parent)
     // Hide button
     QHBoxLayout *buttonLayout = new QHBoxLayout(0);
 
-    buttonHide = new QPushButton("&Hide");
+    buttonHide = new QPushButton(tr("&Hide"));
     QSizePolicy policy = buttonHide->sizePolicy();
     policy.setHorizontalPolicy(QSizePolicy::Minimum);
     buttonHide->setSizePolicy(policy);

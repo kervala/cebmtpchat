@@ -18,9 +18,9 @@
 
 #include <QMap>
 #include <QDir>
-#include <QMessageBox>
 #include <QDateTime>
 
+#include "lua_utils.h"
 #include "token_info.h"
 #include "paths.h"
 #include "script.h"
@@ -339,7 +339,7 @@ void RenderScript::executeRenderScript(Session *session, Token::Type tokenType, 
         if (!lua_isnil(l, top))
         {
             if (lua_pcall(l, 0, 1, 0))
-                QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+                showLuaError(l, "error executing user render");
         }
 
         int n = lua_gettop(l); // Arguments number
@@ -370,7 +370,7 @@ void RenderScript::executeRenderScript(Session *session, Token::Type tokenType, 
         return;
 
     if (lua_pcall(l, 0, 1, 0))
-        QMessageBox::critical(0, "LUA", lua_tostring(l, -1));
+        showLuaError(l, "error executing render");
 
     unregisterFunctions(l);
 }
