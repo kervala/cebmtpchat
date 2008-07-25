@@ -771,11 +771,12 @@ void ChannelWidget::refreshFonts()
 
 void ChannelWidget::whoDoubleClicked(const QModelIndex &index)
 {
-    if (index.isValid())
-    {
-        const WhoUser &user = _session->whoPopulation().users()[index.row()];
-        emit whoUserDoubleClicked(user.login());
-    }
+    if (!index.isValid())
+        return;
+
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+    const WhoUser &user = _session->whoPopulation().users()[sourceModelIndex.row()];
+    emit whoUserDoubleClicked(user.login());
 }
 
 void ChannelWidget::loginChanged(const QString &oldLogin, const QString &newLogin)
@@ -786,29 +787,41 @@ void ChannelWidget::loginChanged(const QString &oldLogin, const QString &newLogi
 void ChannelWidget::finger()
 {
     QModelIndex index = _treeViewWho->selectionModel()->currentIndex();
-    if (index.isValid())
-        _session->sendCommand("finger " + _session->whoPopulation().users()[index.row()].login());
+    if (!index.isValid())
+        return;
+
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+    _session->sendCommand("finger " + _session->whoPopulation().users()[sourceModelIndex.row()].login());
 }
 
 void ChannelWidget::beep()
 {
     QModelIndex index = _treeViewWho->selectionModel()->currentIndex();
-    if (index.isValid())
-        _session->sendCommand("beep " + _session->whoPopulation().users()[index.row()].login());
+    if (!index.isValid())
+        return;
+
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+    _session->sendCommand("beep " + _session->whoPopulation().users()[sourceModelIndex.row()].login());
 }
 
 void ChannelWidget::kick()
 {
     QModelIndex index = _treeViewWho->selectionModel()->currentIndex();
-    if (index.isValid())
-        _session->sendCommand("kick " + _session->whoPopulation().users()[index.row()].login());
+    if (!index.isValid())
+        return;
+
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+    _session->sendCommand("kick " + _session->whoPopulation().users()[sourceModelIndex.row()].login());
 }
 
 void ChannelWidget::initiateTellSession()
 {
     QModelIndex index = _treeViewWho->selectionModel()->currentIndex();
-    if (index.isValid())
-        emit tellSessionAsked(_session->whoPopulation().users()[index.row()].login());
+    if (!index.isValid())
+        return;
+
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+    emit tellSessionAsked(_session->whoPopulation().users()[sourceModelIndex.row()].login());
 }
 
 void ChannelWidget::sendAFile()
@@ -817,8 +830,10 @@ void ChannelWidget::sendAFile()
     if (!index.isValid())
         return;
 
+    QModelIndex sourceModelIndex = _whoSortModel->mapToSource(index);
+
     // User which we want to send a file
-    QString nick = _session->whoPopulation().users()[index.row()].login();
+    QString nick = _session->whoPopulation().users()[sourceModelIndex.row()].login();
 
     // Pick a file
     QString fileName = QFileDialog::getOpenFileName(this);
