@@ -335,10 +335,19 @@ QWidget *DialogSettings::createTabsWidget()
     QVBoxLayout *typeLayout = new QVBoxLayout(groupBoxType);
     mainLayout->addWidget(groupBoxType);
 
-    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row"));
+    QHBoxLayout *oneRowLayout = new QHBoxLayout;
+    typeLayout->addLayout(oneRowLayout);
+    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with captions of form:"));
     connect(_radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
-    typeLayout->addWidget(_radioButtonTabsAllInOne);
+    oneRowLayout->addWidget(_radioButtonTabsAllInOne);
+    _comboBoxTabsCaptionMode = new QComboBox;
+    oneRowLayout->addWidget(_comboBoxTabsCaptionMode);
+    _comboBoxTabsCaptionMode->addItem(tr("Channel (Server)"));
+    _comboBoxTabsCaptionMode->addItem(tr("Channel"));
+    _comboBoxTabsCaptionMode->addItem(tr("Server"));
+    connect(_comboBoxTabsCaptionMode, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(currentTabCaptionModeChanged(int)));
 
     _radioButtonTabsSuper = new QRadioButton(tr("Two tabs ranges"));
     connect(_radioButtonTabsSuper, SIGNAL(clicked(bool)), this,
@@ -423,7 +432,6 @@ QWidget *DialogSettings::createTabsWidget()
     _mtwExample = new MultiTabWidget;
     mainLayout->addWidget(_mtwExample);
 
-
     QLabel *label = new QLabel("Hall");
     label->setAlignment(Qt::AlignCenter);
     _mtwExample->addWidget("Server 1", label, "Hall");
@@ -440,6 +448,8 @@ QWidget *DialogSettings::createTabsWidget()
     label->setAlignment(Qt::AlignCenter);
     _mtwExample->addWidget("Server 2", label, "Bar");
     refreshTabExample();
+
+    _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsCaptionMode);
 
     return mainWidget;
 }
@@ -752,6 +762,7 @@ void DialogSettings::getTabsControlsDatas()
     Profile::instance().tabsAllInTop = _radioButtonTabsAllInTop->isChecked();
     Profile::instance().tabsSuperOnTop = _radioButtonTabsSuperOnTop->isChecked();
     Profile::instance().tabsOnTop = _radioButtonTabsOnTop->isChecked();
+    Profile::instance().tabsCaptionMode = _comboBoxTabsCaptionMode->currentIndex();
 }
 
 void DialogSettings::getLinksControlsDatas()
@@ -910,4 +921,9 @@ void DialogSettings::reject()
     newTextSkin = _oldTextSkin;
 
     DialogConfig::reject();
+}
+
+void DialogSettings::currentTabCaptionModeChanged(int index)
+{
+    _mtwExample->setCaptionMode((MultiTabWidget::CaptionMode) index);
 }

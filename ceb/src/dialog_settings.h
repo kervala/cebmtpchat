@@ -91,6 +91,7 @@ private:
     // Tabs
     QCheckBox *_checkBoxTabsIcons;
     QStackedWidget *_stackedWidgetTabs;
+    QComboBox *_comboBoxTabsCaptionMode;
     QRadioButton *_radioButtonTabsAllInOne;
     QRadioButton *_radioButtonTabsAllInTop;
     QRadioButton *_radioButtonTabsAllInBottom;
@@ -171,6 +172,7 @@ private slots:
     void logsCustomDirClicked();
     void tabsTypeAllInOneToggled(bool checked);
     void tabsTypeSuperToggled(bool checked);
+    void currentTabCaptionModeChanged(int index);
     void refreshTabExample(bool checked = false);
     void changeAwaySeparatorColor();
     void refreshAwaySeparatorPreview();

@@ -921,6 +921,9 @@ void MainWindow::applyProfileOnMultiTabWidget()
                               MultiTabWidget::South);
     mtwMain->setSubLocation(Profile::instance().tabsOnTop ? MultiTabWidget::North :
                             MultiTabWidget::South);
+
+    // Caption mode
+    mtwMain->setCaptionMode((MultiTabWidget::CaptionMode) Profile::instance().tabsCaptionMode);
 }
 
 Session *MainWindow::getCurrentSession()
@@ -975,7 +978,7 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 //    connect(w, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, login, false);
+    mtwMain->addWidget(session->config().name(), w, login);
 
     return w;
 }
@@ -1072,7 +1075,7 @@ TransfersWidget *MainWindow::newTransfersWidget(Session *session)
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, tr("File transfers"), false);
+    mtwMain->addWidget(session->config().name(), w, tr("File transfers"));
 
     return w;
 }
@@ -1189,7 +1192,7 @@ MessageWidget *MainWindow::newMessageWidget(Session *session)
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, "Messages", false);
+    mtwMain->addWidget(session->config().name(), w, "Messages");
 
     return w;
 }

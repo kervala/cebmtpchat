@@ -88,6 +88,7 @@ void Profile::init()
     tabsSuperOnTop = true;
     tabsOnTop = false;
     tabsIcons = true;
+    tabsCaptionMode = 0;
     linksCustomBrowser = "";
     awaySeparatorLines = true;
     awaySeparatorColor = QColor(0, 225, 0);
@@ -239,6 +240,9 @@ bool Profile::load()
         tabsSuperOnTop = XmlHandler::read(tabsElem, "super_in_top", true);
         tabsOnTop = XmlHandler::read(tabsElem, "in_top", false);
         tabsIcons = XmlHandler::read(tabsElem, "icons", true);
+        tabsCaptionMode = XmlHandler::read(tabsElem, "caption_mode", 0);
+        if (tabsCaptionMode < 0 || tabsCaptionMode > 2)
+            tabsCaptionMode = 0;
     }
 
     // Links
@@ -468,6 +472,7 @@ void Profile::save() const
     XmlHandler::write(tabsElem, "super_in_top", tabsSuperOnTop);
     XmlHandler::write(tabsElem, "in_top", tabsOnTop);
     XmlHandler::write(tabsElem, "icons", tabsIcons);
+    XmlHandler::write(tabsElem, "caption_mode", tabsCaptionMode);
 
     // Links
     XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
@@ -638,6 +643,7 @@ Profile &Profile::operator=(const Profile &profile)
     tabsSuperOnTop = profile.tabsSuperOnTop;
     tabsOnTop = profile.tabsOnTop;
     tabsIcons = profile.tabsIcons;
+    tabsCaptionMode = profile.tabsCaptionMode;
     linksCustomBrowser = profile.linksCustomBrowser;
     awaySeparatorLines = profile.awaySeparatorLines;
     awaySeparatorColor = profile.awaySeparatorColor;
