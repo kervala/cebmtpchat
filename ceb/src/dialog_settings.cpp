@@ -89,7 +89,7 @@ QWidget *DialogSettings::createGeneralWidget()
     mainLayout->addWidget(frame);
 
     // Update
-    _checkBoxCheckForUpdate = new QCheckBox("Check for CeB update at startup");
+    _checkBoxCheckForUpdate = new QCheckBox(tr("Check for CeB update at startup"));
     mainLayout->addWidget(_checkBoxCheckForUpdate);
     _checkBoxCheckForUpdate->setChecked(Profile::instance().checkForUpdate);
 
@@ -124,7 +124,7 @@ QWidget *DialogSettings::createShortcutsWidget()
 
 void DialogSettings::createConnectionsNodes()
 {
-    _itemConnections = createNode(0, createConnectionsWidget(), "Connections", QIcon(":/images/connect.png"));
+    _itemConnections = createNode(0, createConnectionsWidget(), tr("Connections"), QIcon(":/images/connect.png"));
 
     for (int i = 0; i < Profile::instance().sessionConfigs().count(); i++)
     {
@@ -255,7 +255,7 @@ QWidget *DialogSettings::createLogsWidget()
 
     // Misc
     QWidget *widgetMisc = new QWidget;
-    tabWidgetLogs->addTab(widgetMisc, "Misc");
+    tabWidgetLogs->addTab(widgetMisc, tr("Misc"));
     _checkBoxLogsTimeStamp = new QCheckBox(tr("Alway timestamps"));
     QVBoxLayout *miscLayout = new QVBoxLayout(widgetMisc);
     miscLayout->addWidget(_checkBoxLogsTimeStamp);
@@ -434,19 +434,19 @@ QWidget *DialogSettings::createTabsWidget()
 
     QLabel *label = new QLabel("Hall");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget("Server 1", label, "Hall");
+    _mtwExample->addWidget(tr("Server 1"), label, "Hall");
 
     label = new QLabel("Foo");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget("Server 1", label, "Foo");
+    _mtwExample->addWidget(tr("Server 1"), label, "Foo");
 
     label = new QLabel("Hall");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget("Server 2", label, "Hall");
+    _mtwExample->addWidget(tr("Server 2"), label, "Hall");
 
     label = new QLabel("Bar");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget("Server 2", label, "Bar");
+    _mtwExample->addWidget(tr("Server 2"), label, "Bar");
     refreshTabExample();
 
     _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsCaptionMode);
@@ -576,7 +576,7 @@ QWidget *DialogSettings::createMiscWidget()
     _spinBoxKeepAlive->setFixedWidth(100);
     _spinBoxKeepAlive->setRange(1, 1000);
     keepAliveLayout->addWidget(_spinBoxKeepAlive);
-    _labelKeepAliveSeconds = new QLabel("sec");
+    _labelKeepAliveSeconds = new QLabel(tr("sec"));
     keepAliveLayout->addWidget(_labelKeepAliveSeconds);
 
     _checkBoxKeepAlive->setChecked(Profile::instance().keepAlive);
@@ -586,7 +586,7 @@ QWidget *DialogSettings::createMiscWidget()
         _spinBoxKeepAlive->setValue(60);
 
     // Tabs for...
-    groupBox = new QGroupBox("Tabs for");
+    groupBox = new QGroupBox(tr("Tabs for"));
     mainLayout->addWidget(groupBox);
     _checkBoxTabForWho = new QCheckBox(tr("who command"));
     _checkBoxTabForWall = new QCheckBox(tr("wall command"));
@@ -619,7 +619,7 @@ QWidget *DialogSettings::createConnectionsWidget()
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addStretch();
-    _pushButtonNewConnection = new QPushButton("New connection");
+    _pushButtonNewConnection = new QPushButton(tr("New connection"));
     _pushButtonNewConnection->setIcon(QIcon(":/images/add.png"));
     buttonLayout->addWidget(_pushButtonNewConnection);
     connect(_pushButtonNewConnection, SIGNAL(clicked()),
