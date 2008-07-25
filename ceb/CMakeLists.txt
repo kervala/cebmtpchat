@@ -131,6 +131,7 @@ SET(CEB_MOCH
 	src/who_user.h
 	src/who_model.h
 	src/server_group.h
+	src/message_model.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
