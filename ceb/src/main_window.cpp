@@ -489,7 +489,8 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
             this, SLOT(tellSessionAsked(const QString&)));
     connect(channelWidget, SIGNAL(showFileTransfers()), this, SLOT(showFileTransfers()));
 
-    mtwMain->addWidget(config.name(), channelWidget, "Hall");
+    mtwMain->addWidget(config.name(), channelWidget, "Hall",
+                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     // Start the session
     session->start();
@@ -924,7 +925,16 @@ void MainWindow::applyProfileOnMultiTabWidget()
                             MultiTabWidget::South);
 
     // Caption mode
-    mtwMain->setCaptionMode((MultiTabWidget::CaptionMode) Profile::instance().tabsCaptionMode);
+    for (int i = 0; i < mtwMain->count(); i++)
+    {
+        ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
+        if (!w)
+            continue;
+        if (!Profile::instance().tabsChannelCaptionMode)
+            mtwMain->changeCaptionMode(w, MultiTabWidget::LabelAndSuperLabel);
+        else
+            mtwMain->changeCaptionMode(w, MultiTabWidget::SuperLabelOnly);
+    }
 }
 
 Session *MainWindow::getCurrentSession()

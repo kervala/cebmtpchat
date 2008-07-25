@@ -60,8 +60,6 @@ public:
     inline TabLocation subLocation() const
         { return _subLocation; }
     void setSubLocation(TabLocation tabLocation);
-    CaptionMode captionMode() const { return _captionMode; }
-    void setCaptionMode(CaptionMode value);
 
     // Widget functions
     inline const QList<QString> superLabels() const
@@ -75,8 +73,8 @@ public:
     void focusWidget(QWidget *widget);
     QWidget *widgetByTabLocation(const QPoint &p) const;
 
-    void addWidget(const QString &superLabel, QWidget *widget, const QString &label);
-    void addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label);
+    void addWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode = LabelAndSuperLabel);
+    void addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label, CaptionMode captionMode = LabelAndSuperLabel);
     void removeWidget(QWidget *widget);
     void removeSuperWidgets(const QString &superLabel);
     void renameSuperLabel(const QString &oldSuperLabel, const QString &newSuperLabel);
@@ -84,6 +82,9 @@ public:
     void changeTabIcon(QWidget *widget, const QIcon &icon);
     QColor tabTextColor(QWidget *widget) const;
     void changeTabTextColor(QWidget *widget, const QColor &color);
+    void changeCaptionMode(QWidget *widget, CaptionMode captionMode);
+
+    void clear();
 
 public slots:
     void rotateCurrentPageToLeft();
@@ -94,6 +95,7 @@ private:
     {
         QString superLabel;
         QString label;
+        CaptionMode captionMode;
     };
 
     QVBoxLayout *mainLayout;
@@ -109,18 +111,16 @@ private:
     TabLocation _superLocation;
     TabLocation _subLocation;
 
-    CaptionMode _captionMode;
-
     void setTabWidgetPosition(MyTabWidget *tabWidget, TabLocation tabLocation);
     MyTabWidget *getTabWidgetBySuperLabel(const QString &superLabel) const;
     MyTabWidget *getCurrentSubTabWidget();
     MyTabWidget *getFatherTabWidget(QWidget *widget) const;
     void cleanSuperLabel(const QString &superLabel);
     // Return the QTabWidget in which the new widget is stored
-    MyTabWidget *storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label);
-    MyTabWidget *insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label);
+    MyTabWidget *storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode);
+    MyTabWidget *insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode);
 
-    QString getCaption(const WidgetInfo &widgetInfo) const;
+    QString getCaption(const WidgetInfo &info) const;
 
 private slots:
     void fatherCurrentTabChanged(int index);

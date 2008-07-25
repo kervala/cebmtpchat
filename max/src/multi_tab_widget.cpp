@@ -27,7 +27,6 @@ MultiTabWidget::MultiTabWidget(QWidget *parent) : QWidget(parent)
     _allInOneRowLocation = North;
     _superLocation = North;
     _subLocation = South;
-    _captionMode = LabelAndSuperLabel;
 
     mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(0);
@@ -87,7 +86,6 @@ void MultiTabWidget::setDisplayMode(DisplayMode displayMode)
                     QIcon tmpIcon = tabWidget->tabIcon(0);
                     QColor tmpTextColor = tabWidget->tabTextColor(0);
                     tabWidget->removeTab(0);
-                    WidgetInfo info = widget2Info[widget];
                     widget->setParent(0);
                     int index = tabWidgetMain->addTab(widget, tmpIcon, getCaption(widget2Info[widget]));
                     tabWidgetMain->setTabTextColor(index, tmpTextColor);
@@ -251,14 +249,14 @@ void MultiTabWidget::setSubLocation(TabLocation tabLocation)
     _subLocation = tabLocation;
 }
 
-void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QString &label)
+void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode)
 {
-    storeNewWidget(superLabel, widget, label);
+    storeNewWidget(superLabel, widget, label, captionMode);
 }
 
-void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label)
+void MultiTabWidget::addWidget(const QString &superLabel, QWidget *widget, const QIcon &icon, const QString &label, CaptionMode captionMode)
 {
-    MyTabWidget *tabWidget = storeNewWidget(superLabel, widget, label);
+    MyTabWidget *tabWidget = storeNewWidget(superLabel, widget, label, captionMode);
     if (tabWidget)
         tabWidget->setTabIcon(tabWidget->indexOf(widget), icon);
 }
@@ -283,7 +281,7 @@ MyTabWidget *MultiTabWidget::getTabWidgetBySuperLabel(const QString &superLabel)
     return 0;
 }
 
-MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label)
+MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode)
 {
     switch (_displayMode)
     {
@@ -299,7 +297,7 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
         }
 
         {
-            WidgetInfo info = { superLabel, label };
+            WidgetInfo info = { superLabel, label, captionMode };
             widget2Info.insert(widget, info);
         }
 
@@ -362,15 +360,15 @@ MyTabWidget *MultiTabWidget::insertNewWidget(const QString &superLabel, QWidget 
     return 0;
 }
 
-MyTabWidget *MultiTabWidget::storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label)
+MyTabWidget *MultiTabWidget::storeNewWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode)
 {
-    MyTabWidget *tabWidget = insertNewWidget(superLabel, widget, label);
+    MyTabWidget *tabWidget = insertNewWidget(superLabel, widget, label, captionMode);
     if (tabWidget)
     {
         widgets << widget;
         if (_superLabels.indexOf(superLabel) < 0)
             _superLabels << superLabel;
-        WidgetInfo info = { superLabel, label };
+        WidgetInfo info = { superLabel, label, captionMode };
         widget2Info.insert(widget, info);
     }
     return tabWidget;
@@ -714,6 +712,22 @@ void MultiTabWidget::changeTabTextColor(QWidget *widget, const QColor &color)
         tabWidget->setTabTextColor(tabWidget->indexOf(widget), color);
 }
 
+void MultiTabWidget::changeCaptionMode(QWidget *widget, CaptionMode captionMode)
+{
+    if (widgets.indexOf(widget) < 0)
+        return;
+
+    WidgetInfo &info = widget2Info[widget];
+    info.captionMode = captionMode;
+
+    if (_displayMode != AllInOneRow)
+        return;
+
+    MyTabWidget *tabWidget = getFatherTabWidget(widget);
+    if (tabWidget)
+        tabWidget->setTabText(tabWidget->indexOf(widget), getCaption(info));
+}
+
 QWidget *MultiTabWidget::focusedWidget() const
 {
     switch (_displayMode)
@@ -783,39 +797,19 @@ QWidget *MultiTabWidget::widgetByTabLocation(const QPoint &p) const
     return 0;
 }
 
-void MultiTabWidget::setCaptionMode(CaptionMode value)
+QString MultiTabWidget::getCaption(const WidgetInfo &info) const
 {
-    if (_captionMode == value)
-        return;
-
-    _captionMode = value;
-
-    if (_displayMode == Hierarchical)
-        return;
-
-    foreach (QWidget *widget, widgets)
+    switch (info.captionMode)
     {
-        const WidgetInfo &widgetInfo = widget2Info[widget];
-
-        MyTabWidget *tabWidget = getFatherTabWidget(widget);
-
-        tabWidget->setTabText(tabWidget->indexOf(widget), getCaption(widgetInfo));
+    case LabelAndSuperLabel: return info.label + " (" + info.superLabel + ")";
+    case LabelOnly: return info.label;
+    case SuperLabelOnly: return info.superLabel;
+    default: return "";
     }
 }
 
-QString MultiTabWidget::getCaption(const WidgetInfo &widgetInfo) const
+void MultiTabWidget::clear()
 {
-    switch (_captionMode)
-    {
-    case LabelAndSuperLabel:
-        return widgetInfo.label + " (" + widgetInfo.superLabel + ")";
-        break;
-    case LabelOnly:
-        return widgetInfo.label;
-        break;
-    case SuperLabelOnly:
-        return widgetInfo.superLabel;
-        break;
-    default: return "";
-    }
+    while (widgets.count())
+        removeWidget(widgets[0]);
 }

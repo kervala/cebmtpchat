@@ -165,6 +165,8 @@ private:
     QMap<QString, QString> displayToLanguage;
     QString getLanguageDisplay(const QString &language);
 
+    void fillMultiTabWidget();
+
 private slots:
     void newSessionConfig();
     void removeSessionConfig();

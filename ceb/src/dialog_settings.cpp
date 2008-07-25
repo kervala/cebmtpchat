@@ -68,7 +68,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     // Focus on first node
     treeMain->setCurrentItem(treeMain->topLevelItem(0));
 
-    resize(600, 400);
+    resize(640, 480);
 }
 
 QWidget *DialogSettings::createGeneralWidget()
@@ -337,14 +337,13 @@ QWidget *DialogSettings::createTabsWidget()
 
     QHBoxLayout *oneRowLayout = new QHBoxLayout;
     typeLayout->addLayout(oneRowLayout);
-    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with captions of form:"));
+    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with channel captions of form:"));
     connect(_radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     oneRowLayout->addWidget(_radioButtonTabsAllInOne);
     _comboBoxTabsCaptionMode = new QComboBox;
     oneRowLayout->addWidget(_comboBoxTabsCaptionMode);
     _comboBoxTabsCaptionMode->addItem(tr("Channel (Server)"));
-    _comboBoxTabsCaptionMode->addItem(tr("Channel"));
     _comboBoxTabsCaptionMode->addItem(tr("Server"));
     connect(_comboBoxTabsCaptionMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(currentTabCaptionModeChanged(int)));
@@ -432,24 +431,9 @@ QWidget *DialogSettings::createTabsWidget()
     _mtwExample = new MultiTabWidget;
     mainLayout->addWidget(_mtwExample);
 
-    QLabel *label = new QLabel("Hall");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 1"), label, "Hall");
+    fillMultiTabWidget();
 
-    label = new QLabel("Foo");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 1"), label, "Foo");
-
-    label = new QLabel("Hall");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 2"), label, "Hall");
-
-    label = new QLabel("Bar");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 2"), label, "Bar");
-    refreshTabExample();
-
-    _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsCaptionMode);
+    _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsChannelCaptionMode);
 
     return mainWidget;
 }
@@ -762,7 +746,7 @@ void DialogSettings::getTabsControlsDatas()
     Profile::instance().tabsAllInTop = _radioButtonTabsAllInTop->isChecked();
     Profile::instance().tabsSuperOnTop = _radioButtonTabsSuperOnTop->isChecked();
     Profile::instance().tabsOnTop = _radioButtonTabsOnTop->isChecked();
-    Profile::instance().tabsCaptionMode = _comboBoxTabsCaptionMode->currentIndex();
+    Profile::instance().tabsChannelCaptionMode = _comboBoxTabsCaptionMode->currentIndex();
 }
 
 void DialogSettings::getLinksControlsDatas()
@@ -927,5 +911,29 @@ void DialogSettings::reject()
 
 void DialogSettings::currentTabCaptionModeChanged(int index)
 {
-    _mtwExample->setCaptionMode((MultiTabWidget::CaptionMode) index);
+    fillMultiTabWidget();
+}
+
+void DialogSettings::fillMultiTabWidget()
+{
+    _mtwExample->clear();
+
+    QLabel *label = new QLabel("Hall");
+    label->setAlignment(Qt::AlignCenter);
+    _mtwExample->addWidget(tr("Server 1"), label, "Hall",
+                           _comboBoxTabsCaptionMode->currentIndex() ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
+
+    label = new QLabel("Foo");
+    label->setAlignment(Qt::AlignCenter);
+    _mtwExample->addWidget(tr("Server 1"), label, "Foo");
+
+    label = new QLabel("Hall");
+    label->setAlignment(Qt::AlignCenter);
+    _mtwExample->addWidget(tr("Server 2"), label, "Hall",
+                           _comboBoxTabsCaptionMode->currentIndex() ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
+
+    label = new QLabel("Bar");
+    label->setAlignment(Qt::AlignCenter);
+    _mtwExample->addWidget(tr("Server 2"), label, "Bar");
+    refreshTabExample();
 }

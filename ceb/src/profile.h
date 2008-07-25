@@ -99,7 +99,7 @@ public:
     bool tabsSuperOnTop;
     bool tabsOnTop;
     bool tabsIcons;
-    int tabsCaptionMode;
+    int tabsChannelCaptionMode;
     QString linksCustomBrowser;
     bool awaySeparatorLines;
     QColor awaySeparatorColor;
