@@ -814,6 +814,8 @@ void DialogSettings::newSessionConfig()
     newConfig.setName(Profile::instance().getUniqSessionConfigName());
     Profile::instance().addSessionConfig(newConfig);
     sessionConfigWidget->init(newConfig);
+    connect(sessionConfigWidget, SIGNAL(removeMe()),
+            this, SLOT(removeSessionConfig()));
 
     // Node
     QTreeWidgetItem *item = createNode(_itemConnections, sessionConfigWidget, newConfig.name(), QIcon(":/images/transparent.png"));

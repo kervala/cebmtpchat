@@ -104,7 +104,7 @@ void DialogConfig::deleteNode(QTreeWidgetItem *item)
 		treeMain->takeTopLevelItem(treeMain->indexOfTopLevelItem(item));
 
 	// Delete the widget
-	delete widget;
+        widget->deleteLater();
 
 	// Delete the node
 	delete item;
