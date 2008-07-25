@@ -49,6 +49,7 @@
 #include "event_script.h"
 
 #include "main_window.h"
+#include "my_textedit.h"
 
 MainWindow *MainWindow::_instance = 0;
 
@@ -378,7 +379,7 @@ void MainWindow::reconnect()
     if (session)
     {
         if (session->isConnected() &&
-            QMessageBox::question(this, tr("Confirmation"), "You seem to be already connected, do you really want to force a reconnection?",
+            QMessageBox::question(this, tr("Confirmation"), tr("You seem to be already connected, do you really want to force a reconnection?"),
                                   QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes)
             return;
 
@@ -744,7 +745,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         if (tellWidget)
         {
             if (!token.arguments()[4].compare("*Away*", Qt::CaseInsensitive))
-                mtwMain->renameLabel(tellWidget, login + " (away)");
+                mtwMain->renameLabel(tellWidget, login + " " + tr("(away)"));
             else
                 mtwMain->renameLabel(tellWidget, login);
         }
@@ -760,7 +761,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
                 QString tellLogin = tellWidget->login();
                 if (!session->whoPopulation().userForLogin(tellLogin).isValid())
 //                if (!session->users().contains(tellLogin))
-                    mtwMain->renameLabel(tellWidget, tellLogin + " (quit)");
+                    mtwMain->renameLabel(tellWidget, tellLogin + " " + tr("(quit)"));
             }
         }
         break;
@@ -805,7 +806,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         // Tell widget
         TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
         if (tellWidget)
-            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " (away)");
+            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " " + tr("(away)"));
     }
     break;
     case Token::UserLoginRenamed:
@@ -839,7 +840,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
     {
         TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
         if (tellWidget)
-            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " (quit)");
+            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " " + tr("(quit)"));
     }
     break;
     case Token::YouJoinChannel:
@@ -1192,7 +1193,7 @@ MessageWidget *MainWindow::newMessageWidget(Session *session)
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, "Messages");
+    mtwMain->addWidget(session->config().name(), w, tr("Messages"));
 
     return w;
 }
@@ -1205,20 +1206,16 @@ void MainWindow::launchWhatsNew()
 
 void MainWindow::launchBugReport()
 {
-    QString subject = "Bug report";
-    QString body = "Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\n\
-Here are the problems:\n\n* ";
+    QString body = tr("Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\nHere are the problems:\n\n* ");
 
-    QDesktopServices::openUrl(QUrl("mailto:?To=cebmtp@free.fr&subject=" + subject + "&body=" + body));
+    MyTextEdit::openUrl(QUrl("http://code.google.com/p/cebmtpchat/issues/entry?labels=Type-Defect&comment=" + body));
 }
 
 void MainWindow::launchFeatureReport()
 {
-    QString subject = "Wanted feature report";
-    QString body = "Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\n\
-Here are the missing features I'd like to see in the next version:\n\n* ";
+    QString body = tr("Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\nHere are the missing features I'd like to see in the next version:\n\n* ");
 
-    QDesktopServices::openUrl(QUrl("mailto:?To=cebmtp@free.fr&subject=" + subject + "&body=" + body));
+    MyTextEdit::openUrl(QUrl("http://code.google.com/p/cebmtpchat/issues/entry?labels=Type-Enhancement&comment=" + body));
 }
 
 void MainWindow::menuIconClicked()

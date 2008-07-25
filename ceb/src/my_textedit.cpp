@@ -46,7 +46,7 @@ QColor MyTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
 MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(false)
 {
     urlRegexp << QRegExp("http:\\/\\/\\S*");
-    urlRegexp << QRegExp("http:\\/\\/\\S*");
+    urlRegexp << QRegExp("ftp:\\/\\/\\S*");
     urlRegexp << QRegExp("https:\\/\\/\\S*");
     urlRegexp << QRegExp("www\\.\\S*");
     urlRegexp << QRegExp("mailto:\\S*");
@@ -89,7 +89,7 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
     {
         menu->addSeparator();
 
-        QMenu *filterMenu = new QMenu("Filter it!");
+        QMenu *filterMenu = new QMenu(tr("Filter it!"));
         connect(filterMenu, SIGNAL(triggered(QAction*)),
                 this, SLOT(filterTriggered(QAction*)));
 
@@ -167,7 +167,7 @@ void MyTextEdit::addString(const QString &line)
     cursor.insertText(line);
 }
 
-void MyTextEdit::myAnchorClicked(const QUrl &link)
+void MyTextEdit::openUrl(const QUrl &link)
 {
     // Custom browser?
     if (Profile::instance().linksCustomBrowser.isEmpty())
@@ -179,6 +179,11 @@ void MyTextEdit::myAnchorClicked(const QUrl &link)
         args << link.toString();
         process.startDetached(Profile::instance().linksCustomBrowser, args);
     }
+}
+
+void MyTextEdit::myAnchorClicked(const QUrl &link)
+{
+    openUrl(link);
 }
 
 void MyTextEdit::setSource(const QUrl &)
@@ -270,7 +275,7 @@ void MyTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFon
 void MyTextEdit::deleteProcLater(int exitCode)
 {
     if (exitCode)
-        QMessageBox::warning(this, "Warning", "Failed to open URL");
+        QMessageBox::warning(this, tr("Warning"), tr("Failed to open URL"));
 
     delete urlProcess;
 }
@@ -295,7 +300,7 @@ void MyTextEdit::filterTriggered(QAction *action)
     QString normalText = textCursor().selection().toPlainText();
     QDialog *dialog = new QDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->setWindowTitle(action->text() + tr(" (filter)"));
+    dialog->setWindowTitle(action->text() + " " + tr("(filter)"));
     QVBoxLayout *layout = new QVBoxLayout(dialog);
     layout->setMargin(2);
 

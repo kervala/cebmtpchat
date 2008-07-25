@@ -33,6 +33,7 @@ public:
 
     static QColor getTextBackgroundColor() { return _textBackgroundColor; }
     static void setTextBackgroundColor(const QColor &value) { _textBackgroundColor = value; }
+    static void openUrl(const QUrl &link);
 
     void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
     void addString(const QString &line, const QFont &font, const QColor &color);
