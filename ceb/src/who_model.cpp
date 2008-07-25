@@ -65,8 +65,8 @@ QVariant WhoModel::data(const QModelIndex &index, int role) const
         case 0:
         {
             QString str;
-            str = tr("Group: %1").arg(user.group() != "" ? user.group() : tr("unregistered"));
-            str += tr("\nFrom: %1").arg(user.fromHost() != "" ? user.fromHost() : tr("unknown"));
+            str = tr("User: %1").arg(user.login() != "" ? user.login() : tr("unregistered"));
+            str += tr("\nGroup: %1").arg(user.group() != "" ? user.group() : tr("unregistered"));
             return str;
         }
         default:;
