@@ -25,6 +25,8 @@
 
 class MessageModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 private:
 	QList<MessageItem> _myMessages;
 
