@@ -67,7 +67,7 @@ void ChannelWidget::init()
     QHBoxLayout *topicLayout = new QHBoxLayout(_widgetTopic);
     topicLayout->setMargin(0);
     mainLayout->addWidget(_widgetTopic);
-    QLabel *labelTopic = new QLabel("Topic: ");
+    QLabel *labelTopic = new QLabel(tr("Topic: "));
     topicLayout->addWidget(labelTopic);
     _lineEditTopic = new QLineEdit;
     _lineEditTopic->installEventFilter(this);
@@ -141,7 +141,7 @@ void ChannelWidget::init()
     whoTitleFrame->setFrameShape(QFrame::Box);
     whoTitleFrame->setFrameShadow(QFrame::Plain);
     whoLayout->addWidget(whoTitleFrame);
-    _labelWhoTitle = new QLabel("0 users");
+    _labelWhoTitle = new QLabel(tr("%n user(s)", "", 0));
     _labelWhoTitle->setAlignment(Qt::AlignHCenter);
     QVBoxLayout *whoTitleLayout = new QVBoxLayout(whoTitleFrame);
     whoTitleLayout->setMargin(0);
@@ -168,19 +168,19 @@ void ChannelWidget::init()
     _treeViewWho->setRootIsDecorated(false);
 
     // Who list context menu
-    QAction *action = new QAction("finger", 0);
+    QAction *action = new QAction(tr("finger"), 0);
     connect(action, SIGNAL(triggered()), this, SLOT(finger()));
     _treeViewWho->addAction(action);
 
-    action = new QAction("beep", 0);
+    action = new QAction(tr("beep"), 0);
     connect(action, SIGNAL(triggered()), this, SLOT(beep()));
     _treeViewWho->addAction(action);
 
-    action = new QAction("kick", 0);
+    action = new QAction(tr("kick"), 0);
     connect(action, SIGNAL(triggered()), this, SLOT(kick()));
     _treeViewWho->addAction(action);
 
-    action = new QAction("initiate a tell session", 0);
+    action = new QAction(tr("initiate a tell session"), 0);
     connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
     _treeViewWho->addAction(action);
 
@@ -538,7 +538,7 @@ void ChannelWidget::newToken(const Token &token)
 
     // Postfix things
     if (token.type() == Token::IndicatedActiveServer)
-       _textEditOutput->addNewLine(QString("Ok, let's trust you =^^=, we move to (%1:%2)").arg(token.arguments()[0]).
+       _textEditOutput->addNewLine(tr("Ok, let's trust you =^^=, we move to (%1:%2)").arg(token.arguments()[0]).
                                    arg(token.arguments()[1].trimmed()),
                                    Profile::instance().textSkin().textFont().font(), QColor(255, 0, 0));
 
@@ -586,8 +586,8 @@ void ChannelWidget::hideTopicWindow()
 
 void ChannelWidget::sessionConnecting()
 {
-   _textEditOutput->addNewLine(tr("Attempt to connect ") + _session->serverAddress() +
-                               ":" + QString::number(_session->serverPort()) + ".........",
+    _textEditOutput->addNewLine(tr("Attempt to connect %1:%2.........").arg(_session->serverAddress())
+                               .arg(_session->serverPort()),
                                Profile::instance().textSkin().textFont().font(),
                                QColor(0, 0, 200));
    _textEditOutput->scrollOutputToBottom();
