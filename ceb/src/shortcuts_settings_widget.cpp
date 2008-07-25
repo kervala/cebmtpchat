@@ -66,6 +66,9 @@ void ShortcutsSettingsWidget::treeActionFocusedChanged(const QModelIndex &curren
 
 void ShortcutsSettingsWidget::refreshShortcutSettings(const QModelIndex &index)
 {
+    if (!index.isValid())
+        return;
+
     ActionManager &actionManager = Profile::instance().actionManager;
     const Action &action = actionManager.actions()[index.row()];
     if (action.keySequence().isEmpty())
