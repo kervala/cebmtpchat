@@ -27,29 +27,29 @@
 
 class DialogConfig : public DialogBasic
 {
-	Q_OBJECT
+    Q_OBJECT
 
-private:
-	QMap<QTreeWidgetItem*, QWidget*> nodeAndWidgetMap;
+    private:
+    QMap<QTreeWidgetItem*, QWidget*> nodeAndWidgetMap;
 
 protected:
-	QTreeWidget *treeMain;
-	QStackedWidget *mainStack;
-	QLabel *labelTitle;
+    QTreeWidget *treeMain;
+    QStackedWidget *mainStack;
+    QLabel *labelTitle;
 
-	QTreeWidgetItem *createNode(QTreeWidgetItem *father, QWidget *associatedWidget,
-								const QString &label, const QIcon &icon = QIcon());
-	// Destroy the node and the associated widget
-	void deleteNode(QTreeWidgetItem *item);
+    QTreeWidgetItem *createNode(QTreeWidgetItem *father, QWidget *associatedWidget,
+                                const QString &label, const QIcon &icon = QIcon());
+    // Destroy the node and the associated widget
+    void deleteNode(QTreeWidgetItem *item);
 
-	QWidget *getWidgetByNode(QTreeWidgetItem *item);
-	QTreeWidgetItem *getNodeByWidget(QWidget *widget);
+    QWidget *getWidgetByNode(QTreeWidgetItem *item);
+    QTreeWidgetItem *getNodeByWidget(QWidget *widget);
 
 private slots:
-	void treeItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void treeItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 public:
-	DialogConfig(QWidget *parent = 0);
+    DialogConfig(QWidget *parent = 0);
 };
 
 #endif // DIALOG_CONFIG_H
