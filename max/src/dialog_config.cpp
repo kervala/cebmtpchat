@@ -43,7 +43,7 @@ DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 	frameTitle->setFrameShadow(QFrame::Sunken);
 	rightLayout->addWidget(frameTitle);
 
-	labelTitle = new QLabel("<Empty>");
+	labelTitle = new QLabel(tr("<Empty>"));
 	QVBoxLayout *titleLayout = new QVBoxLayout(frameTitle);
 	titleLayout->setMargin(0);
 	titleLayout->addWidget(labelTitle);
