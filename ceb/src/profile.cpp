@@ -24,12 +24,14 @@
 #include <QFileInfo>
 #include <QDomDocument>
 #include <QTextStream>
+#include <QTranslator>
 
 #include <xml_handler.h>
 
 #include "version.h"
 #include "global.h"
 #include "paths.h"
+#include "language_manager.h"
 
 #include "profile.h"
 
@@ -167,6 +169,18 @@ bool Profile::load()
     language = XmlHandler::read(rootElem, "language", "");
     checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
     hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
+
+    // Load the language
+    if (language != "")
+    {
+        QString fileName = LanguageManager::getLanguageFileName(language);
+        if (!fileName.isEmpty())
+        {
+            QTranslator *translator = new QTranslator(qApp);
+            translator->load(fileName);
+            qApp->installTranslator(translator);
+        }
+    }
 
     const QDomElement systemLogsElem = rootElem.firstChildElement("system_logs");
     if (!systemLogsElem.isNull())

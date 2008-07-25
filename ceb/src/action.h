@@ -42,8 +42,9 @@ public:
     QKeySequence defaultKeySequence() const { return _defaultKeySequence; }
     void resetKeySequence();
 
-    const QString &caption() const { return _caption; }
     static QString name(ActionType type);
+    static QString caption(ActionType type);
+    QString caption() const;
     static ActionType actionByName(const QString &actionName, bool *found = 0);
 
     ActionType actionType() const { return _actionType; }
@@ -52,7 +53,6 @@ private:
     ActionType _actionType;
     QKeySequence _keySequence;
     QKeySequence _defaultKeySequence;
-    QString _caption;
 };
 
 class ActionManager

@@ -23,7 +23,6 @@
 #include "my_application.h"
 #include "main_window.h"
 #include "session_manager.h"
-#include "language_manager.h"
 #include "token_display.h"
 #include "script.h"
 #include "profile.h"
@@ -40,19 +39,7 @@ int main(int argc, char **argv)
 
     a.setWindowIcon(QIcon(":/images/ceb.png"));
 
-    QTranslator translator;
-
     Profile::instance().load();
-
-    if (Profile::instance().language != "")
-    {
-        QString fileName = LanguageManager::getLanguageFileName(Profile::instance().language);
-        if (!fileName.isEmpty())
-        {
-            translator.load(fileName);
-            a.installTranslator(&translator);
-        }
-    }
 
     MainWindow::instance()->show();
 

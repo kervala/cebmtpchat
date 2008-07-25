@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QObject>
+#include <QCoreApplication>
 
 #include <xml_handler.h>
 
@@ -26,23 +26,19 @@ Action::Action(ActionType actionType)
 {
     _actionType = actionType;
 
-    // Default QKeySequence
     switch (_actionType)
     {
     case Action_RefreshWhoColumn:
         _keySequence = QKeySequence(Qt::Key_F5);
-        _caption = QT_TRANSLATE_NOOP("Action", "Refresh the who column on the current server");
         break;
     case Action_ToggleAway:
         _keySequence = QKeySequence(Qt::Key_F4);
-        _caption = QT_TRANSLATE_NOOP("Action", "Toggle the away state on the current server");
         break;
     case Action_Reconnect:
         _keySequence = QKeySequence(Qt::Key_F9);
-        _caption = QT_TRANSLATE_NOOP("Action", "Reconnect on the current server");
         break;
-    default:;
     }
+
     _defaultKeySequence = _keySequence;
 }
 
@@ -53,7 +49,24 @@ QString Action::name(ActionType type)
     case Action_RefreshWhoColumn: return "RefreshWhoColumn";
     case Action_ToggleAway: return "ToggleAway";
     case Action_Reconnect: return "Reconnect";
+    default: return "";
     }
+}
+
+QString Action::caption(ActionType type)
+{
+    switch (type)
+    {
+    case Action_RefreshWhoColumn: return QObject::tr("Refresh the who column on the current server");
+    case Action_ToggleAway: return QObject::tr("Toggle the away state on the current server");
+    case Action_Reconnect: return QObject::tr("Reconnect on the current server");
+    default: return "";
+    }
+}
+
+QString Action::caption() const
+{
+    return Action::caption(_actionType);
 }
 
 Action::ActionType Action::actionByName(const QString &actionName, bool *found)
