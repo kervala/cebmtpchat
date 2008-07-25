@@ -43,7 +43,7 @@ void SessionConfig::load(const QDomElement &rootElem)
     _address = XmlHandler::read(rootElem, "address", "");
     _port = XmlHandler::read(rootElem, "port", 4000);
     _login = XmlHandler::read(rootElem, "login", "");
-    _password = XmlHandler::read(rootElem, "password", "");
+    _password = decryptPassword(XmlHandler::read(rootElem, "password", ""));
     _furtiveMode = XmlHandler::read(rootElem, "furtive_mode", false);
     _autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
     _manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
@@ -76,7 +76,7 @@ void SessionConfig::save(QDomElement &rootElem)
     XmlHandler::write(rootElem, "address", _address);
     XmlHandler::write(rootElem, "port", _port);
     XmlHandler::write(rootElem, "login", _login);
-    XmlHandler::write(rootElem, "password", _password);
+    XmlHandler::write(rootElem, "password", cryptPassword(_password));
     XmlHandler::write(rootElem, "furtive_mode", _furtiveMode);
     XmlHandler::write(rootElem, "autoconnect", _autoconnect);
     XmlHandler::write(rootElem, "manage_backup_servers", _manageBackupServers);
@@ -116,19 +116,14 @@ void SessionConfig::save(QDomElement &rootElem)
 SessionConfig &SessionConfig::getTemplate()
 {
     SessionConfig *config = new SessionConfig;
-    config->_address = "mtpchat.melting-pot.org";
+    config->_address = "";
     config->_port = 4000;
-    config->_description = QObject::tr("Official mtp server");
+    config->_description = "";
     config->_autoconnect = false;
     config->_manageBackupServers = true;
     config->_encodingMib = 111; // ISO-8859-15
     config->_entryHeight = 30;
     config->_whoWidth = 80;
-
-    // Default backup servers
-    QList<BackupServer> backupServers;
-    backupServers << BackupServer("mtpchat.melting-pot.org", 4000);
-    backupServers << BackupServer("mtpchat.zeninc.net", 4000);
 
     return *config;
 }
@@ -147,6 +142,60 @@ BackupServer SessionConfig::nextBackupServer(const QString address, int port) co
         return _backupServers[0];
 
     return BackupServer();
+}
+
+QString SessionConfig::cryptPassword(const QString &value)
+{
+    QString val = rot13(value);
+    QString res = "";
+
+    for(int i = 0; i < val.length(); ++i)
+        res += QString("%1").arg((int)val[i].toAscii(), 2, 16);
+
+    return "*" + res;
+}
+
+QString SessionConfig::decryptPassword(const QString &value)
+{
+    if (value.left(1) != "*") return value;
+
+    QString res = "";
+
+    for(int i = 1; i < value.length(); i+=2)
+    {
+        bool ok;
+
+        QChar tmp;
+
+        res += tmp.fromAscii(value.mid(i, 2).toInt(&ok, 16));
+    }
+
+    return rot13(res);
+}
+
+QString SessionConfig::rot13(const QString &value)
+{
+    // adapted from "rot13.lua" by Benjamin "ben" Legros
+    QString res = "";
+
+    const char infLo = 'a';
+    const char supLo = 'z';
+    const char infHi = 'A';
+    const char supHi = 'Z';
+
+    for(int i = 0; i < value.length(); ++i)
+    {
+        char cbyte = value[i].toAscii();
+
+        if (cbyte >= infLo && cbyte <= supLo)
+            cbyte = (cbyte - infLo + 13) % 26 + infLo;
+        else if (cbyte >= infHi && cbyte <= supHi)
+            cbyte = (cbyte - infHi + 13) % 26 + infHi;
+
+        res += cbyte;
+    }
+
+    return res;
 }
 
 ////////////////////////////

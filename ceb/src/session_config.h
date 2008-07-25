@@ -80,6 +80,11 @@ public:
     const QList<BackupServer> backupServers() const { return _backupServers; }
     void setBackupServers(const QList<BackupServer> &servers) { _backupServers = servers; }
 
+    static QString cryptPassword(const QString &value);
+    static QString decryptPassword(const QString &value);
+
+	static QString rot13(const QString &value);
+
     BackupServer nextBackupServer(const QString address, int port) const;
 
     Properties &properties() { return _properties; }
