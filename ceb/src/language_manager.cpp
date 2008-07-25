@@ -78,7 +78,8 @@ void LanguageManager::init()
         return;
 
     languageDisplayNameInitialized = true;
-    languageDisplayNames.insert("us", "US English");
-    languageDisplayNames.insert("fr", "French");
-    languageDisplayNames.insert("pt-br", "Brazilian");
+    languageDisplayNames.insert("us", QObject::tr("US English"));
+    languageDisplayNames.insert("fr", QObject::tr("French"));
+    languageDisplayNames.insert("de", QObject::tr("German"));
+    languageDisplayNames.insert("pt-br", QObject::tr("Brazilian"));
 }
