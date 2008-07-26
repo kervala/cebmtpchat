@@ -414,7 +414,12 @@ void MainWindow::editSettings()
 {
     DialogSettings dialog(this);
     if (dialog.exec() == QDialog::Accepted)
+    {
+        // Save profile
+        Profile::instance().save();
+
         refreshProfileSettings();
+    }
 }
 
 void MainWindow::showSystemLogs()
