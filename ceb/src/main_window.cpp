@@ -407,6 +407,8 @@ void MainWindow::editConnectionConfig()
         dialogSessionConfig.get(*pConfig);
         getCurrentSession()->setConfig(*pConfig);
 
+        Profile::instance().save();
+
         // Change super label
         mtwMain->renameSuperLabel(oldSessionConfigName, pConfig->name());
     }
