@@ -29,6 +29,7 @@ public:
 	IndicatedActiveServer,
 	LoginAsked,
 	InvalidLogin,
+        OnlyRegisteredUsers,
 	PasswordAsked,
 	IncorrectPassword,
 	Welcome,

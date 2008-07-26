@@ -653,6 +653,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
             session->send(session->config().login());
         break;
     case Token::InvalidLogin:
+    case Token::OnlyRegisteredUsers:
     {
         SessionConfig newConfig = session->config();
         newConfig.setLogin("");

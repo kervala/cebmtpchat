@@ -160,6 +160,9 @@ void TokenFactory::createTokenRegularExpressions()
     _tokenRegexp.insert(Token::InvalidLogin,
                         MtpRegExp("^<"ID_RE"> Invalid login, choose another one$",
                                   "<Mtp> Invalid login, choose another one"));
+    _tokenRegexp.insert(Token::OnlyRegisteredUsers,
+                        MtpRegExp("^<"ID_RE"> Only registered users are allowed to login at the moment...$",
+                                  "<Mtp> Only registered users are allowed to login at the moment..."));
     _tokenRegexp.insert(Token::PasswordAsked,
                         MtpRegExp("<"ID_RE"> Password: $", // no ^, because there are telnet code before <Mtp> Password:
                                   "<Mtp> Password: "));
@@ -590,6 +593,8 @@ void TokenFactory::analyzeBeforeLogin(const QString &data)
 
         if (_tokenRegexp[Token::InvalidLogin].exactMatch(newData))
             doTokenAnalyzed(Token::InvalidLogin, 0, now);
+        else if (_tokenRegexp[Token::OnlyRegisteredUsers].exactMatch(newData))
+            doTokenAnalyzed(Token::OnlyRegisteredUsers, 0, now);
         else if (_tokenRegexp[Token::IncorrectPassword].exactMatch(newData))
             doTokenAnalyzed(Token::IncorrectPassword, 0, now);
         else if (_tokenRegexp[Token::Welcome].exactMatch(newData))

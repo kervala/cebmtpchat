@@ -175,6 +175,7 @@ void TextSkin::init()
         setTokenColor(Token::IndicatedActiveServer, 0, systemColor);
         setTokenColor(Token::LoginAsked, 0, systemColor);
         setTokenColor(Token::InvalidLogin, 0, QColor(200, 0, 0));
+        setTokenColor(Token::OnlyRegisteredUsers, 0, QColor(200, 0, 0));
         setTokenColor(Token::PasswordAsked, 0, systemColor);
         setTokenColor(Token::IncorrectPassword, 0, QColor(200, 0, 0));
         setTokenColor(Token::MtpSays, 0, systemColor);
