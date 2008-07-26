@@ -1004,9 +1004,12 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 
 void MainWindow::closeTabWidget()
 {
-    QWidget *w = qobject_cast<QWidget*>(sender());
-    mtwMain->removeWidget(qobject_cast<QWidget*>(sender()));
-    w->deleteLater();
+    SessionWidget *w = qobject_cast<SessionWidget*>(sender());
+    ChannelWidget *channelWidget = getChannelWidget(w->session());
+
+    mtwMain->removeWidget(w);
+    if (w)
+        mtwMain->focusWidget(channelWidget);
 }
 
 /*void MainWindow::highlightSessionWidget()
