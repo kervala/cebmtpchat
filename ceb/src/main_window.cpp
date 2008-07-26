@@ -192,9 +192,24 @@ void MainWindow::setTabColor(QWidget *widget, const QColor &color)
     mtwMain->changeTabTextColor(widget, color);
 }
 
-bool MainWindow::isTabFocused(QWidget *widget)
+bool MainWindow::isTabFocused(QWidget *widget) const
 {
     return widget == mtwMain->focusedWidget();
+}
+
+bool MainWindow::isSuperTabFocused(QWidget *widget) const
+{
+    return mtwMain->isSuperTabFocused(widget);
+}
+
+QColor MainWindow::getSuperTabColor(QWidget *widget)
+{
+    return mtwMain->superTabTextColor(widget);
+}
+
+void MainWindow::setSuperTabColor(QWidget *widget, const QColor &color)
+{
+    mtwMain->changeSuperTabTextColor(widget, color);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -1000,7 +1015,6 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     connect(w, SIGNAL(moveLeft()), mtwMain, SLOT(rotateCurrentPageToLeft()));
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
-//    connect(w, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
 
     mtwMain->addWidget(session->config().name(), w, login,
                        Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
@@ -1067,7 +1081,7 @@ CmdOutputWidget *MainWindow::getCmdOutputWidget(Session *session, const QString 
     for (int i = 0; i < mtwMain->count(); i++)
     {
         CmdOutputWidget *w = qobject_cast<CmdOutputWidget*>(mtwMain->widget(i));
-        if (w && w->session() == session && w->cmdName() == cmdName)
+        if (w && w->session() == session && !w->cmdName().compare(cmdName, Qt::CaseInsensitive))
             return w;
     }
     return 0;
@@ -1123,16 +1137,14 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
 void MainWindow::focusedWidgetChanged(QWidget *widget)
 {
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
-    if (sessionWidget)
-    {
-//        sessionWidget->focusIt();
-        sessionWidget->setStared(false);
-        if (!Profile::instance().tabsIcons)
-            mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
-        mtwMain->changeTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
-        sessionWidget->applyFirstShow();
-        return;
-    }
+    sessionWidget->setStared(false);
+    if (!Profile::instance().tabsIcons)
+        mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
+    mtwMain->changeTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
+    if (mtwMain->isSuperTabFocused(sessionWidget))
+        mtwMain->changeSuperTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
+
+    sessionWidget->applyFirstShow();
 }
 
 ChannelWidget *MainWindow::getChannelWidget(Session *session)

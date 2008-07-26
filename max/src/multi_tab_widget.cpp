@@ -712,6 +712,24 @@ void MultiTabWidget::changeTabTextColor(QWidget *widget, const QColor &color)
         tabWidget->setTabTextColor(tabWidget->indexOf(widget), color);
 }
 
+QColor MultiTabWidget::superTabTextColor(QWidget *widget) const
+{
+    MyTabWidget *superTab = getSuperTab(widget);
+    if (!superTab)
+        return QColor();
+
+    return tabWidgetMain->tabTextColor(tabWidgetMain->indexOf(superTab));
+}
+
+void MultiTabWidget::changeSuperTabTextColor(QWidget *widget, const QColor &color)
+{
+    MyTabWidget *superTab = getSuperTab(widget);
+    if (!superTab)
+        return;
+
+    tabWidgetMain->setTabTextColor(tabWidgetMain->indexOf(superTab), color);
+}
+
 void MultiTabWidget::changeCaptionMode(QWidget *widget, CaptionMode captionMode)
 {
     if (widgets.indexOf(widget) < 0)
@@ -812,4 +830,24 @@ void MultiTabWidget::clear()
 {
     while (widgets.count())
         removeWidget(widgets[0]);
+}
+
+MyTabWidget *MultiTabWidget::getSuperTab(QWidget *widget) const
+{
+    if (_displayMode != Hierarchical)
+        return 0;
+
+    if (tabWidgetCentral)
+        return 0;
+
+    return getTabWidgetBySuperLabel(widget2Info[widget].superLabel);
+}
+
+bool MultiTabWidget::isSuperTabFocused(QWidget *widget) const
+{
+    MyTabWidget *superTab = getSuperTab(widget);
+    if (!superTab)
+        return true;
+
+    return tabWidgetMain->currentWidget() == superTab;
 }

@@ -52,7 +52,10 @@ public:
     QWidget *getTab(Session *session, const QString &category, const QString &argument);
     QColor getTabColor(QWidget *widget);
     void setTabColor(QWidget *widget, const QColor &color);
-    bool isTabFocused(QWidget *widget);
+    bool isTabFocused(QWidget *widget) const;
+    bool isSuperTabFocused(QWidget *widget) const;
+    QColor getSuperTabColor(QWidget *widget);
+    void setSuperTabColor(QWidget *widget, const QColor &color);
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -338,6 +338,56 @@ namespace Script
         return 1;
     }
 
+    int isSuperTabFocused(lua_State *l)
+    {
+        int n = lua_gettop(l); // Arguments number
+        if (n != 1)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        lua_pushboolean(l, MainWindow::instance()->isSuperTabFocused(tab));
+
+        return 1;
+    }
+
+    int getSuperTabColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (!n)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        lua_pushnumber(l, MainWindow::instance()->getSuperTabColor(tab).rgba());
+
+        return 1;
+    }
+
+    int setSuperTabColor(lua_State *l)
+    {
+        int n = lua_gettop(l);
+        if (n != 2)
+            return 0;
+
+        if (!lua_islightuserdata(l, 1))
+            return 0;
+
+        QWidget *tab = (QWidget *) lua_topointer(l, 1);
+
+        QColor c = Script::colorOnStack(l, 2);
+        if (c.isValid())
+            MainWindow::instance()->setSuperTabColor(tab, c);
+
+        return 0;
+    }
+
     int getUserCount(lua_State *l)
     {
         if (!g_session)
@@ -431,6 +481,9 @@ namespace Script
         lua_register(l, "getTabColor", getTabColor);
         lua_register(l, "setTabColor", setTabColor);
         lua_register(l, "isTabFocused", isTabFocused);
+        lua_register(l, "isSuperTabFocused", isSuperTabFocused);
+        lua_register(l, "getSuperTabColor", getSuperTabColor);
+        lua_register(l, "setSuperTabColor", setSuperTabColor);
         lua_register(l, "getTextBackgroundColor", getTextBackgroundColor);
         lua_register(l, "setTextBackgroundColor", setTextBackgroundColor);
         lua_register(l, "getUserCount", getUserCount);

@@ -83,6 +83,9 @@ public:
     QColor tabTextColor(QWidget *widget) const;
     void changeTabTextColor(QWidget *widget, const QColor &color);
     void changeCaptionMode(QWidget *widget, CaptionMode captionMode);
+    bool isSuperTabFocused(QWidget *widget) const;
+    QColor superTabTextColor(QWidget *widget) const;
+    void changeSuperTabTextColor(QWidget *widget, const QColor &color);
 
     void clear();
 
@@ -121,6 +124,7 @@ private:
     MyTabWidget *insertNewWidget(const QString &superLabel, QWidget *widget, const QString &label, CaptionMode captionMode);
 
     QString getCaption(const WidgetInfo &info) const;
+    MyTabWidget *getSuperTab(QWidget *widget) const;
 
 private slots:
     void fatherCurrentTabChanged(int index);

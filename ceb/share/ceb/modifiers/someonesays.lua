@@ -23,5 +23,10 @@ function newToken()
 	tab = getTab("channel");
 	if not isTabFocused(tab) then
 		setTabColor(tab, "#0000FF")
+		if not isSuperTabFocused(tab) then
+			if getSuperTabColor(tab) ~= getColor("#FF0000", 255) then
+				setSuperTabColor(tab, "#0000FF")
+			end
+		end
 	end
 end
