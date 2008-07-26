@@ -337,14 +337,14 @@ QWidget *DialogSettings::createTabsWidget()
 
     QHBoxLayout *oneRowLayout = new QHBoxLayout;
     typeLayout->addLayout(oneRowLayout);
-    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with channel captions of form:"));
+    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with captions of form:"));
     connect(_radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     oneRowLayout->addWidget(_radioButtonTabsAllInOne);
     _comboBoxTabsCaptionMode = new QComboBox;
     oneRowLayout->addWidget(_comboBoxTabsCaptionMode);
-    _comboBoxTabsCaptionMode->addItem(tr("Channel (Server)"));
-    _comboBoxTabsCaptionMode->addItem(tr("Server"));
+    _comboBoxTabsCaptionMode->addItem(tr("complete"));
+    _comboBoxTabsCaptionMode->addItem(tr("simplified"));
     connect(_comboBoxTabsCaptionMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(currentTabCaptionModeChanged(int)));
 
@@ -918,14 +918,17 @@ void DialogSettings::fillMultiTabWidget()
 {
     _mtwExample->clear();
 
+    bool simplified = _comboBoxTabsCaptionMode->currentIndex();
+
     QLabel *label = new QLabel("Hall");
     label->setAlignment(Qt::AlignCenter);
     _mtwExample->addWidget(tr("Server 1"), label, "Hall",
-                           _comboBoxTabsCaptionMode->currentIndex() ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
+                           simplified ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     label = new QLabel("Foo");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 1"), label, "Foo");
+    _mtwExample->addWidget(tr("Server 1"), label, "Foo",
+                           simplified ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     label = new QLabel("Hall");
     label->setAlignment(Qt::AlignCenter);
@@ -934,6 +937,7 @@ void DialogSettings::fillMultiTabWidget()
 
     label = new QLabel("Bar");
     label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 2"), label, "Bar");
+    _mtwExample->addWidget(tr("Server 2"), label, "Bar",
+                           simplified ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
     refreshTabExample();
 }

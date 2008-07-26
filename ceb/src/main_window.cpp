@@ -175,9 +175,9 @@ void MainWindow::createActionShortcuts()
 
 QWidget *MainWindow::getTab(Session *session, const QString &category, const QString &argument)
 {
-    if (!category.compare("tell"))
+    if (!category.compare("tell", Qt::CaseInsensitive))
         return getTellWidget(session, argument);
-    else if (!category.compare("channel"))
+    else if (!category.compare("channel", Qt::CaseInsensitive))
         return getChannelWidget(session);
     return 0;
 }
@@ -937,13 +937,16 @@ void MainWindow::applyProfileOnMultiTabWidget()
     // Caption mode
     for (int i = 0; i < mtwMain->count(); i++)
     {
-        ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
-        if (!w)
-            continue;
+        SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->widget(i));
         if (!Profile::instance().tabsChannelCaptionMode)
             mtwMain->changeCaptionMode(w, MultiTabWidget::LabelAndSuperLabel);
         else
-            mtwMain->changeCaptionMode(w, MultiTabWidget::SuperLabelOnly);
+        {
+            if (qobject_cast<ChannelWidget*>(w))
+                mtwMain->changeCaptionMode(w, MultiTabWidget::SuperLabelOnly);
+            else
+                mtwMain->changeCaptionMode(w, MultiTabWidget::LabelOnly);
+        }
     }
 }
 
@@ -999,7 +1002,8 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 //    connect(w, SIGNAL(highlightMe()), this, SLOT(highlightSessionWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, login);
+    mtwMain->addWidget(session->config().name(), w, login,
+                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     return w;
 }
@@ -1076,7 +1080,8 @@ CmdOutputWidget *MainWindow::newCmdOutputWidget(Session *session, const QString 
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, cmdName);
+    mtwMain->addWidget(session->config().name(), w, cmdName,
+                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     return w;
 }
@@ -1099,7 +1104,8 @@ TransfersWidget *MainWindow::newTransfersWidget(Session *session)
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, tr("File transfers"));
+    mtwMain->addWidget(session->config().name(), w, tr("File transfers"),
+                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     return w;
 }
@@ -1216,7 +1222,8 @@ MessageWidget *MainWindow::newMessageWidget(Session *session)
     connect(w, SIGNAL(moveRight()), mtwMain, SLOT(rotateCurrentPageToRight()));
     connect(w, SIGNAL(closeMe()), this, SLOT(closeTabWidget()));
 
-    mtwMain->addWidget(session->config().name(), w, tr("Messages"));
+    mtwMain->addWidget(session->config().name(), w, tr("Messages"),
+                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
 
     return w;
 }
