@@ -367,6 +367,8 @@ void MainWindow::newConnection()
         dialogSessionConfig.get(newConfig);
         Profile::instance().addSessionConfig(newConfig);
 
+        Profile::instance().save();
+
         // Connect to
         connectTo(newConfig);
     }
