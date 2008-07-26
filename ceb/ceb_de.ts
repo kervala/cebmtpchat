@@ -16,22 +16,22 @@
 <context>
     <name>ChannelWidget</name>
     <message>
-        <location filename="src/channel_widget.cpp" line="590"/>
+        <location filename="src/channel_widget.cpp" line="594"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation>Versuche zu %1:%2 zu verbinden........</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="603"/>
+        <location filename="src/channel_widget.cpp" line="607"/>
         <source>successful.</source>
         <translation>erfolgreich.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="853"/>
+        <location filename="src/channel_widget.cpp" line="872"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;kein filter&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/channel_widget.cpp" line="976"/>
+        <location filename="src/channel_widget.cpp" line="995"/>
         <source>%n user(s)</source>
         <translation>
             <numerusform>%n Benutzer</numerusform>
@@ -41,32 +41,32 @@
     <message>
         <location filename="src/channel_widget.cpp" line="70"/>
         <source>Topic: </source>
-        <translation type="unfinished"></translation>
+        <translation>Topic: </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="171"/>
+        <location filename="src/channel_widget.cpp" line="177"/>
         <source>finger</source>
-        <translation type="unfinished"></translation>
+        <translation>finger</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="175"/>
+        <location filename="src/channel_widget.cpp" line="181"/>
         <source>beep</source>
-        <translation type="unfinished"></translation>
+        <translation>beep</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="179"/>
+        <location filename="src/channel_widget.cpp" line="185"/>
         <source>kick</source>
-        <translation type="unfinished"></translation>
+        <translation>kick</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="183"/>
+        <location filename="src/channel_widget.cpp" line="173"/>
         <source>initiate a tell session</source>
-        <translation type="unfinished"></translation>
+        <translation>Einen Privatchat öffnen</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="542"/>
+        <location filename="src/channel_widget.cpp" line="546"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok, vertrauen wir dir mal =^^=, wir begeben uns nach (%1:%2)</translation>
     </message>
 </context>
 <context>
@@ -124,15 +124,13 @@
     </message>
     <message>
         <location filename="ui/dialog_about.ui" line="55"/>
-        <source>(c) Garou/Mtp
-Some parts are from Ace, Drealmer, Ben and Kervala
-&quot;Mais ouais !&quot;</source>
-        <translation>(c) Garou/Mtp
-Einige Teile sind von Ace, Drealmer, Ben und Kervala
-&quot;Mais ouais !&quot;</translation>
+        <source>Developped by: Garou, Kervala
+Some LUA parts are from Ace, Drealmer and Ben</source>
+        <translation>Entwickelt von: Garou, Kervala
+Einige Teile sind von Ace, Drealmer und Ben</translation>
     </message>
     <message>
-        <location filename="ui/dialog_about.ui" line="69"/>
+        <location filename="ui/dialog_about.ui" line="68"/>
         <source>&amp;Close</source>
         <translation>&amp;Schließen</translation>
     </message>
@@ -142,7 +140,7 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
     <message>
         <location filename="../max/src/dialog_basic.cpp" line="56"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../max/src/dialog_basic.cpp" line="63"/>
@@ -160,7 +158,7 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
     <message>
         <location filename="../max/src/dialog_config.cpp" line="46"/>
         <source>&lt;Empty&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Leer&gt;</translation>
     </message>
 </context>
 <context>
@@ -344,127 +342,122 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
         <translation>Tabs neu positionieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="338"/>
-        <source>All tabs in one row</source>
-        <translation>Alle Tabs in einer Reihe</translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="343"/>
+        <location filename="src/dialog_settings.cpp" line="351"/>
         <source>Two tabs ranges</source>
         <translation>Zwei Tabreihen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="355"/>
+        <location filename="src/dialog_settings.cpp" line="363"/>
         <source>Tabs location</source>
         <translation>Tabposition</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="400"/>
+        <location filename="src/dialog_settings.cpp" line="408"/>
         <source>On the top</source>
         <translation>Oben</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="404"/>
+        <location filename="src/dialog_settings.cpp" line="412"/>
         <source>On the bottom</source>
         <translation>Unten</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="381"/>
+        <location filename="src/dialog_settings.cpp" line="389"/>
         <source>Servers tabs location</source>
         <translation>Position des Servertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="397"/>
+        <location filename="src/dialog_settings.cpp" line="405"/>
         <source>Sub-tabs location</source>
         <translation>Position der Untertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="460"/>
+        <location filename="src/dialog_settings.cpp" line="454"/>
         <source>Enable away/back separator lines</source>
         <translation>Abwesend/Anwesend Trennlinien aktivieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="472"/>
+        <location filename="src/dialog_settings.cpp" line="466"/>
         <source>Pick a color</source>
         <translation>Farbe aussuchen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="487"/>
+        <location filename="src/dialog_settings.cpp" line="481"/>
         <source>Lines length: </source>
         <translation>Zeilenlänge:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="502"/>
+        <location filename="src/dialog_settings.cpp" line="496"/>
         <source>Periodic separator string:</source>
         <translation>Periodischer Trennsatz:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="526"/>
+        <location filename="src/dialog_settings.cpp" line="520"/>
         <source>Timestamp policy</source>
         <translation>Zeitstempeleinstellungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="530"/>
+        <location filename="src/dialog_settings.cpp" line="524"/>
         <source>Classic display (server choice)</source>
         <translation>Klassische Ansicht (Serverauswahl)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="531"/>
+        <location filename="src/dialog_settings.cpp" line="525"/>
         <source>Always display timestamp</source>
         <translation>Immer Zeitstempel anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="532"/>
+        <location filename="src/dialog_settings.cpp" line="526"/>
         <source>Never display timestamp</source>
         <translation>Nie Zeitstempel anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="533"/>
+        <location filename="src/dialog_settings.cpp" line="527"/>
         <source>Display timestamp in tell tabs</source>
         <translation>Zeitstempel in Privatnachrichtentabs anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="554"/>
+        <location filename="src/dialog_settings.cpp" line="548"/>
         <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
         <translation>Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="581"/>
+        <location filename="src/dialog_settings.cpp" line="575"/>
         <source>who command</source>
         <translation>who-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="582"/>
+        <location filename="src/dialog_settings.cpp" line="576"/>
         <source>wall command</source>
         <translation>wall-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="583"/>
+        <location filename="src/dialog_settings.cpp" line="577"/>
         <source>finger command</source>
         <translation>finger-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="594"/>
+        <location filename="src/dialog_settings.cpp" line="588"/>
         <source>Copy on selection (unix style)</source>
         <translation>Bei Auswahl kopieren (unix art)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="678"/>
+        <location filename="src/dialog_settings.cpp" line="672"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="678"/>
+        <location filename="src/dialog_settings.cpp" line="672"/>
         <source>You must restart CeB to apply your language changes</source>
         <translation>Du musst CeB neu starten um die Spracheinstellungen zu übernehmen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="835"/>
+        <location filename="src/dialog_settings.cpp" line="832"/>
         <source>Choose a logs directory</source>
         <translation>Bitte ein Log-Verzeichnis auswählen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="612"/>
+        <location filename="src/dialog_settings.cpp" line="606"/>
         <source>New connection</source>
         <translation>Neue Verbindung</translation>
     </message>
@@ -474,28 +467,53 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="433"/>
+        <location filename="src/dialog_settings.cpp" line="930"/>
         <source>Server 1</source>
         <translation>Server 1</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="441"/>
+        <location filename="src/dialog_settings.cpp" line="940"/>
         <source>Server 2</source>
         <translation>Server 2</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="579"/>
+        <location filename="src/dialog_settings.cpp" line="573"/>
         <source>Tabs for</source>
         <translation>Tabs für</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="127"/>
         <source>Connections</source>
+        <translation>Verbindungen</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="563"/>
+        <source>sec</source>
+        <translation>sec</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="340"/>
+        <source>All tabs in one row with captions of form:</source>
+        <translation type="unfinished">Alle Tabs in einer Reihe mit Beschriftungen der Form:</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="346"/>
+        <source>Channel (Server)</source>
+        <translation type="obsolete">Kanal (Server)</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="347"/>
+        <source>Server</source>
+        <translation type="obsolete">Server</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="346"/>
+        <source>complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="569"/>
-        <source>sec</source>
+        <location filename="src/dialog_settings.cpp" line="347"/>
+        <source>simplified</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -540,12 +558,12 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
     <message>
         <location filename="src/dialog_update.cpp" line="31"/>
         <source>No newer version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine neuere Version.</translation>
     </message>
     <message>
         <location filename="src/dialog_update.cpp" line="61"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Schließen</translation>
+        <translation>&amp;Schließen</translation>
     </message>
 </context>
 <context>
@@ -563,7 +581,7 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
     <message>
         <location filename="../max/src/filter_widget.cpp" line="69"/>
         <source>&lt;Any&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Beliebig&gt;</translation>
     </message>
 </context>
 <context>
@@ -881,27 +899,27 @@ Einige Teile sind von Ace, Drealmer, Ben und Kervala
         <translation>Eine neue Verbindung einrichten</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="382"/>
+        <location filename="src/main_window.cpp" line="384"/>
         <source>Confirmation</source>
         <translation>Bestätigung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1076"/>
+        <location filename="src/main_window.cpp" line="1107"/>
         <source>File transfers</source>
         <translation>Dateiübertragungen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1225"/>
+        <location filename="src/main_window.cpp" line="1258"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1225"/>
+        <location filename="src/main_window.cpp" line="1258"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation>Du musst jede CeB-Instanz beenden um die Installation fortzusetzen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1206"/>
+        <location filename="src/main_window.cpp" line="1239"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -909,10 +927,16 @@ I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes,
 Here are the problems:
 
 * </source>
-        <translation type="unfinished"></translation>
+        <translation>Hallo!
+
+Ich bin sehr zufrieden (könnte ironisch gemeint sein) mit eurem &lt;Mtp&gt; Chat! client, aber manchmal nervt er mich doch.
+
+Hier die Probleme:
+
+*</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1213"/>
+        <location filename="src/main_window.cpp" line="1246"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -920,27 +944,33 @@ I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes,
 Here are the missing features I&apos;d like to see in the next version:
 
 * </source>
-        <translation type="unfinished"></translation>
+        <translation>Hallo!
+
+Ich bin sehr zufrieden (könnte ironisch gemeint sein) mit eurem &lt;Mtp&gt; Chat! client, aber manchmal nervt er mich doch.
+
+Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen würde:
+
+*</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="382"/>
+        <location filename="src/main_window.cpp" line="384"/>
         <source>You seem to be already connected, do you really want to force a reconnection?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie scheinen bereits verbunden zu sein, wollen sie wirklich einen neuaufbau der Verbindung erzwingen?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="809"/>
+        <location filename="src/main_window.cpp" line="820"/>
         <source>(away)</source>
-        <translation type="unfinished"></translation>
+        <translation>(away)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="843"/>
+        <location filename="src/main_window.cpp" line="854"/>
         <source>(quit)</source>
-        <translation type="unfinished"></translation>
+        <translation>(beenden)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1193"/>
+        <location filename="src/main_window.cpp" line="1225"/>
         <source>Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichten</translation>
     </message>
 </context>
 <context>
@@ -977,98 +1007,103 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="61"/>
-        <source>Uploading...</source>
-        <translation>Lade hoch...</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="315"/>
-        <source>(filter)</source>
-        <translation>(Filter)</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="340"/>
+        <location filename="src/my_textedit.cpp" line="341"/>
         <source>Send to chat!</source>
         <translation>An den Chat senden!</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="391"/>
-        <source>To upload a file, you need to configure an FTP URL</source>
-        <translation>Um eine Datei hochzuladen musst du eine FTP-URL einrichten</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="393"/>
-        <source>&quot;%1&quot; is not a valid FTP URL</source>
-        <translation>&quot;%1&quot; ist keine gültige FTP-URL</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="407"/>
-        <source>To upload a file, you need to configure an destination URL</source>
-        <translation>Um eine Datei hochzuladen musst du eine Empfänger-URL einrichten</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="409"/>
-        <source>&quot;%1&quot; is not a valid URL</source>
-        <translation>&quot;%1&quot; ist keine gültige URL</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="458"/>
-        <source>Unable to open the file %1: %2.</source>
-        <translation>Kann Datei %1: %2 nicht öffnen.</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="509"/>
-        <source>Unable to connect to %1. Please check that the hostname is correct.</source>
-        <translation>Kann nicht mit %1 verbinden. Bitte überprüfe, ob der Name richtig angegeben wurde.</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="541"/>
-        <source>Canceled upload of %1</source>
-        <translation>Hochladen von %1 abgebrochen</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="104"/>
+        <location filename="src/my_textedit.cpp" line="105"/>
         <source>Filter it!</source>
         <translation>Filtere es!</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="541"/>
+        <location filename="src/my_textedit.cpp" line="291"/>
+        <source>Warning</source>
+        <translation>Warnung</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="291"/>
+        <source>Failed to open URL</source>
+        <translation>Konnte die URL nicht öffnen</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="316"/>
+        <source>(filter)</source>
+        <translation>(Filter)</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="62"/>
+        <source>Uploading...</source>
+        <translation>Lade hoch...</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="392"/>
+        <source>To upload a file, you need to configure an FTP URL</source>
+        <translation>Um eine Datei hochzuladen musst du eine FTP-URL einrichten</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="394"/>
+        <source>&quot;%1&quot; is not a valid FTP URL</source>
+        <translation>&quot;%1&quot; ist keine gültige FTP-URL</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="542"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="408"/>
+        <source>To upload a file, you need to configure an destination URL</source>
+        <translation>Um eine Datei hochzuladen musst du eine Empfänger-URL einrichten</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="61"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="410"/>
+        <source>&quot;%1&quot; is not a valid URL</source>
+        <translation>&quot;%1&quot; ist keine gültige URL</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="459"/>
+        <source>Unable to open the file %1: %2.</source>
+        <translation>Kann Datei %1: %2 nicht öffnen.</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="510"/>
+        <source>Unable to connect to %1. Please check that the hostname is correct.</source>
+        <translation>Kann nicht mit %1 verbinden. Bitte überprüfe, ob der Name richtig angegeben wurde.</translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="542"/>
+        <source>Canceled upload of %1</source>
+        <translation>Hochladen von %1 abgebrochen</translation>
+    </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="552"/>
+        <location filename="src/my_textedit.cpp" line="553"/>
         <source>(%n bytes)</source>
         <translation>
             <numerusform>(%n Byte)</numerusform>
             <numerusform>(%n Byte)</numerusform>
         </translation>
     </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="290"/>
-        <source>Warning</source>
-        <translation type="unfinished">Warnung</translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="290"/>
-        <source>Failed to open URL</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="src/action.cpp" line="34"/>
+        <location filename="src/action.cpp" line="60"/>
         <source>Refresh the who column on the current server</source>
         <translation>Die Who-Spalte aktualisieren für den aktuellen Server</translation>
     </message>
     <message>
-        <location filename="src/action.cpp" line="38"/>
+        <location filename="src/action.cpp" line="61"/>
         <source>Toggle the away state on the current server</source>
         <translation>Status auf abwesend schalten für den aktuellen Server</translation>
     </message>
     <message>
-        <location filename="src/action.cpp" line="42"/>
+        <location filename="src/action.cpp" line="62"/>
         <source>Reconnect on the current server</source>
         <translation>Erneut mit dem aktuellen Server verbinden</translation>
     </message>
@@ -1468,7 +1503,7 @@ Here are the missing features I&apos;d like to see in the next version:
         <translation>Französisch</translation>
     </message>
     <message>
-        <location filename="src/language_manager.cpp" line="85"/>
+        <location filename="src/language_manager.cpp" line="84"/>
         <source>Brazilian</source>
         <translation>Brasilianisch</translation>
     </message>
@@ -1476,11 +1511,6 @@ Here are the missing features I&apos;d like to see in the next version:
         <location filename="src/language_manager.cpp" line="83"/>
         <source>German</source>
         <translation>Deutsch</translation>
-    </message>
-    <message>
-        <location filename="src/language_manager.cpp" line="84"/>
-        <source>Dutch</source>
-        <translation>Niederländisch</translation>
     </message>
 </context>
 <context>
@@ -1588,12 +1618,12 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>ShortcutsSettingsWidget</name>
     <message>
-        <location filename="src/shortcuts_settings_widget.cpp" line="132"/>
+        <location filename="src/shortcuts_settings_widget.cpp" line="135"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="src/shortcuts_settings_widget.cpp" line="83"/>
+        <location filename="src/shortcuts_settings_widget.cpp" line="86"/>
         <source>Default key: %1</source>
         <translation>Standard-Taste: %1</translation>
     </message>
@@ -1692,37 +1722,42 @@ Here are the missing features I&apos;d like to see in the next version:
     <message>
         <location filename="src/transfers_widget.cpp" line="140"/>
         <source>You have refused the sending from %1 of:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben das Senden folgender Daten von %1 abgelehnt:</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="156"/>
         <source>%1 canceled the sending of:</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hat das Senden folgender Daten abgebrochen:</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="174"/>
         <source>Downloading &lt;b&gt;%1&lt;/b&gt; from &lt;b&gt;%2&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade &lt;b&gt;%1&lt;/b&gt; von &lt;b&gt;%2&lt;/b&gt; herunter</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="271"/>
-        <source>456 KB/s</source>
-        <translation type="unfinished"></translation>
+        <source>456 KiB/s</source>
+        <translation>456 KiB/s</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="211"/>
         <source>You want to send to %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie wollen folgende Daten zu %1 senden:</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="231"/>
         <source>You have canceled the sending to %1 of:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben das senden der folgenden Daten an %1 abgebrochen:</translation>
     </message>
     <message>
         <location filename="src/transfers_widget.cpp" line="265"/>
         <source>Uploading &lt;b&gt;%1&lt;/b&gt; to &lt;b&gt;%2&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende &lt;b&gt;%1&lt;/b&gt; an &lt;b&gt;%2&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="src/transfers_widget.cpp" line="116"/>
+        <source>%1 wants to send you:</source>
+        <translation>%1 möchte ihnen folgende Daten senden:</translation>
     </message>
 </context>
 <context>
@@ -1811,17 +1846,17 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>WhoModel</name>
     <message>
-        <location filename="src/who_model.cpp" line="68"/>
+        <location filename="src/who_model.cpp" line="86"/>
         <source>User: %1</source>
         <translation>Benutzer: %1</translation>
     </message>
     <message>
-        <location filename="src/who_model.cpp" line="69"/>
+        <location filename="src/who_model.cpp" line="87"/>
         <source>unregistered</source>
         <translation>unregistriert</translation>
     </message>
     <message>
-        <location filename="src/who_model.cpp" line="69"/>
+        <location filename="src/who_model.cpp" line="87"/>
         <source>
 Group: %1</source>
         <translation>
