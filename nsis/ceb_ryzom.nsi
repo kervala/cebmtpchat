@@ -1,7 +1,7 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "ceb_ryzom_20080722.exe"
+OutFile "ceb_ryzom_20080726.exe"
 
 Var EXECCEB
 
@@ -62,35 +62,58 @@ Section "CeB" SecCeB
   
   ;ADD YOUR OWN FILES HERE...
   File "..\CeB\bin\ceb.exe"
+  
+  ;dlls
   File "..\CeB\bin\lua51.dll"
   File "..\CeB\bin\Microsoft.VC90.CRT.manifest"
   File "..\CeB\bin\msvcp90.dll"
   File "..\CeB\bin\msvcr90.dll"
-  File /r "..\CeB\bin\languages"
-  File "..\CeB\bin\whatsnew.html"
-  File "..\CeB\bin\aniro_default.xml"
-  File "..\CeB\bin\arispotle_default.xml"
-  File "..\CeB\bin\leanon_default.xml"
-  File /r "..\CeB\bin\scripts"
-  File /r "..\CeB\bin\modifiers"
 
-  SetOverwrite off
-
-  File /r "..\CeB\bin\resources"
-
-  SetOverwrite on
+	;docs
+  File "..\ceb\share\ceb\whatsnew.html"
   
+  ;default profiles
+  File "..\ceb\share\ceb\aniro_default.xml"
+  File "..\ceb\share\ceb\arispotle_default.xml"
+  File "..\ceb\share\ceb\leanon_default.xml"
+  
+  ;languages
+  SetOutPath "$INSTDIR\languages"
+  
+  File "..\ceb\share\ceb\languages\ceb_de.qm"
+  File "..\ceb\share\ceb\languages\ceb_fr.qm"
+;  File "..\ceb\share\ceb\languages\ceb_nl.qm"
+  File "..\ceb\share\ceb\languages\ceb_us.qm"
+
+	;scripts
+	SetOutPath "$INSTDIR\scripts"
+  File "..\ceb\share\ceb\scripts\calc.lua"
+
+	SetOutPath "$INSTDIR\modifiers"
+  File "..\ceb\share\ceb\modifiers\event.lua"
+  File "..\ceb\share\ceb\modifiers\manual.html"
+  File "..\ceb\share\ceb\modifiers\mtpsays.lua"
+  File "..\ceb\share\ceb\modifiers\someoneasksyou.lua"
+  File "..\ceb\share\ceb\modifiers\someonereplies.lua"
+  File "..\ceb\share\ceb\modifiers\someonesays.lua"
+  File "..\ceb\share\ceb\modifiers\someonetellsyou.lua"
+  File "..\ceb\share\ceb\modifiers\utils.lua"
+
+	;resources
+	SetOutPath "$INSTDIR\resources"
+  File "..\ceb\share\ceb\resources\notify.wav"
+
+  Delete $INSTDIR\profiles\default.xml
+
+  CreateDirectory $INSTDIR\profiles
+
+  Rename "$INSTDIR\$(ProfileFile) "$INSTDIR\profiles\default.xml"
+
   ;Store installation folder
   WriteRegStr HKCU "Software\CeB" "" $INSTDIR
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-
-  CreateDirectory $INSTDIR\profiles
-
-  Delete $INSTDIR\profiles\default.xml
-  
-  Rename $(ProfileFile) $INSTDIR\profiles\default.xml
 
   ;Ajoute une entrée dans Ajout/Supression de Programmes
   WriteRegStr HKLM "${uninstkey}" "DisplayIcon" "$INSTDIR\CeB.exe,0"
