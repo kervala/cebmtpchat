@@ -1,0 +1,34 @@
+<profile>
+ <language>en</language>
+ <keep_alive>120</keep_alive>
+ <idle>
+  <away>1</away>
+  <away_timeout>60</away_timeout>
+  <away_bypass_expressions>
+   <expression>^.?who(|( .*))$</expression>
+   <expression>^.?wall$</expression>
+   <expression>^.?history$</expression>
+   <expression>^.?set away off$</expression>
+   <expression>^.?users(|( .*))$</expression>
+   <expression>^.?get.*$</expression>
+  </away_bypass_expressions>
+  <quit>1</quit>
+  <quit_timeout>600</quit_timeout>
+ </idle>
+ <sessions>
+  <session>
+   <name>Arispotle</name>
+   <description>English technical support chat for Ryzom</description>
+   <address>chat.ryzom.com</address>
+   <port>6001</port>
+   <autoconnect>1</autoconnect>
+   <manage_backup_servers>0</manage_backup_servers>
+   <encoding_mib>111</encoding_mib>
+   <entry_height>22</entry_height>
+   <who_width>88</who_width>
+  </session>
+ </sessions>
+ <ftp_upload_url>ftp://ryzom:ryzom@www.ryzom.com</ftp_upload_url>
+ <http_download_url>ftp://ftp.ryzom.com</http_download_url>
+ <prefix_date>1</prefix_date>
+</profile>
