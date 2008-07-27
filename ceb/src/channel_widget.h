@@ -63,7 +63,7 @@ protected:
 
 private:
     QWidget *_widgetTopic;
-    QLineEdit *_lineEditTopic;
+    QTextEdit *_lineEditTopic;
     QSplitter *_splitterOutIn;
     QSplitter *_splitterOutWho;
     MyTextEdit *_textEditOutput;
