@@ -8,6 +8,6 @@ require "utils"
 function newToken()
 	tab = getTab("channel");
 	if not isTabFocused(tab) then
-		setTabColor(tab, "0000FF");
+		setTabColor(tab, "#0000FF");
 	end
 end
