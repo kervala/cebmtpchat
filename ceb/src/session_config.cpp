@@ -48,6 +48,7 @@ void SessionConfig::load(const QDomElement &rootElem)
     _autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
     _manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
     _encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
+    _topicHeight = XmlHandler::read(rootElem, "topic_height", 30);
     _entryHeight = XmlHandler::read(rootElem, "entry_height", 30);
     _whoWidth = XmlHandler::read(rootElem, "who_width", 80);
 
@@ -81,6 +82,7 @@ void SessionConfig::save(QDomElement &rootElem)
     XmlHandler::write(rootElem, "autoconnect", _autoconnect);
     XmlHandler::write(rootElem, "manage_backup_servers", _manageBackupServers);
     XmlHandler::write(rootElem, "encoding_mib", _encodingMib);
+    XmlHandler::write(rootElem, "topic_height", _topicHeight);
     XmlHandler::write(rootElem, "entry_height", _entryHeight);
     XmlHandler::write(rootElem, "who_width", _whoWidth);
 
@@ -122,6 +124,7 @@ SessionConfig &SessionConfig::getTemplate()
     config->_autoconnect = false;
     config->_manageBackupServers = true;
     config->_encodingMib = 111; // ISO-8859-15
+    config->_topicHeight = 30;
     config->_entryHeight = 30;
     config->_whoWidth = 80;
 

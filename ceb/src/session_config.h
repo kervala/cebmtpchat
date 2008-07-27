@@ -73,6 +73,8 @@ public:
     void setManageBackupServers(bool value) { _manageBackupServers = value; }
     int encodingMib() const { return _encodingMib; }
     void setEncodingMib(int value) { _encodingMib = value; }
+    int topicHeight() const { return _topicHeight; }
+    void setTopicHeight(int value) { _topicHeight = value; }
     int entryHeight() const { return _entryHeight; }
     void setEntryHeight(int value) { _entryHeight = value; }
     int whoWidth() const { return _whoWidth; }
@@ -102,6 +104,7 @@ private:
     bool _autoconnect;
     bool _manageBackupServers;
     int _encodingMib; // http://www.iana.org/assignments/character-sets
+    int _topicHeight;
     int _entryHeight;
     int _whoWidth;
     Properties _properties;

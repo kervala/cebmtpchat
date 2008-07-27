@@ -62,22 +62,6 @@ void ChannelWidget::init()
     // Keep alive timer
     connect(&_timerKeepAlive, SIGNAL(timeout()), this, SLOT(keepAliveTimeout()));
 
-    // Topic
-    _widgetTopic = new QWidget(this);
-    QHBoxLayout *topicLayout = new QHBoxLayout(_widgetTopic);
-    topicLayout->setMargin(0);
-    mainLayout->addWidget(_widgetTopic);
-    QLabel *labelTopic = new QLabel(tr("Topic: "));
-    topicLayout->addWidget(labelTopic);
-    _lineEditTopic = new QLineEdit;
-    _lineEditTopic->installEventFilter(this);
-    _lineEditTopic->setReadOnly(true);
-    QPalette palette = _lineEditTopic->palette();
-    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
-    _lineEditTopic->setPalette(palette);
-    topicLayout->addWidget(_lineEditTopic);
-    _widgetTopic->setVisible(Profile::instance().topicWindowVisible);
-
     // In/Out Splitter
     _splitterOutIn = new QSplitter;
     mainLayout->addWidget(_splitterOutIn);
@@ -85,6 +69,23 @@ void ChannelWidget::init()
     _splitterOutIn->setOrientation(Qt::Vertical);
     connect(_splitterOutIn, SIGNAL(splitterMoved(int, int)),
             this, SLOT(splitterInOutMoved(int, int)));
+
+    // Topic
+    _widgetTopic = new QWidget(this);
+    _widgetTopic->setMinimumHeight(20);
+    QHBoxLayout *topicLayout = new QHBoxLayout(_widgetTopic);
+    topicLayout->setMargin(0);
+    _splitterOutIn->addWidget(_widgetTopic);
+    QLabel *labelTopic = new QLabel(tr("Topic: "));
+    topicLayout->addWidget(labelTopic);
+    _lineEditTopic = new QTextEdit;
+    _lineEditTopic->installEventFilter(this);
+    _lineEditTopic->setReadOnly(true);
+    QPalette palette = _lineEditTopic->palette();
+    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    _lineEditTopic->setPalette(palette);
+    topicLayout->addWidget(_lineEditTopic);
+    _widgetTopic->setVisible(Profile::instance().topicWindowVisible);
 
     // Output and Who
     _splitterOutWho = new QSplitter;
@@ -168,7 +169,13 @@ void ChannelWidget::init()
     _treeViewWho->setRootIsDecorated(false);
 
     // Who list context menu
-    QAction *action = new QAction(tr("finger"), 0);
+    QAction *action;
+
+    action = new QAction(tr("initiate a tell session"), 0);
+    connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
+    _treeViewWho->addAction(action);
+
+    action = new QAction(tr("finger"), 0);
     connect(action, SIGNAL(triggered()), this, SLOT(finger()));
     _treeViewWho->addAction(action);
 
@@ -180,13 +187,9 @@ void ChannelWidget::init()
     connect(action, SIGNAL(triggered()), this, SLOT(kick()));
     _treeViewWho->addAction(action);
 
-    action = new QAction(tr("initiate a tell session"), 0);
-    connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
-    _treeViewWho->addAction(action);
-
 /* WAITING FOR FILE TRANSFER	action = new QAction("send a file...", 0);
-   connect(action, SIGNAL(triggered()), this, SLOT(sendAFile()));
-   _listWidgetWho->addAction(action);*/
+    connect(action, SIGNAL(triggered()), this, SLOT(sendAFile()));
+    _treeViewWho->addAction(action);*/
 
     palette = _treeViewWho->palette();
     palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
@@ -245,6 +248,7 @@ void ChannelWidget::init()
     initScriptComboBox();
 
     QList<int> list2;
+    list2.append(_session->config().topicHeight());
     list2.append(0);
     list2.append(_session->config().entryHeight());
     _splitterOutIn->setSizes(list2);
@@ -611,7 +615,7 @@ void ChannelWidget::sessionLogged()
 {
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->sendCommand("set client CeB Alpha " + QString(VERSION));
+    _session->sendCommand("set client CeB " + QString(VERSION));
 
     // Send first groups command
     _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);
@@ -677,11 +681,16 @@ void ChannelWidget::outputKeyPressed(const QKeyEvent &e)
     }
 }
 
-void ChannelWidget::splitterInOutMoved(int, int)
+void ChannelWidget::splitterInOutMoved(int, int id)
 {
     SessionConfig *config = Profile::instance().getSessionConfig(_session->config().name());
     if (config)
-        config->setEntryHeight(_stackedWidgetEntry->height());
+    {
+        if (id == 1)
+            config->setTopicHeight(_widgetTopic->height());
+        else
+            config->setEntryHeight(_stackedWidgetEntry->height());
+    }
 }
 
 void ChannelWidget::splitterOutWhoMoved(int, int)
