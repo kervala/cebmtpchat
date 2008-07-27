@@ -486,7 +486,7 @@ void Profile::save() const
     XmlHandler::write(tabsElem, "super_in_top", tabsSuperOnTop);
     XmlHandler::write(tabsElem, "in_top", tabsOnTop);
     XmlHandler::write(tabsElem, "icons", tabsIcons);
-    XmlHandler::write(tabsElem, "caption_mode", tabsChannelCaptionMode);
+    XmlHandler::write(tabsElem, "channel_caption_mode", tabsChannelCaptionMode);
 
     // Links
     XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
