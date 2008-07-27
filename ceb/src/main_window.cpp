@@ -1195,6 +1195,8 @@ void MainWindow::showMessages()
 {
     Session *session = getCurrentSession();
 
+    if (!session) return;
+
     // Initiate a message widget
     MessageWidget *widget = getMessageWidget(session);
     if (!widget)

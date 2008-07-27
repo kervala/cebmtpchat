@@ -18,4 +18,4 @@
 
 // YYYYMMDD format
 
-#define VERSION "20080726"
+#define VERSION "20080727"

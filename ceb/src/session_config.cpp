@@ -27,6 +27,7 @@ SessionConfig::SessionConfig()
     _port = 4000;
     _furtiveMode = false;
     _autoconnect = false;
+    _topicHeight = 30;
     _entryHeight = 30;
     _whoWidth = 80;
 }

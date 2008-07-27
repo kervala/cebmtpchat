@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="de">
+<defaultcodec></defaultcodec>
 <context>
     <name>ActionsModel</name>
     <message>
@@ -26,12 +27,12 @@
         <translation>erfolgreich.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="872"/>
+        <location filename="src/channel_widget.cpp" line="877"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;kein filter&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/channel_widget.cpp" line="995"/>
+        <location filename="src/channel_widget.cpp" line="1000"/>
         <source>%n user(s)</source>
         <translation>
             <numerusform>%n Benutzer</numerusform>
@@ -39,27 +40,27 @@
         </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="70"/>
+        <location filename="src/channel_widget.cpp" line="79"/>
         <source>Topic: </source>
         <translation>Topic: </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="177"/>
+        <location filename="src/channel_widget.cpp" line="178"/>
         <source>finger</source>
         <translation>finger</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="181"/>
+        <location filename="src/channel_widget.cpp" line="182"/>
         <source>beep</source>
         <translation>beep</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="185"/>
+        <location filename="src/channel_widget.cpp" line="186"/>
         <source>kick</source>
         <translation>kick</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="173"/>
+        <location filename="src/channel_widget.cpp" line="174"/>
         <source>initiate a tell session</source>
         <translation>Einen Privatchat öffnen</translation>
     </message>
@@ -164,337 +165,337 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>DialogSettings</name>
     <message>
-        <location filename="src/dialog_settings.cpp" line="47"/>
+        <location filename="src/dialog_settings.cpp" line="48"/>
         <source>Categories</source>
         <translation>Kategorien</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="50"/>
+        <location filename="src/dialog_settings.cpp" line="51"/>
         <source>General</source>
         <comment>Settings node</comment>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="51"/>
+        <location filename="src/dialog_settings.cpp" line="52"/>
         <source>Shortcuts</source>
         <comment>Settings node</comment>
         <translation>Verknüpfungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="53"/>
+        <location filename="src/dialog_settings.cpp" line="54"/>
         <source>Fonts</source>
         <comment>Settings node</comment>
         <translation>Schriftarten</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="54"/>
+        <location filename="src/dialog_settings.cpp" line="55"/>
         <source>Detailed</source>
         <comment>Settings node</comment>
         <translation>Detailliert</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="55"/>
+        <location filename="src/dialog_settings.cpp" line="56"/>
         <source>Logs</source>
         <comment>Settings node</comment>
         <translation>Logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="56"/>
+        <location filename="src/dialog_settings.cpp" line="57"/>
         <source>Tray</source>
         <comment>Settings node</comment>
         <translation>Ablage</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="57"/>
+        <location filename="src/dialog_settings.cpp" line="58"/>
         <source>Warningo</source>
         <comment>Settings node</comment>
         <translation>Warningo</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="58"/>
+        <location filename="src/dialog_settings.cpp" line="59"/>
         <source>Sounds</source>
         <comment>Settings node</comment>
         <translation>Töne</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="59"/>
+        <location filename="src/dialog_settings.cpp" line="60"/>
         <source>Idle</source>
         <comment>Settings node</comment>
         <translation>Abwesenheit</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="60"/>
+        <location filename="src/dialog_settings.cpp" line="61"/>
         <source>Tabs</source>
         <comment>Settings node</comment>
         <translation>Tabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="61"/>
+        <location filename="src/dialog_settings.cpp" line="62"/>
         <source>Links</source>
         <comment>Settings node</comment>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="62"/>
+        <location filename="src/dialog_settings.cpp" line="63"/>
         <source>Output</source>
         <comment>Settings node</comment>
         <translation>Ausgabe</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="63"/>
+        <location filename="src/dialog_settings.cpp" line="64"/>
         <source>Misc</source>
         <comment>Settings node</comment>
         <translation>Allgemeines</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="80"/>
+        <location filename="src/dialog_settings.cpp" line="81"/>
         <source>Application language:</source>
         <translation>Anwendungssprache:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="92"/>
+        <location filename="src/dialog_settings.cpp" line="93"/>
         <source>Check for CeB update at startup</source>
         <translation>Beim Start auf CeB-Updates überprüfen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="101"/>
+        <location filename="src/dialog_settings.cpp" line="102"/>
         <source>&lt;Default language&gt;</source>
         <translation>&lt;Standard Sprache&gt;</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="164"/>
+        <location filename="src/dialog_settings.cpp" line="165"/>
         <source>Enable logs</source>
         <translation>Logs aktivieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="174"/>
+        <location filename="src/dialog_settings.cpp" line="175"/>
         <source>Logs directory</source>
         <translation>Log-Verzeichnis</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="178"/>
+        <location filename="src/dialog_settings.cpp" line="179"/>
         <source>Default directory: </source>
         <translation>Standardverzeichnis:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="195"/>
+        <location filename="src/dialog_settings.cpp" line="196"/>
         <source>Custom directory: </source>
         <translation>Benutzerdefiniertes Verzeichnis:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="225"/>
+        <location filename="src/dialog_settings.cpp" line="226"/>
         <source>Logs file policy</source>
         <translation>Log-Datei Einstellungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="227"/>
+        <location filename="src/dialog_settings.cpp" line="228"/>
         <source>Save your logs in a file:</source>
         <translation>Speichere deine Logs in einer Datei:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="229"/>
+        <location filename="src/dialog_settings.cpp" line="230"/>
         <source>Daily</source>
         <translation>Täglich</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="231"/>
+        <location filename="src/dialog_settings.cpp" line="232"/>
         <source>Weekly (from monday to sunday)</source>
         <translation>Wöchentlich (von Montag bis Sonntag)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="233"/>
+        <location filename="src/dialog_settings.cpp" line="234"/>
         <source>Monthly</source>
         <translation>Monatlich</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="235"/>
+        <location filename="src/dialog_settings.cpp" line="236"/>
         <source>Uniq</source>
         <translation>Einmalig</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="259"/>
+        <location filename="src/dialog_settings.cpp" line="260"/>
         <source>Alway timestamps</source>
         <translation>Stets Zeitstempel</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="279"/>
+        <location filename="src/dialog_settings.cpp" line="280"/>
         <source>Enable tray icon</source>
         <translation>Symbol in der Infoleiste</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="285"/>
+        <location filename="src/dialog_settings.cpp" line="286"/>
         <source>Always visible</source>
         <translation>Immer sichtbar</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="289"/>
+        <location filename="src/dialog_settings.cpp" line="290"/>
         <source>Hide from task bar when minimized</source>
         <translation>Nicht in der Taskleiste anzeigen, wenn es minimiert ist</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="330"/>
+        <location filename="src/dialog_settings.cpp" line="331"/>
         <source>Display icons in tabs</source>
         <translation>Symbole in tabs anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="334"/>
+        <location filename="src/dialog_settings.cpp" line="335"/>
         <source>Tabs disposition</source>
         <translation>Tabs neu positionieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="351"/>
+        <location filename="src/dialog_settings.cpp" line="352"/>
         <source>Two tabs ranges</source>
         <translation>Zwei Tabreihen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="363"/>
+        <location filename="src/dialog_settings.cpp" line="364"/>
         <source>Tabs location</source>
         <translation>Tabposition</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="408"/>
+        <location filename="src/dialog_settings.cpp" line="409"/>
         <source>On the top</source>
         <translation>Oben</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="412"/>
+        <location filename="src/dialog_settings.cpp" line="413"/>
         <source>On the bottom</source>
         <translation>Unten</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="389"/>
+        <location filename="src/dialog_settings.cpp" line="390"/>
         <source>Servers tabs location</source>
         <translation>Position des Servertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="405"/>
+        <location filename="src/dialog_settings.cpp" line="406"/>
         <source>Sub-tabs location</source>
         <translation>Position der Untertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="454"/>
+        <location filename="src/dialog_settings.cpp" line="455"/>
         <source>Enable away/back separator lines</source>
         <translation>Abwesend/Anwesend Trennlinien aktivieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="466"/>
+        <location filename="src/dialog_settings.cpp" line="467"/>
         <source>Pick a color</source>
         <translation>Farbe aussuchen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="481"/>
+        <location filename="src/dialog_settings.cpp" line="482"/>
         <source>Lines length: </source>
         <translation>Zeilenlänge:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="496"/>
+        <location filename="src/dialog_settings.cpp" line="497"/>
         <source>Periodic separator string:</source>
         <translation>Periodischer Trennsatz:</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="520"/>
         <source>Timestamp policy</source>
-        <translation>Zeitstempeleinstellungen</translation>
+        <translation type="obsolete">Zeitstempeleinstellungen</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="524"/>
         <source>Classic display (server choice)</source>
-        <translation>Klassische Ansicht (Serverauswahl)</translation>
+        <translation type="obsolete">Klassische Ansicht (Serverauswahl)</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="525"/>
         <source>Always display timestamp</source>
-        <translation>Immer Zeitstempel anzeigen</translation>
+        <translation type="obsolete">Immer Zeitstempel anzeigen</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="526"/>
         <source>Never display timestamp</source>
-        <translation>Nie Zeitstempel anzeigen</translation>
+        <translation type="obsolete">Nie Zeitstempel anzeigen</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="527"/>
         <source>Display timestamp in tell tabs</source>
-        <translation>Zeitstempel in Privatnachrichtentabs anzeigen</translation>
+        <translation type="obsolete">Zeitstempel in Privatnachrichtentabs anzeigen</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="548"/>
         <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
-        <translation>Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
+        <translation type="obsolete">Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="575"/>
         <source>who command</source>
-        <translation>who-Befehl</translation>
+        <translation type="obsolete">who-Befehl</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="576"/>
         <source>wall command</source>
-        <translation>wall-Befehl</translation>
+        <translation type="obsolete">wall-Befehl</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="577"/>
         <source>finger command</source>
-        <translation>finger-Befehl</translation>
+        <translation type="obsolete">finger-Befehl</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="588"/>
         <source>Copy on selection (unix style)</source>
-        <translation>Bei Auswahl kopieren (unix art)</translation>
+        <translation type="obsolete">Bei Auswahl kopieren (unix art)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="672"/>
+        <location filename="src/dialog_settings.cpp" line="595"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="672"/>
+        <location filename="src/dialog_settings.cpp" line="595"/>
         <source>You must restart CeB to apply your language changes</source>
         <translation>Du musst CeB neu starten um die Spracheinstellungen zu übernehmen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="832"/>
+        <location filename="src/dialog_settings.cpp" line="728"/>
         <source>Choose a logs directory</source>
         <translation>Bitte ein Log-Verzeichnis auswählen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="606"/>
+        <location filename="src/dialog_settings.cpp" line="529"/>
         <source>New connection</source>
         <translation>Neue Verbindung</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="258"/>
+        <location filename="src/dialog_settings.cpp" line="259"/>
         <source>Misc</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="930"/>
+        <location filename="src/dialog_settings.cpp" line="826"/>
         <source>Server 1</source>
         <translation>Server 1</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="940"/>
+        <location filename="src/dialog_settings.cpp" line="836"/>
         <source>Server 2</source>
         <translation>Server 2</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="573"/>
         <source>Tabs for</source>
-        <translation>Tabs für</translation>
+        <translation type="obsolete">Tabs für</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="127"/>
+        <location filename="src/dialog_settings.cpp" line="128"/>
         <source>Connections</source>
         <translation>Verbindungen</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="563"/>
         <source>sec</source>
-        <translation>sec</translation>
+        <translation type="obsolete">sec</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="340"/>
+        <location filename="src/dialog_settings.cpp" line="341"/>
         <source>All tabs in one row with captions of form:</source>
-        <translation type="unfinished">Alle Tabs in einer Reihe mit Beschriftungen der Form:</translation>
+        <translation>Alle Tabs in einer Reihe mit Beschriftungen der Form:</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="346"/>
@@ -507,12 +508,12 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation type="obsolete">Server</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="346"/>
+        <location filename="src/dialog_settings.cpp" line="347"/>
         <source>complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="347"/>
+        <location filename="src/dialog_settings.cpp" line="348"/>
         <source>simplified</source>
         <translation type="unfinished"></translation>
     </message>
@@ -774,152 +775,152 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="src/main_window.cpp" line="239"/>
+        <location filename="src/main_window.cpp" line="254"/>
         <source>&amp;Connections</source>
         <translation>&amp;Verbindungen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="240"/>
+        <location filename="src/main_window.cpp" line="255"/>
         <source>&amp;Connect to</source>
         <translation>&amp;Verbinde mit</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="244"/>
+        <location filename="src/main_window.cpp" line="259"/>
         <source>&amp;Reconnect</source>
         <translation>&amp;Neu verbinden</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="245"/>
+        <location filename="src/main_window.cpp" line="260"/>
         <source>Reconnect</source>
         <translation>Wieder verbinden</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="250"/>
+        <location filename="src/main_window.cpp" line="265"/>
         <source>&amp;Close connection</source>
         <translation>Verbindung &amp;Schließen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="251"/>
+        <location filename="src/main_window.cpp" line="266"/>
         <source>Close current connection</source>
         <translation>Aktuelle Verbindung schließen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="256"/>
+        <location filename="src/main_window.cpp" line="271"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="260"/>
+        <location filename="src/main_window.cpp" line="275"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="261"/>
+        <location filename="src/main_window.cpp" line="276"/>
         <source>&amp;Search</source>
         <translation>&amp;Suchen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="264"/>
+        <location filename="src/main_window.cpp" line="279"/>
         <source>&amp;Connection configuration...</source>
         <translation>Verbindungs-&amp;Konfiguration...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="267"/>
+        <location filename="src/main_window.cpp" line="282"/>
         <source>&amp;General settings...</source>
         <translation>&amp;Allgemeine Einstellungen...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="270"/>
+        <location filename="src/main_window.cpp" line="285"/>
         <source>&amp;View</source>
         <translation>&amp;Ansicht</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="272"/>
+        <location filename="src/main_window.cpp" line="287"/>
         <source>&amp;Topic window</source>
         <translation>&amp;Themen-Fenster</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="279"/>
+        <location filename="src/main_window.cpp" line="294"/>
         <source>&amp;System logs</source>
         <translation>&amp;System-Logs</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="284"/>
+        <location filename="src/main_window.cpp" line="299"/>
         <source>Open &amp;logs directory</source>
         <translation>&amp;Log-Verzeichnis öffnen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="285"/>
+        <location filename="src/main_window.cpp" line="300"/>
         <source>&amp;Messages</source>
         <translation>&amp;Nachrichten</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="289"/>
+        <location filename="src/main_window.cpp" line="304"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="291"/>
+        <location filename="src/main_window.cpp" line="306"/>
         <source>&amp;Check for update...</source>
         <translation>Auf &amp;Updates überprüfen...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="294"/>
+        <location filename="src/main_window.cpp" line="309"/>
         <source>&amp;What&apos;s new?</source>
         <translation>&amp;Was ist neu?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="296"/>
+        <location filename="src/main_window.cpp" line="311"/>
         <source>&amp;Report a bug</source>
         <translation>&amp;Fehler melden</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="297"/>
+        <location filename="src/main_window.cpp" line="312"/>
         <source>&amp;Report a wanted feature</source>
         <translation>Eine gewünschte &amp;Erweiterung melden</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="299"/>
+        <location filename="src/main_window.cpp" line="314"/>
         <source>&amp;About...</source>
         <translation>Ü&amp;ber...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="300"/>
+        <location filename="src/main_window.cpp" line="315"/>
         <source>About &amp;Qt...</source>
         <translation>Über &amp;Qt...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="354"/>
+        <location filename="src/main_window.cpp" line="369"/>
         <source>&amp;New connection...</source>
         <translation>&amp;Neue Verbindung...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="355"/>
+        <location filename="src/main_window.cpp" line="370"/>
         <source>Create a new connection</source>
         <translation>Eine neue Verbindung einrichten</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="384"/>
+        <location filename="src/main_window.cpp" line="399"/>
         <source>Confirmation</source>
         <translation>Bestätigung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1107"/>
+        <location filename="src/main_window.cpp" line="1121"/>
         <source>File transfers</source>
         <translation>Dateiübertragungen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1258"/>
+        <location filename="src/main_window.cpp" line="1270"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1258"/>
+        <location filename="src/main_window.cpp" line="1270"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation>Du musst jede CeB-Instanz beenden um die Installation fortzusetzen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1239"/>
+        <location filename="src/main_window.cpp" line="1251"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -936,7 +937,7 @@ Hier die Probleme:
 *</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1246"/>
+        <location filename="src/main_window.cpp" line="1258"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -953,22 +954,22 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 *</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="384"/>
+        <location filename="src/main_window.cpp" line="399"/>
         <source>You seem to be already connected, do you really want to force a reconnection?</source>
         <translation>Sie scheinen bereits verbunden zu sein, wollen sie wirklich einen neuaufbau der Verbindung erzwingen?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="820"/>
+        <location filename="src/main_window.cpp" line="835"/>
         <source>(away)</source>
         <translation>(away)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="854"/>
+        <location filename="src/main_window.cpp" line="869"/>
         <source>(quit)</source>
         <translation>(beenden)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1225"/>
+        <location filename="src/main_window.cpp" line="1237"/>
         <source>Messages</source>
         <translation>Nachrichten</translation>
     </message>
@@ -1002,6 +1003,74 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <location filename="src/message_widget.cpp" line="104"/>
         <source>Re&amp;move</source>
         <translation>&amp;Entfernen</translation>
+    </message>
+</context>
+<context>
+    <name>MiscSettings</name>
+    <message>
+        <location filename="ui/misc_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation>Formular</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="22"/>
+        <source>Timestamp policy</source>
+        <translation>Zeitstempeleinstellungen</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="28"/>
+        <source>Classic display (server choice)</source>
+        <translation>Klassische Ansicht (Serverauswahl)</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="35"/>
+        <source>Always display timestamp</source>
+        <translation>Immer Zeitstempel anzeigen</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="42"/>
+        <source>Never display timestamp</source>
+        <translation>Nie Zeitstempel anzeigen</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="49"/>
+        <source>Display timestamp in tell tabs</source>
+        <translation>Zeitstempel in Privatnachrichtentabs anzeigen</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="59"/>
+        <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
+        <translation>Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="87"/>
+        <source>seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="109"/>
+        <source>Tabs for</source>
+        <translation>Tabs für</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="115"/>
+        <source>who command</source>
+        <translation>who-Befehl</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="122"/>
+        <source>wall command</source>
+        <translation>wall-Befehl</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="129"/>
+        <source>finger command</source>
+        <translation>finger-Befehl</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="139"/>
+        <source>Copy on selection (unix style)</source>
+        <translation>Bei Auswahl kopieren (unix art)</translation>
     </message>
 </context>
 <context>

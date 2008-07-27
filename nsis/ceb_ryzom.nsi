@@ -1,7 +1,9 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "ceb_ryzom_20080726.exe"
+OutFile "ceb_ryzom_20080727.exe"
+
+RequestExecutionLevel admin
 
 Var EXECCEB
 
@@ -62,16 +64,16 @@ Section "CeB" SecCeB
   
   ;ADD YOUR OWN FILES HERE...
   File "..\CeB\bin\ceb.exe"
-  
+
   ;dlls
   File "..\CeB\bin\lua51.dll"
   File "..\CeB\bin\Microsoft.VC90.CRT.manifest"
   File "..\CeB\bin\msvcp90.dll"
   File "..\CeB\bin\msvcr90.dll"
 
-	;docs
+  ;docs
   File "..\ceb\share\ceb\whatsnew.html"
-  
+
   ;default profiles
   File "..\ceb\share\ceb\aniro_default.xml"
   File "..\ceb\share\ceb\arispotle_default.xml"
@@ -84,12 +86,13 @@ Section "CeB" SecCeB
   File "..\ceb\share\ceb\languages\ceb_fr.qm"
 ;  File "..\ceb\share\ceb\languages\ceb_nl.qm"
   File "..\ceb\share\ceb\languages\ceb_us.qm"
+;  File "..\ceb\share\ceb\languages\ceb_pt-br.qm"
 
-	;scripts
-	SetOutPath "$INSTDIR\scripts"
+  ;scripts
+  SetOutPath "$INSTDIR\scripts"
   File "..\ceb\share\ceb\scripts\calc.lua"
 
-	SetOutPath "$INSTDIR\modifiers"
+  SetOutPath "$INSTDIR\modifiers"
   File "..\ceb\share\ceb\modifiers\event.lua"
   File "..\ceb\share\ceb\modifiers\manual.html"
   File "..\ceb\share\ceb\modifiers\mtpsays.lua"
@@ -99,8 +102,8 @@ Section "CeB" SecCeB
   File "..\ceb\share\ceb\modifiers\someonetellsyou.lua"
   File "..\ceb\share\ceb\modifiers\utils.lua"
 
-	;resources
-	SetOutPath "$INSTDIR\resources"
+  ;resources
+  SetOutPath "$INSTDIR\resources"
   File "..\ceb\share\ceb\resources\notify.wav"
 
   Delete $INSTDIR\profiles\default.xml
@@ -169,7 +172,6 @@ SectionEnd
 Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "execute.ini" 
-
 FunctionEnd
 
 LangString TEXT_IO_TITLE ${LANG_ENGLISH} "Options after install"
