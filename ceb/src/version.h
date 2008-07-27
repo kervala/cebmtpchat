@@ -19,3 +19,11 @@
 // YYYYMMDD format
 
 #define VERSION "20080727"
+
+#ifdef _RYZOM
+    #define UPDATE_URL "chat.ryzom.com"
+    #define UPDATE_FILE "ceb_ryzom_"
+#else
+    #define UPDATE_URL "cebmtp.free.fr"
+    #define UPDATE_FILE "ceb_"
+#endif

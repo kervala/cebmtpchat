@@ -19,6 +19,7 @@
 #include <QFrame>
 
 #include "dialog_update.h"
+#include "version.h"
 
 DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent)
 {
@@ -87,7 +88,7 @@ void DialogUpdate::newVersion(const QDate &date)
     QPalette palette = labelUpdate->palette();
     palette.setColor(QPalette::Foreground, Qt::blue);
     labelUpdate->setPalette(palette);
-    fileName = "CeB_alpha_" + date.toString("MMddyyyy") + ".exe";
+    fileName = UPDATE_FILE + date.toString("yyyyMMdd") + ".exe";
     bUpdate->setEnabled(true);
 }
 

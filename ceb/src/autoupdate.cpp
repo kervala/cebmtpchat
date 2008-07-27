@@ -26,7 +26,7 @@
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
     fileDownload = 0;
-    siteUrl = "cebmtp.free.fr";
+    siteUrl = UPDATE_URL;
     connect(&httpCheck, SIGNAL(dataReadProgress(int, int)), this, SLOT(checkDataReadProgress(int, int)));
     connect(&httpFile, SIGNAL(dataReadProgress(int, int)), this, SLOT(fileDataReadProgress(int, int)));
     connect(&httpFile, SIGNAL(requestFinished(int, bool)), this, SLOT(fileRequestFinished(int, bool)));
@@ -40,19 +40,22 @@ AutoUpdate::~AutoUpdate()
 
 void AutoUpdate::checkDataReadProgress(int done, int total)
 {
-    if (done == total && total == 8)
+    QString dateFormat = "yyyyMMdd";
+
+    if (done == total && total >= dateFormat.length())
     {
-        char *version = new char[total + 1];
-        version[total] = '\0';
-        httpCheck.read(version, total);
+        char *version = new char[dateFormat.length() + 1];
+        version[dateFormat.length()] = '\0';
+        httpCheck.read(version, dateFormat.length());
         bool b;
         int oldVer = QString(VERSION).toInt(&b);
         int ver = QString(version).toInt(&b);
         if (b && ver > oldVer)
         {
-            QDate date = QDate::fromString(QString(version), "yyyyMMdd");
+            QDate date = QDate::fromString(QString(version), dateFormat);
             emit newVersion(date);
         }
+        delete [] version;
     }
 }
 
