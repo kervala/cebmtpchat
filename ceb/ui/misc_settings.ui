@@ -1,0 +1,160 @@
+<ui version="4.0" >
+ <class>MiscSettings</class>
+ <widget class="QWidget" name="MiscSettings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>410</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3" >
+   <property name="margin" >
+    <number>2</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupBoxTimeStampPolicy" >
+     <property name="title" >
+      <string>Timestamp policy</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" colspan="2" >
+       <widget class="QRadioButton" name="radioButtonTimestampClassic" >
+        <property name="text" >
+         <string>Classic display (server choice)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <widget class="QRadioButton" name="radioButtonTimestampAlways" >
+        <property name="text" >
+         <string>Always display timestamp</string>
+        </property>
+       </widget>
+      </item>
+      <item rowspan="2" row="2" column="0" colspan="2" >
+       <widget class="QRadioButton" name="radioButtonTimestampNever" >
+        <property name="text" >
+         <string>Never display timestamp</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="checkBoxTimestampInTells" >
+        <property name="text" >
+         <string>Display timestamp in tell tabs</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QCheckBox" name="checkBoxKeepAlive" >
+     <property name="text" >
+      <string>Keep Alive (the "date" command is sent frequently)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <widget class="QWidget" native="1" name="widget" >
+       <property name="minimumSize" >
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBoxKeepAlive" />
+     </item>
+     <item>
+      <widget class="QLabel" name="labelKeepAlive" >
+       <property name="text" >
+        <string>seconds</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0" >
+    <widget class="QGroupBox" name="groupBoxTabs" >
+     <property name="title" >
+      <string>Tabs for</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" >
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="checkBoxTabForWho" >
+        <property name="text" >
+         <string>who command</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QCheckBox" name="checkBoxTabForWall" >
+        <property name="text" >
+         <string>wall command</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="checkBoxTabForFinger" >
+        <property name="text" >
+         <string>finger command</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" >
+    <widget class="QCheckBox" name="checkBoxCopyOnSelection" >
+     <property name="text" >
+      <string>Copy on selection (unix style)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" >
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>34</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

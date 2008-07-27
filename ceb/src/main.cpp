@@ -36,8 +36,6 @@ int main(int argc, char **argv)
     a.setOrganizationName("http://www.melting-pot.org");
     a.setOrganizationName("MeltingPot");
 
-    Q_INIT_RESOURCE(max);
-
     TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 
     a.setWindowIcon(QIcon(":/images/ceb.png"));

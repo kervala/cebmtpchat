@@ -36,7 +36,7 @@
 #include "profile.h"
 
 Profile *Profile::_instance = 0;
-const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$";
+const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$" << "^get .* group$";
 
 Profile &Profile::instance()
 {

@@ -37,6 +37,7 @@
 #include "detailed_fonts_settings_widget.h"
 #include "links_settings_widget.h"
 #include "shortcuts_settings_widget.h"
+#include "misc_settings_widget.h"
 #include "logger.h"
 
 #include "dialog_settings.h"
@@ -60,7 +61,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     createNode(0, createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
     createNode(0, _linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/links.png"));
     createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, _miscWidget = createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
 
     // Save old things
     _oldTextSkin = Profile::instance().textSkin();
@@ -68,7 +69,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     // Focus on first node
     treeMain->setCurrentItem(treeMain->topLevelItem(0));
 
-    resize(640, 480);
+    resize(662, 479);
 }
 
 QWidget *DialogSettings::createGeneralWidget()
@@ -513,87 +514,9 @@ QWidget *DialogSettings::createOutputWidget()
 
 QWidget *DialogSettings::createMiscWidget()
 {
-    QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
-    mainLayout->setMargin(2);
-
-    QGroupBox *groupBox = new QGroupBox(tr("Timestamp policy"));
-    QVBoxLayout *timeStampLayout = new QVBoxLayout(groupBox);
-    mainLayout->addWidget(groupBox);
-
-    _radioButtonTimeStampClassic = new QRadioButton(tr("Classic display (server choice)"));
-    _radioButtonTimeStampAlways = new QRadioButton(tr("Always display timestamp"));
-    _radioButtonTimeStampNever = new QRadioButton(tr("Never display timestamp"));
-    _checkBoxTimeStampInTell = new QCheckBox(tr("Display timestamp in tell tabs"));
-    timeStampLayout->addWidget(_radioButtonTimeStampClassic);
-    timeStampLayout->addWidget(_radioButtonTimeStampAlways);
-    timeStampLayout->addWidget(_radioButtonTimeStampNever);
-    timeStampLayout->addWidget(_checkBoxTimeStampInTell);
-
-    switch(Profile::instance().timeStampPolicy)
-    {
-    case Profile::Policy_Classic:
-        _radioButtonTimeStampClassic->setChecked(true);
-        break;
-    case Profile::Policy_Always:
-        _radioButtonTimeStampAlways->setChecked(true);
-        break;
-    case Profile::Policy_Never:
-        _radioButtonTimeStampNever->setChecked(true);
-        break;
-    default:;
-    }
-    _checkBoxTimeStampInTell->setChecked(Profile::instance().timeStampInTellTabs);
-
-    _checkBoxKeepAlive = new QCheckBox(tr("Keep Alive (the \"date\" command is sent frequently)"));
-    mainLayout->addWidget(_checkBoxKeepAlive);
-    connect(_checkBoxKeepAlive, SIGNAL(stateChanged(int)),
-            this, SLOT(keepAliveChecked(int)));
-
-    QHBoxLayout *keepAliveLayout = new QHBoxLayout;
-    mainLayout->addLayout(keepAliveLayout);
-
-    QSpacerItem *spacer = new QSpacerItem(20, 0, QSizePolicy::Fixed,
-                                          QSizePolicy::Fixed);
-    keepAliveLayout->addItem(spacer);
-    _spinBoxKeepAlive = new QSpinBox;
-    _spinBoxKeepAlive->setFixedWidth(100);
-    _spinBoxKeepAlive->setRange(1, 1000);
-    keepAliveLayout->addWidget(_spinBoxKeepAlive);
-    _labelKeepAliveSeconds = new QLabel(tr("sec"));
-    keepAliveLayout->addWidget(_labelKeepAliveSeconds);
-
-    _checkBoxKeepAlive->setChecked(Profile::instance().keepAlive);
-    if (_checkBoxKeepAlive->isChecked())
-        _spinBoxKeepAlive->setValue(Profile::instance().keepAlive);
-    else
-        _spinBoxKeepAlive->setValue(60);
-
-    // Tabs for...
-    groupBox = new QGroupBox(tr("Tabs for"));
-    mainLayout->addWidget(groupBox);
-    _checkBoxTabForWho = new QCheckBox(tr("who command"));
-    _checkBoxTabForWall = new QCheckBox(tr("wall command"));
-    _checkBoxTabForFinger = new QCheckBox(tr("finger command"));
-
-    QVBoxLayout *tabsForLayout = new QVBoxLayout(groupBox);
-    tabsForLayout->addWidget(_checkBoxTabForWho);
-    tabsForLayout->addWidget(_checkBoxTabForWall);
-    tabsForLayout->addWidget(_checkBoxTabForFinger);
-
-    _checkBoxTabForWho->setChecked(Profile::instance().tabForWho);
-    _checkBoxTabForWall->setChecked(Profile::instance().tabForWall);
-    _checkBoxTabForFinger->setChecked(Profile::instance().tabForFinger);
-
-    _checkBoxCopyOnSelection = new QCheckBox(tr("Copy on selection (unix style)"));
-    mainLayout->addWidget(_checkBoxCopyOnSelection);
-    _checkBoxCopyOnSelection->setChecked(Profile::instance().copyOnSelection);
-
-    // End spacer
-    spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    mainLayout->addItem(spacer);
-
-    return mainWidget;
+    MiscSettingsWidget *widget = new MiscSettingsWidget;
+    widget->applyProfile(Profile::instance());
+    return widget;
 }
 
 QWidget *DialogSettings::createConnectionsWidget()
@@ -765,28 +688,7 @@ void DialogSettings::getOutputControlsDatas()
 
 void DialogSettings::getMiscControlsDatas()
 {
-    // Time stamp
-    if (_radioButtonTimeStampClassic->isChecked())
-        Profile::instance().timeStampPolicy = Profile::Policy_Classic;
-    else if (_radioButtonTimeStampAlways->isChecked())
-        Profile::instance().timeStampPolicy = Profile::Policy_Always;
-    else if (_radioButtonTimeStampNever->isChecked())
-        Profile::instance().timeStampPolicy = Profile::Policy_Never;
-
-    Profile::instance().timeStampInTellTabs = _checkBoxTimeStampInTell->isChecked();
-
-    // Keep alive
-    if (_checkBoxKeepAlive->isChecked())
-        Profile::instance().keepAlive = _spinBoxKeepAlive->value();
-    else
-        Profile::instance().keepAlive = 0;
-
-    // Tabs for...
-    Profile::instance().tabForWho = _checkBoxTabForWho->isChecked();
-    Profile::instance().tabForWall = _checkBoxTabForWall->isChecked();
-    Profile::instance().tabForFinger = _checkBoxTabForFinger->isChecked();
-
-    Profile::instance().copyOnSelection = _checkBoxCopyOnSelection->isChecked();
+    qobject_cast<MiscSettingsWidget*>(_miscWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::newSessionConfig()
@@ -819,12 +721,6 @@ void DialogSettings::removeSessionConfig()
 
     // Focus on the connections node
     treeMain->setCurrentItem(_itemConnections);
-}
-
-void DialogSettings::keepAliveChecked(int state)
-{
-    _spinBoxKeepAlive->setEnabled(state == Qt::Checked);
-    _labelKeepAliveSeconds->setEnabled(state == Qt::Checked);
 }
 
 void DialogSettings::logsCustomDirClicked()

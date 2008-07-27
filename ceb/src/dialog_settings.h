@@ -113,18 +113,9 @@ private:
     QLineEdit *_lineEditAwaySeparatorPeriod;
 
     // Misc
-    QRadioButton *_radioButtonTimeStampClassic;
-    QRadioButton *_radioButtonTimeStampAlways;
-    QRadioButton *_radioButtonTimeStampNever;
-    QCheckBox *_checkBoxTimeStampInTell;
-    QCheckBox *_checkBoxKeepAlive;
-    QSpinBox *_spinBoxKeepAlive;
-    QLabel *_labelKeepAliveSeconds;
-    QCheckBox *_checkBoxTabForWho;
-    QCheckBox *_checkBoxTabForWall;
-    QCheckBox *_checkBoxTabForFinger;
-    QCheckBox *_checkBoxCopyOnSelection;
+    QWidget *_miscWidget;
 
+    // Creation functions
     QWidget *createGeneralWidget();
     QWidget *createShortcutsWidget();
     void createConnectionsNodes();
@@ -148,7 +139,7 @@ private:
     // Get datas
     void getGeneralControlsDatas();
     void getShortcutsControlsDatas();
-    void getConnectionsControlsDatas(); // Collect all datas concerning connections
+    void getConnectionsControlsDatas(); //!< Collect all datas concerning connections
     void getLogsControlsDatas();
     void getFontsControlsDatas();
     void getDetailedFontsControlsDatas();
@@ -170,7 +161,6 @@ private:
 private slots:
     void newSessionConfig();
     void removeSessionConfig();
-    void keepAliveChecked(int state);
     void logsCustomDirClicked();
     void tabsTypeAllInOneToggled(bool checked);
     void tabsTypeSuperToggled(bool checked);

@@ -72,6 +72,7 @@ SET(CEB_SRCS
 	src/who_user.cpp
 	src/who_model.cpp
 	src/server_group.cpp
+	src/misc_settings_widget.cpp
 )
 
 SET(CEB_UIS
@@ -84,6 +85,7 @@ SET(CEB_UIS
 	ui/links_settings.ui
 	ui/shortcuts_settings.ui
 	ui/dialog_about.ui
+	ui/misc_settings.ui
 )
 
 QT4_WRAP_UI(CEB_UIS_H ${CEB_UIS})
@@ -132,6 +134,7 @@ SET(CEB_MOCH
 	src/who_model.h
 	src/server_group.h
 	src/message_model.h
+	src/misc_settings_widget.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
