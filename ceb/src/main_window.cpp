@@ -1137,6 +1137,7 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
 void MainWindow::focusedWidgetChanged(QWidget *widget)
 {
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
+    if (!sessionWidget) return;
     sessionWidget->setStared(false);
     if (!Profile::instance().tabsIcons)
         mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
