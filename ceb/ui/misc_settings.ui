@@ -5,17 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>410</height>
+    <width>419</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
-   <property name="margin" >
-    <number>2</number>
-   </property>
    <item row="0" column="0" >
     <widget class="QGroupBox" name="groupBoxTimeStampPolicy" >
      <property name="title" >
@@ -32,18 +29,18 @@
       <item row="1" column="0" colspan="2" >
        <widget class="QRadioButton" name="radioButtonTimestampAlways" >
         <property name="text" >
-         <string>Always display timestamp</string>
+         <string>Always display timestamp in</string>
         </property>
        </widget>
       </item>
-      <item rowspan="2" row="2" column="0" colspan="2" >
+      <item row="2" column="0" colspan="2" >
        <widget class="QRadioButton" name="radioButtonTimestampNever" >
         <property name="text" >
          <string>Never display timestamp</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" >
+      <item row="3" column="0" colspan="2" >
        <widget class="QCheckBox" name="checkBoxTimestampInTells" >
         <property name="text" >
          <string>Display timestamp in tell tabs</string>
@@ -148,7 +145,7 @@
      <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
-       <height>34</height>
+       <height>110</height>
       </size>
      </property>
     </spacer>

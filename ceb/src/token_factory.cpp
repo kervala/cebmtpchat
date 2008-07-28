@@ -628,15 +628,9 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
         if (newData.indexOf(QChar(7)) >= 0) // Beep char
             newData = newData.replace(QChar(7), "");
 
-        // If away, get the time stamp
-        if (_away)
-        {
-            if (_timeRegexp.exactMatch(newData))
-            {
-                timeStamp = QTime::fromString(_timeRegexp.cap(1), "hh:mm:ss");
-                newData = _timeRegexp.cap(2);
-            }
-        }
+        // If away, remove the timestamp
+        if (_away && _timeRegexp.exactMatch(newData))
+            newData = _timeRegexp.cap(2);
 
         bool found = false;
         Token::Type token;
