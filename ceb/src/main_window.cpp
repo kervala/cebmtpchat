@@ -223,6 +223,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // Hide tray
     trayIcon->hide();
 
+    // Close all sessions
+    SessionManager::instance().free();
+
     event->accept();
 }
 
