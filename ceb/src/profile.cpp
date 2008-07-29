@@ -57,6 +57,9 @@ void Profile::init()
     mainHeight = -1;
     mainLeft = -1;
     mainTop = -1;
+#ifdef Q_OS_WIN32
+    keepAboveOtherWindows = false;
+#endif
     language = "";
     checkForUpdate = true;
     hideTabsForOne = true;
@@ -166,6 +169,9 @@ bool Profile::load()
     mainHeight = XmlHandler::read(rootElem, "main_height", -1);
     mainLeft = XmlHandler::read(rootElem, "main_left", -1);
     mainTop = XmlHandler::read(rootElem, "main_top", -1);
+#ifdef Q_OS_WIN32
+    keepAboveOtherWindows = XmlHandler::read(rootElem, "keep_above", false);
+#endif
     language = XmlHandler::read(rootElem, "language", "");
     checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
     hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
@@ -418,6 +424,9 @@ void Profile::save() const
     XmlHandler::write(rootElem, "main_height", mainHeight);
     XmlHandler::write(rootElem, "main_left", mainLeft);
     XmlHandler::write(rootElem, "main_top", mainTop);
+#ifdef Q_OS_WIN32
+    XmlHandler::write(rootElem, "keep_above", keepAboveOtherWindows);
+#endif
     XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
     XmlHandler::write(rootElem, "language", language);
     XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
@@ -623,6 +632,9 @@ Profile &Profile::operator=(const Profile &profile)
     mainHeight = profile.mainHeight;
     mainLeft = profile.mainLeft;
     mainTop = profile.mainTop;
+#ifdef Q_OS_WIN32
+    keepAboveOtherWindows = profile.keepAboveOtherWindows;
+#endif
     language = profile.language;
     checkForUpdate = profile.checkForUpdate;
     hideTabsForOne = profile.hideTabsForOne;

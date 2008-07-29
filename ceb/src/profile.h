@@ -65,6 +65,9 @@ public:
     int mainHeight;
     int mainLeft;
     int mainTop;
+#ifdef Q_OS_WIN32
+    int keepAboveOtherWindows;
+#endif
     QString language;
     bool checkForUpdate;
     bool hideTabsForOne;

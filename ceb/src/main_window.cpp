@@ -937,6 +937,23 @@ void MainWindow::checkForUpdate()
 
 void MainWindow::applyProfileOnMultiTabWidget()
 {
+    // General
+#ifdef Q_OS_WIN32
+    Qt::WindowFlags flags = windowFlags();
+
+    if (!(flags & Qt::WindowStaysOnTopHint) && Profile::instance().keepAboveOtherWindows)
+    {
+        flags |= Qt::WindowStaysOnTopHint;
+        setWindowFlags(flags);
+        show();
+    } else if (flags & Qt::WindowStaysOnTopHint && !Profile::instance().keepAboveOtherWindows)
+    {
+        flags &= ~Qt::WindowStaysOnTopHint;
+        setWindowFlags(flags);
+        show();
+    }
+#endif
+
     // Display mode
     mtwMain->setDisplayMode(Profile::instance().tabsAllInOne ? MultiTabWidget::AllInOneRow :
                             MultiTabWidget::Hierarchical);

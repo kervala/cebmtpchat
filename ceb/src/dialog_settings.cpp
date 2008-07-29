@@ -94,6 +94,13 @@ QWidget *DialogSettings::createGeneralWidget()
     mainLayout->addWidget(_checkBoxCheckForUpdate);
     _checkBoxCheckForUpdate->setChecked(Profile::instance().checkForUpdate);
 
+    // Keep above
+#ifdef Q_OS_WIN32
+    _checkBoxKeepAboveOtherWindows = new QCheckBox(tr("Keep CeB above other windows"));
+    mainLayout->addWidget(_checkBoxKeepAboveOtherWindows);
+    _checkBoxKeepAboveOtherWindows->setChecked(Profile::instance().keepAboveOtherWindows);
+#endif
+
     // End spacer
     mainLayout->addStretch();
 
@@ -594,6 +601,9 @@ void DialogSettings::getGeneralControlsDatas()
     if (Profile::instance().language != oldLanguage)
         QMessageBox::warning(this, tr("Warning"), tr("You must restart CeB to apply your language changes"));
     Profile::instance().checkForUpdate = _checkBoxCheckForUpdate->isChecked();
+#ifdef Q_OS_WIN32
+    Profile::instance().keepAboveOtherWindows = _checkBoxKeepAboveOtherWindows->isChecked();
+#endif
 }
 
 void DialogSettings::getShortcutsControlsDatas()

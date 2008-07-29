@@ -49,6 +49,7 @@ private:
     // General
     QComboBox *_comboBoxLanguage;
     QCheckBox *_checkBoxCheckForUpdate;
+    QCheckBox *_checkBoxKeepAboveOtherWindows;
 
     // Shortcuts
     QWidget *_shortcutsWidget;

@@ -17,14 +17,9 @@
  */
 
 #include <QApplication>
-#include <QMessageBox>
-#include <QTranslator>
-#include <QDir>
 
 #include "my_application.h"
 #include "main_window.h"
-#include "session_manager.h"
-#include "token_display.h"
 #include "script.h"
 #include "profile.h"
 
