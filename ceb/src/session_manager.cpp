@@ -115,7 +115,8 @@ void SessionManager::newToken(const Token &token)
     else if (Profile::instance().logsTimeStamp)
         line = token.timeStamp().toString("hh:mm:ss ") + line;
 
-    Logger::instance().log(session->config().name(), line);
+    if (token.ticketID() < 0)
+        Logger::instance().log(session->config().name(), line);
 }
 
 void SessionManager::connected()
