@@ -26,7 +26,6 @@ SessionWidget::SessionWidget(Session *session, QWidget *parent) :
     _session(session),
     _stared(false)
 {
-    installEventFilter(this);
 }
 
 QString SessionWidget::caption() const
@@ -34,40 +33,4 @@ QString SessionWidget::caption() const
     if (_stared)
         return widgetCaption() + " *";
     return widgetCaption();
-}
-
-bool SessionWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if ((keyEvent->key() == Qt::Key_W && keyEvent->modifiers() == Qt::ControlModifier) ||
-            (keyEvent->key() == Qt::Key_Escape))
-        {
-            emit closeMe();
-            return true;
-        }
-        else
-            return false;
-    }
-    else if (event->type() == QEvent::ShortcutOverride)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if ((keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier) ||
-            keyEvent->key() == Qt::Key_F11)
-        {
-            emit moveLeft();
-            return true;
-        }
-        else if ((keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
-                 keyEvent->key() == Qt::Key_F12 ||
-                 (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::ControlModifier))
-        {
-            emit moveRight();
-            return true;
-        }
-        else
-            return false;
-    }
-    return QObject::eventFilter(obj, event);
 }

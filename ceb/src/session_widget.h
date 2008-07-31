@@ -46,13 +46,6 @@ protected:
     bool _stared;
 
     virtual QString widgetCaption() const = 0;
-
-    bool eventFilter(QObject *obj, QEvent *event); // catch some events
-
-signals:
-    void moveLeft();
-    void moveRight();
-    void closeMe();
 };
 
 #endif

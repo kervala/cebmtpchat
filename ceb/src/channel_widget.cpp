@@ -277,6 +277,12 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
     {
         if (event->type() == QEvent::KeyPress)
         {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Escape ||
+                keyEvent->key() == Qt::Key_F11 ||
+                keyEvent->key() == Qt::Key_F12)
+                return SessionWidget::eventFilter(obj, event);
+
             outputKeyPressed(*static_cast<QKeyEvent*>(event));
             return true;
         } else if (event->type() == QEvent::ShortcutOverride)
