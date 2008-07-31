@@ -21,6 +21,7 @@
 
 namespace Global
 {
+    bool localMode();
     bool devMode();
 };
 

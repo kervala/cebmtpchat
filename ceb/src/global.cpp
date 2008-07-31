@@ -22,7 +22,14 @@
 
 #include "global.h"
 
+#define LOCAL_FILENAME "local"
 #define DEV_FILENAME "dev"
+
+bool Global::localMode()
+{
+    QDir appDir(QCoreApplication::applicationDirPath());
+    return QFile(appDir.filePath(LOCAL_FILENAME)).exists();
+}
 
 bool Global::devMode()
 {

@@ -31,6 +31,10 @@ QString Paths::sharePath()
     if (Global::devMode())
         return QDir(appDir.filePath("../share/ceb")).canonicalPath();
 
+    if (Global::localMode())
+        return appDir.absolutePath();
+
+
 #if defined(Q_OS_LINUX)
     return QDir(appDir.filePath("../share/ceb")).canonicalPath();
 #else
@@ -40,7 +44,7 @@ QString Paths::sharePath()
 
 QString Paths::profilePath()
 {
-    if (Global::devMode())
+    if (Global::devMode() || Global::localMode())
         return QDir(QCoreApplication::applicationDirPath()).filePath(qApp->applicationName());
 
     return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
