@@ -787,7 +787,6 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
             {
                 QString tellLogin = tellWidget->login();
                 if (!session->whoPopulation().userForLogin(tellLogin).isValid())
-//                if (!session->users().contains(tellLogin))
                     mtwMain->renameLabel(tellWidget, tellLogin + " " + tr("(quit)"));
             }
         }
