@@ -30,13 +30,14 @@
 #include "profile.h"
 #include "session_config_widget.h"
 #include "language_manager.h"
+#include "general_settings_widget.h"
+#include "shortcuts_settings_widget.h"
+#include "fonts_settings_widget.h"
 #include "sound_settings_widget.h"
 #include "idle_settings_widget.h"
 #include "warningo_settings_widget.h"
-#include "fonts_settings_widget.h"
 #include "detailed_fonts_settings_widget.h"
 #include "links_settings_widget.h"
-#include "shortcuts_settings_widget.h"
 #include "misc_settings_widget.h"
 #include "tabs_settings_widget.h"
 #include "logger.h"
@@ -49,20 +50,24 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     treeMain->setHeaderLabels(QStringList(tr("Categories")));
     treeMain->header()->setMovable(false);
     treeMain->header()->setResizeMode(QHeaderView::Stretch);
-    createNode(0, createGeneralWidget(), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, _shortcutsWidget = createShortcutsWidget(), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, addSettingsWidget(new GeneralSettingsWidget), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, addSettingsWidget(new ShortcutsSettingsWidget), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
     createConnectionsNodes();
-    QTreeWidgetItem *item = createNode(0, _fontsWidget = createFontsWidget(), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(item, _detailedFontsWidget = createDetailedFontsWidget(), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
+    QTreeWidgetItem *item = createNode(0, addSettingsWidget(new FontsSettingsWidget), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(item, addSettingsWidget(new DetailedFontsSettingsWidget), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
     createNode(0, createLogsWidget(), tr("Logs", "Settings node"), QIcon(":/images/logs.png"));
     createNode(0, createTrayWidget(), tr("Tray", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, _warningoWidget = createWarningoWidget(), tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
-    createNode(0, _soundsWidget = createSoundsWidget(), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
-    createNode(0, _idleWidget = createIdleWidget(), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, _tabsWidget = createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
-    createNode(0, _linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/links.png"));
+    createNode(0, addSettingsWidget(new WarningoSettingsWidget), tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
+    createNode(0, addSettingsWidget(new SoundSettingsWidget), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
+    createNode(0, addSettingsWidget(new IdleSettingsWidget), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, addSettingsWidget(new TabsSettingsWidget), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
+    createNode(0, addSettingsWidget(new LinksSettingsWidget), tr("Links", "Settings node"), QIcon(":/images/links.png"));
     createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, _miscWidget = createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, addSettingsWidget(new MiscSettingsWidget), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
+
+    // Apply profile on every SettingsWidget
+    foreach (SettingsWidget *widget, _settingsWidgets)
+        widget->applyProfile(Profile::instance());
 
     // Save old things
     _oldTextSkin = Profile::instance().textSkin();
@@ -73,61 +78,9 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     resize(662, 479);
 }
 
-QWidget *DialogSettings::createGeneralWidget()
+SettingsWidget *DialogSettings::addSettingsWidget(SettingsWidget *widget)
 {
-    QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
-
-    // Language
-    QLabel *label = new QLabel(tr("Application language:"));
-    mainLayout->addWidget(label);
-
-    _comboBoxLanguage = new QComboBox;
-    mainLayout->addWidget(_comboBoxLanguage);
-
-    // Frame
-    QFrame *frame = new QFrame;
-    frame->setFrameShape(QFrame::HLine);
-    mainLayout->addWidget(frame);
-
-    // Update
-    _checkBoxCheckForUpdate = new QCheckBox(tr("Check for CeB update at startup"));
-    mainLayout->addWidget(_checkBoxCheckForUpdate);
-    _checkBoxCheckForUpdate->setChecked(Profile::instance().checkForUpdate);
-
-    // Keep above
-#ifdef Q_OS_WIN32
-    _checkBoxKeepAboveOtherWindows = new QCheckBox(tr("Keep CeB above other windows"));
-    mainLayout->addWidget(_checkBoxKeepAboveOtherWindows);
-    _checkBoxKeepAboveOtherWindows->setChecked(Profile::instance().keepAboveOtherWindows);
-#endif
-
-    // End spacer
-    mainLayout->addStretch();
-
-    ////// INIT
-    QStringList languages = LanguageManager::getAvailableLanguages();
-    _comboBoxLanguage->addItem(tr("<Default language>"));
-    foreach (QString language, languages)
-    {
-        _comboBoxLanguage->addItem(getLanguageDisplay(language));
-        displayToLanguage.insert(getLanguageDisplay(language), language);
-    }
-
-    if (!Profile::instance().language.isEmpty())
-    {
-        int index = _comboBoxLanguage->findText(getLanguageDisplay(Profile::instance().language));
-        if (index >= 0)
-            _comboBoxLanguage->setCurrentIndex(index);
-    }
-
-    return  mainWidget;
-}
-
-QWidget *DialogSettings::createShortcutsWidget()
-{
-    ShortcutsSettingsWidget *widget = new ShortcutsSettingsWidget;
-    widget->applyProfile(Profile::instance());
+    _settingsWidgets << widget;
     return widget;
 }
 
@@ -148,20 +101,6 @@ void DialogSettings::createConnectionsNodes()
         // Create a node for the config
         createNode(_itemConnections, sessionConfigWidget, config.name(), QIcon(":/images/transparent.png"));
     }
-}
-
-QWidget *DialogSettings::createFontsWidget()
-{
-    FontsSettingsWidget *widget = new FontsSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
-QWidget *DialogSettings::createDetailedFontsWidget()
-{
-    DetailedFontsSettingsWidget *widget = new DetailedFontsSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
 }
 
 QWidget *DialogSettings::createLogsWidget()
@@ -309,136 +248,6 @@ QWidget *DialogSettings::createTrayWidget()
     return mainWidget;
 }
 
-QWidget *DialogSettings::createWarningoWidget()
-{
-    WarningoSettingsWidget *widget = new WarningoSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
-QWidget *DialogSettings::createSoundsWidget()
-{
-    SoundSettingsWidget *widget = new SoundSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
-QWidget *DialogSettings::createIdleWidget()
-{
-    IdleSettingsWidget *widget = new IdleSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
-QWidget *DialogSettings::createTabsWidget()
-{
-    TabsSettingsWidget *widget = new TabsSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-/*
-    QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
-    mainLayout->setMargin(2);
-
-    QHBoxLayout *tabLocationLayout = new QHBoxLayout;
-    mainLayout->addLayout(tabLocationLayout);
-
-    QGroupBox *groupBoxType = new QGroupBox(tr("Tabs disposition"));
-    QVBoxLayout *typeLayout = new QVBoxLayout(groupBoxType);
-    mainLayout->addWidget(groupBoxType);
-
-    QHBoxLayout *oneRowLayout = new QHBoxLayout;
-    typeLayout->addLayout(oneRowLayout);
-    _radioButtonTabsAllInOne = new QRadioButton(tr("All tabs in one row with captions of form:"));
-    connect(_radioButtonTabsAllInOne, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    oneRowLayout->addWidget(_radioButtonTabsAllInOne);
-    _comboBoxTabsCaptionMode = new QComboBox;
-    oneRowLayout->addWidget(_comboBoxTabsCaptionMode);
-    _comboBoxTabsCaptionMode->addItem(tr("complete"));
-    _comboBoxTabsCaptionMode->addItem(tr("simplified"));
-    connect(_comboBoxTabsCaptionMode, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(currentTabCaptionModeChanged(int)));
-
-    _radioButtonTabsSuper = new QRadioButton(tr("Two tabs ranges"));
-    connect(_radioButtonTabsSuper, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    typeLayout->addWidget(_radioButtonTabsSuper);
-
-    // Stack widget
-    _stackedWidgetTabs = new QStackedWidget;
-    mainLayout->addWidget(_stackedWidgetTabs);
-    QSizePolicy sizePolicy = _stackedWidgetTabs->sizePolicy();
-    sizePolicy.setVerticalPolicy(QSizePolicy::Fixed);
-    _stackedWidgetTabs->setSizePolicy(sizePolicy);
-
-    QGroupBox *groupBoxAllInOne = new QGroupBox(tr("Tabs location"));
-    QVBoxLayout *allInOneLocationLayout = new QVBoxLayout(groupBoxAllInOne);
-    _radioButtonTabsAllInTop = new QRadioButton(tr("On the top"));
-    connect(_radioButtonTabsAllInTop, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    allInOneLocationLayout->addWidget(_radioButtonTabsAllInTop);
-
-    _radioButtonTabsAllInBottom = new QRadioButton(tr("On the bottom"));
-    connect(_radioButtonTabsAllInBottom, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    allInOneLocationLayout->addWidget(_radioButtonTabsAllInBottom);
-
-    _stackedWidgetTabs->addWidget(groupBoxAllInOne);
-
-    /////////////////
-
-    QWidget *superWidget = new QWidget;
-
-    QHBoxLayout *superLayout = new QHBoxLayout(superWidget);
-    superLayout->setMargin(0);
-
-    QGroupBox *groupBoxSuper = new QGroupBox(tr("Servers tabs location"));
-    superLayout->addWidget(groupBoxSuper);
-    QVBoxLayout *superLocationLayout = new QVBoxLayout(groupBoxSuper);
-    _radioButtonTabsSuperOnTop = new QRadioButton(tr("On the top"));
-    connect(_radioButtonTabsSuperOnTop, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    superLocationLayout->addWidget(_radioButtonTabsSuperOnTop);
-    _radioButtonTabsSuperOnBottom = new QRadioButton(tr("On the bottom"));
-    connect(_radioButtonTabsSuperOnBottom, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    superLocationLayout->addWidget(_radioButtonTabsSuperOnBottom);
-
-    QGroupBox *groupBoxNormal = new QGroupBox(tr("Sub-tabs location"));
-    superLayout->addWidget(groupBoxNormal);
-    QVBoxLayout *normalLocationLayout = new QVBoxLayout(groupBoxNormal);
-    _radioButtonTabsOnTop = new QRadioButton(tr("On the top"));
-    connect(_radioButtonTabsOnTop, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    normalLocationLayout->addWidget(_radioButtonTabsOnTop);
-    _radioButtonTabsOnBottom = new QRadioButton(tr("On the bottom"));
-    connect(_radioButtonTabsOnBottom, SIGNAL(clicked(bool)), this,
-            SLOT(refreshTabExample(bool)));
-    normalLocationLayout->addWidget(_radioButtonTabsOnBottom);
-
-    _stackedWidgetTabs->addWidget(superWidget);
-
-    connect(_radioButtonTabsAllInOne, SIGNAL(toggled(bool)), this, SLOT(tabsTypeAllInOneToggled(bool)));
-    connect(_radioButtonTabsSuper, SIGNAL(toggled(bool)), this, SLOT(tabsTypeSuperToggled(bool)));
-
-    _tabWidgetExample = new MyTabWidget;
-    mainLayout->addWidget(_tabWidgetExample);
-
-    fillTabWidgetExample();
-
-    _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsChannelCaptionMode);
-
-    return mainWidget;*/
-}
-
-QWidget *DialogSettings::createLinksWidget()
-{
-    LinksSettingsWidget *widget = new LinksSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
 QWidget *DialogSettings::createOutputWidget()
 {
     QWidget *mainWidget = new QWidget;
@@ -505,13 +314,6 @@ QWidget *DialogSettings::createOutputWidget()
     return mainWidget;
 }
 
-QWidget *DialogSettings::createMiscWidget()
-{
-    MiscSettingsWidget *widget = new MiscSettingsWidget;
-    widget->applyProfile(Profile::instance());
-    return widget;
-}
-
 QWidget *DialogSettings::createConnectionsWidget()
 {
     QWidget *mainWidget = new QWidget;
@@ -560,41 +362,13 @@ bool DialogSettings::verifyControlsDatas()
 
 void DialogSettings::getControlsDatas()
 {
-    getGeneralControlsDatas();
-    getShortcutsControlsDatas();
+    foreach (SettingsWidget *widget, _settingsWidgets)
+        widget->feedProfile(Profile::instance());
+
     getConnectionsControlsDatas();
     getLogsControlsDatas();
-    getFontsControlsDatas();
-    getDetailedFontsControlsDatas();
     getTrayControlsDatas();
-    getWarningoControlsDatas();
-    getSoundsControlsDatas();
-    getIdleControlsDatas();
-    getTabsControlsDatas();
-    getLinksControlsDatas();
     getOutputControlsDatas();
-    getMiscControlsDatas();
-}
-
-void DialogSettings::getGeneralControlsDatas()
-{
-    QString oldLanguage = Profile::instance().language;
-    if (_comboBoxLanguage->currentIndex() == 0)
-        Profile::instance().language = "";
-    else
-        Profile::instance().language = displayToLanguage[_comboBoxLanguage->currentText()];
-
-    if (Profile::instance().language != oldLanguage)
-        QMessageBox::warning(this, tr("Warning"), tr("You must restart CeB to apply your language changes"));
-    Profile::instance().checkForUpdate = _checkBoxCheckForUpdate->isChecked();
-#ifdef Q_OS_WIN32
-    Profile::instance().keepAboveOtherWindows = _checkBoxKeepAboveOtherWindows->isChecked();
-#endif
-}
-
-void DialogSettings::getShortcutsControlsDatas()
-{
-    qobject_cast<ShortcutsSettingsWidget*>(_shortcutsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getConnectionsControlsDatas()
@@ -608,16 +382,6 @@ void DialogSettings::getConnectionsControlsDatas()
         SessionConfig *config = Profile::instance().getSessionConfig(widget->oldName());
         widget->get(*config);
     }
-}
-
-void DialogSettings::getFontsControlsDatas()
-{
-    qobject_cast<FontsSettingsWidget*>(_fontsWidget)->feedProfile(Profile::instance());
-}
-
-void DialogSettings::getDetailedFontsControlsDatas()
-{
-    qobject_cast<DetailedFontsSettingsWidget*>(_detailedFontsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getLogsControlsDatas()
@@ -643,31 +407,6 @@ void DialogSettings::getTrayControlsDatas()
     Profile::instance().trayHideFromTaskBar = _checkBoxTrayHideFromTaskBar->isChecked();
 }
 
-void DialogSettings::getWarningoControlsDatas()
-{
-    qobject_cast<WarningoSettingsWidget*>(_warningoWidget)->feedProfile(Profile::instance());
-}
-
-void DialogSettings::getSoundsControlsDatas()
-{
-    qobject_cast<SoundSettingsWidget*>(_soundsWidget)->feedProfile(Profile::instance());
-}
-
-void DialogSettings::getIdleControlsDatas()
-{
-    qobject_cast<IdleSettingsWidget*>(_idleWidget)->feedProfile(Profile::instance());
-}
-
-void DialogSettings::getTabsControlsDatas()
-{
-    qobject_cast<TabsSettingsWidget*>(_tabsWidget)->feedProfile(Profile::instance());
-}
-
-void DialogSettings::getLinksControlsDatas()
-{
-    qobject_cast<LinksSettingsWidget*>(_linksWidget)->feedProfile(Profile::instance());
-}
-
 void DialogSettings::getOutputControlsDatas()
 {
     Profile::instance().awaySeparatorLines = _groupBoxAwaySeparator->isChecked();
@@ -675,11 +414,6 @@ void DialogSettings::getOutputControlsDatas()
     Profile::instance().awaySeparatorColor = palette.color(QPalette::Text);
     Profile::instance().awaySeparatorLength = _spinBoxAwaySeparatorLength->value();
     Profile::instance().awaySeparatorPeriod = _lineEditAwaySeparatorPeriod->text();
-}
-
-void DialogSettings::getMiscControlsDatas()
-{
-    qobject_cast<MiscSettingsWidget*>(_miscWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::newSessionConfig()
@@ -718,32 +452,6 @@ void DialogSettings::logsCustomDirClicked()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a logs directory"));
     _lineEditLogsCustomDir->setText(dir);
-}
-
-void DialogSettings::refreshTabExample(bool)
-{
-/*TOREDO    if (_radioButtonTabsAllInOne->isChecked())
-    {
-        _mtwExample->setDisplayMode(MultiTabWidget::AllInOneRow);
-
-        if (_radioButtonTabsAllInTop->isChecked())
-            _mtwExample->setAllInOneRowLocation(MultiTabWidget::North);
-        else
-            _mtwExample->setAllInOneRowLocation(MultiTabWidget::South);
-    }
-    else
-    {
-        _mtwExample->setDisplayMode(MultiTabWidget::Hierarchical);
-        if (_radioButtonTabsSuperOnTop->isChecked())
-            _mtwExample->setSuperLocation(MultiTabWidget::North);
-        else
-            _mtwExample->setSuperLocation(MultiTabWidget::South);
-
-        if (_radioButtonTabsOnTop->isChecked())
-            _mtwExample->setSubLocation(MultiTabWidget::North);
-        else
-            _mtwExample->setSubLocation(MultiTabWidget::South);
-            }*/
 }
 
 void DialogSettings::changeAwaySeparatorColor()

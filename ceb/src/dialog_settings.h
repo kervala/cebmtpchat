@@ -32,6 +32,7 @@
 #include <my_tabwidget.h>
 
 #include "token_display.h"
+#include "settings_widget.h"
 
 class DialogSettings : public DialogConfig
 {
@@ -43,26 +44,20 @@ public:
     void reject();
 
 protected slots:
-    virtual void checkValues();
+    void checkValues();
 
 private:
+    // Sub-widgets for settings
+    QList<SettingsWidget*> _settingsWidgets;
+
     // General
     QComboBox *_comboBoxLanguage;
     QCheckBox *_checkBoxCheckForUpdate;
     QCheckBox *_checkBoxKeepAboveOtherWindows;
 
-    // Shortcuts
-    QWidget *_shortcutsWidget;
-
     // Connections
     QTreeWidgetItem *_itemConnections;
     QPushButton *_pushButtonNewConnection;
-
-    // Fonts
-    QWidget *_fontsWidget;
-
-    // Detailed fonts
-    QWidget *_detailedFontsWidget;
 
     // Logs
     QGroupBox *_groupBoxLogs;
@@ -80,33 +75,6 @@ private:
     QCheckBox *_checkBoxTrayAlwaysVisible;
     QCheckBox *_checkBoxTrayHideFromTaskBar;
 
-    // Warningo
-    QWidget *_warningoWidget;
-
-    // Sounds
-    QWidget *_soundsWidget;
-
-    // Idle
-    QWidget *_idleWidget;
-
-    // Tabs
-    QWidget *_tabsWidget;
-/*    QCheckBox *_checkBoxTabsIcons;
-    QStackedWidget *_stackedWidgetTabs;
-    QComboBox *_comboBoxTabsCaptionMode;
-    QRadioButton *_radioButtonTabsAllInOne;
-    QRadioButton *_radioButtonTabsAllInTop;
-    QRadioButton *_radioButtonTabsAllInBottom;
-    QRadioButton *_radioButtonTabsSuper;
-    QRadioButton *_radioButtonTabsSuperOnTop;
-    QRadioButton *_radioButtonTabsSuperOnBottom;
-    QRadioButton *_radioButtonTabsOnTop;
-    QRadioButton *_radioButtonTabsOnBottom;
-    MyTabWidget *_tabWidgetExample;*/
-
-    // Links
-    QWidget *_linksWidget;
-
     // Output
     QGroupBox *_groupBoxAwaySeparator;
     QLineEdit *_lineEditAwaySeparatorColor;
@@ -114,55 +82,35 @@ private:
     QSpinBox *_spinBoxAwaySeparatorLength;
     QLineEdit *_lineEditAwaySeparatorPeriod;
 
-    // Misc
     QWidget *_miscWidget;
 
     // Creation functions
-    QWidget *createGeneralWidget();
-    QWidget *createShortcutsWidget();
     void createConnectionsNodes();
     QWidget *createConnectionsWidget();
-    QWidget *createFontsWidget();
-    QWidget *createDetailedFontsWidget();
     QWidget *createLogsWidget();
     QWidget *createTrayWidget();
-    QWidget *createWarningoWidget();
-    QWidget *createSoundsWidget();
-    QWidget *createIdleWidget();
-    QWidget *createTabsWidget();
-    QWidget *createLinksWidget();
     QWidget *createOutputWidget();
-    QWidget *createMiscWidget();
 
     TextSkin _oldTextSkin;
 
     bool verifyControlsDatas();
 
     // Get datas
-    void getGeneralControlsDatas();
-    void getShortcutsControlsDatas();
     void getConnectionsControlsDatas(); //!< Collect all datas concerning connections
     void getLogsControlsDatas();
-    void getFontsControlsDatas();
-    void getDetailedFontsControlsDatas();
     void getTrayControlsDatas();
-    void getWarningoControlsDatas();
-    void getSoundsControlsDatas();
-    void getIdleControlsDatas();
-    void getTabsControlsDatas();
-    void getLinksControlsDatas();
     void getOutputControlsDatas();
-    void getMiscControlsDatas();
     void getControlsDatas();
 
     QMap<QString, QString> displayToLanguage;
     QString getLanguageDisplay(const QString &language);
 
+    SettingsWidget *addSettingsWidget(SettingsWidget *widget);
+
 private slots:
     void newSessionConfig();
     void removeSessionConfig();
     void logsCustomDirClicked();
-    void refreshTabExample(bool checked = false);
     void changeAwaySeparatorColor();
     void refreshAwaySeparatorPreview();
     void awaySeparatorLengthChanged(int a);

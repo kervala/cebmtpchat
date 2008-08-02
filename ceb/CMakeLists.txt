@@ -74,6 +74,7 @@ SET(CEB_SRCS
 	src/server_group.cpp
 	src/misc_settings_widget.cpp
 	src/tabs_settings_widget.cpp
+	src/general_settings_widget.cpp
 )
 
 SET(CEB_UIS
@@ -88,6 +89,7 @@ SET(CEB_UIS
 	ui/dialog_about.ui
 	ui/misc_settings.ui
 	ui/tabs_settings.ui
+	ui/general_settings.ui
 )
 
 QT4_WRAP_UI(CEB_UIS_H ${CEB_UIS})
@@ -138,6 +140,7 @@ SET(CEB_MOCH
 	src/message_model.h
 	src/misc_settings_widget.h
 	src/tabs_settings_widget.h
+	src/general_settings_widget.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
