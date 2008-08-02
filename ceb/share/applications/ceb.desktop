@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=CeB
+GenericName=MtpChat Client
+Comment=CeB is a MtpChat client
+Comment[fr]=CeB est un client MtpChat
+Exec=ceb %U
+Terminal=false
+Icon=/usr/share/pixmaps/ceb_16x16.png
+Type=Application
+Categories=Network;Chat;
+MimeType=application/x-mtpchat
+TryExec=ceb

@@ -36,7 +36,7 @@ QString Paths::sharePath()
 
 
 #if defined(Q_OS_LINUX)
-    return QDir(appDir.filePath("../share/ceb")).canonicalPath();
+    return QDir(appDir.filePath("/usr/share/ceb")).canonicalPath();
 #else
     return appDir.absolutePath();
 #endif
