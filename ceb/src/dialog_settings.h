@@ -28,8 +28,8 @@
 #include <QComboBox>
 #include <QSignalMapper>
 
-#include <multi_tab_widget.h>
 #include <dialog_config.h>
+#include <my_tabwidget.h>
 
 #include "token_display.h"
 
@@ -90,7 +90,8 @@ private:
     QWidget *_idleWidget;
 
     // Tabs
-    QCheckBox *_checkBoxTabsIcons;
+    QWidget *_tabsWidget;
+/*    QCheckBox *_checkBoxTabsIcons;
     QStackedWidget *_stackedWidgetTabs;
     QComboBox *_comboBoxTabsCaptionMode;
     QRadioButton *_radioButtonTabsAllInOne;
@@ -101,7 +102,7 @@ private:
     QRadioButton *_radioButtonTabsSuperOnBottom;
     QRadioButton *_radioButtonTabsOnTop;
     QRadioButton *_radioButtonTabsOnBottom;
-    MultiTabWidget *_mtwExample;
+    MyTabWidget *_tabWidgetExample;*/
 
     // Links
     QWidget *_linksWidget;
@@ -157,15 +158,10 @@ private:
     QMap<QString, QString> displayToLanguage;
     QString getLanguageDisplay(const QString &language);
 
-    void fillMultiTabWidget();
-
 private slots:
     void newSessionConfig();
     void removeSessionConfig();
     void logsCustomDirClicked();
-    void tabsTypeAllInOneToggled(bool checked);
-    void tabsTypeSuperToggled(bool checked);
-    void currentTabCaptionModeChanged(int index);
     void refreshTabExample(bool checked = false);
     void changeAwaySeparatorColor();
     void refreshAwaySeparatorPreview();

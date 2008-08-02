@@ -88,11 +88,7 @@ void Profile::init()
     warningoScreen = 0;
     warningoPrivate = true;
     warningoHighlight = true;
-    tabsAllInOne = false;
-    tabsAllInTop = false;
-    tabsSuperOnTop = true;
-    tabsOnTop = false;
-    tabsIcons = true;
+    tabsPosition = QTabWidget::South;
     tabsChannelCaptionMode = 0;
     linksCustomBrowser = "";
     awaySeparatorLines = true;
@@ -255,14 +251,7 @@ bool Profile::load()
     const QDomElement tabsElem = rootElem.firstChildElement("tabs");
     if (!tabsElem.isNull())
     {
-        tabsAllInOne = XmlHandler::read(tabsElem, "all_in_one", false);
-        tabsAllInTop = XmlHandler::read(tabsElem, "all_in_top", false);
-        tabsSuperOnTop = XmlHandler::read(tabsElem, "super_in_top", true);
-        tabsOnTop = XmlHandler::read(tabsElem, "in_top", false);
-        tabsIcons = XmlHandler::read(tabsElem, "icons", true);
-        tabsChannelCaptionMode = XmlHandler::read(tabsElem, "channel_caption_mode", 0);
-        if (tabsChannelCaptionMode < 0 || tabsChannelCaptionMode > 1)
-            tabsChannelCaptionMode = 0;
+        tabsPosition = (QTabWidget::TabPosition) XmlHandler::read(tabsElem, "tabs_position", (int) QTabWidget::South);
     }
 
     // Links
@@ -490,12 +479,7 @@ void Profile::save() const
     // Tabs
     QDomElement tabsElem = document.createElement("tabs");
     rootElem.appendChild(tabsElem);
-    XmlHandler::write(tabsElem, "all_in_one", tabsAllInOne);
-    XmlHandler::write(tabsElem, "all_in_top", tabsAllInTop);
-    XmlHandler::write(tabsElem, "super_in_top", tabsSuperOnTop);
-    XmlHandler::write(tabsElem, "in_top", tabsOnTop);
-    XmlHandler::write(tabsElem, "icons", tabsIcons);
-    XmlHandler::write(tabsElem, "channel_caption_mode", tabsChannelCaptionMode);
+    XmlHandler::write(tabsElem, "tabs_position", tabsPosition);
 
     // Links
     XmlHandler::write(rootElem, "links_custom_browser", linksCustomBrowser);
@@ -664,12 +648,7 @@ Profile &Profile::operator=(const Profile &profile)
     warningoScreen = profile.warningoScreen;
     warningoPrivate = profile.warningoPrivate;
     warningoHighlight = profile.warningoHighlight;
-    tabsAllInOne = profile.tabsAllInOne;
-    tabsAllInTop = profile.tabsAllInTop;
-    tabsSuperOnTop = profile.tabsSuperOnTop;
-    tabsOnTop = profile.tabsOnTop;
-    tabsIcons = profile.tabsIcons;
-    tabsChannelCaptionMode = profile.tabsChannelCaptionMode;
+    tabsPosition = profile.tabsPosition;
     linksCustomBrowser = profile.linksCustomBrowser;
     awaySeparatorLines = profile.awaySeparatorLines;
     awaySeparatorColor = profile.awaySeparatorColor;

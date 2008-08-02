@@ -41,6 +41,9 @@ public:
 
     virtual void search() {} // Activate the search widget (in ChannelWidget and TellWidget for instance)
 
+signals:
+    void captionChanged();
+
 protected:
     Session *_session;
     bool _stared;

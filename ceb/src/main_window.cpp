@@ -111,12 +111,12 @@ MainWindow::MainWindow()
         resize(640, 480);
 
     // Create and init multitabwidget
-    mtwMain = new MultiTabWidget;
-    connect(mtwMain, SIGNAL(focusedWidgetChanged(QWidget*)), this, SLOT(focusedWidgetChanged(QWidget *)));
-    mtwMain->installEventFilter(this);
-    setCentralWidget(mtwMain);
+    tabWidgetMain = new MyTabWidget;
+    connect(tabWidgetMain, SIGNAL(currentChanged(int)), this, SLOT(tabWidgetMainCurrentChanged(int)));
+    tabWidgetMain->installEventFilter(this);
+    setCentralWidget(tabWidgetMain);
 
-    applyProfileOnMultiTabWidget();
+    applyProfileOnTabWidget();
 
     // Autoconnect connections
     foreach (SessionConfig *config, Profile::instance().sessionConfigs())
@@ -128,12 +128,9 @@ MainWindow::MainWindow()
             this, SLOT(connectToFromMenu(const QString &)));
 
     // Set focus
-    ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(mtwMain->focusedWidget());
+    ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->currentWidget());
     if (channelWidget)
-    {
-        mtwMain->focusWidget(channelWidget);
         channelWidget->applyFirstShow();
-    }
 
     // Start autoupdate stuff
     connect(&autoUpdate, SIGNAL(newVersion(const QDate &)), this, SLOT(newProgramVersion(const QDate &)));
@@ -182,34 +179,27 @@ QWidget *MainWindow::getTab(Session *session, const QString &category, const QSt
     return 0;
 }
 
-QColor MainWindow::getTabColor(QWidget *widget)
+QColor MainWindow::getTabColor(QWidget *widget) const
 {
-    return mtwMain->tabTextColor(widget);
+    int index = tabWidgetMain->indexOf(widget);
+    if (index < 0)
+        return QColor();
+
+    return tabWidgetMain->tabTextColor(index);
 }
 
 void MainWindow::setTabColor(QWidget *widget, const QColor &color)
 {
-    mtwMain->changeTabTextColor(widget, color);
+    int index = tabWidgetMain->indexOf(widget);
+    if (index < 0)
+        return;
+
+    tabWidgetMain->setTabTextColor(index, color);
 }
 
 bool MainWindow::isTabFocused(QWidget *widget) const
 {
-    return widget == mtwMain->focusedWidget();
-}
-
-bool MainWindow::isSuperTabFocused(QWidget *widget) const
-{
-    return mtwMain->isSuperTabFocused(widget);
-}
-
-QColor MainWindow::getSuperTabColor(QWidget *widget)
-{
-    return mtwMain->superTabTextColor(widget);
-}
-
-void MainWindow::setSuperTabColor(QWidget *widget, const QColor &color)
-{
-    mtwMain->changeSuperTabTextColor(widget, color);
+    return widget == tabWidgetMain->currentWidget();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -428,7 +418,7 @@ void MainWindow::editConnectionConfig()
         Profile::instance().save();
 
         // Change super label
-        mtwMain->renameSuperLabel(oldSessionConfigName, pConfig->name());
+// TODO        mtwMain->renameSuperLabel(oldSessionConfigName, pConfig->name());
     }
 }
 
@@ -458,9 +448,9 @@ void MainWindow::showTopicWindow()
     Profile::instance().topicWindowVisible = actionViewTopic->isChecked();
 
     // Change controls
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
+        ChannelWidget *w = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
         if (w)
         {
             if (Profile::instance().topicWindowVisible)
@@ -485,21 +475,11 @@ void MainWindow::aboutQt()
 ChannelWidget *MainWindow::connectTo(SessionConfig &config)
 {
     // Existing config?
-    if (mtwMain->superLabels().indexOf(config.name()) >= 0)
+    ChannelWidget *channelWidget = getChannelWidget(config);
+    if (channelWidget)
     {
-        SessionManager &sessionManager = SessionManager::instance();
-        QList<Session*> &sessionList = sessionManager.sessionsList();
-        foreach (Session *session, sessionList)
-        {
-            if (session->config().name() == config.name())
-            {
-                ChannelWidget *widget = getChannelWidget(session);
-                mtwMain->focusWidget(widget);
-                session->start();
-                return 0;
-            }
-        }
-
+        tabWidgetMain->setCurrentWidget(channelWidget);
+        channelWidget->session()->start();
         return 0;
     }
 
@@ -507,15 +487,14 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
     Session *session = SessionManager::instance().newSession(config);
 
     // Create a new ChannelWidget and add it
-    ChannelWidget *channelWidget = new ChannelWidget(session);
+    channelWidget = new ChannelWidget(session);
     connect(channelWidget, SIGNAL(whoUserDoubleClicked(const QString&)),
             this, SLOT(whoUserDoubleClicked(const QString&)));
     connect(channelWidget, SIGNAL(tellSessionAsked(const QString&)),
             this, SLOT(tellSessionAsked(const QString&)));
     connect(channelWidget, SIGNAL(showFileTransfers()), this, SLOT(showFileTransfers()));
 
-    mtwMain->addWidget(config.name(), channelWidget, "Hall",
-                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
+    tabWidgetMain->addTab(channelWidget, channelWidget->caption());
 
     // Start the session
     session->start();
@@ -578,7 +557,7 @@ void MainWindow::refreshProfileSettings()
 #endif // Q_OS_WIN32
 
     // Tabs stuffs
-    applyProfileOnMultiTabWidget();
+    applyProfileOnTabWidget();
 
     // Refresh widgets
     refreshWidgets();
@@ -586,19 +565,19 @@ void MainWindow::refreshProfileSettings()
 
 void MainWindow::refreshWidgets()
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
-        if (w)
+        ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
+        if (channelWidget)
         {
-            w->refreshKeepAlivePolicy();
-            w->refreshFonts();
+            channelWidget->refreshKeepAlivePolicy();
+            channelWidget->refreshFonts();
         }
         else
         {
-            TellWidget *w = qobject_cast<TellWidget*>(mtwMain->widget(i));
-            if (w)
-                w->refreshFonts();
+            TellWidget *tellWidget = qobject_cast<TellWidget*>(tabWidgetMain->widget(i));
+            if (tellWidget)
+                tellWidget->refreshFonts();
         }
     }
 }
@@ -736,7 +715,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
                 widget = newCmdOutputWidget(session, "wall");
                 widget->newTokenFromSession(token);
             }
-            mtwMain->focusWidget(widget);
+            tabWidgetMain->setCurrentWidget(widget);
         }
         break;
     case Token::FingerBegin:
@@ -749,7 +728,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
                 widget = newCmdOutputWidget(session, "finger");
                 widget->newTokenFromSession(token);
             }
-            mtwMain->focusWidget(widget);
+            tabWidgetMain->setCurrentWidget(widget);
         }
         break;
     case Token::WhoBegin:
@@ -762,7 +741,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
                 widget = newCmdOutputWidget(session, "who");
                 widget->newTokenFromSession(token);
             }
-            mtwMain->focusWidget(widget);
+            tabWidgetMain->setCurrentWidget(widget);
         }
         break;
     case Token::WhoLine:
@@ -772,69 +751,25 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         if (tellWidget)
         {
             if (!token.arguments()[4].compare("*Away*", Qt::CaseInsensitive))
-                mtwMain->renameLabel(tellWidget, login + " " + tr("(away)"));
+                renameWidget(tellWidget, login + " " + tr("(away)"));
             else
-                mtwMain->renameLabel(tellWidget, login);
+                renameWidget(tellWidget, login);
         }
     }
     break;
     case Token::WhoEnd:
-        // Check for tell tabs
-        for (int i = 0; i < mtwMain->count(); i++)
+        // Check for tell tabs (MAYBE NOT NEEDED ANYMORE)
+        for (int i = 0; i < tabWidgetMain->count(); ++i)
         {
-            TellWidget *tellWidget = qobject_cast<TellWidget*>(mtwMain->widget(i));
+            TellWidget *tellWidget = qobject_cast<TellWidget*>(tabWidgetMain->widget(i));
             if (tellWidget && tellWidget->session() == session)
             {
                 QString tellLogin = tellWidget->login();
                 if (!session->whoPopulation().userForLogin(tellLogin).isValid())
-                    mtwMain->renameLabel(tellWidget, tellLogin + " " + tr("(quit)"));
+                    renameWidget(tellWidget);
             }
         }
         break;
-    case Token::SomeoneAway:
-    case Token::YouAway:
-    {
-        QString login;
-        if (token.type() == Token::YouAway)
-            login = session->serverLogin();
-        else
-            login = token.arguments()[1];
-
-        // Tell widget
-        TellWidget *tellWidget = getTellWidget(session, login);
-        if (tellWidget)
-        {
-            tellWidget->setUserAway(true);
-            mtwMain->renameLabel(tellWidget, tellWidget->caption());
-        }
-    }
-    break;
-    case Token::SomeoneBack:
-    case Token::YouBack:
-    {
-        QString login;
-        if (token.type() == Token::YouBack)
-            login = session->serverLogin();
-        else
-            login = token.arguments()[1];
-
-        // Tell widget
-        TellWidget *tellWidget = getTellWidget(session, login);
-        if (tellWidget)
-        {
-            tellWidget->setUserAway(false);
-            mtwMain->renameLabel(tellWidget, tellWidget->caption());
-        }
-    }
-    break;
-    case Token::SomeoneAwayWarning:
-    {
-        // Tell widget
-        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
-        if (tellWidget)
-            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " " + tr("(away)"));
-    }
-    break;
     case Token::UserLoginRenamed:
         sessionLoginChanged(session, token.arguments()[1], token.arguments()[2]);
         break;
@@ -852,29 +787,11 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         }
     }
     break;
-    case Token::SomeoneComesIn:
-    {
-        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
-        if (tellWidget)
-            mtwMain->renameLabel(tellWidget, token.arguments()[1]);
-    }
-    break;
-    case Token::SomeoneLeaves:
-    case Token::SomeoneDisconnects:
-    case Token::SomeoneIsKicked:
-    case Token::YouKickSomeone:
-    {
-        TellWidget *tellWidget = getTellWidget(session, token.arguments()[1]);
-        if (tellWidget)
-            mtwMain->renameLabel(tellWidget, token.arguments()[1] + " " + tr("(quit)"));
-    }
-    break;
     case Token::YouJoinChannel:
-        mtwMain->renameLabel(getChannelWidget(session), token.arguments()[1]);
+        renameWidget(getChannelWidget(session));
         break;
     case Token::YouLeaveChannel:
-        mtwMain->renameLabel(getChannelWidget(session), "Hall");
-        break;
+        renameWidget(getChannelWidget(session));
 	break;
     default:;
     }
@@ -935,7 +852,7 @@ void MainWindow::checkForUpdate()
     dialog->show();
 }
 
-void MainWindow::applyProfileOnMultiTabWidget()
+void MainWindow::applyProfileOnTabWidget()
 {
     // General
 #ifdef Q_OS_WIN32
@@ -954,52 +871,25 @@ void MainWindow::applyProfileOnMultiTabWidget()
     }
 #endif
 
-    // Display mode
-    mtwMain->setDisplayMode(Profile::instance().tabsAllInOne ? MultiTabWidget::AllInOneRow :
-                            MultiTabWidget::Hierarchical);
-
     // Tabs location
-    mtwMain->setAllInOneRowLocation(Profile::instance().tabsAllInTop ? MultiTabWidget::North :
-                                    MultiTabWidget::South);
-    mtwMain->setSuperLocation(Profile::instance().tabsSuperOnTop ? MultiTabWidget::North :
-                              MultiTabWidget::South);
-    mtwMain->setSubLocation(Profile::instance().tabsOnTop ? MultiTabWidget::North :
-                            MultiTabWidget::South);
-
-    // Caption mode
-    for (int i = 0; i < mtwMain->count(); i++)
-    {
-        SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->widget(i));
-        if (!w)
-            continue;
-
-        if (!Profile::instance().tabsChannelCaptionMode)
-            mtwMain->changeCaptionMode(w, MultiTabWidget::LabelAndSuperLabel);
-        else
-        {
-            if (qobject_cast<ChannelWidget*>(w))
-                mtwMain->changeCaptionMode(w, MultiTabWidget::SuperLabelOnly);
-            else
-                mtwMain->changeCaptionMode(w, MultiTabWidget::LabelOnly);
-        }
-    }
+    tabWidgetMain->setTabPosition(Profile::instance().tabsPosition);
 }
 
 Session *MainWindow::getCurrentSession()
 {
-    SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
-    if (w)
-        return w->session();
+    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
+    if (sessionWidget)
+        return sessionWidget->session();
     return 0;
 }
 
 void MainWindow::closeCurrentSession()
 {
-    SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
-    if (w)
+    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
+    if (sessionWidget)
     {
-        Session *session = w->session();
-        mtwMain->removeSuperWidgets(session->config().name());
+        Session *session = sessionWidget->session();
+        removeSessionWidgets(session);
         if (!SessionManager::destroyed())
             SessionManager::instance().removeSession(session);
     }
@@ -1010,51 +900,52 @@ void MainWindow::whoItemDblClicked(const QString &login)
     Session *session = qobject_cast<ChannelWidget*>(sender())->session();
 
     // Initiate a tell widget
-    TellWidget *w = getTellWidget(session, login);
-    if (!w)
-        w = newTellWidget(session, login);
+    TellWidget *tellWidget = getTellWidget(session, login);
+    if (!tellWidget)
+        tellWidget = newTellWidget(session, login);
 
     // Just focus the tell widget
-    mtwMain->focusWidget(w);
+    tabWidgetMain->setCurrentWidget(tellWidget);
 }
 
 TellWidget *MainWindow::getTellWidget(Session *session, const QString &login)
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        TellWidget *w = qobject_cast<TellWidget*>(mtwMain->widget(i));
-        if (w && w->session() == session && w->login() == login)
-            return w;
+        TellWidget *tellWidget = qobject_cast<TellWidget*>(tabWidgetMain->widget(i));
+        if (tellWidget && tellWidget->session() == session && tellWidget->login() == login)
+            return tellWidget;
     }
     return 0;
 }
 
 TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 {
-    TellWidget *w = new TellWidget(session, login);
+    TellWidget *tellWidget = new TellWidget(session, login);
+    connect(tellWidget, SIGNAL(captionChanged()), this, SLOT(captionChanged()));
 
-    mtwMain->addWidget(session->config().name(), w, login,
-                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
+    tabWidgetMain->addTab(tellWidget, login);
 
-    return w;
+    return tellWidget;
 }
 
 void MainWindow::closeTabWidget()
 {
-    QWidget *widget = mtwMain->focusedWidget();
+    QWidget *widget = tabWidgetMain->currentWidget();
     if (!widget || qobject_cast<ChannelWidget*>(widget)) // Don't close channel widget
         return;
 
-    mtwMain->removeWidget(widget);
+    Session *session = 0;
+    if (qobject_cast<SessionWidget*>(widget))
+        session = qobject_cast<SessionWidget*>(widget)->session();
 
-    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
-    if (!sessionWidget)
-        return;
+    tabWidgetMain->removeTab(tabWidgetMain->indexOf(widget));
+    delete widget;
 
-    ChannelWidget *channelWidget = getChannelWidget(sessionWidget->session());
+    ChannelWidget *channelWidget = getChannelWidget(session);
 
-    if (sessionWidget)
-        mtwMain->focusWidget(channelWidget);
+    if (channelWidget)
+        tabWidgetMain->setCurrentWidget(channelWidget);
 }
 
 /*void MainWindow::highlightSessionWidget()
@@ -1103,9 +994,9 @@ void MainWindow::closeTabWidget()
 
 CmdOutputWidget *MainWindow::getCmdOutputWidget(Session *session, const QString &cmdName)
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        CmdOutputWidget *w = qobject_cast<CmdOutputWidget*>(mtwMain->widget(i));
+        CmdOutputWidget *w = qobject_cast<CmdOutputWidget*>(tabWidgetMain->widget(i));
         if (w && w->session() == session && !w->cmdName().compare(cmdName, Qt::CaseInsensitive))
             return w;
     }
@@ -1116,17 +1007,16 @@ CmdOutputWidget *MainWindow::newCmdOutputWidget(Session *session, const QString 
 {
     CmdOutputWidget *w = new CmdOutputWidget(session, cmdName);
 
-    mtwMain->addWidget(session->config().name(), w, cmdName,
-                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
+    tabWidgetMain->addTab(w, cmdName);
 
     return w;
 }
 
 TransfersWidget *MainWindow::getTransfersWidget(Session *session)
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        TransfersWidget *w = qobject_cast<TransfersWidget*>(mtwMain->widget(i));
+        TransfersWidget *w = qobject_cast<TransfersWidget*>(tabWidgetMain->widget(i));
         if (w && w->session() == session)
             return w;
     }
@@ -1137,8 +1027,7 @@ TransfersWidget *MainWindow::newTransfersWidget(Session *session)
 {
     TransfersWidget *w = new TransfersWidget(session);
 
-    mtwMain->addWidget(session->config().name(), w, tr("File transfers"),
-                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
+    tabWidgetMain->addTab(w, tr("File transfers"));
 
     return w;
 }
@@ -1148,32 +1037,41 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
     TellWidget *tellWidget = getTellWidget(session, oldLogin);
     if (tellWidget)
     {
-        mtwMain->renameLabel(tellWidget, newLogin);
+        renameWidget(tellWidget, newLogin);
         tellWidget->setLogin(newLogin);
     }
 }
 
-void MainWindow::focusedWidgetChanged(QWidget *widget)
+void MainWindow::tabWidgetMainCurrentChanged(int index)
 {
-    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
-    if (!sessionWidget) return;
+    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(index));
+    if (!sessionWidget)
+        return;
     sessionWidget->setStared(false);
-    if (!Profile::instance().tabsIcons)
-        mtwMain->renameLabel(sessionWidget, sessionWidget->caption());
-    mtwMain->changeTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
-    if (mtwMain->isSuperTabFocused(sessionWidget))
-        mtwMain->changeSuperTabTextColor(sessionWidget, mtwMain->palette().color(QPalette::WindowText));
-
+    renameWidget(sessionWidget, sessionWidget->caption());
+    changeWidgetColor(sessionWidget, tabWidgetMain->palette().color(QPalette::WindowText));
     sessionWidget->applyFirstShow();
 }
 
 ChannelWidget *MainWindow::getChannelWidget(Session *session)
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        ChannelWidget *w = qobject_cast<ChannelWidget*>(mtwMain->widget(i));
+        ChannelWidget *w = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
         if (w && w->session() == session)
             return w;
+    }
+    return 0;
+}
+
+ChannelWidget *MainWindow::getChannelWidget(const SessionConfig &config) const
+{
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
+    {
+        ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
+        if (channelWidget &&
+            channelWidget->session()->config().ID() == config.ID())
+            return channelWidget;
     }
     return 0;
 }
@@ -1189,7 +1087,7 @@ void MainWindow::whoUserDoubleClicked(const QString &login)
         widget = newTellWidget(session, login);
 
     // Just focus it
-    mtwMain->focusWidget(widget);
+    tabWidgetMain->setCurrentWidget(widget);
 }
 
 void MainWindow::tellSessionAsked(const QString &login)
@@ -1222,7 +1120,7 @@ void MainWindow::showMessages()
         widget = newMessageWidget(session);
 
     // Just focus it
-    mtwMain->focusWidget(widget);
+    tabWidgetMain->setCurrentWidget(widget);
 }
 
 void MainWindow::showTransfers()
@@ -1235,14 +1133,14 @@ void MainWindow::showTransfers()
         widget = newTransfersWidget(session);
 
     // Just focus it
-    mtwMain->focusWidget(widget);
+    tabWidgetMain->setCurrentWidget(widget);
 }
 
 MessageWidget *MainWindow::getMessageWidget(Session *session)
 {
-    for (int i = 0; i < mtwMain->count(); i++)
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
     {
-        MessageWidget *w = qobject_cast<MessageWidget*>(mtwMain->widget(i));
+        MessageWidget *w = qobject_cast<MessageWidget*>(tabWidgetMain->widget(i));
         if (w && w->session() == session)
             return w;
     }
@@ -1253,8 +1151,7 @@ MessageWidget *MainWindow::newMessageWidget(Session *session)
 {
     MessageWidget *w = new MessageWidget(session);
 
-    mtwMain->addWidget(session->config().name(), w, tr("Messages"),
-                       Profile::instance().tabsChannelCaptionMode ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
+    tabWidgetMain->addTab(w, tr("Messages"));
 
     return w;
 }
@@ -1372,19 +1269,18 @@ void MainWindow::updateAccepted()
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if (watched == mtwMain)
+    if (watched == tabWidgetMain)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            QWidget *widget = mtwMain->widgetByTabLocation(QPoint(mouseEvent->globalX(), mouseEvent->globalY()));
-            ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(widget);
-            if (channelWidget)
+            QWidget *widget = tabWidgetMain->widgetByTabPosition(mouseEvent->pos());
+            if (qobject_cast<ChannelWidget*>(widget)) // Don't remove channel widget
                 return true;
             SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
             if (sessionWidget)
             {
-                mtwMain->removeWidget(sessionWidget);
+                removeWidget(sessionWidget);
                 return true;
             }
         } else if (event->type() == QEvent::KeyPress)
@@ -1402,14 +1298,14 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             if (keyEvent->key() == Qt::Key_F11 ||
                 (keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier))
             {
-                mtwMain->rotateCurrentPageToLeft();
+                moveToLeftWidget();
                 return true;
             }
             else if (keyEvent->key() == Qt::Key_F12 ||
                      (keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
                      (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::ControlModifier))
             {
-                mtwMain->rotateCurrentPageToRight();
+                moveToRightWidget();
                 return true;
             }
         }
@@ -1428,7 +1324,7 @@ void MainWindow::showFileTransfers()
         widget = newTransfersWidget(session);
 
     // Just focus it
-    mtwMain->focusWidget(widget);
+    tabWidgetMain->setCurrentWidget(widget);
 }
 
 void MainWindow::newTransfer(Transfer *transfer)
@@ -1439,15 +1335,15 @@ void MainWindow::newTransfer(Transfer *transfer)
         widget = newTransfersWidget(transfer->session());
 
     // Just focus it
-    mtwMain->focusWidget(widget);
+    tabWidgetMain->setCurrentWidget(widget);
 }
 
 void MainWindow::executeAction(int action)
 {
     // Get current session
-    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
+    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
     if (!sessionWidget)
-        return;
+         return;
 
     Session *session = sessionWidget->session();
 
@@ -1477,7 +1373,73 @@ void MainWindow::executeAction(int action)
 
 void MainWindow::searchActionTriggered()
 {
-    SessionWidget *w = qobject_cast<SessionWidget*>(mtwMain->focusedWidget());
+    SessionWidget *w = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
     if (w)
         w->search();
+}
+
+void MainWindow::renameWidget(QWidget *widget, const QString &text)
+{
+    QString caption = text;
+    if (text == "")
+    {
+        SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
+        if (sessionWidget)
+            caption = sessionWidget->caption();
+    }
+
+    int index = tabWidgetMain->indexOf(widget);
+    if (index >= 0)
+        tabWidgetMain->setTabText(index, caption);
+}
+
+void MainWindow::changeWidgetColor(QWidget *widget, const QColor &color)
+{
+    int index = tabWidgetMain->indexOf(widget);
+    if (index >= 0)
+        tabWidgetMain->setTabTextColor(index, color);
+}
+
+void MainWindow::removeSessionWidgets(Session *session)
+{
+    for (int i = tabWidgetMain->count() - 1; i > 0; --i)
+    {
+        SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(i));
+        if (sessionWidget->session() == session)
+        {
+            tabWidgetMain->removeTab(i);
+            delete sessionWidget;
+        }
+    }
+}
+
+void MainWindow::removeWidget(QWidget *widget)
+{
+    int index = tabWidgetMain->indexOf(widget);
+    if (index >= 0)
+    {
+        tabWidgetMain->removeTab(index);
+        delete widget;
+    }
+}
+
+void MainWindow::moveToLeftWidget()
+{
+    if (tabWidgetMain->currentIndex())
+        tabWidgetMain->setCurrentIndex(tabWidgetMain->currentIndex() - 1);
+    else if (tabWidgetMain->count())
+        tabWidgetMain->setCurrentIndex(tabWidgetMain->count() - 1);
+}
+
+void MainWindow::moveToRightWidget()
+{
+    if (tabWidgetMain->currentIndex() < tabWidgetMain->count() - 1)
+        tabWidgetMain->setCurrentIndex(tabWidgetMain->currentIndex() + 1);
+    else if (tabWidgetMain->count())
+        tabWidgetMain->setCurrentIndex(0);
+}
+
+void MainWindow::captionChanged()
+{
+    renameWidget(qobject_cast<QWidget*>(sender()));
 }

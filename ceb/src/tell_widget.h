@@ -41,8 +41,6 @@ public:
     const QString &login() const;
     void setLogin(const QString &newLogin);
     void applyFirstShow();
-    bool userAway() const;
-    void setUserAway(bool userAway);
     void refreshFonts();
 
     virtual QString widgetCaption() const;
@@ -64,7 +62,6 @@ private:
     QString _login;
     MyTextEdit *_textEditOutput;
     HistoryWidget *_historyWidget;
-    bool _userAway;
     QComboBox *_comboBoxFilter;
     TokenRenderer _tokenRenderer;
     int _chatBlock;

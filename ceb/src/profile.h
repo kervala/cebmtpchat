@@ -22,6 +22,7 @@
 #include <QString>
 #include <QList>
 #include <QColor>
+#include <QTabWidget>
 
 #include "session_config.h"
 #include "token_display.h"
@@ -97,11 +98,7 @@ public:
     int warningoScreen;
     bool warningoPrivate;
     bool warningoHighlight;
-    bool tabsAllInOne;
-    bool tabsAllInTop;
-    bool tabsSuperOnTop;
-    bool tabsOnTop;
-    bool tabsIcons;
+    QTabWidget::TabPosition tabsPosition;
     int tabsChannelCaptionMode;
     QString linksCustomBrowser;
     bool awaySeparatorLines;

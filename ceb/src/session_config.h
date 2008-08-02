@@ -53,6 +53,8 @@ public:
     void load(const QDomElement &rootElem);
     void save(QDomElement &rootElem);
 
+    QString ID() const { return QString("%1:%2:%3").arg(_address).arg(_port).arg(_login).toLower(); }
+
     const QString &name() const { return _name; }
     void setName(const QString &name) { _name = name; }
     const QString &description() const { return _description; }

@@ -325,6 +325,7 @@ void Session::tokenAnalyzed(const Token &token)
                                            token.arguments()[4]));
         break;
     case Token::SomeoneAway:
+    case Token::SomeoneAwayWarning:
     {
         WhoUser user = _whoPopulation.userForLogin(token.arguments()[1]);
         user.setIdle("*away*");

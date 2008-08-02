@@ -38,6 +38,7 @@
 #include "links_settings_widget.h"
 #include "shortcuts_settings_widget.h"
 #include "misc_settings_widget.h"
+#include "tabs_settings_widget.h"
 #include "logger.h"
 
 #include "dialog_settings.h"
@@ -58,7 +59,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     createNode(0, _warningoWidget = createWarningoWidget(), tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
     createNode(0, _soundsWidget = createSoundsWidget(), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
     createNode(0, _idleWidget = createIdleWidget(), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
+    createNode(0, _tabsWidget = createTabsWidget(), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
     createNode(0, _linksWidget = createLinksWidget(), tr("Links", "Settings node"), QIcon(":/images/links.png"));
     createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
     createNode(0, _miscWidget = createMiscWidget(), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
@@ -331,13 +332,16 @@ QWidget *DialogSettings::createIdleWidget()
 
 QWidget *DialogSettings::createTabsWidget()
 {
+    TabsSettingsWidget *widget = new TabsSettingsWidget;
+    widget->applyProfile(Profile::instance());
+    return widget;
+/*
     QWidget *mainWidget = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
     mainLayout->setMargin(2);
 
-    _checkBoxTabsIcons = new QCheckBox(tr("Display icons in tabs"));
-    mainLayout->addWidget(_checkBoxTabsIcons);
-    _checkBoxTabsIcons->setChecked(Profile::instance().tabsIcons);
+    QHBoxLayout *tabLocationLayout = new QHBoxLayout;
+    mainLayout->addLayout(tabLocationLayout);
 
     QGroupBox *groupBoxType = new QGroupBox(tr("Tabs disposition"));
     QVBoxLayout *typeLayout = new QVBoxLayout(groupBoxType);
@@ -380,11 +384,6 @@ QWidget *DialogSettings::createTabsWidget()
             SLOT(refreshTabExample(bool)));
     allInOneLocationLayout->addWidget(_radioButtonTabsAllInBottom);
 
-    if (Profile::instance().tabsAllInTop)
-        _radioButtonTabsAllInTop->setChecked(true);
-    else
-        _radioButtonTabsAllInBottom->setChecked(true);
-
     _stackedWidgetTabs->addWidget(groupBoxAllInOne);
 
     /////////////////
@@ -405,10 +404,6 @@ QWidget *DialogSettings::createTabsWidget()
     connect(_radioButtonTabsSuperOnBottom, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     superLocationLayout->addWidget(_radioButtonTabsSuperOnBottom);
-    if (Profile::instance().tabsSuperOnTop)
-        _radioButtonTabsSuperOnTop->setChecked(true);
-    else
-        _radioButtonTabsSuperOnBottom->setChecked(true);
 
     QGroupBox *groupBoxNormal = new QGroupBox(tr("Sub-tabs location"));
     superLayout->addWidget(groupBoxNormal);
@@ -421,29 +416,20 @@ QWidget *DialogSettings::createTabsWidget()
     connect(_radioButtonTabsOnBottom, SIGNAL(clicked(bool)), this,
             SLOT(refreshTabExample(bool)));
     normalLocationLayout->addWidget(_radioButtonTabsOnBottom);
-    if (Profile::instance().tabsOnTop)
-        _radioButtonTabsOnTop->setChecked(true);
-    else
-        _radioButtonTabsOnBottom->setChecked(true);
 
     _stackedWidgetTabs->addWidget(superWidget);
 
     connect(_radioButtonTabsAllInOne, SIGNAL(toggled(bool)), this, SLOT(tabsTypeAllInOneToggled(bool)));
     connect(_radioButtonTabsSuper, SIGNAL(toggled(bool)), this, SLOT(tabsTypeSuperToggled(bool)));
 
-    if (Profile::instance().tabsAllInOne)
-        _radioButtonTabsAllInOne->setChecked(true);
-    else
-        _radioButtonTabsSuper->setChecked(true);
+    _tabWidgetExample = new MyTabWidget;
+    mainLayout->addWidget(_tabWidgetExample);
 
-    _mtwExample = new MultiTabWidget;
-    mainLayout->addWidget(_mtwExample);
-
-    fillMultiTabWidget();
+    fillTabWidgetExample();
 
     _comboBoxTabsCaptionMode->setCurrentIndex(Profile::instance().tabsChannelCaptionMode);
 
-    return mainWidget;
+    return mainWidget;*/
 }
 
 QWidget *DialogSettings::createLinksWidget()
@@ -674,12 +660,7 @@ void DialogSettings::getIdleControlsDatas()
 
 void DialogSettings::getTabsControlsDatas()
 {
-    Profile::instance().tabsIcons = _checkBoxTabsIcons->isChecked();
-    Profile::instance().tabsAllInOne = _radioButtonTabsAllInOne->isChecked();
-    Profile::instance().tabsAllInTop = _radioButtonTabsAllInTop->isChecked();
-    Profile::instance().tabsSuperOnTop = _radioButtonTabsSuperOnTop->isChecked();
-    Profile::instance().tabsOnTop = _radioButtonTabsOnTop->isChecked();
-    Profile::instance().tabsChannelCaptionMode = _comboBoxTabsCaptionMode->currentIndex();
+    qobject_cast<TabsSettingsWidget*>(_tabsWidget)->feedProfile(Profile::instance());
 }
 
 void DialogSettings::getLinksControlsDatas()
@@ -739,21 +720,9 @@ void DialogSettings::logsCustomDirClicked()
     _lineEditLogsCustomDir->setText(dir);
 }
 
-void DialogSettings::tabsTypeAllInOneToggled(bool checked)
-{
-    if (checked)
-        _stackedWidgetTabs->setCurrentIndex(0);
-}
-
-void DialogSettings::tabsTypeSuperToggled(bool checked)
-{
-    if (checked)
-        _stackedWidgetTabs->setCurrentIndex(1);
-}
-
 void DialogSettings::refreshTabExample(bool)
 {
-    if (_radioButtonTabsAllInOne->isChecked())
+/*TOREDO    if (_radioButtonTabsAllInOne->isChecked())
     {
         _mtwExample->setDisplayMode(MultiTabWidget::AllInOneRow);
 
@@ -774,8 +743,7 @@ void DialogSettings::refreshTabExample(bool)
             _mtwExample->setSubLocation(MultiTabWidget::North);
         else
             _mtwExample->setSubLocation(MultiTabWidget::South);
-    }
-
+            }*/
 }
 
 void DialogSettings::changeAwaySeparatorColor()
@@ -813,37 +781,4 @@ void DialogSettings::reject()
     newTextSkin = _oldTextSkin;
 
     DialogConfig::reject();
-}
-
-void DialogSettings::currentTabCaptionModeChanged(int index)
-{
-    fillMultiTabWidget();
-}
-
-void DialogSettings::fillMultiTabWidget()
-{
-    _mtwExample->clear();
-
-    bool simplified = _comboBoxTabsCaptionMode->currentIndex();
-
-    QLabel *label = new QLabel("Hall");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 1"), label, "Hall",
-                           simplified ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
-
-    label = new QLabel("Foo");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 1"), label, "Foo",
-                           simplified ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
-
-    label = new QLabel("Hall");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 2"), label, "Hall",
-                           _comboBoxTabsCaptionMode->currentIndex() ? MultiTabWidget::SuperLabelOnly : MultiTabWidget::LabelAndSuperLabel);
-
-    label = new QLabel("Bar");
-    label->setAlignment(Qt::AlignCenter);
-    _mtwExample->addWidget(tr("Server 2"), label, "Bar",
-                           simplified ? MultiTabWidget::LabelOnly : MultiTabWidget::LabelAndSuperLabel);
-    refreshTabExample();
 }

@@ -109,7 +109,6 @@ void TellWidget::init()
     splitterOutIn->setSizes(list2);
 
     _firstShow = true;
-    _userAway = false;
     _chatBlock = chatBlockNoOne;
 
     refreshFonts();
@@ -141,6 +140,7 @@ void TellWidget::newTokenFromSession(const Token &token)
 {
     QString login;
     bool youTalk = false;
+    bool privateToken = false;
     switch(token.type())
     {
     case Token::SomeoneTellsYou:
@@ -150,6 +150,7 @@ void TellWidget::newTokenFromSession(const Token &token)
             return;
 
         login = _login;
+        privateToken = true;
         break;
     case Token::YouTellToSomeone:
     case Token::YouAskToSomeone:
@@ -159,21 +160,29 @@ void TellWidget::newTokenFromSession(const Token &token)
 
         youTalk = true;
         login = _session->serverLogin();
+        privateToken = true;
         break;
-/*	case Token::SomeoneComesIn:
-        if (event.arguments()[1] != _login)
+    case Token::SomeoneAway:
+    case Token::SomeoneBack:
+    case Token::SomeoneAwayWarning:
+        if (!token.arguments()[1].compare(_login, Qt::CaseInsensitive))
+            emit captionChanged();
         return;
+    case Token::YouAway:
+    case Token::YouBack:
+        if (!_login.compare(_session->serverLogin(), Qt::CaseInsensitive))
+            emit captionChanged();
+        return;
+    case Token::SomeoneComesIn:
+    case Token::SomeoneLeaves:
+    case Token::SomeoneDisconnects:
+    case Token::SomeoneIsKicked:
+    case Token::YouKickSomeone:
+        if (token.arguments()[1].compare(_login, Qt::CaseInsensitive))
+            return;
+
+        emit captionChanged();
         break;
-	case Token::SomeoneLeaves:
-	case Token::SomeoneLeavesMsg:
-	case Token::SomeoneDisconnects:
-	case Token::SomeoneIsKicked:
-	case Token::SomeoneIsKickedMsg:
-	case Token::YouKickSomeone:
-	case Token::YouKickSomeoneMsg:
-        if (event.arguments()[1] != _login)
-        return;
-        break;*/
     default:
         return;
     }
@@ -196,15 +205,19 @@ void TellWidget::newTokenFromSession(const Token &token)
             displayTimeStamp = false;
         }
 
-    QStringList args;
-    const QString &sentence = token.arguments()[2];
-    args << "<" + login + "> " + sentence << login << sentence;
-    QList<int> positions;
-    positions << 0 << 1 << login.length() + 3;
+    if (privateToken)
+    {
+        QStringList args;
+        const QString &sentence = token.arguments()[2];
+        args << "<" + login + "> " + sentence << login << sentence;
+        QList<int> positions;
+        positions << 0 << 1 << login.length() + 3;
 
-    Token translatedToken(Token::SomeoneSays, args, positions, 0);
+        Token translatedToken(Token::SomeoneSays, args, positions, 0);
 
-    _tokenRenderer.displayToken(translatedToken, displayTimeStamp);
+        _tokenRenderer.displayToken(translatedToken, displayTimeStamp);
+    } else
+        _tokenRenderer.displayToken(token, displayTimeStamp);
 
 /*	if (youTalk && _chatBlock != chatBlockYou)
 	{
@@ -293,19 +306,11 @@ void TellWidget::historyPageDown()
 
 QString TellWidget::widgetCaption() const
 {
-    if (_userAway)
-        return _login + " (away)";
+    if (!_session->whoPopulation().userForLogin(_login).isValid())
+        return _login + " " + tr("(quit)");
+    if (_session->whoPopulation().userForLogin(_login).isAway())
+        return _login + " " + tr("(away)");
     return _login;
-}
-
-bool TellWidget::userAway() const
-{
-    return _userAway;
-}
-
-void TellWidget::setUserAway(bool userAway)
-{
-    _userAway = userAway;
 }
 
 void TellWidget::refreshFonts()

@@ -29,7 +29,7 @@
 #include <QSystemTrayIcon>
 #include <QShortcut>
 
-#include <multi_tab_widget.h>
+#include <my_tabwidget.h>
 
 #include "session.h"
 #include "dialog_system.h"
@@ -50,12 +50,9 @@ public:
 
     //! For Lua scripts
     QWidget *getTab(Session *session, const QString &category, const QString &argument);
-    QColor getTabColor(QWidget *widget);
+    QColor getTabColor(QWidget *widget) const;
     void setTabColor(QWidget *widget, const QColor &color);
     bool isTabFocused(QWidget *widget) const;
-    bool isSuperTabFocused(QWidget *widget) const;
-    QColor getSuperTabColor(QWidget *widget);
-    void setSuperTabColor(QWidget *widget, const QColor &color);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -87,8 +84,7 @@ private:
 #endif // Q_OS_WIN32
     // Status bar
     QStatusBar *sbMain;
-    // Main MultiTabWidget
-    MultiTabWidget *mtwMain;
+    MyTabWidget *tabWidgetMain;
     // System dialog
     DialogSystem *systemDialog;
     QTimer animationTimer;
@@ -115,6 +111,7 @@ private:
 
     // Channel things
     ChannelWidget *getChannelWidget(Session *session);
+    ChannelWidget *getChannelWidget(const SessionConfig &config) const;
 
     // Tell things
     TellWidget *getTellWidget(Session *session, const QString &login);
@@ -132,8 +129,15 @@ private:
     MessageWidget *getMessageWidget(Session *session);
     MessageWidget *newMessageWidget(Session *session);
 
+    void renameWidget(QWidget *widget, const QString &text = "");
+    void changeWidgetColor(QWidget *widget, const QColor &color);
+    void removeWidget(QWidget *widget);
+    void removeSessionWidgets(Session *session);
+    void moveToLeftWidget();
+    void moveToRightWidget();
+
     void refreshProfileSettings(); // Refresh profile settings on every widget
-    void applyProfileOnMultiTabWidget();
+    void applyProfileOnTabWidget();
     void refreshWidgets();
     void createActionShortcuts();
 
@@ -165,7 +169,7 @@ private slots:
     void whoItemDblClicked(const QString &login);
     void closeTabWidget();
 //  void highlightSessionWidget();
-    void focusedWidgetChanged(QWidget *widget);
+    void tabWidgetMainCurrentChanged(int index);
     void whoUserDoubleClicked(const QString &login);
     void showLogsDir();
     void showMessages();
@@ -181,6 +185,7 @@ private slots:
     void newTransfer(Transfer *transfer);
     void executeAction(int action);
     void searchActionTriggered();
+    void captionChanged();
 };
 
 #endif // MAIN_WINDOW_H

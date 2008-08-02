@@ -54,7 +54,7 @@ public:
     void refreshFonts();
     void refreshWhoColumn();
 
-    virtual QString widgetCaption() const;
+    QString widgetCaption() const; // Inherited
 
     void search(); // Inherited
 

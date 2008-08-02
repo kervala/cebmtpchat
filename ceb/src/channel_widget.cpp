@@ -873,7 +873,10 @@ void ChannelWidget::applyFirstShow()
 
 QString ChannelWidget::widgetCaption() const
 {
-    return _session->channel();
+    if (_session->channel().compare("Hall", Qt::CaseInsensitive))
+        return QString("%1 (%2)").arg(_session->config().name()).arg(_session->channel());
+    else
+        return _session->config().name();
 }
 
 void ChannelWidget::initScriptComboBox()
