@@ -64,7 +64,7 @@ DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
     mainSplitter->setChildrenCollapsible(false);
 
     QList<int> list;
-    list.append(130);
+    list.append(150);
     mainSplitter->setSizes(list);
 }
 

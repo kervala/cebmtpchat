@@ -5,14 +5,15 @@
 
 class MyTabWidget : public QTabWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MyTabWidget(QWidget *parent = 0);
+    MyTabWidget(QWidget *parent = 0);
 
-	QColor tabTextColor(int tabIndex) const;
-	void setTabTextColor(int tabIndex, const QColor &color);
-	QRect tabRect(int tabIndex) const;
+    QColor tabTextColor(int tabIndex) const;
+    void setTabTextColor(int tabIndex, const QColor &color);
+    QRect tabRect(int tabIndex) const;
+    QWidget *widgetByTabPosition(const QPoint &pos) const; //!< returns a widget in function of a position supposed to be in a tabrect
 };
 
 #endif

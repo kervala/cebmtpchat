@@ -493,6 +493,7 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
     connect(channelWidget, SIGNAL(tellSessionAsked(const QString&)),
             this, SLOT(tellSessionAsked(const QString&)));
     connect(channelWidget, SIGNAL(showFileTransfers()), this, SLOT(showFileTransfers()));
+    connect(channelWidget, SIGNAL(captionChanged()), this, SLOT(captionChanged()));
 
     tabWidgetMain->addTab(channelWidget, channelWidget->caption());
 
@@ -787,12 +788,6 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
         }
     }
     break;
-    case Token::YouJoinChannel:
-        renameWidget(getChannelWidget(session));
-        break;
-    case Token::YouLeaveChannel:
-        renameWidget(getChannelWidget(session));
-	break;
     default:;
     }
 }

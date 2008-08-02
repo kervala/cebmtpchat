@@ -495,6 +495,7 @@ void ChannelWidget::newToken(const Token &token)
     case Token::YouLeaveChannel:
         _whoTicketID = _session->requestTicket(TokenFactory::Command_Who);
         _session->sendCommand("who all");
+        emit captionChanged();
         break;
     case Token::Date:
         if (_dateTicketID == token.ticketID() && token.ticketID() >= 0)
