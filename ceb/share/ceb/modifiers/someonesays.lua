@@ -22,6 +22,13 @@ end
 function newToken()
 	tab = getTab("channel");
 	if not isTabFocused(tab) then
-		setTabColor(tab, "#0000FF")
+		c = getTabColor(tab)
+		if c ~= getColor("#FF0000") then
+			if nickInSentence(tokenArgument(2), getSessionInfo("login")) then
+				setTabColor(tab, "#FF0000")
+			else
+				setTabColor(tab, "#0000FF")
+			end
+		end
 	end
 end
