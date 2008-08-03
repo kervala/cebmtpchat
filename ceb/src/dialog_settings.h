@@ -19,15 +19,6 @@
 #ifndef DIALOG_SETTINGS_H
 #define DIALOG_SETTINGS_H
 
-#include <QRadioButton>
-#include <QCheckBox>
-#include <QSpinBox>
-#include <QLabel>
-#include <QGroupBox>
-#include <QStackedWidget>
-#include <QComboBox>
-#include <QSignalMapper>
-
 #include <dialog_config.h>
 #include <my_tabwidget.h>
 
@@ -54,15 +45,9 @@ private:
     QTreeWidgetItem *_itemConnections;
     QPushButton *_pushButtonNewConnection;
 
-    // Tray
-    QGroupBox *_groupBoxTray;
-    QCheckBox *_checkBoxTrayAlwaysVisible;
-    QCheckBox *_checkBoxTrayHideFromTaskBar;
-
     // Creation functions
     void createConnectionsNodes();
     QWidget *createConnectionsWidget();
-    QWidget *createTrayWidget();
 
     TextSkin _oldTextSkin;
 
@@ -70,13 +55,13 @@ private:
 
     // Get datas
     void getConnectionsControlsDatas(); //!< Collect all datas concerning connections
-    void getTrayControlsDatas();
     void getControlsDatas();
 
     QMap<QString, QString> displayToLanguage;
     QString getLanguageDisplay(const QString &language);
 
-    SettingsWidget *addSettingsWidget(SettingsWidget *widget);
+    QTreeWidgetItem *addSettingsWidget(QTreeWidgetItem *father, SettingsWidget *widget,
+                                       const QString &label, const QIcon &icon = QIcon());
 
 private slots:
     void newSessionConfig();

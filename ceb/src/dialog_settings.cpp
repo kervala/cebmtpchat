@@ -36,30 +36,34 @@
 #include "tabs_settings_widget.h"
 #include "logs_settings_widget.h"
 #include "output_settings_widget.h"
+#include "tray_settings_widget.h"
 #include "logger.h"
 
 #include "dialog_settings.h"
 
+
 DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 {
+    QIcon transpIcon(":/images/transparent.png");
+
     treeMain->setColumnCount(1);
     treeMain->setHeaderLabels(QStringList(tr("Categories")));
     treeMain->header()->setMovable(false);
     treeMain->header()->setResizeMode(QHeaderView::Stretch);
-    createNode(0, addSettingsWidget(new GeneralSettingsWidget), tr("General", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, addSettingsWidget(new ShortcutsSettingsWidget), tr("Shortcuts", "Settings node"), QIcon(":/images/transparent.png"));
+    addSettingsWidget(0, new GeneralSettingsWidget, tr("General", "Settings node"), transpIcon);
+    addSettingsWidget(0, new ShortcutsSettingsWidget, tr("Shortcuts", "Settings node"), transpIcon);
     createConnectionsNodes();
-    QTreeWidgetItem *item = createNode(0, addSettingsWidget(new FontsSettingsWidget), tr("Fonts", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(item, addSettingsWidget(new DetailedFontsSettingsWidget), tr("Detailed", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, addSettingsWidget(new LogsSettingsWidget), tr("Logs", "Settings node"), QIcon(":/images/logs.png"));
-    createNode(0, createTrayWidget(), tr("Tray", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, addSettingsWidget(new WarningoSettingsWidget), tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
-    createNode(0, addSettingsWidget(new SoundSettingsWidget), tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
-    createNode(0, addSettingsWidget(new IdleSettingsWidget), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, addSettingsWidget(new TabsSettingsWidget), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
-    createNode(0, addSettingsWidget(new LinksSettingsWidget), tr("Links", "Settings node"), QIcon(":/images/links.png"));
-    createNode(0, addSettingsWidget(new OutputSettingsWidget), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
-    createNode(0, addSettingsWidget(new MiscSettingsWidget), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
+    QTreeWidgetItem *item = addSettingsWidget(0, new FontsSettingsWidget, tr("Fonts", "Settings node"), transpIcon);
+    addSettingsWidget(item, new DetailedFontsSettingsWidget, tr("Detailed", "Settings node"), transpIcon);
+    addSettingsWidget(0, new LogsSettingsWidget, tr("Logs", "Settings node"), QIcon(":/images/logs.png"));
+    addSettingsWidget(0, new TraySettingsWidget, tr("Tray", "Settings node"), transpIcon);
+    addSettingsWidget(0, new WarningoSettingsWidget, tr("Warningo", "Settings node"), QIcon(":/images/warningo.png"));
+    addSettingsWidget(0, new SoundSettingsWidget, tr("Sounds", "Settings node"), QIcon(":/images/sounds.png"));
+    addSettingsWidget(0, new IdleSettingsWidget, tr("Idle", "Settings node"), transpIcon);
+    addSettingsWidget(0, new TabsSettingsWidget, tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
+    addSettingsWidget(0, new LinksSettingsWidget, tr("Links", "Settings node"), QIcon(":/images/links.png"));
+    addSettingsWidget(0, new OutputSettingsWidget, tr("Output", "Settings node"), transpIcon);
+    addSettingsWidget(0, new MiscSettingsWidget, tr("Misc", "Settings node"), transpIcon);
 
     // Apply profile on every SettingsWidget
     foreach (SettingsWidget *widget, _settingsWidgets)
@@ -74,10 +78,11 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     resize(662, 479);
 }
 
-SettingsWidget *DialogSettings::addSettingsWidget(SettingsWidget *widget)
+QTreeWidgetItem *DialogSettings::addSettingsWidget(QTreeWidgetItem *father, SettingsWidget *widget,
+                                                   const QString &label, const QIcon &icon)
 {
     _settingsWidgets << widget;
-    return widget;
+    return createNode(father, widget, label, icon);
 }
 
 void DialogSettings::createConnectionsNodes()
@@ -97,36 +102,6 @@ void DialogSettings::createConnectionsNodes()
         // Create a node for the config
         createNode(_itemConnections, sessionConfigWidget, config.name(), QIcon(":/images/transparent.png"));
     }
-}
-
-QWidget *DialogSettings::createTrayWidget()
-{
-    QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
-    mainLayout->setMargin(2);
-
-    _groupBoxTray = new QGroupBox(tr("Enable tray icon"));
-    mainLayout->addWidget(_groupBoxTray);
-    _groupBoxTray->setCheckable(true);
-
-    QVBoxLayout *trayLayout = new QVBoxLayout(_groupBoxTray);
-
-    _checkBoxTrayAlwaysVisible = new QCheckBox(tr("Always visible"));
-    trayLayout->addWidget(_checkBoxTrayAlwaysVisible);
-    _checkBoxTrayAlwaysVisible->setChecked(Profile::instance().trayAlwaysVisible);
-
-    _checkBoxTrayHideFromTaskBar = new QCheckBox(tr("Hide from task bar when minimized"));
-    trayLayout->addWidget(_checkBoxTrayHideFromTaskBar);
-    _checkBoxTrayHideFromTaskBar->setChecked(Profile::instance().trayHideFromTaskBar);
-
-    _groupBoxTray->setChecked(Profile::instance().trayEnabled);
-
-    // End spacer
-    QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed,
-                                          QSizePolicy::Expanding);
-    mainLayout->addItem(spacer);
-
-    return mainWidget;
 }
 
 QWidget *DialogSettings::createConnectionsWidget()
@@ -181,7 +156,6 @@ void DialogSettings::getControlsDatas()
         widget->feedProfile(Profile::instance());
 
     getConnectionsControlsDatas();
-    getTrayControlsDatas();
 }
 
 void DialogSettings::getConnectionsControlsDatas()
@@ -195,13 +169,6 @@ void DialogSettings::getConnectionsControlsDatas()
         SessionConfig *config = Profile::instance().getSessionConfig(widget->oldName());
         widget->get(*config);
     }
-}
-
-void DialogSettings::getTrayControlsDatas()
-{
-    Profile::instance().trayEnabled = _groupBoxTray->isChecked();
-    Profile::instance().trayAlwaysVisible = _checkBoxTrayAlwaysVisible->isChecked();
-    Profile::instance().trayHideFromTaskBar = _checkBoxTrayHideFromTaskBar->isChecked();
 }
 
 void DialogSettings::newSessionConfig()

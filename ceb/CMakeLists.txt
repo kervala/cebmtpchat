@@ -43,7 +43,6 @@ SET(CEB_SRCS
 	src/message_model.cpp
 	src/message_widget.cpp
 	src/my_menubar.cpp
-	src/settings_widget.cpp
 	src/sound_settings_widget.cpp
 	src/idle_settings_widget.cpp
 	src/warningo_settings_widget.cpp
@@ -77,6 +76,7 @@ SET(CEB_SRCS
 	src/general_settings_widget.cpp
 	src/logs_settings_widget.cpp
 	src/output_settings_widget.cpp
+	src/tray_settings_widget.cpp
 )
 
 SET(CEB_UIS
@@ -94,6 +94,7 @@ SET(CEB_UIS
 	ui/general_settings.ui
 	ui/logs_settings.ui
 	ui/output_settings.ui
+	ui/tray_settings.ui
 )
 
 QT4_WRAP_UI(CEB_UIS_H ${CEB_UIS})
@@ -147,6 +148,7 @@ SET(CEB_MOCH
 	src/general_settings_widget.h
 	src/logs_settings_widget.h
 	src/output_settings_widget.h
+	src/tray_settings_widget.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)
