@@ -1,0 +1,289 @@
+<ui version="4.0" >
+ <class>LogsSettings</class>
+ <widget class="QWidget" name="LogsSettings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>549</width>
+    <height>478</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4" >
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupBoxLogs" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Enable logs</string>
+     </property>
+     <property name="checkable" >
+      <bool>true</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5" >
+      <item row="0" column="0" >
+       <widget class="QTabWidget" name="tabWidget" >
+        <property name="currentIndex" >
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabLogsDirectory" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>515</width>
+           <height>145</height>
+          </rect>
+         </property>
+         <attribute name="title" >
+          <string>Directory</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2" >
+          <item row="0" column="0" >
+           <widget class="QRadioButton" name="radioButtonDefaultDirectory" >
+            <property name="text" >
+             <string>Default directory:</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
+            </property>
+            <property name="checked" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <layout class="QHBoxLayout" name="horizontalLayout" >
+            <item>
+             <spacer name="horizontalSpacer" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditDefaultDirectory" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QRadioButton" name="radioButtonCustomDirectory" >
+            <property name="text" >
+             <string>Custom directory:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+            <item>
+             <spacer name="horizontalSpacer_2" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditCustomDirectory" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButtonCustomDirectory" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabPolicy" >
+         <attribute name="title" >
+          <string>Policy</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="labelPolicy" >
+            <property name="text" >
+             <string>Save your logs in a file:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2" >
+           <widget class="QRadioButton" name="radioButtonDaily" >
+            <property name="text" >
+             <string>Daily</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2" >
+           <widget class="QRadioButton" name="radioButtonWeekly" >
+            <property name="text" >
+             <string>Weekly (from monday to sunday)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2" >
+           <widget class="QRadioButton" name="radioButtonMonthly" >
+            <property name="text" >
+             <string>Monthly</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2" >
+           <widget class="QRadioButton" name="radioButtonUniq" >
+            <property name="text" >
+             <string>Uniq</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabMisc" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>515</width>
+           <height>145</height>
+          </rect>
+         </property>
+         <attribute name="title" >
+          <string>Misc</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_3" >
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="checkBoxTimestamps" >
+            <property name="text" >
+             <string>Always timestamps</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <spacer name="verticalSpacer" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <spacer name="verticalSpacer_4" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>245</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>radioButtonDefaultDirectory</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditDefaultDirectory</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>67</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>99</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButtonCustomDirectory</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditCustomDirectory</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>145</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>169</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButtonCustomDirectory</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>toolButtonCustomDirectory</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>477</x>
+     <y>142</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>513</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

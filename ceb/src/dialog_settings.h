@@ -59,17 +59,6 @@ private:
     QTreeWidgetItem *_itemConnections;
     QPushButton *_pushButtonNewConnection;
 
-    // Logs
-    QGroupBox *_groupBoxLogs;
-    QRadioButton *_radioButtonLogsDefaultDir;
-    QRadioButton *_radioButtonLogsCustomDir;
-    QLineEdit *_lineEditLogsCustomDir;
-    QRadioButton *_radioButtonLogsDaily;
-    QRadioButton *_radioButtonLogsWeekly;
-    QRadioButton *_radioButtonLogsMonthly;
-    QRadioButton *_radioButtonLogsUniq;
-    QCheckBox *_checkBoxLogsTimeStamp;
-
     // Tray
     QGroupBox *_groupBoxTray;
     QCheckBox *_checkBoxTrayAlwaysVisible;
@@ -87,7 +76,6 @@ private:
     // Creation functions
     void createConnectionsNodes();
     QWidget *createConnectionsWidget();
-    QWidget *createLogsWidget();
     QWidget *createTrayWidget();
     QWidget *createOutputWidget();
 
@@ -97,7 +85,6 @@ private:
 
     // Get datas
     void getConnectionsControlsDatas(); //!< Collect all datas concerning connections
-    void getLogsControlsDatas();
     void getTrayControlsDatas();
     void getOutputControlsDatas();
     void getControlsDatas();
@@ -110,7 +97,6 @@ private:
 private slots:
     void newSessionConfig();
     void removeSessionConfig();
-    void logsCustomDirClicked();
     void changeAwaySeparatorColor();
     void refreshAwaySeparatorPreview();
     void awaySeparatorLengthChanged(int a);
