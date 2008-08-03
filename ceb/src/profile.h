@@ -137,7 +137,7 @@ public:
     SessionConfig *getSessionConfigByName(const QString &name);
     QString getUniqSessionConfigName();
     QString getAwaySeparator();
-    QString getAwaySeparator(QString period, int length);
+    static QString getAwaySeparator(QString period, int length);
     QString getBeepFileName();
     QString getAboutMeFileName();
     bool matchIdleAwayBypassExpressions(const QString &str) const;

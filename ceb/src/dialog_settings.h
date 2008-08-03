@@ -50,11 +50,6 @@ private:
     // Sub-widgets for settings
     QList<SettingsWidget*> _settingsWidgets;
 
-    // General
-    QComboBox *_comboBoxLanguage;
-    QCheckBox *_checkBoxCheckForUpdate;
-    QCheckBox *_checkBoxKeepAboveOtherWindows;
-
     // Connections
     QTreeWidgetItem *_itemConnections;
     QPushButton *_pushButtonNewConnection;
@@ -64,20 +59,10 @@ private:
     QCheckBox *_checkBoxTrayAlwaysVisible;
     QCheckBox *_checkBoxTrayHideFromTaskBar;
 
-    // Output
-    QGroupBox *_groupBoxAwaySeparator;
-    QLineEdit *_lineEditAwaySeparatorColor;
-    QPushButton *_pushButtonAwaySeparatorColor;
-    QSpinBox *_spinBoxAwaySeparatorLength;
-    QLineEdit *_lineEditAwaySeparatorPeriod;
-
-    QWidget *_miscWidget;
-
     // Creation functions
     void createConnectionsNodes();
     QWidget *createConnectionsWidget();
     QWidget *createTrayWidget();
-    QWidget *createOutputWidget();
 
     TextSkin _oldTextSkin;
 
@@ -86,7 +71,6 @@ private:
     // Get datas
     void getConnectionsControlsDatas(); //!< Collect all datas concerning connections
     void getTrayControlsDatas();
-    void getOutputControlsDatas();
     void getControlsDatas();
 
     QMap<QString, QString> displayToLanguage;
@@ -97,9 +81,6 @@ private:
 private slots:
     void newSessionConfig();
     void removeSessionConfig();
-    void changeAwaySeparatorColor();
-    void refreshAwaySeparatorPreview();
-    void awaySeparatorLengthChanged(int a);
 };
 
 

@@ -20,12 +20,6 @@
 #include <QPushButton>
 #include <QHeaderView>
 #include <QTreeWidgetItem>
-#include <QFontDialog>
-#include <QFileDialog>
-#include <QScrollArea>
-#include <QColorDialog>
-#include <QMessageBox>
-#include <QSound>
 
 #include "profile.h"
 #include "session_config_widget.h"
@@ -41,6 +35,7 @@
 #include "misc_settings_widget.h"
 #include "tabs_settings_widget.h"
 #include "logs_settings_widget.h"
+#include "output_settings_widget.h"
 #include "logger.h"
 
 #include "dialog_settings.h"
@@ -63,7 +58,7 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
     createNode(0, addSettingsWidget(new IdleSettingsWidget), tr("Idle", "Settings node"), QIcon(":/images/transparent.png"));
     createNode(0, addSettingsWidget(new TabsSettingsWidget), tr("Tabs", "Settings node"), QIcon(":/images/tabs.png"));
     createNode(0, addSettingsWidget(new LinksSettingsWidget), tr("Links", "Settings node"), QIcon(":/images/links.png"));
-    createNode(0, createOutputWidget(), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
+    createNode(0, addSettingsWidget(new OutputSettingsWidget), tr("Output", "Settings node"), QIcon(":/images/transparent.png"));
     createNode(0, addSettingsWidget(new MiscSettingsWidget), tr("Misc", "Settings node"), QIcon(":/images/transparent.png"));
 
     // Apply profile on every SettingsWidget
@@ -134,72 +129,6 @@ QWidget *DialogSettings::createTrayWidget()
     return mainWidget;
 }
 
-QWidget *DialogSettings::createOutputWidget()
-{
-    QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout(mainWidget);
-    mainLayout->setMargin(2);
-
-    _groupBoxAwaySeparator = new QGroupBox(tr("Enable away/back separator lines"));
-    mainLayout->addWidget(_groupBoxAwaySeparator);
-    _groupBoxAwaySeparator->setCheckable(true);
-    _groupBoxAwaySeparator->setChecked(Profile::instance().awaySeparatorLines);
-
-    QVBoxLayout *groupBoxAwayLayout = new QVBoxLayout(_groupBoxAwaySeparator);
-
-    QHBoxLayout *colorLayout = new QHBoxLayout;
-    groupBoxAwayLayout->addLayout(colorLayout);
-    _lineEditAwaySeparatorColor = new QLineEdit;
-    _lineEditAwaySeparatorColor->setReadOnly(true);
-    colorLayout->addWidget(_lineEditAwaySeparatorColor);
-    _pushButtonAwaySeparatorColor = new QPushButton(tr("Pick a color"));
-    QSizePolicy policy = _pushButtonAwaySeparatorColor->sizePolicy();
-    policy.setHorizontalPolicy(QSizePolicy::Fixed);
-    _pushButtonAwaySeparatorColor->setSizePolicy(policy);
-    connect(_pushButtonAwaySeparatorColor, SIGNAL(clicked()),
-            this, SLOT(changeAwaySeparatorColor()));
-    colorLayout->addWidget(_pushButtonAwaySeparatorColor);
-
-    QPalette palette = _lineEditAwaySeparatorColor->palette();
-    palette.setColor(QPalette::Text, Profile::instance().awaySeparatorColor);
-    palette.setColor(QPalette::Base, QColor(255, 255, 240));
-    _lineEditAwaySeparatorColor->setPalette(palette);
-
-    QHBoxLayout *lengthLayout = new QHBoxLayout;
-    groupBoxAwayLayout->addLayout(lengthLayout);
-    QLabel *label = new QLabel(tr("Lines length: "));
-    lengthLayout->addWidget(label);
-    _spinBoxAwaySeparatorLength = new QSpinBox;
-    policy = _spinBoxAwaySeparatorLength->sizePolicy();
-    policy.setHorizontalPolicy(QSizePolicy::Fixed);
-    _spinBoxAwaySeparatorLength->setSizePolicy(policy);
-    lengthLayout->addWidget(_spinBoxAwaySeparatorLength);
-    _spinBoxAwaySeparatorLength->setMinimum(1);
-    _spinBoxAwaySeparatorLength->setMaximum(200);
-    _spinBoxAwaySeparatorLength->setValue(Profile::instance().awaySeparatorLength);
-    connect(_spinBoxAwaySeparatorLength, SIGNAL(valueChanged(int)),
-            this, SLOT(refreshAwaySeparatorPreview()));
-
-    QHBoxLayout *periodLayout = new QHBoxLayout;
-    groupBoxAwayLayout->addLayout(periodLayout);
-    label = new QLabel(tr("Periodic separator string:"));
-    periodLayout->addWidget(label);
-    _lineEditAwaySeparatorPeriod = new QLineEdit;
-    periodLayout->addWidget(_lineEditAwaySeparatorPeriod);
-    _lineEditAwaySeparatorPeriod->setText(Profile::instance().awaySeparatorPeriod);
-    connect(_lineEditAwaySeparatorPeriod, SIGNAL(textChanged(const QString &)),
-            this, SLOT(refreshAwaySeparatorPreview()));
-
-    refreshAwaySeparatorPreview();
-
-    // End spacer
-    QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Fixed,
-                                          QSizePolicy::Expanding);
-    mainLayout->addItem(spacer);
-
-    return mainWidget;
-}
-
 QWidget *DialogSettings::createConnectionsWidget()
 {
     QWidget *mainWidget = new QWidget;
@@ -253,7 +182,6 @@ void DialogSettings::getControlsDatas()
 
     getConnectionsControlsDatas();
     getTrayControlsDatas();
-    getOutputControlsDatas();
 }
 
 void DialogSettings::getConnectionsControlsDatas()
@@ -274,15 +202,6 @@ void DialogSettings::getTrayControlsDatas()
     Profile::instance().trayEnabled = _groupBoxTray->isChecked();
     Profile::instance().trayAlwaysVisible = _checkBoxTrayAlwaysVisible->isChecked();
     Profile::instance().trayHideFromTaskBar = _checkBoxTrayHideFromTaskBar->isChecked();
-}
-
-void DialogSettings::getOutputControlsDatas()
-{
-    Profile::instance().awaySeparatorLines = _groupBoxAwaySeparator->isChecked();
-    QPalette palette = _lineEditAwaySeparatorColor->palette();
-    Profile::instance().awaySeparatorColor = palette.color(QPalette::Text);
-    Profile::instance().awaySeparatorLength = _spinBoxAwaySeparatorLength->value();
-    Profile::instance().awaySeparatorPeriod = _lineEditAwaySeparatorPeriod->text();
 }
 
 void DialogSettings::newSessionConfig()
@@ -317,32 +236,9 @@ void DialogSettings::removeSessionConfig()
     treeMain->setCurrentItem(_itemConnections);
 }
 
-void DialogSettings::changeAwaySeparatorColor()
-{
-    QColor color = QColorDialog::getColor(Profile::instance().awaySeparatorColor);
-    if (color.isValid())
-    {
-        QPalette palette = _lineEditAwaySeparatorColor->palette();
-        palette.setColor(QPalette::Text, color);
-        _lineEditAwaySeparatorColor->setPalette(palette);
-    }
-}
-
 QString DialogSettings::getLanguageDisplay(const QString &language)
 {
     return LanguageManager::getLanguageDisplayName(language) + " (" + language + ")";
-}
-
-void DialogSettings::awaySeparatorLengthChanged(int)
-{
-    refreshAwaySeparatorPreview();
-}
-
-void DialogSettings::refreshAwaySeparatorPreview()
-{
-    QString period = _lineEditAwaySeparatorPeriod->text();
-    int length = _spinBoxAwaySeparatorLength->value();
-    _lineEditAwaySeparatorColor->setText(Profile::instance().getAwaySeparator(period, length));
 }
 
 void DialogSettings::reject()
