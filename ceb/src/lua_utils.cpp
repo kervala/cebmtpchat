@@ -17,7 +17,7 @@
  */
 
 #include <QDir>
-#include "dialog_system.h"
+#include "system_widget.h"
 
 extern "C" {
 #if defined(Q_OS_FREEBSD)
@@ -36,9 +36,9 @@ extern "C" {
 #include "lua_utils.h"
 
 int showLuaError(lua_State *l, const QString &error)
-{ 
-    DialogSystem::error("LUA : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));
-    return 0; 
+{
+    SystemWidget::error("LUA : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));
+    return 0;
 }
 
 QString executeLuaFilter(const QString &filterName, const QString &line)

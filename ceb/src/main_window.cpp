@@ -65,6 +65,8 @@ MainWindow::MainWindow()
 {
     setWindowTitle("CeB");
 
+    statusBar()->show();
+
     trayMenu = new QMenu(this);
     trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -88,19 +90,6 @@ MainWindow::MainWindow()
 
     makeMenuBar();
     makeToolBar();
-    makeStatusBar();
-
-    // Create system dialog
-    DialogSystem::init(this);
-    systemDialog = DialogSystem::instance();
-    connect(systemDialog, SIGNAL(hideSystemDialog()), this, SLOT(hideSystemDialog()));
-    if (Profile::instance().systemLogsWidth != -1)
-    {
-        systemDialog->move(Profile::instance().systemLogsLeft, Profile::instance().systemLogsTop);
-        systemDialog->resize(Profile::instance().systemLogsWidth, Profile::instance().systemLogsHeight);
-    }
-    if (Profile::instance().systemLogsVisible)
-        systemDialog->show();
 
     if (Profile::instance().mainWidth != -1)
     {
@@ -118,10 +107,17 @@ MainWindow::MainWindow()
 
     applyProfileOnTabWidget();
 
+    // Create system dialog
+    if (Profile::instance().systemLogsVisible)
+        tabWidgetMain->addTab(SystemWidget::instance(), tr("system"));
+
     // Autoconnect connections
     foreach (SessionConfig *config, Profile::instance().sessionConfigs())
         if ((*config).autoconnect())
             connectTo(*config);
+
+    if (Profile::instance().systemLogsVisible && tabWidgetMain->count() > 1)
+        tabWidgetMain->setCurrentIndex(1);
 
     connectionsSignalMapper = new QSignalMapper(this);
     connect(connectionsSignalMapper, SIGNAL(mapped(const QString &)),
@@ -230,11 +226,7 @@ void MainWindow::recordCurrentProfileDatas()
     Profile::instance().mainTop = p.y();
 
     // System logs
-    Profile::instance().systemLogsVisible = systemDialog->isVisible();
-    Profile::instance().systemLogsLeft = systemDialog->x();
-    Profile::instance().systemLogsTop = systemDialog->y();
-    Profile::instance().systemLogsWidth = systemDialog->width();
-    Profile::instance().systemLogsHeight = systemDialog->height();
+    Profile::instance().systemLogsVisible = tabWidgetMain->indexOf(SystemWidget::instance()) >= 0;
 }
 
 void MainWindow::makeMenuBar()
@@ -250,12 +242,12 @@ void MainWindow::makeMenuBar()
 
     // Reconnect action
     actionReconnect = mConnections->addAction(tr("&Reconnect"));
-    actionReconnect->setStatusTip(tr("Reconnect"));
+    actionReconnect->setStatusTip(tr("Reconnect on the current connection"));
     actionReconnect->setEnabled(false);
     connect(actionReconnect, SIGNAL(triggered()), this, SLOT(reconnect()));
 
     // Close connection action
-    actionCloseConnection = mConnections->addAction(tr("&Close connection"));
+    actionCloseConnection = mConnections->addAction(tr("C&lose connection"));
     actionCloseConnection->setStatusTip(tr("Close current connection"));
     actionCloseConnection->setEnabled(false);
     connect(actionCloseConnection, SIGNAL(triggered()), this, SLOT(closeConnection()));
@@ -265,29 +257,42 @@ void MainWindow::makeMenuBar()
     connect(action, SIGNAL(triggered()), this, SLOT(close()));
 
     // Edit menu
-    QMenu *mEdit = mbMain->addMenu(tr("&Edit"));
-    QAction *actionSearch = mEdit->addAction(tr("&Search"));
+    QMenu *menuEdit = mbMain->addMenu(tr("&Edit"));
+    connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(aboutToShowEditMenu()));
+    QAction *actionSearch = menuEdit->addAction(tr("&Search"));
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(searchActionTriggered()));
-    mEdit->addSeparator();
-    actionEditConnectionConfig = mEdit->addAction(tr("&Connection configuration..."));
+    menuEdit->addSeparator();
+    _actionToggleTopicVisibility = menuEdit->addAction("");
+    connect(_actionToggleTopicVisibility, SIGNAL(triggered()), this, SLOT(toggleTopicVisibility()));
+    _actionToggleUsersVisibility = menuEdit->addAction("");
+    connect(_actionToggleUsersVisibility, SIGNAL(triggered()), this, SLOT(toggleUsersVisibility()));
+
+    // Configuration menu
+    QMenu *menuConfiguration = mbMain->addMenu(tr("Confi&guration"));
+    connect(menuConfiguration, SIGNAL(aboutToShow()), this, SLOT(aboutToShowConfigurationMenu()));
+    _actionToggleMenuBarVisibility = menuConfiguration->addAction("");
+    connect(_actionToggleMenuBarVisibility, SIGNAL(triggered()), this, SLOT(toggleMenuBarVisibility()));
+    _actionToggleStatusBarVisibility = menuConfiguration->addAction("");
+    connect(_actionToggleStatusBarVisibility, SIGNAL(triggered()), this, SLOT(toggleStatusBarVisibility()));
+    menuConfiguration->addSeparator();
+    actionEditConnectionConfig = menuConfiguration->addAction(tr("&Connection configuration..."));
     actionEditConnectionConfig->setEnabled(false);
     connect(actionEditConnectionConfig, SIGNAL(triggered()), this, SLOT(editConnectionConfig()));
-    connect(mEdit->addAction(tr("&General settings...")), SIGNAL(triggered()), this, SLOT(editSettings()));
+    connect(menuConfiguration->addAction(tr("&General settings...")), SIGNAL(triggered()), this, SLOT(editSettings()));
+
+    // Windows menu
+    QMenu *menuWindows = mbMain->addMenu(tr("&Windows"));
+    connect(menuWindows, SIGNAL(aboutToShow()), this, SLOT(aboutToShowWindowsMenu()));
+    QAction *actionPreviousTab = menuWindows->addAction(tr("&Previous tab"));
+    connect(actionPreviousTab, SIGNAL(triggered()), this, SLOT(previousTab()));
+    QAction *actionNextTab = menuWindows->addAction(tr("&Next tab"));
+    connect(actionNextTab, SIGNAL(triggered()), this, SLOT(nextTab()));
+    menuWindows->addSeparator();
+    _actionToggleSystemLogsVisibility = menuWindows->addAction(tr(""));
+    connect(_actionToggleSystemLogsVisibility, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
 
     // View menu
     QMenu *menuView = mbMain->addMenu(tr("&View"));
-
-    actionViewTopic = menuView->addAction(tr("&Topic window"));
-    actionViewTopic->setCheckable(true);
-    connect(actionViewTopic, SIGNAL(triggered()), this, SLOT(showTopicWindow()));
-    actionViewTopic->setChecked(Profile::instance().topicWindowVisible);
-
-    menuView->addSeparator();
-
-    actionSystemLogs = menuView->addAction(tr("&System logs"));
-    actionSystemLogs->setCheckable(true);
-    connect(actionSystemLogs, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
-    actionSystemLogs->setChecked(Profile::instance().systemLogsVisible);
 
     connect(menuView->addAction(tr("Open &logs directory")), SIGNAL(triggered()), this, SLOT(showLogsDir()));
     connect(menuView->addAction(tr("&Messages")), SIGNAL(triggered()), this, SLOT(showMessages()));
@@ -334,14 +339,6 @@ bool MainWindow::winEvent(MSG *message, long *result)
 }
 
 #endif
-
-void MainWindow::makeStatusBar()
-{
-#ifdef Q_OS_DARWIN
-    sbMain = new QStatusBar(this);
-    setStatusBar(sbMain);
-#endif
-}
 
 void MainWindow::makeConnectionsActions()
 {
@@ -436,28 +433,18 @@ void MainWindow::editSettings()
 
 void MainWindow::showSystemLogs()
 {
-    if (systemDialog->isVisible())
-        systemDialog->hide();
-    else
-        systemDialog->show();
-}
-
-void MainWindow::showTopicWindow()
-{
-    // Change profile datas
-    Profile::instance().topicWindowVisible = actionViewTopic->isChecked();
-
-    // Change controls
-    for (int i = 0; i < tabWidgetMain->count(); ++i)
+    int index = tabWidgetMain->indexOf(SystemWidget::instance());
+    if (index >= 0)
     {
-        ChannelWidget *w = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
-        if (w)
-        {
-            if (Profile::instance().topicWindowVisible)
-                w->showTopicWindow();
-            else
-                w->hideTopicWindow();
-        }
+        tabWidgetMain->removeTab(index);
+        QWidget *widget = tabWidgetMain->currentWidget();
+        if (widget)
+            widget->focusWidget()->setFocus();
+    }
+    else
+    {
+        tabWidgetMain->insertTab(0, SystemWidget::instance(), tr("system"));
+        tabWidgetMain->setCurrentIndex(0);
     }
 }
 
@@ -518,11 +505,6 @@ void MainWindow::connectToFromMenu(const QString &configName)
     ChannelWidget *widget = connectTo(*Profile::instance().getSessionConfig(configName));
     if (widget)
         widget->applyFirstShow();
-}
-
-void MainWindow::hideSystemDialog()
-{
-    actionSystemLogs->setChecked(false);
 }
 
 void MainWindow::refreshProfileSettings()
@@ -927,7 +909,9 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 void MainWindow::closeTabWidget()
 {
     QWidget *widget = tabWidgetMain->currentWidget();
-    if (!widget || qobject_cast<ChannelWidget*>(widget)) // Don't close channel widget
+    if (!widget ||
+        qobject_cast<ChannelWidget*>(widget) ||
+        qobject_cast<SystemWidget*>(widget)) // Don't close channel widget or system logs
         return;
 
     Session *session = 0;
@@ -935,12 +919,15 @@ void MainWindow::closeTabWidget()
         session = qobject_cast<SessionWidget*>(widget)->session();
 
     tabWidgetMain->removeTab(tabWidgetMain->indexOf(widget));
-    delete widget;
+    widget->deleteLater();
 
     ChannelWidget *channelWidget = getChannelWidget(session);
 
     if (channelWidget)
+    {
         tabWidgetMain->setCurrentWidget(channelWidget);
+        channelWidget->focusWidget()->setFocus();
+    }
 }
 
 /*void MainWindow::highlightSessionWidget()
@@ -1293,14 +1280,14 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             if (keyEvent->key() == Qt::Key_F11 ||
                 (keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier))
             {
-                moveToLeftWidget();
+                previousTab();
                 return true;
             }
             else if (keyEvent->key() == Qt::Key_F12 ||
                      (keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
                      (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::ControlModifier))
             {
-                moveToRightWidget();
+                nextTab();
                 return true;
             }
         }
@@ -1370,7 +1357,10 @@ void MainWindow::searchActionTriggered()
 {
     SessionWidget *w = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
     if (w)
+    {
         w->search();
+        return;
+    }
 }
 
 void MainWindow::renameWidget(QWidget *widget, const QString &text)
@@ -1418,7 +1408,7 @@ void MainWindow::removeWidget(QWidget *widget)
     }
 }
 
-void MainWindow::moveToLeftWidget()
+void MainWindow::previousTab()
 {
     if (tabWidgetMain->currentIndex())
         tabWidgetMain->setCurrentIndex(tabWidgetMain->currentIndex() - 1);
@@ -1426,7 +1416,7 @@ void MainWindow::moveToLeftWidget()
         tabWidgetMain->setCurrentIndex(tabWidgetMain->count() - 1);
 }
 
-void MainWindow::moveToRightWidget()
+void MainWindow::nextTab()
 {
     if (tabWidgetMain->currentIndex() < tabWidgetMain->count() - 1)
         tabWidgetMain->setCurrentIndex(tabWidgetMain->currentIndex() + 1);
@@ -1437,4 +1427,89 @@ void MainWindow::moveToRightWidget()
 void MainWindow::captionChanged()
 {
     renameWidget(qobject_cast<QWidget*>(sender()));
+}
+
+void MainWindow::aboutToShowConfigurationMenu()
+{
+    if (menuBar()->isVisible())
+        _actionToggleMenuBarVisibility->setText(tr("Hide menu bar"));
+    else
+        _actionToggleMenuBarVisibility->setText(tr("Show menu bar"));
+    if (statusBar()->isVisible())
+        _actionToggleStatusBarVisibility->setText(tr("Hide status bar"));
+    else
+        _actionToggleStatusBarVisibility->setText(tr("Show status bar"));
+}
+
+void MainWindow::toggleMenuBarVisibility()
+{
+    menuBar()->setVisible(!menuBar()->isVisible());
+}
+
+void MainWindow::toggleStatusBarVisibility()
+{
+    statusBar()->setVisible(!statusBar()->isVisible());
+}
+
+void MainWindow::aboutToShowWindowsMenu()
+{
+    if (tabWidgetMain->indexOf(SystemWidget::instance()) >= 0)
+        _actionToggleSystemLogsVisibility->setText(tr("Hide system logs"));
+    else
+        _actionToggleSystemLogsVisibility->setText(tr("Show system logs"));
+}
+
+void MainWindow::aboutToShowEditMenu()
+{
+    if (Profile::instance().topicWindowVisible)
+        _actionToggleTopicVisibility->setText(tr("Hide topic"));
+    else
+        _actionToggleTopicVisibility->setText(tr("Show topic"));
+    if (Profile::instance().usersWindowVisible)
+        _actionToggleUsersVisibility->setText(tr("Hide users"));
+    else
+        _actionToggleUsersVisibility->setText(tr("Show users"));
+}
+
+Session *MainWindow::getCurrentSession() const
+{
+    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
+    if (sessionWidget)
+        return sessionWidget->session();
+    return 0;
+}
+
+ChannelWidget *MainWindow::getChannelWidget(Session *session) const
+{
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
+    {
+        ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
+        if (channelWidget && channelWidget->session() == session)
+            return channelWidget;
+    }
+    return 0;
+}
+
+void MainWindow::toggleTopicVisibility()
+{
+    Profile::instance().topicWindowVisible = !Profile::instance().topicWindowVisible;
+
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
+    {
+        ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
+        if (channelWidget)
+            channelWidget->setTopicVisible(Profile::instance().topicWindowVisible);
+    }
+}
+
+void MainWindow::toggleUsersVisibility()
+{
+    Profile::instance().usersWindowVisible = !Profile::instance().usersWindowVisible;
+
+    for (int i = 0; i < tabWidgetMain->count(); ++i)
+    {
+        ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->widget(i));
+        if (channelWidget)
+            channelWidget->setUsersVisible(Profile::instance().usersWindowVisible);
+    }
 }

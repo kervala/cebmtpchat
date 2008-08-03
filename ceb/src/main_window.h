@@ -32,7 +32,7 @@
 #include <my_tabwidget.h>
 
 #include "session.h"
-#include "dialog_system.h"
+#include "system_widget.h"
 #include "autoupdate.h"
 #include "channel_widget.h"
 #include "tell_widget.h"
@@ -75,9 +75,6 @@ private:
     QSignalMapper *connectionsSignalMapper;
     // Edit menu
     QAction *actionEditConnectionConfig;
-    // View menu
-    QAction *actionSystemLogs;
-    QAction *actionViewTopic;
     // Help menu
 #ifdef Q_OS_WIN32
     QAction *actionCheckForUpdate;
@@ -85,8 +82,6 @@ private:
     // Status bar
     QStatusBar *sbMain;
     MyTabWidget *tabWidgetMain;
-    // System dialog
-    DialogSystem *systemDialog;
     QTimer animationTimer;
     QMap<QWidget*,int> tabToBlinkTime;
     QMap<QWidget*,bool> tabToAscendingOrder;
@@ -97,12 +92,17 @@ private:
     QSignalMapper *actionSignalMapper;
     QList<QShortcut*> actionShortcuts;
 
+    QAction *_actionToggleMenuBarVisibility;
+    QAction *_actionToggleStatusBarVisibility;
+    QAction *_actionToggleSystemLogsVisibility;
+    QAction *_actionToggleTopicVisibility;
+    QAction *_actionToggleUsersVisibility;
+
     MainWindow();
     ~MainWindow();
 
     void makeMenuBar();
     void makeToolBar();
-    void makeStatusBar();
     void makeConnectionsActions();
 
     void recordCurrentProfileDatas();
@@ -133,13 +133,14 @@ private:
     void changeWidgetColor(QWidget *widget, const QColor &color);
     void removeWidget(QWidget *widget);
     void removeSessionWidgets(Session *session);
-    void moveToLeftWidget();
-    void moveToRightWidget();
 
     void refreshProfileSettings(); // Refresh profile settings on every widget
     void applyProfileOnTabWidget();
     void refreshWidgets();
     void createActionShortcuts();
+
+    Session *getCurrentSession() const;
+    ChannelWidget *getChannelWidget(Session *session) const;
 
     ChannelWidget *connectTo(SessionConfig &config);
 
@@ -153,14 +154,15 @@ private slots:
     void editConnectionConfig();
     void editSettings();
     void showSystemLogs();
-    void showTopicWindow();
     void checkForUpdate();
     void about();
     void aboutQt();
     void connectTo(const QString &configName);
     void connectToFromMenu(const QString &configName);
-    void hideSystemDialog();
     void aboutToShowConnectionsActions();
+    void aboutToShowConfigurationMenu();
+    void aboutToShowWindowsMenu();
+    void aboutToShowEditMenu();
     void newSessionTokenForActivity(Session *session, const Token &token);
     void newSessionToken(Session *session, const Token &token);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
@@ -186,6 +188,12 @@ private slots:
     void executeAction(int action);
     void searchActionTriggered();
     void captionChanged();
+    void previousTab();
+    void nextTab();
+    void toggleMenuBarVisibility();
+    void toggleStatusBarVisibility();
+    void toggleTopicVisibility();
+    void toggleUsersVisibility();
 };
 
 #endif // MAIN_WINDOW_H

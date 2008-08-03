@@ -64,11 +64,8 @@ void Profile::init()
     checkForUpdate = true;
     hideTabsForOne = true;
     systemLogsVisible = false;
-    systemLogsLeft = -1;
-    systemLogsTop = -1;
-    systemLogsWidth = -1;
-    systemLogsHeight = -1;
     topicWindowVisible = true;
+    usersWindowVisible = true;
     timeStampPolicy = Policy_Classic;
     timeStampInTellTabs = true;
     keepAlive = 0;
@@ -186,16 +183,11 @@ bool Profile::load()
 
     const QDomElement systemLogsElem = rootElem.firstChildElement("system_logs");
     if (!systemLogsElem.isNull())
-    {
         systemLogsVisible = XmlHandler::read(systemLogsElem, "visible", false);
-        systemLogsLeft = XmlHandler::read(systemLogsElem, "left", -1);
-        systemLogsTop = XmlHandler::read(systemLogsElem, "top", -1);
-        systemLogsWidth = XmlHandler::read(systemLogsElem, "width", -1);
-        systemLogsHeight = XmlHandler::read(systemLogsElem, "height", -1);
-    }
 
     // Topic
     topicWindowVisible = XmlHandler::read(rootElem, "topic_window_visible", true);
+    usersWindowVisible = XmlHandler::read(rootElem, "users_window_visible", true);
 
     // Time stamp
     timeStampPolicy = (TimeStampPolicy) XmlHandler::read(rootElem, "time_stamp_policy", 0);
@@ -424,13 +416,10 @@ void Profile::save() const
     QDomElement systemLogsElem = document.createElement("system_logs");
     rootElem.appendChild(systemLogsElem);
     XmlHandler::write(systemLogsElem, "visible", systemLogsVisible);
-    XmlHandler::write(systemLogsElem, "left", systemLogsLeft);
-    XmlHandler::write(systemLogsElem, "top", systemLogsTop);
-    XmlHandler::write(systemLogsElem, "width", systemLogsWidth);
-    XmlHandler::write(systemLogsElem, "height", systemLogsHeight);
 
     // Topic window
     XmlHandler::write(rootElem, "topic_window_visible", topicWindowVisible);
+    XmlHandler::write(rootElem, "users_window_visible", usersWindowVisible);
 
     // Time stamp
     XmlHandler::write(rootElem, "time_stamp_policy", (int) timeStampPolicy);
@@ -623,11 +612,8 @@ Profile &Profile::operator=(const Profile &profile)
     checkForUpdate = profile.checkForUpdate;
     hideTabsForOne = profile.hideTabsForOne;
     systemLogsVisible = profile.systemLogsVisible;
-    systemLogsLeft = profile.systemLogsLeft;
-    systemLogsTop = profile.systemLogsTop;
-    systemLogsWidth = profile.systemLogsWidth;
-    systemLogsHeight = profile.systemLogsHeight;
     topicWindowVisible = profile.topicWindowVisible;
+    usersWindowVisible = profile.usersWindowVisible;
     timeStampPolicy = profile.timeStampPolicy;
     timeStampInTellTabs = profile.timeStampInTellTabs;
     keepAlive = profile.keepAlive;

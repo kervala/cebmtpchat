@@ -47,9 +47,10 @@ public:
     ChannelWidget(Session *session, QWidget *parent = 0);
 
     void applyFirstShow();
-    bool topicWindowVisible();
-    void showTopicWindow();
-    void hideTopicWindow();
+    bool isTopicVisible() const { return _widgetTopic->isVisible(); }
+    void setTopicVisible(bool visible);
+    bool isUsersVisible() const { return _treeViewWho->isVisible(); }
+    void setUsersVisible(bool visible);
     void refreshKeepAlivePolicy();
     void refreshFonts();
     void refreshWhoColumn();
@@ -69,6 +70,7 @@ private:
     MyTextEdit *_textEditOutput;
     SearchWidget *_searchWidget;
     QLabel *_labelWhoTitle;
+    QWidget *_whoWidget;
     QTreeView *_treeViewWho;
     QStackedWidget *_stackedWidgetEntry;
     ChatLineWidget *_lineEditWidget;
@@ -95,8 +97,8 @@ private:
     void init();
     void colorizeChatItems(const QColor &color);
     void initScriptComboBox();
-    void toggleSearchWidgetVisibility();
     void refreshWhoLabel();
+    void toggleSearchWidgetVisibility();
 
 private slots:
     void sendLineEditText(const QString &text);

@@ -32,6 +32,7 @@
 
 void TellWidget::init()
 {
+    installEventFilter(this);
     const TextSkin &textSkin = Profile::instance().textSkin();
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(1);
@@ -378,6 +379,5 @@ bool TellWidget::eventFilter(QObject *obj, QEvent *event)
 
 void TellWidget::search()
 {
-    if (!_searchWidget->isVisible())
-        toggleSearchWidgetVisibility();
+    toggleSearchWidgetVisibility();
 }

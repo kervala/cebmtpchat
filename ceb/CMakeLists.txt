@@ -25,7 +25,6 @@ SET(CEB_SRCS
 	src/channel_widget.cpp
 	src/tell_widget.cpp
 	src/dialog_about.cpp
-	src/dialog_system.cpp
 	src/session.cpp
 	src/session_manager.cpp
 	src/session_config_widget.cpp
@@ -77,6 +76,7 @@ SET(CEB_SRCS
 	src/logs_settings_widget.cpp
 	src/output_settings_widget.cpp
 	src/tray_settings_widget.cpp
+	src/system_widget.cpp
 )
 
 SET(CEB_UIS
@@ -111,7 +111,6 @@ SET(CEB_MOCH
 	src/channel_widget.h
 	src/tell_widget.h
 	src/dialog_about.h
-	src/dialog_system.h
 	src/session.h
 	src/session_manager.h
 	src/session_config_widget.h
@@ -149,6 +148,7 @@ SET(CEB_MOCH
 	src/logs_settings_widget.h
 	src/output_settings_widget.h
 	src/tray_settings_widget.h
+	src/system_widget.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)

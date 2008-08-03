@@ -19,7 +19,7 @@
 #include <QIODevice>
 #include <QTextCodec>
 
-#include "dialog_system.h"
+#include "system_widget.h"
 #include "profile.h"
 #include "token_script.h"
 
@@ -172,17 +172,17 @@ QString Session::logPrefix()
 
 void Session::logInfo(const QString &message)
 {
-    DialogSystem::info(logPrefix() + message);
+    SystemWidget::info(logPrefix() + message);
 }
 
 void Session::logError(const QString &message)
 {
-    DialogSystem::error(logPrefix() + message);
+    SystemWidget::error(logPrefix() + message);
 }
 
 void Session::logSuccess(const QString &message)
 {
-    DialogSystem::success(logPrefix() + message);
+    SystemWidget::success(logPrefix() + message);
 }
 
 void Session::readyToRead()

@@ -6,7 +6,7 @@
 #include "token_info.h"
 #include "paths.h"
 #include "profile.h"
-#include "dialog_system.h"
+#include "system_widget.h"
 #include "main_window.h"
 #include "my_textedit.h"
 
@@ -40,17 +40,17 @@ namespace Script
             return 0;
 
         if (lua_isstring(l, 1))
-            DialogSystem::warning("LUA : " + QString(lua_tostring(l, 1)));
+            SystemWidget::warning("LUA : " + QString(lua_tostring(l, 1)));
         else if (lua_isnumber(l, 1))
-            DialogSystem::error("LUA : " + QString::number(lua_tonumber(l, 1)));
+            SystemWidget::error("LUA : " + QString::number(lua_tonumber(l, 1)));
         else if (lua_isboolean(l, 1))
             switch (lua_toboolean(l, 1))
             {
             case true:
-                DialogSystem::warning("LUA : true");
+                SystemWidget::warning("LUA : true");
                 break;
             case false:
-                DialogSystem::warning("LUA : false");
+                SystemWidget::warning("LUA : false");
                 break;
             }
         return 0;

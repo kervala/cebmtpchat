@@ -56,6 +56,7 @@ ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(
 
 void ChannelWidget::init()
 {
+    installEventFilter(this);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(2);
 
@@ -132,11 +133,11 @@ void ChannelWidget::init()
     _searchWidget->setTextWidget(_textEditOutput);
 
     // Who column
-    QWidget *whoWidget = new QWidget;
-    _splitterOutWho->addWidget(whoWidget);
-    QVBoxLayout *whoLayout = new QVBoxLayout(whoWidget);
+    _whoWidget = new QWidget;
+    _splitterOutWho->addWidget(_whoWidget);
+    QVBoxLayout *whoLayout = new QVBoxLayout(_whoWidget);
     whoLayout->setMargin(0);
-    _splitterOutWho->addWidget(whoWidget);
+    _splitterOutWho->addWidget(_whoWidget);
 
     QFrame *whoTitleFrame = new QFrame;
     whoTitleFrame->setFrameShape(QFrame::Box);
@@ -580,19 +581,14 @@ void ChannelWidget::colorizeChatItems(const QColor &color)
     _historyWidget->setPalette(palette);
 }
 
-bool ChannelWidget::topicWindowVisible()
+void ChannelWidget::setTopicVisible(bool visible)
 {
-    return _widgetTopic->isVisible();
+    _widgetTopic->setVisible(visible);
 }
 
-void ChannelWidget::showTopicWindow()
+void ChannelWidget::setUsersVisible(bool visible)
 {
-    _widgetTopic->show();
-}
-
-void ChannelWidget::hideTopicWindow()
-{
-    _widgetTopic->hide();
+    _whoWidget->setVisible(visible);
 }
 
 void ChannelWidget::sessionConnecting()
@@ -977,8 +973,7 @@ void ChannelWidget::hideSearchWidget()
 
 void ChannelWidget::search()
 {
-    if (!_searchWidget->isVisible())
-        toggleSearchWidgetVisibility();
+    toggleSearchWidgetVisibility();
 }
 
 void ChannelWidget::sessionCleared()

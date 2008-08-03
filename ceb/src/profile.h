@@ -73,11 +73,8 @@ public:
     bool checkForUpdate;
     bool hideTabsForOne;
     bool systemLogsVisible;
-    int systemLogsLeft;
-    int systemLogsTop;
-    int systemLogsWidth;
-    int systemLogsHeight;
     bool topicWindowVisible;
+    bool usersWindowVisible;
     TimeStampPolicy timeStampPolicy;
     bool timeStampInTellTabs;
     int keepAlive;

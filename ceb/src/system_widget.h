@@ -19,18 +19,15 @@
 #ifndef DIALOG_SYSTEM_H
 #define DIALOG_SYSTEM_H
 
-#include <QDialog>
 #include <QTextEdit>
 #include <QPushButton>
 
-class DialogSystem : public QDialog
+class SystemWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    static void init(QWidget *parent = 0);
-
-    static DialogSystem *instance();
+    static SystemWidget *instance();
 
     void sendInfo(const QString &log);
     void sendError(const QString &log);
@@ -42,22 +39,12 @@ public:
     static void warning(const QString &log);
     static void success(const QString &log);
 
-signals:
-    void hideSystemDialog();
-
-protected:
-    void showEvent(QShowEvent *event);
-    void hideEvent(QHideEvent *event);
-
 private:
-    static DialogSystem *_instance;
-    bool firstShow;
-    int savedLeft, savedTop, savedWidth, savedHeight;
-    QPushButton *buttonHide;
-    QTextEdit *textEditMain;
+    static SystemWidget *_instance;
+    QTextEdit *_textEditMain;
 
-    DialogSystem(QWidget *parent = 0);
-    ~DialogSystem();
+    SystemWidget(QWidget *parent = 0);
+    ~SystemWidget();
 };
 
 #endif
