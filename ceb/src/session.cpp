@@ -487,4 +487,6 @@ QString Session::socketStateCaption() const
     case QAbstractSocket::ConnectingState: return tr("Connecting...");
     case QAbstractSocket::ConnectedState: return tr("Ready.");
     }
+
+    return "";
 }

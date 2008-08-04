@@ -137,6 +137,7 @@ QString TokenInfo::tokenToDisplayString(Token::Type token)
     case Token::IndicatedActiveServer: return QObject::tr("Indicated active server");
     case Token::LoginAsked: return QObject::tr("Login asked");
     case Token::InvalidLogin: return QObject::tr("Invalid login");
+    case Token::OnlyRegisteredUsers: return QObject::tr("Only registered users are allowed to login at the moment...");
     case Token::PasswordAsked: return QObject::tr("Password asked");
     case Token::IncorrectPassword: return QObject::tr("Incorrect password");
     case Token::Welcome: return QObject::tr("Welcome msg.");
@@ -161,6 +162,12 @@ QString TokenInfo::tokenToDisplayString(Token::Type token)
     case Token::WhoEndNoUser: return QObject::tr("Who end [no user]");
     case Token::WhoSeparator: return QObject::tr("Who separator");
     case Token::WhoLine: return QObject::tr("Who line");
+
+
+    case Token::GroupsBegin: return QObject::tr("Groups start");
+    case Token::GroupsSeparator: return QObject::tr("Groups separator");
+    case Token::GroupsLine: return QObject::tr("Groups line");
+    case Token::GroupsEnd: return QObject::tr("Groups end");
 
     case Token::HistoryBegin: return QObject::tr("History start");
     case Token::HistoryEnd: return QObject::tr("History end");
@@ -222,6 +229,10 @@ QString TokenInfo::tokenToDisplayString(Token::Type token)
 
     case Token::Date: return QObject::tr("Date msg.");
     case Token::YourClientIs: return QObject::tr("Your client is");
+
+    case Token::SomeoneGroup: return QObject::tr("Someone group is");
+
+    case Token::UnregisteredUser: return QObject::tr("Unregistered user");
 
     case Token::MtpSays: return QObject::tr("Mtp says (other system msg.)");
     case Token::SomeoneSays: return QObject::tr("Someone says");
