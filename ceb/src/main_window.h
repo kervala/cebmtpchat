@@ -177,6 +177,7 @@ private slots:
     void tabWidgetMainCurrentChanged(int index);
     void whoUserDoubleClicked(const QString &login);
     void showLogsDir();
+    void showProfileDir();
     void showMessages();
     void showTransfers();
     void launchWhatsNew();

@@ -301,6 +301,7 @@ void MainWindow::makeMenuBar()
     QMenu *menuView = mbMain->addMenu(tr("&View"));
 
     connect(menuView->addAction(tr("Open &logs directory")), SIGNAL(triggered()), this, SLOT(showLogsDir()));
+    connect(menuView->addAction(tr("Open &profile directory")), SIGNAL(triggered()), this, SLOT(showProfileDir()));
     connect(menuView->addAction(tr("&Messages")), SIGNAL(triggered()), this, SLOT(showMessages()));
 // TEMP	connect(menuView->addAction(tr("&File transfers")), SIGNAL(triggered()), this, SLOT(showTransfers()));
 
@@ -1091,6 +1092,15 @@ void MainWindow::showLogsDir()
         url = QUrl::fromLocalFile(Logger::getDefaultLogsDir());
     else
         url = QUrl::fromLocalFile(Profile::instance().logsDir);
+
+    // Launch it
+    QDesktopServices::openUrl(url);
+}
+
+void MainWindow::showProfileDir()
+{
+    // Determine the QUrl of the logs path
+    QUrl url = QUrl::fromLocalFile(Paths::profilePath());
 
     // Launch it
     QDesktopServices::openUrl(url);
