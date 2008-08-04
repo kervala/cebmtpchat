@@ -478,3 +478,13 @@ void Session::deactivateAutoAway()
 
     _autoAway = false;
 }
+
+QString Session::socketStateCaption() const
+{
+    switch (_socket->state())
+    {
+    case QAbstractSocket::UnconnectedState: return tr("Unconnected.");
+    case QAbstractSocket::ConnectingState: return tr("Connecting...");
+    case QAbstractSocket::ConnectedState: return tr("Ready.");
+    }
+}

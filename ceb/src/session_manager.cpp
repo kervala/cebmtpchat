@@ -81,6 +81,7 @@ Session *SessionManager::newSession(const SessionConfig &config)
 {
     Session *session = new Session(config);
     _sessionsList << session;
+    connect(session, SIGNAL(connecting()), this, SLOT(connecting()));
     connect(session, SIGNAL(connected()), this, SLOT(connected()));
     connect(session, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(session, SIGNAL(newToken(const Token&)),
@@ -117,6 +118,12 @@ void SessionManager::newToken(const Token &token)
 
     if (token.ticketID() < 0)
         Logger::instance().log(session->config().name(), line);
+}
+
+void SessionManager::connecting()
+{
+    Session *session = qobject_cast<Session*>(sender());
+    emit sessionConnecting(session);
 }
 
 void SessionManager::connected()

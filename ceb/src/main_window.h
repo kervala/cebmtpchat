@@ -201,6 +201,9 @@ private slots:
     void toggleStatusBarVisibility();
     void toggleTopicVisibility();
     void toggleUsersVisibility();
+    void sessionConnecting(Session *session);
+    void sessionConnected(Session *session);
+    void sessionDisconnected(Session *session);
 };
 
 #endif // MAIN_WINDOW_H

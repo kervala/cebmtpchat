@@ -64,6 +64,7 @@ public:
     bool away() const { return _tokenFactory.away(); }
     bool isConnected() const
         { return _socket && _socket->state() == QAbstractSocket::ConnectedState; }
+    QString socketStateCaption() const;
     bool cleanDisconnected() const { return _cleanDisconnected; }
     bool isDisconnected() const
         { return _socket && _socket->state() == QAbstractSocket::UnconnectedState; }

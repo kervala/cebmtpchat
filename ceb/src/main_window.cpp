@@ -82,6 +82,12 @@ MainWindow::MainWindow()
             this, SLOT(newSessionToken(Session *, const Token &)));
     connect(&sessionManager, SIGNAL(sessionLoginChanged(Session *, const QString &, const QString &)),
             this, SLOT(sessionLoginChanged(Session *, const QString &, const QString &)));
+    connect(&sessionManager, SIGNAL(sessionConnecting(Session *)),
+            this, SLOT(sessionConnecting(Session *)));
+    connect(&sessionManager, SIGNAL(sessionConnected(Session *)),
+            this, SLOT(sessionConnected(Session *)));
+    connect(&sessionManager, SIGNAL(sessionDisconnected(Session *)),
+            this, SLOT(sessionDisconnected(Session *)));
 
     TransfersManager &transfersManager = TransfersManager::instance();
     connect(&transfersManager, SIGNAL(newTransferAdded(Transfer *)),
@@ -493,6 +499,7 @@ ChannelWidget *MainWindow::connectTo(SessionConfig &config)
     connect(channelWidget, SIGNAL(captionChanged()), this, SLOT(captionChanged()));
 
     tabWidgetMain->addTab(channelWidget, channelWidget->caption());
+    tabWidgetMain->setCurrentWidget(channelWidget);
 
     // Start the session
     session->start();
@@ -880,6 +887,11 @@ void MainWindow::closeCurrentSession()
         removeSessionWidgets(session);
         if (!SessionManager::destroyed())
             SessionManager::instance().removeSession(session);
+
+        // Set focus
+        QWidget *widget = tabWidgetMain->currentWidget();
+        if (widget && widget->focusWidget())
+            widget->focusWidget()->setFocus();
     }
 }
 
@@ -1562,6 +1574,7 @@ void MainWindow::refreshStatusLabel()
     if (channelWidget)
     {
         Session *session = channelWidget->session();
+        statusBar()->showMessage(session->socketStateCaption());
         _statusLabel->setText(
             QString("%1 - %2 user(s) - %3").arg(session->channel()).arg(session->whoPopulation().users().count()).arg(session->serverAddress()));
         return;
@@ -1571,6 +1584,7 @@ void MainWindow::refreshStatusLabel()
     if (tellWidget)
     {
         Session *session = tellWidget->session();
+        statusBar()->showMessage("");
         _statusLabel->setText(QString("Conversation with %1 - %2").arg(
                                   tellWidget->login().compare(session->serverLogin(), Qt::CaseInsensitive) ? tellWidget->login() : tr("yourself")).arg(session->serverAddress()));
         return;
@@ -1579,8 +1593,27 @@ void MainWindow::refreshStatusLabel()
     SystemWidget *systemWidget = qobject_cast<SystemWidget*>(tabWidgetMain->currentWidget());
     if (systemWidget)
     {
+        statusBar()->showMessage("");
         _statusLabel->setText(tr("system logs"));
         return;
     }
     _statusLabel->setText(label);
+}
+
+void MainWindow::sessionConnecting(Session *session)
+{
+    if (session == getCurrentSession())
+        refreshStatusLabel();
+}
+
+void MainWindow::sessionConnected(Session *session)
+{
+    if (session == getCurrentSession())
+        refreshStatusLabel();
+}
+
+void MainWindow::sessionDisconnected(Session *session)
+{
+    if (session == getCurrentSession())
+        refreshStatusLabel();
 }

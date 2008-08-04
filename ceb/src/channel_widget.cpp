@@ -583,8 +583,8 @@ void ChannelWidget::setUsersVisible(bool visible)
 
 void ChannelWidget::sessionConnecting()
 {
-    _textEditOutput->addNewLine(tr("Attempt to connect %1:%2.........").arg(_session->serverAddress())
-                               .arg(_session->serverPort()),
+    QString msg = tr("Attempt to connect %1:%2.........").arg(_session->serverAddress()).arg(_session->serverPort());
+    _textEditOutput->addNewLine(msg,
                                Profile::instance().textSkin().textFont().font(),
                                QColor(0, 0, 200));
    _textEditOutput->scrollOutputToBottom();
