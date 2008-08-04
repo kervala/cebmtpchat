@@ -65,8 +65,6 @@ MainWindow::MainWindow()
 {
     setWindowTitle("CeB");
 
-    statusBar()->show();
-
     trayMenu = new QMenu(this);
     trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -95,9 +93,11 @@ MainWindow::MainWindow()
     {
         resize(Profile::instance().mainWidth, Profile::instance().mainHeight);
         move(Profile::instance().mainLeft, Profile::instance().mainTop);
-    }
-    else
+    } else
         resize(640, 480);
+
+    statusBar()->setVisible(Profile::instance().statusBarVisible);
+    menuBar()->setVisible(Profile::instance().menuBarVisible);
 
     // Create and init multitabwidget
     tabWidgetMain = new MyTabWidget;
@@ -225,6 +225,10 @@ void MainWindow::recordCurrentProfileDatas()
     Profile::instance().mainLeft = p.x();
     Profile::instance().mainTop = p.y();
 
+    // Bars
+    Profile::instance().statusBarVisible = statusBar()->isVisible();
+    Profile::instance().menuBarVisible = menuBar()->isVisible();
+
     // System logs
     Profile::instance().systemLogsVisible = tabWidgetMain->indexOf(SystemWidget::instance()) >= 0;
 }
@@ -271,6 +275,7 @@ void MainWindow::makeMenuBar()
     QMenu *menuConfiguration = mbMain->addMenu(tr("Confi&guration"));
     connect(menuConfiguration, SIGNAL(aboutToShow()), this, SLOT(aboutToShowConfigurationMenu()));
     _actionToggleMenuBarVisibility = menuConfiguration->addAction("");
+    _actionToggleMenuBarVisibility->setShortcutContext(Qt::WidgetShortcut);
     connect(_actionToggleMenuBarVisibility, SIGNAL(triggered()), this, SLOT(toggleMenuBarVisibility()));
     _actionToggleStatusBarVisibility = menuConfiguration->addAction("");
     connect(_actionToggleStatusBarVisibility, SIGNAL(triggered()), this, SLOT(toggleStatusBarVisibility()));
@@ -1331,6 +1336,12 @@ void MainWindow::executeAction(int action)
 
     switch ((Action::ActionType) action)
     {
+    case Action::Action_ToggleMenuBar:
+        menuBar()->setVisible(!menuBar()->isVisible());
+        break;
+    case Action::Action_ToggleStatusBar:
+        statusBar()->setVisible(!statusBar()->isVisible());
+        break;
     case Action::Action_RefreshWhoColumn:
         if (!session->isLogged())
             return;
@@ -1435,10 +1446,16 @@ void MainWindow::aboutToShowConfigurationMenu()
         _actionToggleMenuBarVisibility->setText(tr("Hide menu bar"));
     else
         _actionToggleMenuBarVisibility->setText(tr("Show menu bar"));
+    QShortcut *shortcut = shortcutByActionType(Action::Action_ToggleMenuBar);
+    if (shortcut)
+        _actionToggleMenuBarVisibility->setShortcut(shortcut->key());
     if (statusBar()->isVisible())
         _actionToggleStatusBarVisibility->setText(tr("Hide status bar"));
     else
         _actionToggleStatusBarVisibility->setText(tr("Show status bar"));
+    shortcut = shortcutByActionType(Action::Action_ToggleStatusBar);
+    if (shortcut)
+        _actionToggleStatusBarVisibility->setShortcut(shortcut->key());
 }
 
 void MainWindow::toggleMenuBarVisibility()
@@ -1512,4 +1529,10 @@ void MainWindow::toggleUsersVisibility()
         if (channelWidget)
             channelWidget->setUsersVisible(Profile::instance().usersWindowVisible);
     }
+}
+
+QShortcut *MainWindow::shortcutByActionType(Action::ActionType type) const
+{
+    QShortcut *shortcut = dynamic_cast<QShortcut*>(actionSignalMapper->mapping(type));
+    return shortcut;
 }

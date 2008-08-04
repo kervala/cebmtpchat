@@ -40,6 +40,7 @@
 #include "message_widget.h"
 #include "transfers_widget.h"
 #include "my_menubar.h"
+#include "action.h"
 
 class MainWindow : public QMainWindow
 {
@@ -143,6 +144,8 @@ private:
     ChannelWidget *getChannelWidget(Session *session) const;
 
     ChannelWidget *connectTo(SessionConfig &config);
+
+    QShortcut *shortcutByActionType(Action::ActionType type) const;
 
 private:
     bool m_firstShow;

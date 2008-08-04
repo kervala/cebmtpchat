@@ -28,6 +28,8 @@ class Action
 public:
     enum ActionType
     {
+        Action_ToggleMenuBar,
+        Action_ToggleStatusBar,
         Action_RefreshWhoColumn,
         Action_ToggleAway,
         Action_Reconnect,

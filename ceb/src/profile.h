@@ -70,6 +70,8 @@ public:
     int keepAboveOtherWindows;
 #endif
     QString language;
+    bool menuBarVisible;
+    bool statusBarVisible;
     bool checkForUpdate;
     bool hideTabsForOne;
     bool systemLogsVisible;

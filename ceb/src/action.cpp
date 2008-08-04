@@ -28,6 +28,11 @@ Action::Action(ActionType actionType)
 
     switch (_actionType)
     {
+    case Action_ToggleMenuBar:
+        _keySequence = QKeySequence(Qt::CTRL + Qt::Key_M);
+        break;
+    case Action_ToggleStatusBar:
+        break;
     case Action_RefreshWhoColumn:
         _keySequence = QKeySequence(Qt::Key_F5);
         break;
@@ -46,6 +51,8 @@ QString Action::name(ActionType type)
 {
     switch (type)
     {
+    case Action_ToggleMenuBar: return "ToggleMenuBar";
+    case Action_ToggleStatusBar: return "ToggleStatusBar";
     case Action_RefreshWhoColumn: return "RefreshWhoColumn";
     case Action_ToggleAway: return "ToggleAway";
     case Action_Reconnect: return "Reconnect";
@@ -57,6 +64,8 @@ QString Action::caption(ActionType type)
 {
     switch (type)
     {
+    case Action_ToggleMenuBar: return QObject::tr("Show/hide the menu bar");
+    case Action_ToggleStatusBar: return QObject::tr("Show/hide the status bar");
     case Action_RefreshWhoColumn: return QObject::tr("Refresh the who column on the current server");
     case Action_ToggleAway: return QObject::tr("Toggle the away state on the current server");
     case Action_Reconnect: return QObject::tr("Reconnect on the current server");

@@ -62,6 +62,8 @@ void Profile::init()
 #endif
     language = "";
     checkForUpdate = true;
+    menuBarVisible = true;
+    statusBarVisible = true;
     hideTabsForOne = true;
     systemLogsVisible = false;
     topicWindowVisible = true;
@@ -167,6 +169,8 @@ bool Profile::load()
 #endif
     language = XmlHandler::read(rootElem, "language", "");
     checkForUpdate = XmlHandler::read(rootElem, "check_for_update", true);
+    menuBarVisible = XmlHandler::read(rootElem, "menu_bar_visible", true);
+    statusBarVisible = XmlHandler::read(rootElem, "status_bar_visible", true);
     hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
 
     // Load the language
@@ -411,6 +415,8 @@ void Profile::save() const
     XmlHandler::write(rootElem, "hide_tabs_for_one", hideTabsForOne);
     XmlHandler::write(rootElem, "language", language);
     XmlHandler::write(rootElem, "check_for_update", checkForUpdate);
+    XmlHandler::write(rootElem, "menu_bar_visible", menuBarVisible);
+    XmlHandler::write(rootElem, "status_bar_visible", statusBarVisible);
 
     // System logs
     QDomElement systemLogsElem = document.createElement("system_logs");
@@ -610,6 +616,8 @@ Profile &Profile::operator=(const Profile &profile)
 #endif
     language = profile.language;
     checkForUpdate = profile.checkForUpdate;
+    menuBarVisible = profile.menuBarVisible;
+    statusBarVisible = profile.statusBarVisible;
     hideTabsForOne = profile.hideTabsForOne;
     systemLogsVisible = profile.systemLogsVisible;
     topicWindowVisible = profile.topicWindowVisible;
