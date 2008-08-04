@@ -789,7 +789,8 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
     break;
     default:;
     }
-    refreshStatusLabel();
+    if (session == getCurrentSession())
+        refreshStatusLabel();
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
