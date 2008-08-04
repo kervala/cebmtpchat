@@ -278,6 +278,7 @@ void MainWindow::makeMenuBar()
     _actionToggleMenuBarVisibility->setShortcutContext(Qt::WidgetShortcut);
     connect(_actionToggleMenuBarVisibility, SIGNAL(triggered()), this, SLOT(toggleMenuBarVisibility()));
     _actionToggleStatusBarVisibility = menuConfiguration->addAction("");
+    _actionToggleStatusBarVisibility->setShortcutContext(Qt::WidgetShortcut);
     connect(_actionToggleStatusBarVisibility, SIGNAL(triggered()), this, SLOT(toggleStatusBarVisibility()));
     menuConfiguration->addSeparator();
     actionEditConnectionConfig = menuConfiguration->addAction(tr("&Connection configuration..."));
@@ -1443,16 +1444,16 @@ void MainWindow::captionChanged()
 void MainWindow::aboutToShowConfigurationMenu()
 {
     if (menuBar()->isVisible())
-        _actionToggleMenuBarVisibility->setText(tr("Hide menu bar"));
+        _actionToggleMenuBarVisibility->setText(tr("Hide &menu bar"));
     else
-        _actionToggleMenuBarVisibility->setText(tr("Show menu bar"));
+        _actionToggleMenuBarVisibility->setText(tr("Show &menu bar"));
     QShortcut *shortcut = shortcutByActionType(Action::Action_ToggleMenuBar);
     if (shortcut)
         _actionToggleMenuBarVisibility->setShortcut(shortcut->key());
     if (statusBar()->isVisible())
-        _actionToggleStatusBarVisibility->setText(tr("Hide status bar"));
+        _actionToggleStatusBarVisibility->setText(tr("Hide &status bar"));
     else
-        _actionToggleStatusBarVisibility->setText(tr("Show status bar"));
+        _actionToggleStatusBarVisibility->setText(tr("Show &status bar"));
     shortcut = shortcutByActionType(Action::Action_ToggleStatusBar);
     if (shortcut)
         _actionToggleStatusBarVisibility->setShortcut(shortcut->key());
@@ -1471,21 +1472,21 @@ void MainWindow::toggleStatusBarVisibility()
 void MainWindow::aboutToShowWindowsMenu()
 {
     if (tabWidgetMain->indexOf(SystemWidget::instance()) >= 0)
-        _actionToggleSystemLogsVisibility->setText(tr("Hide system logs"));
+        _actionToggleSystemLogsVisibility->setText(tr("Hide &system logs"));
     else
-        _actionToggleSystemLogsVisibility->setText(tr("Show system logs"));
+        _actionToggleSystemLogsVisibility->setText(tr("Show &system logs"));
 }
 
 void MainWindow::aboutToShowEditMenu()
 {
     if (Profile::instance().topicWindowVisible)
-        _actionToggleTopicVisibility->setText(tr("Hide topic"));
+        _actionToggleTopicVisibility->setText(tr("Hide &topic"));
     else
-        _actionToggleTopicVisibility->setText(tr("Show topic"));
+        _actionToggleTopicVisibility->setText(tr("Show &topic"));
     if (Profile::instance().usersWindowVisible)
-        _actionToggleUsersVisibility->setText(tr("Hide users"));
+        _actionToggleUsersVisibility->setText(tr("Hide &users"));
     else
-        _actionToggleUsersVisibility->setText(tr("Show users"));
+        _actionToggleUsersVisibility->setText(tr("Show &users"));
 }
 
 Session *MainWindow::getCurrentSession() const
