@@ -69,7 +69,6 @@ private:
     QSplitter *_splitterOutWho;
     MyTextEdit *_textEditOutput;
     SearchWidget *_searchWidget;
-    QLabel *_labelWhoTitle;
     QWidget *_whoWidget;
     QTreeView *_treeViewWho;
     QStackedWidget *_stackedWidgetEntry;
@@ -97,7 +96,6 @@ private:
     void init();
     void colorizeChatItems(const QColor &color);
     void initScriptComboBox();
-    void refreshWhoLabel();
     void toggleSearchWidgetVisibility();
 
 private slots:

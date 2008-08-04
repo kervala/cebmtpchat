@@ -139,16 +139,6 @@ void ChannelWidget::init()
     whoLayout->setMargin(0);
     _splitterOutWho->addWidget(_whoWidget);
 
-    QFrame *whoTitleFrame = new QFrame;
-    whoTitleFrame->setFrameShape(QFrame::Box);
-    whoTitleFrame->setFrameShadow(QFrame::Plain);
-    whoLayout->addWidget(whoTitleFrame);
-    _labelWhoTitle = new QLabel(tr("%n user(s)", "", 0));
-    _labelWhoTitle->setAlignment(Qt::AlignHCenter);
-    QVBoxLayout *whoTitleLayout = new QVBoxLayout(whoTitleFrame);
-    whoTitleLayout->setMargin(0);
-    whoTitleLayout->addWidget(_labelWhoTitle);
-
     _treeViewWho = new QTreeView;
     _whoModel = new WhoModel(_session, this);
     _whoSortModel = new WhoSortModel(_session, this);
@@ -652,7 +642,6 @@ void ChannelWidget::sessionDisconnected()
         _timerKeepAlive.stop();
 //    _tableWidgetWho->clear();
     colorizeChatItems(Profile::instance().textSkin().awayBackgroundColor());
-    _labelWhoTitle->setText("");
 }
 
 void ChannelWidget::sessionSocketError(const QString &errorStr)
@@ -983,23 +972,15 @@ void ChannelWidget::sessionCleared()
 
 void ChannelWidget::whoModelRowsInserted(const QModelIndex &, int, int)
 {
-    refreshWhoLabel();
     _treeViewWho->resizeColumnToContents(0);
 }
 
 void ChannelWidget::whoModelRowsRemoved(const QModelIndex &, int, int)
 {
-    refreshWhoLabel();
     _treeViewWho->resizeColumnToContents(0);
 }
 
 void ChannelWidget::whoModelReset()
 {
-    refreshWhoLabel();
     _treeViewWho->resizeColumnToContents(0);
-}
-
-void ChannelWidget::refreshWhoLabel()
-{
-    _labelWhoTitle->setText(tr("%n user(s)", "", _whoModel->rowCount()));
 }
