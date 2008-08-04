@@ -92,6 +92,7 @@ private:
     AutoUpdate autoUpdate;
     QSignalMapper *actionSignalMapper;
     QList<QShortcut*> actionShortcuts;
+    QLabel *_statusLabel;
 
     QAction *_actionToggleMenuBarVisibility;
     QAction *_actionToggleStatusBarVisibility;
@@ -146,6 +147,8 @@ private:
     ChannelWidget *connectTo(SessionConfig &config);
 
     QShortcut *shortcutByActionType(Action::ActionType type) const;
+
+    void refreshStatusLabel();
 
 private:
     bool m_firstShow;

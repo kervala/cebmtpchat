@@ -112,6 +112,14 @@ void Session::stop()
         _socket->disconnectFromHost();
 }
 
+QString Session::caption() const
+{
+    if (_config.name() != "")
+        return _config.name();
+    else
+        return QString("%1:%2").arg(serverAddress()).arg(serverPort());
+}
+
 void Session::send(const QString &message, bool killIdle)
 {
     QTextCodec *codec = QTextCodec::codecForMib(_config.encodingMib());

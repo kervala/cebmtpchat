@@ -44,6 +44,9 @@ public:
     // Stop the communication
     void stop();
 
+    //! How the session appears
+    QString caption() const;
+
     //! Send something
     // If <killIdle> is false, then idle time is not reset
     void send(const QString &message, bool killIdle = true);

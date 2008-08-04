@@ -65,6 +65,9 @@ MainWindow::MainWindow()
 {
     setWindowTitle("CeB");
 
+    _statusLabel = new QLabel;
+    statusBar()->addPermanentWidget(_statusLabel);
+
     trayMenu = new QMenu(this);
     trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -779,6 +782,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
     break;
     default:;
     }
+    refreshStatusLabel();
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -1034,12 +1038,15 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
 void MainWindow::tabWidgetMainCurrentChanged(int index)
 {
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(index));
-    if (!sessionWidget)
-        return;
-    sessionWidget->setStared(false);
-    renameWidget(sessionWidget, sessionWidget->caption());
-    changeWidgetColor(sessionWidget, tabWidgetMain->palette().color(QPalette::WindowText));
-    sessionWidget->applyFirstShow();
+    if (sessionWidget)
+    {
+        sessionWidget->setStared(false);
+        renameWidget(sessionWidget, sessionWidget->caption());
+        changeWidgetColor(sessionWidget, tabWidgetMain->palette().color(QPalette::WindowText));
+        sessionWidget->applyFirstShow();
+    }
+
+    refreshStatusLabel();
 }
 
 ChannelWidget *MainWindow::getChannelWidget(Session *session)
@@ -1546,4 +1553,34 @@ QShortcut *MainWindow::shortcutByActionType(Action::ActionType type) const
 {
     QShortcut *shortcut = dynamic_cast<QShortcut*>(actionSignalMapper->mapping(type));
     return shortcut;
+}
+
+void MainWindow::refreshStatusLabel()
+{
+    QString label;
+    ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->currentWidget());
+    if (channelWidget)
+    {
+        Session *session = channelWidget->session();
+        _statusLabel->setText(
+            QString("%1 - %2 user(s) - %3").arg(session->channel()).arg(session->whoPopulation().users().count()).arg(session->serverAddress()));
+        return;
+    }
+
+    TellWidget *tellWidget = qobject_cast<TellWidget*>(tabWidgetMain->currentWidget());
+    if (tellWidget)
+    {
+        Session *session = tellWidget->session();
+        _statusLabel->setText(QString("Conversation with %1 - %2").arg(
+                                  tellWidget->login().compare(session->serverLogin(), Qt::CaseInsensitive) ? tellWidget->login() : tr("yourself")).arg(session->serverAddress()));
+        return;
+    }
+
+    SystemWidget *systemWidget = qobject_cast<SystemWidget*>(tabWidgetMain->currentWidget());
+    if (systemWidget)
+    {
+        _statusLabel->setText(tr("system logs"));
+        return;
+    }
+    _statusLabel->setText(label);
 }
