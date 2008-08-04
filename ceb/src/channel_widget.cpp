@@ -158,6 +158,7 @@ void ChannelWidget::init()
     _treeViewWho->setSelectionMode(QAbstractItemView::SingleSelection);
     _treeViewWho->setSelectionBehavior(QAbstractItemView::SelectRows);
     _treeViewWho->setRootIsDecorated(false);
+    _whoWidget->setVisible(Profile::instance().usersWindowVisible);
 
     // Who list context menu
     QAction *action;
