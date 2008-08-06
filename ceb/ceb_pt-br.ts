@@ -26,54 +26,47 @@
         <translation type="obsolete">Tentativa de conexão </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="607"/>
+        <location filename="src/channel_widget.cpp" line="601"/>
         <source>successful.</source>
         <translation>bem sucedida.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="877"/>
+        <location filename="src/channel_widget.cpp" line="873"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;nenhum filtro&gt;</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="79"/>
+        <location filename="src/channel_widget.cpp" line="80"/>
         <source>Topic: </source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <location filename="src/channel_widget.cpp" line="1000"/>
-        <source>%n user(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="174"/>
+        <location filename="src/channel_widget.cpp" line="166"/>
         <source>initiate a tell session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="178"/>
+        <location filename="src/channel_widget.cpp" line="170"/>
         <source>finger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="182"/>
+        <location filename="src/channel_widget.cpp" line="174"/>
         <source>beep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="186"/>
+        <location filename="src/channel_widget.cpp" line="178"/>
         <source>kick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="546"/>
+        <location filename="src/channel_widget.cpp" line="545"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="594"/>
+        <location filename="src/channel_widget.cpp" line="588"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,7 +165,7 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
 <context>
     <name>DialogSettings</name>
     <message>
-        <location filename="src/dialog_settings.cpp" line="48"/>
+        <location filename="src/dialog_settings.cpp" line="50"/>
         <source>Categories</source>
         <translation>Categorias</translation>
     </message>
@@ -185,12 +178,12 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
     <message>
         <location filename="src/dialog_settings.cpp" line="81"/>
         <source>Application language:</source>
-        <translation>Idioma:</translation>
+        <translation type="obsolete">Idioma:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="102"/>
+        <location filename="src/dialog_settings.cpp" line="109"/>
         <source>&lt;Default language&gt;</source>
-        <translation>&lt;Idioma padrão&gt;</translation>
+        <translation type="obsolete">&lt;Idioma padrão&gt;</translation>
     </message>
     <message>
         <location filename="" line="6619235"/>
@@ -204,74 +197,74 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
         <translation type="obsolete">Logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="165"/>
+        <location filename="src/dialog_settings.cpp" line="172"/>
         <source>Enable logs</source>
-        <translation>Ativar logs</translation>
+        <translation type="obsolete">Ativar logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="175"/>
+        <location filename="src/dialog_settings.cpp" line="182"/>
         <source>Logs directory</source>
-        <translation>Pasta de logs</translation>
+        <translation type="obsolete">Pasta de logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="179"/>
+        <location filename="src/dialog_settings.cpp" line="186"/>
         <source>Default directory: </source>
-        <translation>Pasta padrão:</translation>
+        <translation type="obsolete">Pasta padrão:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="196"/>
+        <location filename="src/dialog_settings.cpp" line="203"/>
         <source>Custom directory: </source>
-        <translation>Pasta personalizada:</translation>
+        <translation type="obsolete">Pasta personalizada:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="226"/>
+        <location filename="src/dialog_settings.cpp" line="233"/>
         <source>Logs file policy</source>
-        <translation>Política de arquivo de logs</translation>
+        <translation type="obsolete">Política de arquivo de logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="228"/>
+        <location filename="src/dialog_settings.cpp" line="235"/>
         <source>Save your logs in a file:</source>
-        <translation>Salvar os logs em arquivo:</translation>
+        <translation type="obsolete">Salvar os logs em arquivo:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="230"/>
+        <location filename="src/dialog_settings.cpp" line="237"/>
         <source>Daily</source>
-        <translation>Diário</translation>
+        <translation type="obsolete">Diário</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="232"/>
+        <location filename="src/dialog_settings.cpp" line="239"/>
         <source>Weekly (from monday to sunday)</source>
-        <translation>Semanal (de segunda a segunda)</translation>
+        <translation type="obsolete">Semanal (de segunda a segunda)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="234"/>
+        <location filename="src/dialog_settings.cpp" line="241"/>
         <source>Monthly</source>
-        <translation>Mensal</translation>
+        <translation type="obsolete">Mensal</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="236"/>
+        <location filename="src/dialog_settings.cpp" line="243"/>
         <source>Uniq</source>
-        <translation>Único</translation>
+        <translation type="obsolete">Único</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="260"/>
+        <location filename="src/dialog_settings.cpp" line="267"/>
         <source>Alway timestamps</source>
-        <translation>Data e hora sempre</translation>
+        <translation type="obsolete">Data e hora sempre</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="280"/>
+        <location filename="src/dialog_settings.cpp" line="287"/>
         <source>Enable tray icon</source>
-        <translation>Ativar Ícone na barra de tarefas</translation>
+        <translation type="obsolete">Ativar Ícone na barra de tarefas</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="286"/>
+        <location filename="src/dialog_settings.cpp" line="293"/>
         <source>Always visible</source>
-        <translation>Sempre visível</translation>
+        <translation type="obsolete">Sempre visível</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="290"/>
+        <location filename="src/dialog_settings.cpp" line="297"/>
         <source>Hide from task bar when minimized</source>
-        <translation>Tirar da barra de tarefas quando reduzido</translation>
+        <translation type="obsolete">Tirar da barra de tarefas quando reduzido</translation>
     </message>
     <message>
         <location filename="" line="6619235"/>
@@ -319,64 +312,64 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
         <translation type="obsolete">Frases destacadas (onde se encontra seu nome)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="331"/>
+        <location filename="src/dialog_settings.cpp" line="338"/>
         <source>Display icons in tabs</source>
-        <translation>Inserir ícones nas abas</translation>
+        <translation type="obsolete">Inserir ícones nas abas</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="335"/>
+        <location filename="src/dialog_settings.cpp" line="342"/>
         <source>Tabs disposition</source>
-        <translation type="unfinished">Todas as abas numa linha</translation>
+        <translation type="obsolete">Todas as abas numa linha</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="352"/>
+        <location filename="src/dialog_settings.cpp" line="359"/>
         <source>Two tabs ranges</source>
-        <translation>Duas faixas de abas</translation>
+        <translation type="obsolete">Duas faixas de abas</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="364"/>
+        <location filename="src/dialog_settings.cpp" line="371"/>
         <source>Tabs location</source>
-        <translation>Posição das abas</translation>
+        <translation type="obsolete">Posição das abas</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="409"/>
+        <location filename="src/dialog_settings.cpp" line="416"/>
         <source>On the top</source>
-        <translation>Em cima</translation>
+        <translation type="obsolete">Em cima</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="420"/>
+        <source>On the bottom</source>
+        <translation type="obsolete">Em baixo</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_settings.cpp" line="397"/>
+        <source>Servers tabs location</source>
+        <translation type="obsolete">Posição das abas de servidor</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="413"/>
-        <source>On the bottom</source>
-        <translation>Em baixo</translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="390"/>
-        <source>Servers tabs location</source>
-        <translation>Posição das abas de servidor</translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="406"/>
         <source>Sub-tabs location</source>
-        <translation>Posição das sub-abas</translation>
+        <translation type="obsolete">Posição das sub-abas</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="455"/>
+        <location filename="src/dialog_settings.cpp" line="462"/>
         <source>Enable away/back separator lines</source>
-        <translation>Atiavr linhas de separação away/back</translation>
+        <translation type="obsolete">Atiavr linhas de separação away/back</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="467"/>
+        <location filename="src/dialog_settings.cpp" line="474"/>
         <source>Pick a color</source>
-        <translation>Escolhe uma cor</translation>
+        <translation type="obsolete">Escolhe uma cor</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="482"/>
+        <location filename="src/dialog_settings.cpp" line="489"/>
         <source>Lines length: </source>
-        <translation>Cumprimento das linhas:</translation>
+        <translation type="obsolete">Cumprimento das linhas:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="497"/>
+        <location filename="src/dialog_settings.cpp" line="504"/>
         <source>Periodic separator string:</source>
-        <translation>Texto do separador periódico:</translation>
+        <translation type="obsolete">Texto do separador periódico:</translation>
     </message>
     <message>
         <location filename="src/dialog_settings.cpp" line="520"/>
@@ -429,142 +422,102 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
         <translation type="obsolete">Copiar texto selecionado (como unix)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="728"/>
+        <location filename="src/dialog_settings.cpp" line="738"/>
         <source>Choose a logs directory</source>
-        <translation>Escolhe uma pasta de logs</translation>
+        <translation type="obsolete">Escolhe uma pasta de logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="51"/>
+        <location filename="src/dialog_settings.cpp" line="53"/>
         <source>General</source>
         <comment>Settings node</comment>
         <translation type="unfinished">Geral</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="54"/>
+        <location filename="src/dialog_settings.cpp" line="56"/>
         <source>Fonts</source>
         <comment>Settings node</comment>
         <translation type="unfinished">Fonts</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="55"/>
+        <location filename="src/dialog_settings.cpp" line="57"/>
         <source>Detailed</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="56"/>
+        <location filename="src/dialog_settings.cpp" line="58"/>
         <source>Logs</source>
         <comment>Settings node</comment>
         <translation type="unfinished">Logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="57"/>
+        <location filename="src/dialog_settings.cpp" line="59"/>
         <source>Tray</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="58"/>
+        <location filename="src/dialog_settings.cpp" line="60"/>
         <source>Warningo</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="59"/>
+        <location filename="src/dialog_settings.cpp" line="61"/>
         <source>Sounds</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="60"/>
+        <location filename="src/dialog_settings.cpp" line="62"/>
         <source>Idle</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="61"/>
+        <location filename="src/dialog_settings.cpp" line="63"/>
         <source>Tabs</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="63"/>
+        <location filename="src/dialog_settings.cpp" line="65"/>
         <source>Output</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="64"/>
+        <location filename="src/dialog_settings.cpp" line="66"/>
         <source>Misc</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="52"/>
+        <location filename="src/dialog_settings.cpp" line="54"/>
         <source>Shortcuts</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="62"/>
+        <location filename="src/dialog_settings.cpp" line="64"/>
         <source>Links</source>
         <comment>Settings node</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="93"/>
-        <source>Check for CeB update at startup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="128"/>
+        <location filename="src/dialog_settings.cpp" line="90"/>
         <source>Connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="259"/>
-        <source>Misc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="341"/>
-        <source>All tabs in one row with captions of form:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="347"/>
-        <source>complete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="348"/>
-        <source>simplified</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="529"/>
+        <location filename="src/dialog_settings.cpp" line="114"/>
         <source>New connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="595"/>
+        <location filename="src/dialog_settings.cpp" line="602"/>
         <source>Warning</source>
-        <translation type="unfinished">Aviso</translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="595"/>
-        <source>You must restart CeB to apply your language changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="826"/>
-        <source>Server 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_settings.cpp" line="836"/>
-        <source>Server 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Aviso</translation>
     </message>
 </context>
 <context>
@@ -576,42 +529,29 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
     </message>
 </context>
 <context>
-    <name>DialogSystem</name>
-    <message>
-        <location filename="src/dialog_system.cpp" line="27"/>
-        <source>System logs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/dialog_system.cpp" line="45"/>
-        <source>&amp;Hide</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DialogUpdate</name>
     <message>
-        <location filename="src/dialog_update.cpp" line="53"/>
+        <location filename="src/dialog_update.cpp" line="54"/>
         <source>&amp;Update</source>
         <translation>&amp;Atualização</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="31"/>
+        <location filename="src/dialog_update.cpp" line="32"/>
         <source>No newer version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="61"/>
+        <location filename="src/dialog_update.cpp" line="62"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="86"/>
+        <location filename="src/dialog_update.cpp" line="87"/>
         <source>New version found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="108"/>
+        <location filename="src/dialog_update.cpp" line="109"/>
         <source>%1/%2 KiB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -836,6 +776,47 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
     </message>
 </context>
 <context>
+    <name>GeneralSettings</name>
+    <message>
+        <location filename="ui/general_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/general_settings.ui" line="19"/>
+        <source>Application language:</source>
+        <translation type="unfinished">Idioma:</translation>
+    </message>
+    <message>
+        <location filename="ui/general_settings.ui" line="29"/>
+        <source>Check for CeB update at startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/general_settings.ui" line="36"/>
+        <source>Keep CeB above other windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GeneralSettingsWidget</name>
+    <message>
+        <location filename="src/general_settings_widget.cpp" line="31"/>
+        <source>&lt;Default language&gt;</source>
+        <translation type="unfinished">&lt;Idioma padrão&gt;</translation>
+    </message>
+    <message>
+        <location filename="src/general_settings_widget.cpp" line="72"/>
+        <source>Warning</source>
+        <translation type="unfinished">Aviso</translation>
+    </message>
+    <message>
+        <location filename="src/general_settings_widget.cpp" line="72"/>
+        <source>You must restart CeB to apply your language changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IdleSettings</name>
     <message>
         <location filename="ui/idle_settings.ui" line="13"/>
@@ -950,174 +931,250 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
     </message>
 </context>
 <context>
+    <name>LogsSettings</name>
+    <message>
+        <location filename="ui/logs_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="25"/>
+        <source>Enable logs</source>
+        <translation type="unfinished">Ativar logs</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="46"/>
+        <source>Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="52"/>
+        <source>Default directory:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="95"/>
+        <source>Custom directory:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="133"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="143"/>
+        <source>Policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="149"/>
+        <source>Save your logs in a file:</source>
+        <translation type="unfinished">Salvar os logs em arquivo:</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="156"/>
+        <source>Daily</source>
+        <translation type="unfinished">Diário</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="163"/>
+        <source>Weekly (from monday to sunday)</source>
+        <translation type="unfinished">Semanal (de segunda a segunda)</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="170"/>
+        <source>Monthly</source>
+        <translation type="unfinished">Mensal</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="177"/>
+        <source>Uniq</source>
+        <translation type="unfinished">Único</translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="193"/>
+        <source>Misc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/logs_settings.ui" line="199"/>
+        <source>Always timestamps</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogsSettingsWidget</name>
+    <message>
+        <location filename="src/logs_settings_widget.cpp" line="88"/>
+        <source>Choose a logs directory</source>
+        <translation type="unfinished">Escolhe uma pasta de logs</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="src/main_window.cpp" line="254"/>
+        <location filename="src/main_window.cpp" line="252"/>
         <source>&amp;Connections</source>
         <translation type="unfinished">&amp;Conexões</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="255"/>
+        <location filename="src/main_window.cpp" line="253"/>
         <source>&amp;Connect to</source>
         <translation type="unfinished">Co&amp;nectar com</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="259"/>
+        <location filename="src/main_window.cpp" line="257"/>
         <source>&amp;Reconnect</source>
         <translation type="unfinished">&amp;Reconectar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="260"/>
-        <source>Reconnect</source>
-        <translation type="unfinished">Reconectar</translation>
+        <location filename="src/main_window.cpp" line="263"/>
+        <source>C&amp;lose connection</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="265"/>
+        <location filename="src/main_window.cpp" line="268"/>
         <source>&amp;Close connection</source>
-        <translation type="unfinished">&amp;Fechar conexão</translation>
+        <translation type="obsolete">&amp;Fechar conexão</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="266"/>
+        <location filename="src/main_window.cpp" line="264"/>
         <source>Close current connection</source>
         <translation type="unfinished">Fechar conexão atual</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="271"/>
+        <location filename="src/main_window.cpp" line="269"/>
         <source>&amp;Quit</source>
         <translation type="unfinished">&amp;Fechar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="275"/>
+        <location filename="src/main_window.cpp" line="273"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">&amp;Editar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="279"/>
+        <location filename="src/main_window.cpp" line="293"/>
         <source>&amp;Connection configuration...</source>
         <translation type="unfinished">&amp;Configurção de conexão...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="282"/>
+        <location filename="src/main_window.cpp" line="296"/>
         <source>&amp;General settings...</source>
         <translation type="unfinished">&amp;Opções gerais...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="285"/>
+        <location filename="src/main_window.cpp" line="310"/>
         <source>&amp;View</source>
         <translation type="unfinished">&amp;Ver</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="287"/>
+        <location filename="src/main_window.cpp" line="290"/>
         <source>&amp;Topic window</source>
-        <translation type="unfinished">Janela de &amp;tópico</translation>
+        <translation type="obsolete">Janela de &amp;tópico</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="294"/>
+        <location filename="src/main_window.cpp" line="297"/>
         <source>&amp;System logs</source>
-        <translation type="unfinished">Logs de &amp;sistema</translation>
+        <translation type="obsolete">Logs de &amp;sistema</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="299"/>
+        <location filename="src/main_window.cpp" line="312"/>
         <source>Open &amp;logs directory</source>
         <translation type="unfinished">&amp;Abrir pasta de logs</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="300"/>
+        <location filename="src/main_window.cpp" line="314"/>
         <source>&amp;Messages</source>
         <translation type="unfinished">&amp;Mensagens</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="304"/>
+        <location filename="src/main_window.cpp" line="318"/>
         <source>&amp;Help</source>
         <translation type="unfinished">&amp;Ajuda</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="306"/>
+        <location filename="src/main_window.cpp" line="320"/>
         <source>&amp;Check for update...</source>
         <translation type="unfinished">&amp;Procurar atualizações...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="309"/>
+        <location filename="src/main_window.cpp" line="323"/>
         <source>&amp;What&apos;s new?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="311"/>
+        <location filename="src/main_window.cpp" line="325"/>
         <source>&amp;Report a bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="312"/>
+        <location filename="src/main_window.cpp" line="326"/>
         <source>&amp;Report a wanted feature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="314"/>
+        <location filename="src/main_window.cpp" line="328"/>
         <source>&amp;About...</source>
         <translation type="unfinished">&amp;Sobre...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="315"/>
+        <location filename="src/main_window.cpp" line="329"/>
         <source>About &amp;Qt...</source>
         <translation type="unfinished">Sobre &amp;Qt...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="369"/>
+        <location filename="src/main_window.cpp" line="375"/>
         <source>&amp;New connection...</source>
         <translation type="unfinished">&amp;Nova conexão...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="370"/>
+        <location filename="src/main_window.cpp" line="376"/>
         <source>Create a new connection</source>
         <translation type="unfinished">Criar nova conexão</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="399"/>
+        <location filename="src/main_window.cpp" line="405"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1121"/>
+        <location filename="src/main_window.cpp" line="1037"/>
         <source>File transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1270"/>
+        <location filename="src/main_window.cpp" line="1205"/>
         <source>Warning</source>
         <translation type="unfinished">Aviso</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1270"/>
+        <location filename="src/main_window.cpp" line="1205"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation type="unfinished">É necessario fechar o CeB para continuar a instalação</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="276"/>
+        <location filename="src/main_window.cpp" line="275"/>
         <source>&amp;Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="399"/>
+        <location filename="src/main_window.cpp" line="405"/>
         <source>You seem to be already connected, do you really want to force a reconnection?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="835"/>
+        <location filename="src/main_window.cpp" line="754"/>
         <source>(away)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="869"/>
-        <source>(quit)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/main_window.cpp" line="1237"/>
+        <location filename="src/main_window.cpp" line="1173"/>
         <source>Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1251"/>
+        <location filename="src/main_window.cpp" line="1186"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1128,7 +1185,7 @@ Here are the problems:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1258"/>
+        <location filename="src/main_window.cpp" line="1193"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1136,6 +1193,106 @@ I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes,
 Here are the missing features I&apos;d like to see in the next version:
 
 * </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="462"/>
+        <source>system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="258"/>
+        <source>Reconnect on the current connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="284"/>
+        <source>Confi&amp;guration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="299"/>
+        <source>&amp;Windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="301"/>
+        <source>&amp;Previous tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="303"/>
+        <source>&amp;Next tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="313"/>
+        <source>Open &amp;profile directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1478"/>
+        <source>Hide &amp;menu bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1480"/>
+        <source>Show &amp;menu bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1485"/>
+        <source>Hide &amp;status bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1487"/>
+        <source>Show &amp;status bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1506"/>
+        <source>Hide &amp;system logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1508"/>
+        <source>Show &amp;system logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1514"/>
+        <source>Hide &amp;topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1516"/>
+        <source>Show &amp;topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1518"/>
+        <source>Hide &amp;users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1520"/>
+        <source>Show &amp;users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1591"/>
+        <source>yourself</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1599"/>
+        <source>system logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="306"/>
+        <source></source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1178,149 +1335,182 @@ Here are the missing features I&apos;d like to see in the next version:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="22"/>
+        <location filename="ui/misc_settings.ui" line="19"/>
         <source>Timestamp policy</source>
         <translation type="unfinished">Política de data e hora</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="28"/>
+        <location filename="ui/misc_settings.ui" line="25"/>
         <source>Classic display (server choice)</source>
         <translation type="unfinished">Política clássica (escolha é do servidor)</translation>
     </message>
     <message>
         <location filename="ui/misc_settings.ui" line="35"/>
         <source>Always display timestamp</source>
-        <translation type="unfinished">Sempre imprimir data e hora</translation>
+        <translation type="obsolete">Sempre imprimir data e hora</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="42"/>
+        <location filename="ui/misc_settings.ui" line="39"/>
         <source>Never display timestamp</source>
         <translation type="unfinished">Nunca imprimir data e hora</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="49"/>
+        <location filename="ui/misc_settings.ui" line="46"/>
         <source>Display timestamp in tell tabs</source>
         <translation type="unfinished">Imprimir data e hora nas abas de conversa privada</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="59"/>
+        <location filename="ui/misc_settings.ui" line="56"/>
         <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
         <translation type="unfinished">Manter conexão viva (o comando &quot;date&quot; é mandado de tempos em tempos)</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="87"/>
+        <location filename="ui/misc_settings.ui" line="84"/>
         <source>seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="109"/>
+        <location filename="ui/misc_settings.ui" line="106"/>
         <source>Tabs for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="115"/>
+        <location filename="ui/misc_settings.ui" line="112"/>
         <source>who command</source>
         <translation type="unfinished">comando who</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="122"/>
+        <location filename="ui/misc_settings.ui" line="119"/>
         <source>wall command</source>
         <translation type="unfinished">comando wall</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="129"/>
+        <location filename="ui/misc_settings.ui" line="126"/>
         <source>finger command</source>
         <translation type="unfinished">comando finger</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="139"/>
+        <location filename="ui/misc_settings.ui" line="136"/>
         <source>Copy on selection (unix style)</source>
         <translation type="unfinished">Copiar texto selecionado (como unix)</translation>
+    </message>
+    <message>
+        <location filename="ui/misc_settings.ui" line="32"/>
+        <source>Always display timestamp in</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="341"/>
+        <location filename="src/my_textedit.cpp" line="350"/>
         <source>Send to chat!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="61"/>
+        <location filename="src/my_textedit.cpp" line="63"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="62"/>
+        <location filename="src/my_textedit.cpp" line="64"/>
         <source>Uploading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="105"/>
+        <location filename="src/my_textedit.cpp" line="107"/>
         <source>Filter it!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="291"/>
+        <location filename="src/my_textedit.cpp" line="300"/>
         <source>Warning</source>
         <translation type="unfinished">Aviso</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="291"/>
+        <location filename="src/my_textedit.cpp" line="300"/>
         <source>Failed to open URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="316"/>
+        <location filename="src/my_textedit.cpp" line="325"/>
         <source>(filter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="392"/>
+        <location filename="src/my_textedit.cpp" line="401"/>
         <source>To upload a file, you need to configure an FTP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="394"/>
+        <location filename="src/my_textedit.cpp" line="403"/>
         <source>&quot;%1&quot; is not a valid FTP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="542"/>
+        <location filename="src/my_textedit.cpp" line="551"/>
         <source>Error</source>
         <translation type="unfinished">Erro</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="408"/>
+        <location filename="src/my_textedit.cpp" line="417"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="410"/>
+        <location filename="src/my_textedit.cpp" line="419"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="459"/>
+        <location filename="src/my_textedit.cpp" line="468"/>
         <source>Unable to open the file %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="510"/>
+        <location filename="src/my_textedit.cpp" line="519"/>
         <source>Unable to connect to %1. Please check that the hostname is correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="542"/>
+        <location filename="src/my_textedit.cpp" line="551"/>
         <source>Canceled upload of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="553"/>
+        <location filename="src/my_textedit.cpp" line="562"/>
         <source>(%n bytes)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>OutputSettings</name>
+    <message>
+        <location filename="ui/output_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/output_settings.ui" line="19"/>
+        <source>Enable away/back separator lines</source>
+        <translation type="unfinished">Atiavr linhas de separação away/back</translation>
+    </message>
+    <message>
+        <location filename="ui/output_settings.ui" line="35"/>
+        <source>Pick a color</source>
+        <translation type="unfinished">Escolhe uma cor</translation>
+    </message>
+    <message>
+        <location filename="ui/output_settings.ui" line="42"/>
+        <source>Line length:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/output_settings.ui" line="59"/>
+        <source>Periodic separator string:</source>
+        <translation type="unfinished">Texto do separador periódico:</translation>
     </message>
 </context>
 <context>
@@ -1346,382 +1536,382 @@ Here are the missing features I&apos;d like to see in the next version:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="140"/>
+        <location filename="src/token_info.cpp" line="141"/>
         <source>Password asked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="141"/>
+        <location filename="src/token_info.cpp" line="142"/>
         <source>Incorrect password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="142"/>
+        <location filename="src/token_info.cpp" line="143"/>
         <source>Welcome msg.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="143"/>
+        <location filename="src/token_info.cpp" line="144"/>
         <source>Indicated topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="144"/>
+        <location filename="src/token_info.cpp" line="145"/>
         <source>You set topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="145"/>
+        <location filename="src/token_info.cpp" line="146"/>
         <source>Someone set topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="146"/>
+        <location filename="src/token_info.cpp" line="147"/>
         <source>Someone tells you</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="147"/>
+        <location filename="src/token_info.cpp" line="148"/>
         <source>You tell someone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="148"/>
+        <location filename="src/token_info.cpp" line="149"/>
         <source>Someone asks you</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="149"/>
+        <location filename="src/token_info.cpp" line="150"/>
         <source>You ask someone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="150"/>
+        <location filename="src/token_info.cpp" line="151"/>
         <source>Someone replies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="151"/>
+        <location filename="src/token_info.cpp" line="152"/>
         <source>You reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="153"/>
+        <location filename="src/token_info.cpp" line="154"/>
         <source>Someone beeps you</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="155"/>
+        <location filename="src/token_info.cpp" line="156"/>
         <source>Wall start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="156"/>
+        <location filename="src/token_info.cpp" line="157"/>
         <source>Wall end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="157"/>
+        <location filename="src/token_info.cpp" line="158"/>
         <source>Wall line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="159"/>
+        <location filename="src/token_info.cpp" line="160"/>
         <source>Who start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="160"/>
+        <location filename="src/token_info.cpp" line="161"/>
         <source>Who end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="161"/>
+        <location filename="src/token_info.cpp" line="162"/>
         <source>Who end [no user]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="162"/>
+        <location filename="src/token_info.cpp" line="163"/>
         <source>Who separator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="163"/>
+        <location filename="src/token_info.cpp" line="164"/>
         <source>Who line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="165"/>
+        <location filename="src/token_info.cpp" line="172"/>
         <source>History start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="166"/>
+        <location filename="src/token_info.cpp" line="173"/>
         <source>History end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="167"/>
+        <location filename="src/token_info.cpp" line="174"/>
         <source>History line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="169"/>
+        <location filename="src/token_info.cpp" line="176"/>
         <source>Finger start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="170"/>
+        <location filename="src/token_info.cpp" line="177"/>
         <source>Finger end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="171"/>
+        <location filename="src/token_info.cpp" line="178"/>
         <source>Finger line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="173"/>
+        <location filename="src/token_info.cpp" line="180"/>
         <source>Someone shouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="174"/>
+        <location filename="src/token_info.cpp" line="181"/>
         <source>You shout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="176"/>
+        <location filename="src/token_info.cpp" line="183"/>
         <source>Someone&apos;s away</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="177"/>
+        <location filename="src/token_info.cpp" line="184"/>
         <source>You&apos;re away</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="178"/>
+        <location filename="src/token_info.cpp" line="185"/>
         <source>Someone&apos;s back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="179"/>
+        <location filename="src/token_info.cpp" line="186"/>
         <source>You&apos;re back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="180"/>
+        <location filename="src/token_info.cpp" line="187"/>
         <source>Someone&apos;s away warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="182"/>
+        <location filename="src/token_info.cpp" line="189"/>
         <source>System aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="183"/>
+        <location filename="src/token_info.cpp" line="190"/>
         <source>User aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="184"/>
+        <location filename="src/token_info.cpp" line="191"/>
         <source>Aliases end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="185"/>
+        <location filename="src/token_info.cpp" line="192"/>
         <source>No user aliases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="186"/>
+        <location filename="src/token_info.cpp" line="193"/>
         <source>Alias line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="188"/>
+        <location filename="src/token_info.cpp" line="195"/>
         <source>Message start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="189"/>
+        <location filename="src/token_info.cpp" line="196"/>
         <source>Message line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="190"/>
+        <location filename="src/token_info.cpp" line="197"/>
         <source>Message end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="191"/>
+        <location filename="src/token_info.cpp" line="198"/>
         <source>No message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="192"/>
+        <location filename="src/token_info.cpp" line="199"/>
         <source>Message received</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="193"/>
+        <location filename="src/token_info.cpp" line="200"/>
         <source>All messages cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="194"/>
+        <location filename="src/token_info.cpp" line="201"/>
         <source>Message cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="195"/>
+        <location filename="src/token_info.cpp" line="202"/>
         <source>Messages cleared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="197"/>
+        <location filename="src/token_info.cpp" line="204"/>
         <source>Help start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="198"/>
+        <location filename="src/token_info.cpp" line="205"/>
         <source>Help normal end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="199"/>
+        <location filename="src/token_info.cpp" line="206"/>
         <source>No help end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="200"/>
+        <location filename="src/token_info.cpp" line="207"/>
         <source>Help line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="202"/>
+        <location filename="src/token_info.cpp" line="209"/>
         <source>Unknown user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="203"/>
+        <location filename="src/token_info.cpp" line="210"/>
         <source>User login renamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="204"/>
+        <location filename="src/token_info.cpp" line="211"/>
         <source>Your login renamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="206"/>
+        <location filename="src/token_info.cpp" line="213"/>
         <source>Someone comes in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="207"/>
+        <location filename="src/token_info.cpp" line="214"/>
         <source>Someone leaves</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="209"/>
+        <location filename="src/token_info.cpp" line="216"/>
         <source>Someone disconnects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="210"/>
+        <location filename="src/token_info.cpp" line="217"/>
         <source>You leave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="212"/>
+        <location filename="src/token_info.cpp" line="219"/>
         <source>You join a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="213"/>
+        <location filename="src/token_info.cpp" line="220"/>
         <source>You leave a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="214"/>
+        <location filename="src/token_info.cpp" line="221"/>
         <source>Someone joins a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="216"/>
+        <location filename="src/token_info.cpp" line="223"/>
         <source>Someone leaves a channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="219"/>
+        <location filename="src/token_info.cpp" line="226"/>
         <source>You kick someone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="220"/>
+        <location filename="src/token_info.cpp" line="227"/>
         <source>Someone is kicked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="221"/>
+        <location filename="src/token_info.cpp" line="228"/>
         <source>You are kicked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="223"/>
+        <location filename="src/token_info.cpp" line="230"/>
         <source>Date msg.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="224"/>
+        <location filename="src/token_info.cpp" line="231"/>
         <source>Your client is</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="226"/>
+        <location filename="src/token_info.cpp" line="237"/>
         <source>Mtp says (other system msg.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="227"/>
+        <location filename="src/token_info.cpp" line="238"/>
         <source>Someone says</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="231"/>
+        <location filename="src/token_info.cpp" line="242"/>
         <source>Unknown msg.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="215"/>
+        <location filename="src/token_info.cpp" line="222"/>
         <source>Someone fades into the shadows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="217"/>
+        <location filename="src/token_info.cpp" line="224"/>
         <source>Someone appears from the shadows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/token_info.cpp" line="229"/>
+        <location filename="src/token_info.cpp" line="240"/>
         <source>Data sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/action.cpp" line="60"/>
+        <location filename="src/action.cpp" line="69"/>
         <source>Refresh the who column on the current server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/action.cpp" line="61"/>
+        <location filename="src/action.cpp" line="70"/>
         <source>Toggle the away state on the current server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/action.cpp" line="62"/>
+        <location filename="src/action.cpp" line="71"/>
         <source>Reconnect on the current server</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1743,6 +1933,56 @@ Here are the missing features I&apos;d like to see in the next version:
     <message>
         <location filename="src/language_manager.cpp" line="84"/>
         <source>Brazilian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="67"/>
+        <source>Show/hide the menu bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/action.cpp" line="68"/>
+        <source>Show/hide the status bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="140"/>
+        <source>Only registered users are allowed to login at the moment...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="167"/>
+        <source>Groups start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="168"/>
+        <source>Groups separator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="169"/>
+        <source>Groups line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="233"/>
+        <source>Someone group is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="235"/>
+        <source>Unregistered user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/token_info.cpp" line="170"/>
+        <source>Groups end</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/profile.cpp" line="603"/>
+        <source>New connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1771,6 +2011,24 @@ Here are the missing features I&apos;d like to see in the next version:
     <message>
         <location filename="src/search_widget.cpp" line="65"/>
         <source>Match only complete words</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Session</name>
+    <message>
+        <location filename="src/session.cpp" line="486"/>
+        <source>Unconnected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/session.cpp" line="487"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/session.cpp" line="488"/>
+        <source>Ready.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1850,12 +2108,12 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>SessionManager</name>
     <message>
-        <location filename="src/session_manager.cpp" line="127"/>
+        <location filename="src/session_manager.cpp" line="135"/>
         <source>Connected</source>
         <translation>Conectado</translation>
     </message>
     <message>
-        <location filename="src/session_manager.cpp" line="137"/>
+        <location filename="src/session_manager.cpp" line="145"/>
         <source>Disconnected</source>
         <translation>Desconectado</translation>
     </message>
@@ -1953,11 +2211,54 @@ Here are the missing features I&apos;d like to see in the next version:
     </message>
 </context>
 <context>
+    <name>TabsSettings</name>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="22"/>
+        <source>Tabs position:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="30"/>
+        <source>North</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="35"/>
+        <source>South</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="40"/>
+        <source>West</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tabs_settings.ui" line="45"/>
+        <source>East</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="328"/>
+        <location filename="src/tell_widget.cpp" line="334"/>
         <source>&lt;no filter&gt;</source>
         <translation type="unfinished">&lt;nenhum filtro&gt;</translation>
+    </message>
+    <message>
+        <location filename="src/tell_widget.cpp" line="311"/>
+        <source>(quit)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/tell_widget.cpp" line="313"/>
+        <source>(away)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2036,6 +2337,29 @@ Here are the missing features I&apos;d like to see in the next version:
         <location filename="src/transfers_widget.cpp" line="265"/>
         <source>Uploading &lt;b&gt;%1&lt;/b&gt; to &lt;b&gt;%2&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TraySettings</name>
+    <message>
+        <location filename="ui/tray_settings.ui" line="13"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/tray_settings.ui" line="19"/>
+        <source>Enable tray icon</source>
+        <translation type="unfinished">Ativar Ícone na barra de tarefas</translation>
+    </message>
+    <message>
+        <location filename="ui/tray_settings.ui" line="28"/>
+        <source>Always visible</source>
+        <translation type="unfinished">Sempre visível</translation>
+    </message>
+    <message>
+        <location filename="ui/tray_settings.ui" line="35"/>
+        <source>Hide from task bar when minimized</source>
+        <translation type="unfinished">Tirar da barra de tarefas quando reduzido</translation>
     </message>
 </context>
 <context>
@@ -2148,72 +2472,72 @@ Group: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="47"/>
+        <location filename="ui/session_config_widget.ui" line="46"/>
         <source>Name:</source>
         <translation type="unfinished">Nome:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="284"/>
+        <location filename="ui/session_config_widget.ui" line="251"/>
         <source>Manage backup servers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="212"/>
+        <location filename="ui/session_config_widget.ui" line="193"/>
         <source>Auto-connect</source>
         <translation type="unfinished">Auto-connect</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="80"/>
+        <location filename="ui/session_config_widget.ui" line="70"/>
         <source>Address:</source>
         <translation type="unfinished">Endereço:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="115"/>
+        <location filename="ui/session_config_widget.ui" line="96"/>
         <source>Port:</source>
         <translation type="unfinished">Porta:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="175"/>
+        <location filename="ui/session_config_widget.ui" line="156"/>
         <source>Confirm password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="202"/>
+        <location filename="ui/session_config_widget.ui" line="183"/>
         <source>Description:</source>
         <translation type="unfinished">Descrição:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="146"/>
+        <location filename="ui/session_config_widget.ui" line="127"/>
         <source>Login:</source>
         <translation type="unfinished">Login:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="162"/>
+        <location filename="ui/session_config_widget.ui" line="143"/>
         <source>Password:</source>
         <translation type="unfinished">Senha:</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="308"/>
+        <location filename="ui/session_config_widget.ui" line="275"/>
         <source>Remove</source>
         <translation type="unfinished">Remover</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="35"/>
+        <location filename="ui/session_config_widget.ui" line="34"/>
         <source>General</source>
         <translation type="unfinished">Geral</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="277"/>
+        <location filename="ui/session_config_widget.ui" line="244"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="233"/>
+        <location filename="ui/session_config_widget.ui" line="222"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="262"/>
+        <location filename="ui/session_config_widget.ui" line="234"/>
         <source>Client/Server stream encoding:</source>
         <translation type="unfinished"></translation>
     </message>
