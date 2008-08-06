@@ -505,6 +505,7 @@ void ChannelWidget::newToken(const Token &token)
     case Token::Data:
 /*TEMP		if (TransfersManager::isCommand(token.arguments()[2]))
   return;*/
+        return;
         break;
     case Token::Unknown:
         break;
