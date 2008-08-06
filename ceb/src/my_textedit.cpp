@@ -37,6 +37,7 @@
 #include "profile.h"
 #include "lua_utils.h"
 #include "paths.h"
+#include "main_window.h"
 
 #include "my_textedit.h"
 
@@ -46,6 +47,7 @@ QColor MyTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
 MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(false)
 {
     urlRegexp << QRegExp("http:\\/\\/\\S*");
+    urlRegexp << QRegExp("mtpchat:\\/\\/\\S*");
     urlRegexp << QRegExp("ftp:\\/\\/\\S*");
     urlRegexp << QRegExp("https:\\/\\/\\S*");
     urlRegexp << QRegExp("www\\.\\S*");
@@ -55,6 +57,8 @@ MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(f
             this, SLOT(myAnchorClicked(const QUrl &)));
 
     isAway = false;
+
+    setAcceptDrops(true);
 }
 
 void MyTextEdit::keyPressEvent(QKeyEvent *e)
@@ -183,7 +187,14 @@ void MyTextEdit::openUrl(const QUrl &link)
 
 void MyTextEdit::myAnchorClicked(const QUrl &link)
 {
-    openUrl(link);
+    if (link.scheme() == "mtpchat")
+    {
+        SessionConfig config = Profile::instance().addSessionUrl(link);
+        if (!config.address().isEmpty())
+            MainWindow::instance()->connectTo(config);
+    }
+    else
+        openUrl(link);
 }
 
 void MyTextEdit::setSource(const QUrl &)
