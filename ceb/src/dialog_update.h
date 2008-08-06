@@ -49,7 +49,7 @@ public:
     const QString &fileToLaunch() const { return _fileToLaunch; }
 
 private slots:
-    void newVersion(const QDate &date);
+    void newVersion(const QString &string);
     void update();
     void updateDataReadProgress(int done, int total);
     void updateDownloadEnd(const QString &fileName);

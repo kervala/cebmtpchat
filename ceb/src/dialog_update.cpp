@@ -76,19 +76,19 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent)
     connect(bUpdate, SIGNAL(clicked()), this, SLOT(update()));
     connect(bClose, SIGNAL(clicked()), this, SLOT(reject()));
 
-    connect(&autoUpdate, SIGNAL(newVersion(const QDate &)), this, SLOT(newVersion(const QDate &)));
+    connect(&autoUpdate, SIGNAL(newVersion(const QString &)), this, SLOT(newVersion(const QString &)));
     connect(&autoUpdate, SIGNAL(updateDataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
     connect(&autoUpdate, SIGNAL(fileDownloadEnd(const QString &)), this, SLOT(updateDownloadEnd(const QString &)));
     autoUpdate.checkForUpdate();
 }
 
-void DialogUpdate::newVersion(const QDate &date)
+void DialogUpdate::newVersion(const QString &version)
 {
-    labelUpdate->setText(tr("New version found: %1").arg(date.toString("yyyy-MM-dd")));
+    labelUpdate->setText(tr("New version found: %1").arg(version));
     QPalette palette = labelUpdate->palette();
     palette.setColor(QPalette::Foreground, Qt::blue);
     labelUpdate->setPalette(palette);
-    fileName = UPDATE_FILE + date.toString("yyyyMMdd") + ".exe";
+    fileName = autoUpdate.filePrefix + version + ".exe";
     bUpdate->setEnabled(true);
 }
 

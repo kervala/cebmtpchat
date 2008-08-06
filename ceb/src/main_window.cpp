@@ -51,6 +51,11 @@
 #include "main_window.h"
 #include "my_textedit.h"
 
+#ifdef _WIN32
+#define IMPLEMENT_VISTA_TOOLS
+#include "VistaTools.cxx"
+#endif
+
 MainWindow *MainWindow::_instance = 0;
 
 MainWindow *MainWindow::instance()
@@ -118,7 +123,7 @@ MainWindow::MainWindow()
 
     // Create system dialog
     if (Profile::instance().systemLogsVisible)
-        tabWidgetMain->addTab(SystemWidget::instance(), tr("system"));
+        tabWidgetMain->addTab(SystemWidget::instance(), tr("System"));
 
     // Autoconnect connections
     foreach (SessionConfig *config, Profile::instance().sessionConfigs())
@@ -138,7 +143,7 @@ MainWindow::MainWindow()
         channelWidget->applyFirstShow();
 
     // Start autoupdate stuff
-    connect(&autoUpdate, SIGNAL(newVersion(const QDate &)), this, SLOT(newProgramVersion(const QDate &)));
+    connect(&autoUpdate, SIGNAL(newVersion(const QString &)), this, SLOT(newProgramVersion(const QString &)));
     autoUpdate.checkForUpdate();
 
     animationTimer.setInterval(10);
@@ -459,7 +464,7 @@ void MainWindow::showSystemLogs()
     }
     else
     {
-        tabWidgetMain->insertTab(0, SystemWidget::instance(), tr("system"));
+        tabWidgetMain->insertTab(0, SystemWidget::instance(), tr("System"));
         tabWidgetMain->setCurrentIndex(0);
     }
 }
@@ -836,7 +841,7 @@ void MainWindow::showEvent(QShowEvent *)
     }
 }
 
-void MainWindow::newProgramVersion(const QDate &)
+void MainWindow::newProgramVersion(const QString &)
 {
     mbMain->setUpdateAvailable(true);
 }
@@ -1203,7 +1208,17 @@ void MainWindow::menuIconClicked()
 void MainWindow::updateAccepted()
 {
     QMessageBox::warning(0, tr("Warning"), tr("You must close every CeB instance to continue installation"));
-    QProcess::startDetached(qobject_cast<DialogUpdate*>(sender())->fileToLaunch());
+
+    QString installer = qobject_cast<DialogUpdate*>(sender())->fileToLaunch();
+
+	if (IsVista())
+    {
+    	BOOL bSuccess = RunElevated(winId(), installer.toLatin1());
+    }
+    else
+    {
+        QProcess::startDetached(installer);
+    }
 }
 
 /*void MainWindow::animationTimeout()
@@ -1578,7 +1593,7 @@ void MainWindow::refreshStatusLabel()
         Session *session = channelWidget->session();
         statusBar()->showMessage(session->socketStateCaption());
         _statusLabel->setText(
-            QString("%1 - %2 user(s) - %3").arg(session->channel()).arg(session->whoPopulation().users().count()).arg(session->serverAddress()));
+            tr("%1 - %n user(s) - %3").arg(session->channel()).arg(session->whoPopulation().users().count()).arg(session->serverAddress()));
         return;
     }
 
@@ -1587,7 +1602,7 @@ void MainWindow::refreshStatusLabel()
     {
         Session *session = tellWidget->session();
         statusBar()->showMessage("");
-        _statusLabel->setText(QString("Conversation with %1 - %2").arg(
+        _statusLabel->setText(tr("Conversation with %1 - %2").arg(
                                   tellWidget->login().compare(session->serverLogin(), Qt::CaseInsensitive) ? tellWidget->login() : tr("yourself")).arg(session->serverAddress()));
         return;
     }
@@ -1596,7 +1611,7 @@ void MainWindow::refreshStatusLabel()
     if (systemWidget)
     {
         statusBar()->showMessage("");
-        _statusLabel->setText(tr("system logs"));
+        _statusLabel->setText(tr("System logs"));
         return;
     }
     _statusLabel->setText(label);

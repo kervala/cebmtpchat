@@ -20,7 +20,6 @@
 #define AUTOUPDATE_H
 
 #include <QHttp>
-#include <QDate>
 #include <QFile>
 
 class AutoUpdate : public QObject
@@ -28,11 +27,8 @@ class AutoUpdate : public QObject
     Q_OBJECT
 
 private:
-    QString siteUrl;
     QHttp httpCheck;
     QHttp httpFile;
-    QString version;
-    QString fileName;
     QString fileToSave;
     QFile *fileDownload;
     int fileDownloadID;
@@ -44,8 +40,11 @@ public:
     void checkForUpdate();
     void getUpdate(const QString &fileName);
 
+    QString siteUrl;
+    QString filePrefix;
+
 signals:
-    void newVersion(const QDate &date);
+    void newVersion(const QString &version);
     void updateDataReadProgress(int done, int total);
     void fileDownloadEnd(const QString &fileName);
 

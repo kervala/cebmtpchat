@@ -20,13 +20,23 @@
 #include "version.h"
 
 #include <QDir>
+#include <QSettings>
 
 #include "action.h"
+#include "paths.h"
 
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
+    QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, Paths::sharePath());
+
+    QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "ceb");
+
+    settings.beginGroup("update");
+    siteUrl = settings.value("site_url").toString();
+    filePrefix = settings.value("file_prefix").toString();
+    settings.endGroup();
+
     fileDownload = 0;
-    siteUrl = UPDATE_URL;
     connect(&httpCheck, SIGNAL(dataReadProgress(int, int)), this, SLOT(checkDataReadProgress(int, int)));
     connect(&httpFile, SIGNAL(dataReadProgress(int, int)), this, SLOT(fileDataReadProgress(int, int)));
     connect(&httpFile, SIGNAL(requestFinished(int, bool)), this, SLOT(fileRequestFinished(int, bool)));
@@ -40,22 +50,16 @@ AutoUpdate::~AutoUpdate()
 
 void AutoUpdate::checkDataReadProgress(int done, int total)
 {
-    QString dateFormat = "yyyyMMdd";
-
-    if (done == total && total >= dateFormat.length())
+    if (done == total && total < 21)
     {
-        char *version = new char[dateFormat.length() + 1];
-        version[dateFormat.length()] = '\0';
-        httpCheck.read(version, dateFormat.length());
-        bool b;
-        int oldVer = QString(VERSION).toInt(&b);
-        int ver = QString(version).toInt(&b);
-        if (b && ver > oldVer)
+        char version[20];
+        httpCheck.read(version, total);
+        QString oldVer = VERSION;
+        QString newVer = QString::fromAscii(version, total).trimmed();
+        if (newVer > oldVer)
         {
-            QDate date = QDate::fromString(QString(version), dateFormat);
-            emit newVersion(date);
+            emit newVersion(newVer);
         }
-        delete [] version;
     }
 }
 
@@ -66,14 +70,12 @@ void AutoUpdate::fileDataReadProgress(int done, int total)
 
 void AutoUpdate::checkForUpdate()
 {
-    version = "";
     httpCheck.setHost(siteUrl);
     httpCheck.get("/ceb.vrn");
 }
 
 void AutoUpdate::getUpdate(const QString &fileName)
 {
-    this->fileName = fileName;
     fileToSave = QDir::tempPath() + "/" + fileName;
     fileDownload = new QFile(fileToSave);
     fileDownload->open(QIODevice::WriteOnly);
