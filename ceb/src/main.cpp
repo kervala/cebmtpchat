@@ -37,6 +37,37 @@ int main(int argc, char **argv)
 
     Profile::instance().load();
 
+    for(int i = 1; i < argc; ++i)
+    {
+        QString arg = argv[i];
+
+        QUrl url(arg);
+
+        if (url.isValid() && url.scheme() == "mtpchat")
+        {
+            SessionConfig config;
+
+            config.setName(QObject::tr("New connection"));
+            config.setAddress(url.host());
+            config.setPort(url.port(4000));
+            config.setLogin(url.userName());
+            config.setPassword(url.password());
+            config.setAutoconnect(true);
+            config.setEncodingMib(111);
+
+            QList<SessionConfig *> configs = Profile::instance().sessionConfigs();
+
+            bool exists = false;
+
+            for (int j = 0; !exists && j < configs.count(); ++j)
+                if (configs[j] && configs[j]->address() == config.address() && configs[j]->port() == config.port() && (configs[j]->login() == config.login() || config.login().isEmpty()))
+                    exists = true;
+
+            if (!exists)
+                Profile::instance().addSessionConfig(config);
+        }
+    }
+
     MainWindow::instance()->show();
 
     int appRes = a.exec();
