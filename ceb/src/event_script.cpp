@@ -25,6 +25,11 @@
 #include "event_script.h"
 #include "lua_utils.h"
 
+#ifdef LUA_QT
+#include "tolua++.h"
+#include "lua_qt.h"
+#endif
+
 Script::LuaScript adminScript;
 Script::LuaScript userScript;
 
@@ -145,6 +150,10 @@ QString EventScript::newEntry(Session *session, const QString &text)
         lua_register(l, "getEntry", getEntry);
         lua_register(l, "setEntry", setEntry);
 
+#ifdef LUA_QT
+        lua_register(l, "tolua_lua_qt_open", tolua_lua_qt_open);
+#endif
+
         // Init global variables
         lua_getglobal(l, "newEntry"); // Function to be called
 
@@ -161,6 +170,10 @@ QString EventScript::newEntry(Session *session, const QString &text)
 
         Script::unregisterFunction(l, "getEntry");
         Script::unregisterFunction(l, "setEntry");
+
+#ifdef LUA_QT
+        Script::unregisterFunction(l, "tolua_lua_qt_open");
+#endif
     }
 
     if (bypassAncestor)
@@ -174,6 +187,10 @@ QString EventScript::newEntry(Session *session, const QString &text)
     lua_register(l, "getEntry", getEntry);
     lua_register(l, "setEntry", setEntry);
 
+#ifdef LUA_QT
+    lua_register(l, "tolua_lua_qt_open", tolua_lua_qt_open);
+#endif
+
     // Init global variables
     lua_getglobal(l, "newEntry"); // Function to be called
 
@@ -186,6 +203,10 @@ QString EventScript::newEntry(Session *session, const QString &text)
 
     Script::unregisterFunction(l, "getEntry");
     Script::unregisterFunction(l, "setEntry");
+
+#ifdef LUA_QT
+    Script::unregisterFunction(l, "tolua_lua_qt_open");
+#endif
 
     return g_entryText;
 }
