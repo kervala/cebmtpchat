@@ -51,7 +51,7 @@
 #include "main_window.h"
 #include "my_textedit.h"
 
-#ifdef _WIN32
+#ifdef Q_OS_WIN32
 
 bool isVista()
 {
@@ -1244,7 +1244,7 @@ void MainWindow::updateAccepted()
 
     QString installer = qobject_cast<DialogUpdate*>(sender())->fileToLaunch();
 
-#ifdef _WIN32
+#ifdef Q_OS_WIN32
 	if (isVista())
     {
     	bool bSuccess = runElevated(winId(), installer.toLatin1());
