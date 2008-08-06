@@ -18,6 +18,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QUrl>
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
@@ -112,6 +113,9 @@ void Profile::init()
     behindNAT = false;
     transferPort = 4001;
     transferInit = false;
+	uploadUrl = "";
+	downloadUrl = "";
+    prefixDate = true;
 }
 
 Profile::~Profile()
@@ -382,6 +386,11 @@ bool Profile::load()
         propertyElem = propertyElem.nextSiblingElement("property");
     }
 
+	// ftp upload
+	uploadUrl = XmlHandler::read(rootElem, "ftp_upload_url", "");
+	downloadUrl = XmlHandler::read(rootElem, "http_download_url", "");
+	prefixDate = XmlHandler::read(rootElem, "prefix_date", true);
+
     return true;
 }
 
@@ -557,6 +566,11 @@ void Profile::save() const
     if (!propertiesElem.firstChildElement().isNull())
         rootElem.appendChild(propertiesElem);
 
+	// ftp upload
+	XmlHandler::write(rootElem, "ftp_upload_url", uploadUrl);
+	XmlHandler::write(rootElem, "http_download_url", downloadUrl);
+	XmlHandler::write(rootElem, "prefix_date", prefixDate);
+
     // Save
     QString xml = document.toString();
     QTextStream out(&file);
@@ -580,6 +594,26 @@ void Profile::addSessionConfig(const SessionConfig &config)
 {
     SessionConfig *newConfig = new SessionConfig(config);
     _sessionConfigList << newConfig;
+}
+
+SessionConfig Profile::addSessionUrl(const QUrl &url)
+{
+    SessionConfig config;
+
+    config.setName(QObject::tr("New connection"));
+    config.setAddress(url.host());
+    config.setPort(url.port(4000));
+    config.setLogin(url.userName());
+    config.setPassword(url.password());
+    config.setAutoconnect(true);
+    config.setEncodingMib(111);
+
+    for (int j = 0; j < _sessionConfigList.count(); ++j)
+        if (_sessionConfigList[j] && _sessionConfigList[j]->address() == config.address() && _sessionConfigList[j]->port() == config.port() && (_sessionConfigList[j]->login() == config.login() || config.login().isEmpty()))
+            return SessionConfig();
+
+    addSessionConfig(config);
+    return config;
 }
 
 void Profile::deleteSessionConfig(const QString &name)
@@ -666,6 +700,9 @@ Profile &Profile::operator=(const Profile &profile)
     behindNAT = profile.behindNAT;
     transferPort = profile.transferPort;
     transferInit = profile.transferInit;
+	uploadUrl = profile.uploadUrl;
+	downloadUrl = profile.downloadUrl;
+    prefixDate = profile.prefixDate;
 
     return *this;
 }

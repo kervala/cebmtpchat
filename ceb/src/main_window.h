@@ -55,6 +55,8 @@ public:
     void setTabColor(QWidget *widget, const QColor &color);
     bool isTabFocused(QWidget *widget) const;
 
+    ChannelWidget *connectTo(const SessionConfig &config);
+
 protected:
     void closeEvent(QCloseEvent *event);
 #if defined(Q_OS_WIN32)
@@ -143,8 +145,6 @@ private:
 
     Session *getCurrentSession() const;
     ChannelWidget *getChannelWidget(Session *session) const;
-
-    ChannelWidget *connectTo(SessionConfig &config);
 
     QShortcut *shortcutByActionType(Action::ActionType type) const;
 

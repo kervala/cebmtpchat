@@ -303,7 +303,7 @@ void MainWindow::makeMenuBar()
     QAction *actionNextTab = menuWindows->addAction(tr("&Next tab"));
     connect(actionNextTab, SIGNAL(triggered()), this, SLOT(nextTab()));
     menuWindows->addSeparator();
-    _actionToggleSystemLogsVisibility = menuWindows->addAction(tr(""));
+    _actionToggleSystemLogsVisibility = menuWindows->addAction(tr("Toggle system logs visibility"));
     connect(_actionToggleSystemLogsVisibility, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
 
     // View menu
@@ -475,7 +475,7 @@ void MainWindow::aboutQt()
     QMessageBox::aboutQt(this);
 }
 
-ChannelWidget *MainWindow::connectTo(SessionConfig &config)
+ChannelWidget *MainWindow::connectTo(const SessionConfig &config)
 {
     // Existing config?
     ChannelWidget *channelWidget = getChannelWidget(config);

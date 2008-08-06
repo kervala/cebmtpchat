@@ -61,6 +61,7 @@ public:
     SessionConfig *sessionConfigAt(int i) const;
     SessionConfig *getSessionConfig(const QString &name) const;
     void addSessionConfig(const SessionConfig &config);
+    SessionConfig addSessionUrl(const QUrl &url);
     void deleteSessionConfig(const QString &name);
     int mainWidth;
     int mainHeight;
@@ -127,6 +128,10 @@ public:
     bool behindNAT; // If true, CeB considere you are behind a NAT and you're not directly joinable
     int transferPort;
     bool transferInit;
+
+	QString uploadUrl;
+	QString downloadUrl;
+    bool prefixDate;
 
     ActionManager actionManager;
 
