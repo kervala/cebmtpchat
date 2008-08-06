@@ -52,8 +52,41 @@
 #include "my_textedit.h"
 
 #ifdef _WIN32
-#define IMPLEMENT_VISTA_TOOLS
-#include "VistaTools.cxx"
+
+bool isVista()
+{
+    OSVERSIONINFO osver;
+
+    osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	
+    if (::GetVersionEx(&osver) && osver.dwPlatformId == VER_PLATFORM_WIN32_NT && (osver.dwMajorVersion >= 6)) return true;
+
+    return false;
+}
+
+bool myShellExec(HWND hwnd, LPCTSTR pszVerb, LPCTSTR pszPath, LPCTSTR pszParameters = NULL, LPCTSTR pszDirectory = NULL)
+{
+    SHELLEXECUTEINFO shex;
+
+    memset(&shex, 0, sizeof(shex));
+
+    shex.cbSize			= sizeof( SHELLEXECUTEINFO ); 
+    shex.fMask			= 0; 
+    shex.hwnd			= hwnd;
+    shex.lpVerb			= pszVerb; 
+    shex.lpFile			= pszPath; 
+    shex.lpParameters	= pszParameters; 
+    shex.lpDirectory	= pszDirectory; 
+    shex.nShow			= SW_NORMAL; 
+ 
+    return ::ShellExecuteExA(&shex) == 1;
+}
+
+bool runElevated(HWND hwnd, LPCTSTR pszPath, LPCTSTR pszParameters = NULL, LPCTSTR pszDirectory = NULL)
+{
+    return myShellExec(hwnd, "runas", pszPath, pszParameters, pszDirectory);
+}
+
 #endif
 
 MainWindow *MainWindow::_instance = 0;
@@ -1211,11 +1244,13 @@ void MainWindow::updateAccepted()
 
     QString installer = qobject_cast<DialogUpdate*>(sender())->fileToLaunch();
 
-	if (IsVista())
+#ifdef _WIN32
+	if (isVista())
     {
-    	BOOL bSuccess = RunElevated(winId(), installer.toLatin1());
+    	bool bSuccess = runElevated(winId(), installer.toLatin1());
     }
     else
+#endif
     {
         QProcess::startDetached(installer);
     }
