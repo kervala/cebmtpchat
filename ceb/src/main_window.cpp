@@ -1592,8 +1592,9 @@ void MainWindow::refreshStatusLabel()
     {
         Session *session = channelWidget->session();
         statusBar()->showMessage(session->socketStateCaption());
-        _statusLabel->setText(
-            tr("%1 - %n user(s) - %3").arg(session->channel()).arg(session->whoPopulation().users().count()).arg(session->serverAddress()));
+        _statusLabel->setText(session->channel() + " - " +
+            tr("%n user(s)", "", session->whoPopulation().users().count()) +
+            " - " + session->serverAddress());
         return;
     }
 
