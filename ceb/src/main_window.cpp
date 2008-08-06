@@ -942,16 +942,17 @@ void MainWindow::closeTabWidget()
     if (qobject_cast<SessionWidget*>(widget))
         session = qobject_cast<SessionWidget*>(widget)->session();
 
-    tabWidgetMain->removeTab(tabWidgetMain->indexOf(widget));
-    widget->deleteLater();
-
     ChannelWidget *channelWidget = getChannelWidget(session);
 
+    // Focus channel before removing to avoid double-focus problem
     if (channelWidget)
     {
         tabWidgetMain->setCurrentWidget(channelWidget);
         channelWidget->focusWidget()->setFocus();
     }
+
+    tabWidgetMain->removeTab(tabWidgetMain->indexOf(widget));
+    widget->deleteLater();
 }
 
 /*void MainWindow::highlightSessionWidget()
