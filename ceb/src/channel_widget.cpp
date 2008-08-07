@@ -265,7 +265,7 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
             toggleSearchWidgetVisibility();
     }
 
-    if (obj == _treeViewWho)
+    if (obj == _treeViewWho || obj == _lineEditTopic)
     {
         if (event->type() == QEvent::KeyPress)
         {
@@ -273,6 +273,10 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
             if (keyEvent->key() == Qt::Key_Escape ||
                 keyEvent->key() == Qt::Key_F11 ||
                 keyEvent->key() == Qt::Key_F12)
+                return SessionWidget::eventFilter(obj, event);
+
+            if (keyEvent->modifiers() & Qt::ControlModifier &&
+                (keyEvent->key() != Qt::Key_V))
                 return SessionWidget::eventFilter(obj, event);
 
             outputKeyPressed(*static_cast<QKeyEvent*>(event));
