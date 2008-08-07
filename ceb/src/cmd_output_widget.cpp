@@ -21,6 +21,7 @@
 
 #include <QVBoxLayout>
 #include <QScrollBar>
+#include <QApplication>
 
 CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent) : SessionWidget(session, parent),
                                                                                               _cmdName(cmdName)
@@ -44,7 +45,12 @@ void CmdOutputWidget::init()
     _textEditOutput->setReadOnly(true);
     _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     QPalette palette = _textEditOutput->palette();
-    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    QColor background;
+    if (Profile::instance().textSkin().isForcedBackgroundColor())
+        background = Profile::instance().textSkin().backgroundColor();
+    else
+        background = QApplication::palette(this).base().color();
+    palette.setColor(QPalette::Base, background);
     _textEditOutput->setPalette(palette);
     mainLayout->addWidget(_textEditOutput);
     QSizePolicy sizePolicy = _textEditOutput->sizePolicy();

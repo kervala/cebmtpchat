@@ -58,7 +58,8 @@ void TellWidget::init()
     _textEditOutput->setReadOnly(true);
     _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette = _textEditOutput->palette();
-    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    if (Profile::instance().textSkin().isForcedBackgroundColor())
+        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     _textEditOutput->setPalette(palette);
     QSizePolicy sizePolicy = outputWidget->sizePolicy();
@@ -88,7 +89,8 @@ void TellWidget::init()
     _historyWidget = new HistoryWidget;
     _historyWidget->setMinimumHeight(20);
     palette = _historyWidget->palette();
-    palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    if (Profile::instance().textSkin().isForcedBackgroundColor())
+        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
     _historyWidget->setPalette(palette);
     _historyWidget->setFont(textSkin.inputTextFont().font());
     connect(_historyWidget, SIGNAL(textValidated(const QString &)),
