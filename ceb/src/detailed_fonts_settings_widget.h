@@ -19,7 +19,7 @@
 #ifndef DETAILED_FONTS_SETTINGS_WIDGET_H
 #define DETAILED_FONTS_SETTINGS_WIDGET_H
 
-#include "my_textedit.h"
+#include "url_textedit.h"
 #include "settings_widget.h"
 #include "token_factory.h"
 #include "token.h"
@@ -36,7 +36,7 @@ public:
     void feedProfile(Profile &) {}
 
 private:
-    MyTextEdit *_textEdit;
+    UrlTextEdit *_textEdit;
     TokenFactory _tokenFactory;
     Token::Type _currentTokenType;
     int _currentArg;

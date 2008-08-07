@@ -26,47 +26,47 @@
         <translation type="obsolete">Tentativa de conexão </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="601"/>
+        <location filename="src/Copie de channel_widget.cpp" line="609"/>
         <source>successful.</source>
         <translation>bem sucedida.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="873"/>
+        <location filename="src/Copie de channel_widget.cpp" line="882"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;nenhum filtro&gt;</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="80"/>
+        <location filename="src/Copie de channel_widget.cpp" line="80"/>
         <source>Topic: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="166"/>
+        <location filename="src/Copie de channel_widget.cpp" line="168"/>
         <source>initiate a tell session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="170"/>
+        <location filename="src/Copie de channel_widget.cpp" line="172"/>
         <source>finger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="174"/>
+        <location filename="src/Copie de channel_widget.cpp" line="176"/>
         <source>beep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="178"/>
+        <location filename="src/Copie de channel_widget.cpp" line="180"/>
         <source>kick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="545"/>
+        <location filename="src/Copie de channel_widget.cpp" line="552"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="588"/>
+        <location filename="src/Copie de channel_widget.cpp" line="595"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation type="unfinished"></translation>
     </message>
@@ -531,29 +531,34 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
 <context>
     <name>DialogUpdate</name>
     <message>
-        <location filename="src/dialog_update.cpp" line="54"/>
+        <location filename="src/dialog_update.cpp" line="55"/>
         <source>&amp;Update</source>
         <translation>&amp;Atualização</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="32"/>
+        <location filename="src/dialog_update.cpp" line="33"/>
         <source>No newer version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="62"/>
+        <location filename="src/dialog_update.cpp" line="63"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="87"/>
+        <location filename="src/dialog_update.cpp" line="89"/>
         <source>New version found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="109"/>
+        <location filename="src/dialog_update.cpp" line="111"/>
         <source>%1/%2 KiB</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/dialog_update.cpp" line="122"/>
+        <source>Error</source>
+        <translation type="unfinished">Erro</translation>
     </message>
 </context>
 <context>
@@ -1014,57 +1019,52 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="src/main_window.cpp" line="252"/>
+        <location filename="src/main_window.cpp" line="290"/>
         <source>&amp;Connections</source>
         <translation type="unfinished">&amp;Conexões</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="253"/>
+        <location filename="src/main_window.cpp" line="291"/>
         <source>&amp;Connect to</source>
         <translation type="unfinished">Co&amp;nectar com</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="257"/>
+        <location filename="src/main_window.cpp" line="295"/>
         <source>&amp;Reconnect</source>
         <translation type="unfinished">&amp;Reconectar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="263"/>
+        <location filename="src/main_window.cpp" line="301"/>
         <source>C&amp;lose connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Fechar conexão</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="268"/>
-        <source>&amp;Close connection</source>
-        <translation type="obsolete">&amp;Fechar conexão</translation>
-    </message>
-    <message>
-        <location filename="src/main_window.cpp" line="264"/>
+        <location filename="src/main_window.cpp" line="302"/>
         <source>Close current connection</source>
         <translation type="unfinished">Fechar conexão atual</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="269"/>
+        <location filename="src/main_window.cpp" line="307"/>
         <source>&amp;Quit</source>
         <translation type="unfinished">&amp;Fechar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="273"/>
+        <location filename="src/main_window.cpp" line="311"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">&amp;Editar</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="293"/>
+        <location filename="src/main_window.cpp" line="331"/>
         <source>&amp;Connection configuration...</source>
         <translation type="unfinished">&amp;Configurção de conexão...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="296"/>
+        <location filename="src/main_window.cpp" line="334"/>
         <source>&amp;General settings...</source>
         <translation type="unfinished">&amp;Opções gerais...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="310"/>
+        <location filename="src/main_window.cpp" line="348"/>
         <source>&amp;View</source>
         <translation type="unfinished">&amp;Ver</translation>
     </message>
@@ -1079,102 +1079,102 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
         <translation type="obsolete">Logs de &amp;sistema</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="312"/>
+        <location filename="src/main_window.cpp" line="350"/>
         <source>Open &amp;logs directory</source>
         <translation type="unfinished">&amp;Abrir pasta de logs</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="314"/>
+        <location filename="src/main_window.cpp" line="352"/>
         <source>&amp;Messages</source>
         <translation type="unfinished">&amp;Mensagens</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="318"/>
+        <location filename="src/main_window.cpp" line="356"/>
         <source>&amp;Help</source>
         <translation type="unfinished">&amp;Ajuda</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="320"/>
+        <location filename="src/main_window.cpp" line="358"/>
         <source>&amp;Check for update...</source>
         <translation type="unfinished">&amp;Procurar atualizações...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="323"/>
+        <location filename="src/main_window.cpp" line="361"/>
         <source>&amp;What&apos;s new?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="325"/>
+        <location filename="src/main_window.cpp" line="363"/>
         <source>&amp;Report a bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="326"/>
+        <location filename="src/main_window.cpp" line="364"/>
         <source>&amp;Report a wanted feature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="328"/>
+        <location filename="src/main_window.cpp" line="366"/>
         <source>&amp;About...</source>
         <translation type="unfinished">&amp;Sobre...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="329"/>
+        <location filename="src/main_window.cpp" line="367"/>
         <source>About &amp;Qt...</source>
         <translation type="unfinished">Sobre &amp;Qt...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="375"/>
+        <location filename="src/main_window.cpp" line="413"/>
         <source>&amp;New connection...</source>
         <translation type="unfinished">&amp;Nova conexão...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="376"/>
+        <location filename="src/main_window.cpp" line="414"/>
         <source>Create a new connection</source>
         <translation type="unfinished">Criar nova conexão</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="405"/>
+        <location filename="src/main_window.cpp" line="443"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1037"/>
+        <location filename="src/main_window.cpp" line="1075"/>
         <source>File transfers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1205"/>
+        <location filename="src/main_window.cpp" line="1243"/>
         <source>Warning</source>
         <translation type="unfinished">Aviso</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1205"/>
+        <location filename="src/main_window.cpp" line="1243"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation type="unfinished">É necessario fechar o CeB para continuar a instalação</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="275"/>
+        <location filename="src/main_window.cpp" line="313"/>
         <source>&amp;Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="405"/>
+        <location filename="src/main_window.cpp" line="443"/>
         <source>You seem to be already connected, do you really want to force a reconnection?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="754"/>
+        <location filename="src/main_window.cpp" line="792"/>
         <source>(away)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1173"/>
+        <location filename="src/main_window.cpp" line="1211"/>
         <source>Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1186"/>
+        <location filename="src/main_window.cpp" line="1224"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1185,7 +1185,7 @@ Here are the problems:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1193"/>
+        <location filename="src/main_window.cpp" line="1231"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1196,103 +1196,115 @@ Here are the missing features I&apos;d like to see in the next version:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="462"/>
-        <source>system</source>
+        <location filename="src/main_window.cpp" line="500"/>
+        <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="258"/>
+        <location filename="src/main_window.cpp" line="296"/>
         <source>Reconnect on the current connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="284"/>
+        <location filename="src/main_window.cpp" line="322"/>
         <source>Confi&amp;guration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="299"/>
+        <location filename="src/main_window.cpp" line="337"/>
         <source>&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="301"/>
+        <location filename="src/main_window.cpp" line="339"/>
         <source>&amp;Previous tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="303"/>
+        <location filename="src/main_window.cpp" line="341"/>
         <source>&amp;Next tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="313"/>
+        <location filename="src/main_window.cpp" line="351"/>
         <source>Open &amp;profile directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1478"/>
+        <location filename="src/main_window.cpp" line="1528"/>
         <source>Hide &amp;menu bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1480"/>
+        <location filename="src/main_window.cpp" line="1530"/>
         <source>Show &amp;menu bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1485"/>
+        <location filename="src/main_window.cpp" line="1535"/>
         <source>Hide &amp;status bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1487"/>
+        <location filename="src/main_window.cpp" line="1537"/>
         <source>Show &amp;status bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1506"/>
+        <location filename="src/main_window.cpp" line="1556"/>
         <source>Hide &amp;system logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1508"/>
+        <location filename="src/main_window.cpp" line="1558"/>
         <source>Show &amp;system logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1514"/>
+        <location filename="src/main_window.cpp" line="1564"/>
         <source>Hide &amp;topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1516"/>
+        <location filename="src/main_window.cpp" line="1566"/>
         <source>Show &amp;topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1518"/>
+        <location filename="src/main_window.cpp" line="1568"/>
         <source>Hide &amp;users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1520"/>
+        <location filename="src/main_window.cpp" line="1570"/>
         <source>Show &amp;users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1591"/>
+        <location filename="src/main_window.cpp" line="1642"/>
         <source>yourself</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1599"/>
-        <source>system logs</source>
+        <location filename="src/main_window.cpp" line="344"/>
+        <source>Toggle system logs visibility</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="src/main_window.cpp" line="1631"/>
+        <source>%n user(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1641"/>
+        <source>Conversation with %1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="306"/>
-        <source></source>
+        <location filename="src/main_window.cpp" line="1650"/>
+        <source>System logs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1403,82 +1415,82 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="350"/>
+        <location filename="src/my_textedit.cpp" line="201"/>
         <source>Send to chat!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="63"/>
+        <location filename="src/my_textedit.cpp" line="41"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="64"/>
+        <location filename="src/my_textedit.cpp" line="42"/>
         <source>Uploading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="107"/>
+        <location filename="src/my_textedit.cpp" line="85"/>
         <source>Filter it!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Warning</source>
         <translation type="unfinished">Aviso</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Failed to open URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="325"/>
+        <location filename="src/my_textedit.cpp" line="176"/>
         <source>(filter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="401"/>
+        <location filename="src/my_textedit.cpp" line="252"/>
         <source>To upload a file, you need to configure an FTP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="403"/>
+        <location filename="src/my_textedit.cpp" line="254"/>
         <source>&quot;%1&quot; is not a valid FTP URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="551"/>
+        <location filename="src/my_textedit.cpp" line="402"/>
         <source>Error</source>
         <translation type="unfinished">Erro</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="417"/>
+        <location filename="src/my_textedit.cpp" line="268"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="419"/>
+        <location filename="src/my_textedit.cpp" line="270"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="468"/>
+        <location filename="src/my_textedit.cpp" line="319"/>
         <source>Unable to open the file %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="519"/>
+        <location filename="src/my_textedit.cpp" line="370"/>
         <source>Unable to connect to %1. Please check that the hostname is correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="551"/>
+        <location filename="src/my_textedit.cpp" line="402"/>
         <source>Canceled upload of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="562"/>
+        <location filename="src/my_textedit.cpp" line="413"/>
         <source>(%n bytes)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -2246,17 +2258,17 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="334"/>
+        <location filename="src/tell_widget.cpp" line="336"/>
         <source>&lt;no filter&gt;</source>
         <translation type="unfinished">&lt;nenhum filtro&gt;</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="311"/>
+        <location filename="src/tell_widget.cpp" line="313"/>
         <source>(quit)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="313"/>
+        <location filename="src/tell_widget.cpp" line="315"/>
         <source>(away)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2360,6 +2372,14 @@ Here are the missing features I&apos;d like to see in the next version:
         <location filename="ui/tray_settings.ui" line="35"/>
         <source>Hide from task bar when minimized</source>
         <translation type="unfinished">Tirar da barra de tarefas quando reduzido</translation>
+    </message>
+</context>
+<context>
+    <name>UrlTextEdit</name>
+    <message>
+        <location filename="src/url_textedit.cpp" line="163"/>
+        <source>Warning</source>
+        <translation type="obsolete">Aviso</translation>
     </message>
 </context>
 <context>

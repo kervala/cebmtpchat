@@ -17,17 +17,17 @@
 <context>
     <name>ChannelWidget</name>
     <message>
-        <location filename="src/channel_widget.cpp" line="588"/>
+        <location filename="src/Copie de channel_widget.cpp" line="595"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation>Tentative de connexion sur %1:%2.........</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="601"/>
+        <location filename="src/Copie de channel_widget.cpp" line="609"/>
         <source>successful.</source>
         <translation>réussie.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="873"/>
+        <location filename="src/Copie de channel_widget.cpp" line="882"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;pas de filtre&gt;</translation>
     </message>
@@ -40,32 +40,32 @@
         </translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="80"/>
+        <location filename="src/Copie de channel_widget.cpp" line="80"/>
         <source>Topic: </source>
         <translation>Sujet :</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="170"/>
+        <location filename="src/Copie de channel_widget.cpp" line="172"/>
         <source>finger</source>
         <translation>Informations</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="174"/>
+        <location filename="src/Copie de channel_widget.cpp" line="176"/>
         <source>beep</source>
         <translation>Alerter</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="178"/>
+        <location filename="src/Copie de channel_widget.cpp" line="180"/>
         <source>kick</source>
         <translation>Renvoyer</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="166"/>
+        <location filename="src/Copie de channel_widget.cpp" line="168"/>
         <source>initiate a tell session</source>
         <translation>Parler en privé</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="545"/>
+        <location filename="src/Copie de channel_widget.cpp" line="552"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
         <translation>Ok, on te fait confiance =^^=, on se rend sur (%1:%2)</translation>
     </message>
@@ -542,29 +542,34 @@ Certaines parties LUA sont de Ace, Drealmer et Ben</translation>
 <context>
     <name>DialogUpdate</name>
     <message>
-        <location filename="src/dialog_update.cpp" line="54"/>
+        <location filename="src/dialog_update.cpp" line="55"/>
         <source>&amp;Update</source>
         <translation>&amp;Mise à jour</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="87"/>
+        <location filename="src/dialog_update.cpp" line="89"/>
         <source>New version found: %1</source>
         <translation>Nouvelle version trouvée : %1</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="109"/>
+        <location filename="src/dialog_update.cpp" line="111"/>
         <source>%1/%2 KiB</source>
         <translation>%1/%2 Kio</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="32"/>
+        <location filename="src/dialog_update.cpp" line="33"/>
         <source>No newer version.</source>
         <translation>Aucune version plus récente.</translation>
     </message>
     <message>
-        <location filename="src/dialog_update.cpp" line="62"/>
+        <location filename="src/dialog_update.cpp" line="63"/>
         <source>&amp;Close</source>
         <translation>&amp;Fermer</translation>
+    </message>
+    <message>
+        <location filename="src/dialog_update.cpp" line="122"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
     </message>
 </context>
 <context>
@@ -897,57 +902,52 @@ Certaines parties LUA sont de Ace, Drealmer et Ben</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="src/main_window.cpp" line="252"/>
+        <location filename="src/main_window.cpp" line="290"/>
         <source>&amp;Connections</source>
         <translation>&amp;Connexions</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="253"/>
+        <location filename="src/main_window.cpp" line="291"/>
         <source>&amp;Connect to</source>
         <translation>&amp;Se connecter à</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="257"/>
+        <location filename="src/main_window.cpp" line="295"/>
         <source>&amp;Reconnect</source>
         <translation>Se &amp;reconnecter</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="263"/>
+        <location filename="src/main_window.cpp" line="301"/>
         <source>C&amp;lose connection</source>
         <translation>&amp;Fermer la connexion</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="268"/>
-        <source>&amp;Close connection</source>
-        <translation type="obsolete">&amp;Fermer la connexion</translation>
-    </message>
-    <message>
-        <location filename="src/main_window.cpp" line="264"/>
+        <location filename="src/main_window.cpp" line="302"/>
         <source>Close current connection</source>
         <translation>Fermer la connexion courante</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="269"/>
+        <location filename="src/main_window.cpp" line="307"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="273"/>
+        <location filename="src/main_window.cpp" line="311"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editer</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="293"/>
+        <location filename="src/main_window.cpp" line="331"/>
         <source>&amp;Connection configuration...</source>
         <translation>&amp;Configuration de la connexion...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="296"/>
+        <location filename="src/main_window.cpp" line="334"/>
         <source>&amp;General settings...</source>
         <translation>&amp;Paramètres généraux...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="310"/>
+        <location filename="src/main_window.cpp" line="348"/>
         <source>&amp;View</source>
         <translation>&amp;Vue</translation>
     </message>
@@ -962,87 +962,87 @@ Certaines parties LUA sont de Ace, Drealmer et Ben</translation>
         <translation type="obsolete">&amp;Traces système</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="312"/>
+        <location filename="src/main_window.cpp" line="350"/>
         <source>Open &amp;logs directory</source>
         <translation>Ouvrir le répertoire des &amp;traces</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="314"/>
+        <location filename="src/main_window.cpp" line="352"/>
         <source>&amp;Messages</source>
         <translation>&amp;Messages</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="318"/>
+        <location filename="src/main_window.cpp" line="356"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="320"/>
+        <location filename="src/main_window.cpp" line="358"/>
         <source>&amp;Check for update...</source>
         <translation>&amp;Verifier la mise-à-jour...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="323"/>
+        <location filename="src/main_window.cpp" line="361"/>
         <source>&amp;What&apos;s new?</source>
         <translation>&amp;Quoi de neuf?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="325"/>
+        <location filename="src/main_window.cpp" line="363"/>
         <source>&amp;Report a bug</source>
         <translation>Rapporter un &amp;bug</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="326"/>
+        <location filename="src/main_window.cpp" line="364"/>
         <source>&amp;Report a wanted feature</source>
         <translation>Demander une &amp;fonctionnalité</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="328"/>
+        <location filename="src/main_window.cpp" line="366"/>
         <source>&amp;About...</source>
         <translation>&amp;A propos...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="329"/>
+        <location filename="src/main_window.cpp" line="367"/>
         <source>About &amp;Qt...</source>
         <translation>A propos de &amp;Qt...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="375"/>
+        <location filename="src/main_window.cpp" line="413"/>
         <source>&amp;New connection...</source>
         <translation>&amp;Nouvelle connexion...</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="376"/>
+        <location filename="src/main_window.cpp" line="414"/>
         <source>Create a new connection</source>
         <translation>Créer une nouvelle connexion</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="405"/>
+        <location filename="src/main_window.cpp" line="443"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1037"/>
+        <location filename="src/main_window.cpp" line="1075"/>
         <source>File transfers</source>
         <translation>Transferts de fichier</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1205"/>
+        <location filename="src/main_window.cpp" line="1243"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1205"/>
+        <location filename="src/main_window.cpp" line="1243"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation>Vous devez fermer chaque instance de CeB pour poursuivre l&apos;installation</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="275"/>
+        <location filename="src/main_window.cpp" line="313"/>
         <source>&amp;Search</source>
         <translation>&amp;Rechercher</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1186"/>
+        <location filename="src/main_window.cpp" line="1224"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1059,7 +1059,7 @@ Voici les problèmes:
 * </translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1193"/>
+        <location filename="src/main_window.cpp" line="1231"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1076,12 +1076,12 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 * </translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="405"/>
+        <location filename="src/main_window.cpp" line="443"/>
         <source>You seem to be already connected, do you really want to force a reconnection?</source>
         <translation>Vous semblez déjà connectés, voulez-vous réellement forcer une reconnexion ?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="754"/>
+        <location filename="src/main_window.cpp" line="792"/>
         <source>(away)</source>
         <translation>(absent)</translation>
     </message>
@@ -1091,109 +1091,127 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
         <translation type="obsolete">(parti)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1173"/>
+        <location filename="src/main_window.cpp" line="1211"/>
         <source>Messages</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="462"/>
-        <source>system</source>
-        <translation>système</translation>
+        <location filename="src/main_window.cpp" line="500"/>
+        <source>System</source>
+        <translation>Système</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="258"/>
+        <location filename="src/main_window.cpp" line="296"/>
         <source>Reconnect on the current connection</source>
         <translation>Reconnecter la connexion courante</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="284"/>
+        <location filename="src/main_window.cpp" line="322"/>
         <source>Confi&amp;guration</source>
         <translation>Confi&amp;guration</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="299"/>
+        <location filename="src/main_window.cpp" line="337"/>
         <source>&amp;Windows</source>
         <translation>&amp;Fenêtres</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="301"/>
+        <location filename="src/main_window.cpp" line="339"/>
         <source>&amp;Previous tab</source>
         <translation>Onglet &amp;précédent</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="303"/>
+        <location filename="src/main_window.cpp" line="341"/>
         <source>&amp;Next tab</source>
         <translation>Onglet &amp;suivant</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="313"/>
+        <location filename="src/main_window.cpp" line="351"/>
         <source>Open &amp;profile directory</source>
         <translation>Ouvrir le répertoire avec le &amp;profil</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1478"/>
+        <location filename="src/main_window.cpp" line="1528"/>
         <source>Hide &amp;menu bar</source>
         <translation>Cacher la barre de &amp;menu</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1480"/>
+        <location filename="src/main_window.cpp" line="1530"/>
         <source>Show &amp;menu bar</source>
         <translation>Montrer la barre de &amp;menu</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1485"/>
+        <location filename="src/main_window.cpp" line="1535"/>
         <source>Hide &amp;status bar</source>
         <translation>Cacher la barre d&apos;é&amp;tat</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1487"/>
+        <location filename="src/main_window.cpp" line="1537"/>
         <source>Show &amp;status bar</source>
         <translation>Montrer la barre d&apos;é&amp;tat</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1506"/>
+        <location filename="src/main_window.cpp" line="1556"/>
         <source>Hide &amp;system logs</source>
         <translation>Cacher les traces &amp;systèmes</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1508"/>
+        <location filename="src/main_window.cpp" line="1558"/>
         <source>Show &amp;system logs</source>
         <translation>Montrer les traces &amp;systèmes</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1514"/>
+        <location filename="src/main_window.cpp" line="1564"/>
         <source>Hide &amp;topic</source>
         <translation>Cacher le &amp;sujet</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1516"/>
+        <location filename="src/main_window.cpp" line="1566"/>
         <source>Show &amp;topic</source>
         <translation>Montrer le &amp;sujet</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1518"/>
+        <location filename="src/main_window.cpp" line="1568"/>
         <source>Hide &amp;users</source>
         <translation>Cacher les &amp;utilisateurs</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1520"/>
+        <location filename="src/main_window.cpp" line="1570"/>
         <source>Show &amp;users</source>
         <translation>Montrer les &amp;utilisateurs</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1591"/>
+        <location filename="src/main_window.cpp" line="1642"/>
         <source>yourself</source>
         <translation>vous-même</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1599"/>
+        <location filename="src/main_window.cpp" line="1614"/>
         <source>system logs</source>
-        <translation>traces systèmes</translation>
+        <translation type="obsolete">traces systèmes</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="306"/>
-        <source></source>
-        <translation></translation>
+        <location filename="src/main_window.cpp" line="344"/>
+        <source>Toggle system logs visibility</source>
+        <translation>Alterne la visibilité des traces systèmes</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="src/main_window.cpp" line="1631"/>
+        <source>%n user(s)</source>
+        <translation>
+            <numerusform>%n utilisateur</numerusform>
+            <numerusform>%n utilisateurs</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1641"/>
+        <source>Conversation with %1 - %2</source>
+        <translation>Conversation avec %1 - %2</translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="1650"/>
+        <source>System logs</source>
+        <translation>Traces systèmes</translation>
     </message>
 </context>
 <context>
@@ -1303,82 +1321,82 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="350"/>
+        <location filename="src/my_textedit.cpp" line="201"/>
         <source>Send to chat!</source>
         <translation>Envoyer au chat !</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="107"/>
+        <location filename="src/my_textedit.cpp" line="85"/>
         <source>Filter it!</source>
         <translation>Filtrer !</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Failed to open URL</source>
         <translation>Impossible d&apos;ouvrir l&apos;URL</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="325"/>
+        <location filename="src/my_textedit.cpp" line="176"/>
         <source>(filter)</source>
         <translation>(filtre)</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="64"/>
+        <location filename="src/my_textedit.cpp" line="42"/>
         <source>Uploading...</source>
         <translation>Envoi du fichier en cours...</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="401"/>
+        <location filename="src/my_textedit.cpp" line="252"/>
         <source>To upload a file, you need to configure an FTP URL</source>
         <translation>Pour envoyer un fichier, vous devez configurer une URL de FTP</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="403"/>
+        <location filename="src/my_textedit.cpp" line="254"/>
         <source>&quot;%1&quot; is not a valid FTP URL</source>
         <translation>&quot;%1&quot; n&apos;est pas une URL FTP valide</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="551"/>
+        <location filename="src/my_textedit.cpp" line="402"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="417"/>
+        <location filename="src/my_textedit.cpp" line="268"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation>Pour envoyer un fichier, vous devez configurer une URL de destination</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="63"/>
+        <location filename="src/my_textedit.cpp" line="41"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="419"/>
+        <location filename="src/my_textedit.cpp" line="270"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation>&quot;%1&quot; n&apos;est pas une URL valide</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="468"/>
+        <location filename="src/my_textedit.cpp" line="319"/>
         <source>Unable to open the file %1: %2.</source>
         <translation>Impossible d&apos;ouvrir le fichier %1 : %2.</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="519"/>
+        <location filename="src/my_textedit.cpp" line="370"/>
         <source>Unable to connect to %1. Please check that the hostname is correct.</source>
         <translation>Impossible de se connecter à %1. Veuillez vérifier que le nom d&apos;hôte est correct.</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="551"/>
+        <location filename="src/my_textedit.cpp" line="402"/>
         <source>Canceled upload of %1</source>
         <translation>Envoi de %1 annulé</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="562"/>
+        <location filename="src/my_textedit.cpp" line="413"/>
         <source>(%n bytes)</source>
         <translation>
             <numerusform>(%n octet)</numerusform>
@@ -2102,17 +2120,17 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 <context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="334"/>
+        <location filename="src/tell_widget.cpp" line="336"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;pas de filtre&gt;</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="311"/>
+        <location filename="src/tell_widget.cpp" line="313"/>
         <source>(quit)</source>
         <translation>(parti)</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="313"/>
+        <location filename="src/tell_widget.cpp" line="315"/>
         <source>(away)</source>
         <translation>(absent)</translation>
     </message>
@@ -2216,6 +2234,19 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
         <location filename="ui/tray_settings.ui" line="35"/>
         <source>Hide from task bar when minimized</source>
         <translation>Cacher de la barre des tâches quand minimisé</translation>
+    </message>
+</context>
+<context>
+    <name>UrlTextEdit</name>
+    <message>
+        <location filename="src/url_textedit.cpp" line="163"/>
+        <source>Warning</source>
+        <translation type="obsolete">Avertissement</translation>
+    </message>
+    <message>
+        <location filename="src/url_textedit.cpp" line="163"/>
+        <source>Failed to open URL</source>
+        <translation type="obsolete">Impossible d&apos;ouvrir l&apos;URL</translation>
     </message>
 </context>
 <context>

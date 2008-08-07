@@ -77,6 +77,8 @@ SET(CEB_SRCS
 	src/output_settings_widget.cpp
 	src/tray_settings_widget.cpp
 	src/system_widget.cpp
+	src/mtpchat_handler.cpp
+	src/url_textedit.cpp
 )
 
 SET(CEB_UIS
@@ -149,6 +151,8 @@ SET(CEB_MOCH
 	src/output_settings_widget.h
 	src/tray_settings_widget.h
 	src/system_widget.h
+	src/mtpchat_handler.h
+	src/url_textedit.h
 )
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DQT_NO_DEBUG)

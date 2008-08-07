@@ -31,7 +31,7 @@ DetailedFontsSettingsWidget::DetailedFontsSettingsWidget(QWidget *parent) : Sett
 
     QVBoxLayout *layout = new QVBoxLayout(frameTextEdit);
     layout->setMargin(0);
-    layout->addWidget(_textEdit = new MyTextEdit);
+    layout->addWidget(_textEdit = new UrlTextEdit);
 
 //    TokenFactory tokenFactory;
 
