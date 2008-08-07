@@ -45,8 +45,6 @@ protected:
 private:
     static QColor _textBackgroundColor;
 
-    QProcess *urlProcess;
-    
     struct UrlRange
     {
         int start;
@@ -57,7 +55,6 @@ private:
 
 private slots:
     void myAnchorClicked(const QUrl &link);
-    void deleteProcLater(int exitCode);
 
 public slots:
     void setSource(const QUrl &name);

@@ -17,11 +17,13 @@
  */
 
 #include <QApplication>
+#include <QDesktopServices>
 
 #include "my_application.h"
 #include "main_window.h"
 #include "script.h"
 #include "profile.h"
+#include "mtpchat_handler.h"
 
 int main(int argc, char **argv)
 {
@@ -46,6 +48,8 @@ int main(int argc, char **argv)
         if (url.isValid() && url.scheme() == "mtpchat")
             Profile::instance().addSessionUrl(url);
     }
+
+    QDesktopServices::setUrlHandler("mtpchat", new MtpChatHandler(), "addSession");
 
     MainWindow::instance()->show();
 

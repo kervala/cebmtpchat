@@ -22,8 +22,6 @@
 #include <QDesktopServices>
 
 #include "profile.h"
-#include "main_window.h"
-
 #include "url_textedit.h"
 
 QColor UrlTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
@@ -36,7 +34,7 @@ UrlTextEdit::UrlTextEdit(QWidget *parent) : QTextBrowser(parent)
     urlRegexp << QRegExp("ftp:\\/\\/\\S*");
     urlRegexp << QRegExp("https:\\/\\/\\S*");
     urlRegexp << QRegExp("www\\.\\S*");
-    urlRegexp << QRegExp("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+");
+    urlRegexp << QRegExp("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z.]+");
 
     connect(this, SIGNAL(anchorClicked(const QUrl &)),
             this, SLOT(myAnchorClicked(const QUrl &)));
@@ -60,16 +58,14 @@ void UrlTextEdit::openUrl(const QUrl &link, bool forcesystem)
 
 void UrlTextEdit::myAnchorClicked(const QUrl &link)
 {
-    if (link.scheme() == "mtpchat")
-    {
-        SessionConfig config = Profile::instance().addSessionUrl(link);
-        if (!config.address().isEmpty())
-            MainWindow::instance()->connectTo(config);
-    }
-    else if (link.scheme().isEmpty() && link.host().isEmpty() && link.toString().contains('@'))
+    if (link.scheme().isEmpty() && link.host().isEmpty() && link.toString().contains('@'))
         openUrl(QUrl("mailto:" + link.toString()), true);
-    else
+    if (link.scheme().isEmpty() && link.toString().contains("www."))
+        openUrl(QUrl("http://" + link.toString()));
+    else if (link.scheme() == "http" || link.scheme() == "https" || link.scheme() == "ftp")
         openUrl(link);
+    else
+        openUrl(link, true);
 }
 
 void UrlTextEdit::setSource(const QUrl &)
@@ -157,14 +153,6 @@ void UrlTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFo
 
     if (pos < line.length()) // remains a piece of normal format
         cursor.insertText(line.mid(pos, line.length() - pos), charFormat);
-}
-
-void UrlTextEdit::deleteProcLater(int exitCode)
-{
-    if (exitCode)
-        QMessageBox::warning(this, tr("Warning"), tr("Failed to open URL"));
-
-    delete urlProcess;
 }
 
 void UrlTextEdit::mouseReleaseEvent(QMouseEvent *e)
