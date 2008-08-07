@@ -47,6 +47,7 @@ signals:
     void newVersion(const QString &version);
     void updateDataReadProgress(int done, int total);
     void fileDownloadEnd(const QString &fileName);
+    void fileDownloadError();
 
 private slots:
     void checkDataReadProgress(int done, int total);

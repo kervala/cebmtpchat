@@ -53,6 +53,7 @@ private slots:
     void update();
     void updateDataReadProgress(int done, int total);
     void updateDownloadEnd(const QString &fileName);
+    void updateDownloadError();
 };
 
 #endif

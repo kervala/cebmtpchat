@@ -80,6 +80,7 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::WindowTitleHint
     connect(&autoUpdate, SIGNAL(newVersion(const QString &)), this, SLOT(newVersion(const QString &)));
     connect(&autoUpdate, SIGNAL(updateDataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
     connect(&autoUpdate, SIGNAL(fileDownloadEnd(const QString &)), this, SLOT(updateDownloadEnd(const QString &)));
+    connect(&autoUpdate, SIGNAL(fileDownloadError()), this, SLOT(updateDownloadError()));
     autoUpdate.checkForUpdate();
 }
 
@@ -114,4 +115,9 @@ void DialogUpdate::updateDownloadEnd(const QString &fileName)
 {
     _fileToLaunch = fileName;
     accept();
+}
+
+void DialogUpdate::updateDownloadError()
+{
+    labelInfo->setText(tr("Error"));
 }

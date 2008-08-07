@@ -87,7 +87,16 @@ void AutoUpdate::fileRequestFinished(int id, bool error)
 {
     if (!error && fileDownloadID == id)
     {
+        fileDownload->reset();
+        char buffer;
+        fileDownload->read(&buffer, 1);
         fileDownload->close();
-        emit fileDownloadEnd(fileToSave);
+        if (buffer != '<')
+            emit fileDownloadEnd(fileToSave);
+        else
+        {
+            QFile::remove(fileToSave); // error
+            emit fileDownloadError();
+        }
     }
 }
