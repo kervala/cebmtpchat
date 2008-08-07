@@ -16,45 +16,34 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#if defined(Q_OS_WIN32)
-#include <windows.h>
-#endif
-
 #include <QKeyEvent>
 #include <QTextCursor>
 #include <QMessageBox>
 #include <QTextDocumentFragment>
-#include <QAction>
 #include <QMenu>
-#include <QDir>
 #include <QVBoxLayout>
-#include <QTextEdit>
 #include <QSplitter>
 #include <QPushButton>
 #include <QScrollBar>
-#include <QDesktopServices>
+#include <QtNetwork>
+#include <QProgressDialog>
+#include <QDate>
 
 #include "profile.h"
 #include "lua_utils.h"
 #include "paths.h"
-#include "main_window.h"
 
 #include "my_textedit.h"
 
-QColor MyTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
-
-
-MyTextEdit::MyTextEdit(QWidget *parent) : QTextBrowser(parent), m_allowFilters(false)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
 {
-    urlRegexp << QRegExp("http:\\/\\/\\S*");
-    urlRegexp << QRegExp("mtpchat:\\/\\/\\S*");
-    urlRegexp << QRegExp("ftp:\\/\\/\\S*");
-    urlRegexp << QRegExp("https:\\/\\/\\S*");
-    urlRegexp << QRegExp("www\\.\\S*");
-    urlRegexp << QRegExp("mailto:\\S*");
+    progressDialog = new QProgressDialog(this);
+    progressDialog->setCancelButtonText(tr("Cancel"));
+    progressDialog->setLabelText(tr("Uploading..."));
+    progressDialog->setModal(false);
 
-    connect(this, SIGNAL(anchorClicked(const QUrl &)),
-            this, SLOT(myAnchorClicked(const QUrl &)));
+    connect(progressDialog, SIGNAL(canceled()),
+            this, SLOT(cancelDownload()));
 
     isAway = false;
 
@@ -122,7 +111,7 @@ void MyTextEdit::addNewLine(const QString &line, const QFont &font,
     if (!document()->isEmpty())
         cursor.insertBlock();
 
-    insertLine(cursor, line, font, color);
+    insertLine(cursor, line, &font, &color);
 }
 
 void MyTextEdit::addString(const QString &line, const QFont &font, const QColor &color)
@@ -130,7 +119,7 @@ void MyTextEdit::addString(const QString &line, const QFont &font, const QColor 
     QTextCursor cursor(document());
     cursor.movePosition(QTextCursor::End);
 
-    insertLine(cursor, line, font, color);
+    insertLine(cursor, line, &font, &color);
 }
 
 void MyTextEdit::addNewLine(const QString &line, const QColor &color)
@@ -171,139 +160,12 @@ void MyTextEdit::addString(const QString &line)
     cursor.insertText(line);
 }
 
-void MyTextEdit::openUrl(const QUrl &link)
-{
-    // Custom browser?
-    if (Profile::instance().linksCustomBrowser.isEmpty())
-        QDesktopServices::openUrl(link);
-    else
-    {
-        QStringList args;
-        QProcess process;
-        args << link.toString();
-        process.startDetached(Profile::instance().linksCustomBrowser, args);
-    }
-}
-
-void MyTextEdit::myAnchorClicked(const QUrl &link)
-{
-    if (link.scheme() == "mtpchat")
-    {
-        SessionConfig config = Profile::instance().addSessionUrl(link);
-        if (!config.address().isEmpty())
-            MainWindow::instance()->connectTo(config);
-    }
-    else
-        openUrl(link);
-}
-
-void MyTextEdit::setSource(const QUrl &)
-{
-}
-
-void MyTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFont &font, const QColor &color)
-{
-    // Normal format
-    QTextCharFormat charFormat;
-    charFormat.setFont(font);
-    charFormat.setForeground(color);
-    charFormat.setBackground(_textBackgroundColor);
-
-    // Url format
-    QTextCharFormat urlFormat;
-    urlFormat.setFont(font);
-    urlFormat.setForeground(Qt::blue);
-    urlFormat.setFontUnderline(true);
-    urlFormat.setAnchor(true);
-    urlFormat.setAnchorHref("");
-
-    // Search for URLs
-    QList<UrlRange> urlRanges;
-
-    foreach (const QRegExp &regexp, urlRegexp)
-    {
-        int index = line.indexOf(regexp);
-        while (index >= 0)
-        {
-            UrlRange range;
-            range.start = index;
-            range.length = regexp.matchedLength();
-
-            urlRanges << range;
-
-            index = line.indexOf(regexp, index + regexp.matchedLength());
-        }
-    }
-
-    // Bubble sort by <range.start>
-    for (int i = urlRanges.count() - 1; i > 0; i--)
-        for (int j = 0; j < i; j++)
-        {
-            UrlRange range1 = urlRanges[j];
-            UrlRange range2 = urlRanges[j + 1];
-            if (range1.start >= range2.start)
-            {
-                // Exchange
-                urlRanges[j] = range2;
-                urlRanges[j + 1] = range1;
-            }
-        }
-
-    // Remove cross URLs
-    if (urlRanges.count() > 1)
-        for (int i = urlRanges.count() - 1; i > 0; i--)
-        {
-            UrlRange iRange = urlRanges[i];
-            UrlRange beforeRange = urlRanges[i - 1];
-
-            if (iRange.start >= beforeRange.start &&
-                iRange.start < (beforeRange.start + beforeRange.length))
-                // Cross-over => remove iRange
-                urlRanges.removeAt(i);
-        }
-
-    // Format work
-    int pos = 0;
-    for (int i = 0; i < urlRanges.count(); i++)
-    {
-        UrlRange range = urlRanges[i];
-
-        // Normal format
-        if (pos < range.start)
-            cursor.insertText(line.mid(pos, range.start - pos), charFormat);
-
-        // Url format
-        urlFormat.setAnchorHref(line.mid(range.start, range.length));
-        cursor.insertText(line.mid(range.start, range.length), urlFormat);
-
-        pos = range.start + range.length;
-    }
-
-    if (pos < line.length()) // remains a piece of normal format
-        cursor.insertText(line.mid(pos, line.length() - pos), charFormat);
-}
-
-void MyTextEdit::deleteProcLater(int exitCode)
-{
-    if (exitCode)
-        QMessageBox::warning(this, tr("Warning"), tr("Failed to open URL"));
-
-    delete urlProcess;
-}
-
 void MyTextEdit::addSeparatorLine()
 {
     QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml("<hr>");
     QTextCursor cursor(document());
     cursor.movePosition(QTextCursor::End);
     cursor.insertFragment(fragment);
-}
-
-void MyTextEdit::mouseReleaseEvent(QMouseEvent *e)
-{
-    QTextBrowser::mouseReleaseEvent(e);
-    if (Profile::instance().copyOnSelection)
-        copy();
 }
 
 void MyTextEdit::filterTriggered(QAction *action)
@@ -362,4 +224,225 @@ void MyTextEdit::scrollOutputToBottom()
 {
     QScrollBar *sb = verticalScrollBar();
     sb->setValue(sb->maximum());
+}
+
+void MyTextEdit::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+        event->acceptProposedAction();
+}
+
+void MyTextEdit::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+        event->acceptProposedAction();
+}
+
+void MyTextEdit::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+    {
+        QUrl ftpUrl(Profile::instance().uploadUrl);
+
+        if (!ftpUrl.isValid() || ftpUrl.scheme().toLower() != QLatin1String("ftp"))
+        {
+            QString message;
+
+            if (ftpUrl.isEmpty())
+                message = tr("To upload a file, you need to configure an FTP URL");
+            else
+                message = tr("\"%1\" is not a valid FTP URL").arg(ftpUrl.toString());
+
+            QMessageBox::critical(this, tr("Error"), message);
+
+            return;
+        }
+
+        QUrl httpUrl(Profile::instance().downloadUrl);
+
+        if (!httpUrl.isValid())
+        {
+            QString message;
+
+            if (httpUrl.isEmpty())
+                message = tr("To upload a file, you need to configure an destination URL");
+            else
+                message = tr("\"%1\" is not a valid URL").arg(httpUrl.toString());
+
+            QMessageBox::critical(this, tr("Error"), message);
+
+            return;
+        }
+
+        // if an FTP connection is already set, we close it
+        if (ftp)
+        {
+            ftp->abort();
+            ftp->deleteLater();
+            ftp = NULL;
+        }
+
+        ftp = new QFtp(this);
+
+        connect(ftp, SIGNAL(commandFinished(int, bool)),
+            this, SLOT(ftpCommandFinished(int, bool)));
+        connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
+            this, SLOT(updateDataTransferProgress(qint64, qint64)));
+
+        ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
+
+        if (!ftpUrl.userName().isEmpty())
+            // send login and password
+            ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLatin1()), ftpUrl.password());
+        else
+            ftp->login(); // anonymous connection
+
+        // change directory
+        if (!ftpUrl.path().isEmpty())
+            ftp->cd(ftpUrl.path());
+
+        // get the list of all files to upload
+        QList<QUrl> urlList = event->mimeData()->urls();
+
+        for (int i = 0; i < urlList.size() && i < 32; ++i)
+        {
+            FtpQueue queue;
+
+            queue.fileName = urlList.at(i).toLocalFile();
+            queue.file = new QFile(queue.fileName);
+
+            QFileInfo info(queue.fileName);
+
+            // error when opening local file
+            if (!queue.file->open(QIODevice::ReadOnly))
+            {
+                QMessageBox::critical(this, tr("Error"), tr("Unable to open the file %1: %2.").arg(queue.fileName).arg(queue.file->errorString()));
+                delete queue.file;
+                continue;
+            }
+
+            static const unsigned char ascii_replacement[] = "                                             -. 0123456789   =  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[ ]   abcdefghijklmnopqrstuvwxyz{ }            S O        .--  s o zY  c                             AAAAAAACEEEEIIIIDNOOOOOxOUUUUYPSaaaaaaaceeeeiiiionooooo ouuuuy y";
+
+            QString encoded;
+
+            for(int i = 0; i < info.fileName().length(); ++i)
+            {
+                const unsigned char c = info.fileName().at(i).toAscii();
+
+                encoded += ascii_replacement[c];
+            }
+
+            encoded = encoded.simplified().replace(" ", "_");
+
+            if (Profile::instance().prefixDate)
+            {
+                QDateTime date = QDateTime::currentDateTime();
+
+                // set the final URL
+                queue.finalUrl = date.toString("yyMMddhhmm") + "_" + encoded;
+            }
+            else
+            {
+                // set the final URL
+                queue.finalUrl = encoded;
+            }
+
+            // send the file to FTP
+            queue.id = ftp->put(queue.file, queue.finalUrl);
+
+            // add details on the file to the ftp queue
+            ftpQueue.append(queue);
+        }
+
+        event->acceptProposedAction();
+    }
+}
+
+void MyTextEdit::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    event->accept();
+}
+
+void MyTextEdit::ftpCommandFinished(int commandId, bool error)
+{
+    if (ftp->currentCommand() == QFtp::ConnectToHost && error)
+        QMessageBox::critical(this, tr("Error"), tr("Unable to connect to %1. Please check that the hostname is correct.")
+                    .arg(Profile::instance().uploadUrl));
+
+    if (ftp->currentCommand() == QFtp::Put)
+    {
+        FtpQueue current;
+
+        current.id = -1;
+
+        int i = 0;
+
+        // remove the just completed file from the queue
+        while(i < ftpQueue.size())
+        {
+            if (ftpQueue.at(i).id == commandId)
+            {
+                current = ftpQueue.at(i);
+                ftpQueue.removeAt(i);
+                break;
+            }
+
+            ++i;
+        }
+
+        // we didn't find the right file
+        if (current.id == -1)
+        {
+//          addNewLine(tr("Command id %1 not found").arg(commandId));
+            return;
+        }
+
+        if (error)
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Canceled upload of %1").arg(current.fileName));
+            ftp->remove(current.finalUrl);
+        }
+        else
+        {
+            if (current.file->atEnd())
+            {
+                QString url = Profile::instance().downloadUrl;
+                
+                if (url.right(1) != "/") url += "/";
+                
+                url += current.finalUrl + " " + tr("(%n bytes)", "", current.file->size());
+
+                emit sendToChat(url);
+            }
+            else
+                ftp->remove(current.finalUrl); // partially uploaded file so we can safely delete it
+        }
+
+        progressDialog->hide();
+
+        current.file->close();
+
+        delete current.file;
+
+        // if no files in ftp queue, we can safely close connection
+        if (!ftp->hasPendingCommands())
+        {
+            ftp->abort();
+            ftp->deleteLater();
+            ftp = NULL;
+        }
+    }
+}
+
+void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
+{
+    progressDialog->show();
+
+    progressDialog->setMaximum(totalBytes);
+    progressDialog->setValue(readBytes);
+}
+
+void MyTextEdit::cancelDownload()
+{
+    if (ftp) ftp->abort();
 }

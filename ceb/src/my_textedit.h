@@ -19,10 +19,16 @@
 #ifndef MY_TEXTEDIT_H
 #define MY_TEXTEDIT_H
 
-#include <QTextBrowser>
-#include <QProcess>
+#include "url_textedit.h"
 
-class MyTextEdit : public QTextBrowser
+QT_BEGIN_NAMESPACE
+class QMimeData;
+class QFile;
+class QFtp;
+class QProgressDialog;
+QT_END_NAMESPACE
+
+class MyTextEdit : public UrlTextEdit
 {
     Q_OBJECT
 
@@ -30,10 +36,6 @@ public:
     bool isAway;
 
     MyTextEdit(QWidget *parent = 0);
-
-    static QColor getTextBackgroundColor() { return _textBackgroundColor; }
-    static void setTextBackgroundColor(const QColor &value) { _textBackgroundColor = value; }
-    static void openUrl(const QUrl &link);
 
     void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
     void addString(const QString &line, const QFont &font, const QColor &color);
@@ -50,38 +52,43 @@ public:
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual void mouseReleaseEvent(QMouseEvent *e);
     virtual void contextMenuEvent(QContextMenuEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dragLeaveEvent(QDragLeaveEvent *event);
+    void dropEvent(QDropEvent *event);
 
 private:
-    static QColor _textBackgroundColor;
 
-    QProcess *urlProcess;
     QTextEdit *filterTextEdit;
+    QProgressDialog *progressDialog;
+    QFtp *ftp;
+    
     bool m_allowFilters;
 
-    struct UrlRange
+    struct FtpQueue
     {
-        int start;
-        int length;
+        int id;
+        QString fileName;
+        QString finalUrl;
+        QFile *file;
     };
 
-    QList<QRegExp> urlRegexp;
-
-    void insertLine(QTextCursor &cursor, const QString &line, const QFont &font, const QColor &color);
+    QList<FtpQueue> ftpQueue;
 
 signals:
     void myKeyPressed(const QKeyEvent &e);
 
 private slots:
-    void myAnchorClicked(const QUrl &link);
-    void deleteProcLater(int exitCode);
     void filterTriggered(QAction *action);
     void sendIt();
 
-public slots:
-    void setSource(const QUrl &name);
+    // ftp methods
+    void cancelDownload();
+    void ftpCommandFinished(int commandId, bool error);
+    void updateDataTransferProgress(qint64 readBytes,
+                                    qint64 totalBytes);
 
 signals:
     void sendToChat(const QString &string);
