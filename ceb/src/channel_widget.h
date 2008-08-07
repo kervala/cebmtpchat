@@ -34,7 +34,7 @@
 #include "session_widget.h"
 #include "session_config.h"
 #include "session.h"
-#include "my_textedit.h"
+#include "url_textedit.h"
 #include "token_renderer.h"
 #include "search_widget.h"
 #include "who_model.h"
@@ -64,7 +64,7 @@ protected:
 
 private:
     QWidget *_widgetTopic;
-    QTextEdit *_lineEditTopic;
+    UrlTextEdit *_lineEditTopic;
     QSplitter *_splitterOutIn;
     QSplitter *_splitterOutWho;
     MyTextEdit *_textEditOutput;

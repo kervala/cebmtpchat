@@ -79,7 +79,7 @@ void ChannelWidget::init()
     _splitterOutIn->addWidget(_widgetTopic);
     QLabel *labelTopic = new QLabel(tr("Topic: "));
     topicLayout->addWidget(labelTopic);
-    _lineEditTopic = new QTextEdit;
+    _lineEditTopic = new UrlTextEdit;
     _lineEditTopic->installEventFilter(this);
     _lineEditTopic->setReadOnly(true);
     QPalette palette = _lineEditTopic->palette();
@@ -265,7 +265,7 @@ bool ChannelWidget::eventFilter(QObject *obj, QEvent *event)
             toggleSearchWidgetVisibility();
     }
 
-    if (obj == _treeViewWho || obj == _lineEditTopic)
+    if (obj == _treeViewWho)
     {
         if (event->type() == QEvent::KeyPress)
         {
