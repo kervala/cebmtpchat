@@ -106,7 +106,7 @@ void MessageWidget::init()
     bottomLayout->addWidget(pushButtonRemove);
     connect(pushButtonRemove, SIGNAL(clicked()), this, SLOT(removeSelectedMessage()));
 
-    _textEditMessage = new MyTextEdit;
+    _textEditMessage = new UrlTextEdit;
     _textEditMessage->setReadOnly(true);
     splitterMain->addWidget(_textEditMessage);
     splitterMain->setCollapsible(0, false);
@@ -120,12 +120,12 @@ void MessageWidget::init()
 
 void MessageWidget::currentMessageChanged(const QModelIndex & current, const QModelIndex &)
 {
-    _textEditMessage->clear();
 	if (!current.isValid())
 		return;
     QModelIndex currentSource = _sortModel->mapToSource(current);
     const MessageItem &message = _messageModel->myMessages()[currentSource.row()];
-    _textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));
+//    _textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));
+    _textEditMessage->setText(message.message());
 }
 
 void MessageWidget::removeSelectedMessage()

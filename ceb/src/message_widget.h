@@ -30,7 +30,7 @@
 #include <generic_sort_model.h>
 
 #include "session_widget.h"
-#include "my_textedit.h"
+#include "url_textedit.h"
 #include "message_model.h"
 
 class MessageWidget : public SessionWidget
@@ -48,7 +48,7 @@ protected:
 private:
     bool _firstShow;
     QTreeView *_treeViewMessages;
-    MyTextEdit *_textEditMessage;
+    UrlTextEdit *_textEditMessage;
     GenericSortModel *_sortModel;
     MessageModel *_messageModel;
     int _showMsgTicketID;
