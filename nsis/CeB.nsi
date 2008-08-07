@@ -1,7 +1,7 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "CeB_setup.exe"
+OutFile "ceb_20080808.exe"
 
 RequestExecutionLevel admin
 

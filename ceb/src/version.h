@@ -16,14 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// YYYYMMDD format
+// any format
 
-#define VERSION "20080727"
-
-#ifdef _RYZOM
-    #define UPDATE_URL "chat.ryzom.com"
-    #define UPDATE_FILE "ceb_ryzom_"
-#else
-    #define UPDATE_URL "cebmtp.free.fr"
-    #define UPDATE_FILE "ceb_"
-#endif
+#define VERSION "20080808"
