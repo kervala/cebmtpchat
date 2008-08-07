@@ -1,7 +1,7 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "ceb_ryzom_20080727.exe"
+OutFile "ceb_ryzom_20080806.exe"
 
 RequestExecutionLevel admin
 
@@ -73,11 +73,13 @@ Section "CeB" SecCeB
 
   ;docs
   File "..\ceb\share\ceb\whatsnew.html"
+  File "..\CeB\share\CeB\LICENCE"
 
   ;default profiles
   File "..\ceb\share\ceb\aniro_default.xml"
   File "..\ceb\share\ceb\arispotle_default.xml"
   File "..\ceb\share\ceb\leanon_default.xml"
+  File /oname=ceb.ini "..\ceb\share\ceb\ceb_ryzom.ini"
   
   ;languages
   SetOutPath "$INSTDIR\languages"

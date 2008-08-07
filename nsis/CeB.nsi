@@ -61,20 +61,20 @@ Section "CeB" SecCeB
 
   ;dlls
   File "..\CeB\bin\lua51.dll"
-  File "..\CeB\bin\QtCore4.dll"
-  File "..\CeB\bin\QtGui4.dll"
-  File "..\CeB\bin\QtNetwork4.dll"
-  File "..\CeB\bin\QtXml4.dll"
-  File "..\CeB\bin\mingwm10.dll"
+  File "..\CeB\bin\Microsoft.VC90.CRT.manifest"
+  File "..\CeB\bin\msvcp90.dll"
+  File "..\CeB\bin\msvcr90.dll"
 
   ;docs
   File "..\ceb\share\ceb\whatsnew.html"
+  File "..\CeB\share\CeB\LICENCE"
+  File "..\ceb\share\ceb\ceb.ini"
 
-  SetOverwrite off
-  File /nonfatal /r "..\CeB\bin\profiles"
-  File "..\CeB\bin\config.xml"
-  SetOverwrite on
-  
+;  SetOverwrite off
+;  File /nonfatal /r "..\CeB\bin\profiles"
+;  File "..\CeB\bin\config.xml"
+;  SetOverwrite on
+
   ;languages
   SetOutPath "$INSTDIR\languages"
   
