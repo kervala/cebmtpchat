@@ -103,8 +103,10 @@ MainWindow::MainWindow()
 {
     setWindowTitle("CeB");
 
-    _statusLabel = new QLabel;
-    statusBar()->addPermanentWidget(_statusLabel);
+    _statusMessageLabel = new QLabel;
+    statusBar()->addPermanentWidget(_statusMessageLabel, 1);
+    _statusInfosLabel = new QLabel;
+    statusBar()->addPermanentWidget(_statusInfosLabel);
 
     trayMenu = new QMenu(this);
     trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
@@ -1626,10 +1628,10 @@ void MainWindow::refreshStatusLabel()
     if (channelWidget)
     {
         Session *session = channelWidget->session();
-        statusBar()->showMessage(session->socketStateCaption());
-        _statusLabel->setText(session->channel() + " - " +
-            tr("%n user(s)", "", session->whoPopulation().users().count()) +
-            " - " + session->serverAddress());
+        _statusMessageLabel->setText(session->socketStateCaption());
+        _statusInfosLabel->setText(session->channel() + " - " +
+                                   tr("%n user(s)", "", session->whoPopulation().users().count()) +
+                                   " - " + session->serverAddress());
         return;
     }
 
@@ -1637,8 +1639,8 @@ void MainWindow::refreshStatusLabel()
     if (tellWidget)
     {
         Session *session = tellWidget->session();
-        statusBar()->showMessage("");
-        _statusLabel->setText(tr("Conversation with %1 - %2").arg(
+        _statusMessageLabel->setText("");
+        _statusInfosLabel->setText(tr("Conversation with %1 - %2").arg(
                                   tellWidget->login().compare(session->serverLogin(), Qt::CaseInsensitive) ? tellWidget->login() : tr("yourself")).arg(session->serverAddress()));
         return;
     }
@@ -1646,11 +1648,12 @@ void MainWindow::refreshStatusLabel()
     SystemWidget *systemWidget = qobject_cast<SystemWidget*>(tabWidgetMain->currentWidget());
     if (systemWidget)
     {
-        statusBar()->showMessage("");
-        _statusLabel->setText(tr("System logs"));
+        _statusMessageLabel->setText("");
+        _statusInfosLabel->setText(tr("System logs"));
         return;
     }
-    _statusLabel->setText(label);
+    _statusMessageLabel->setText("");
+    _statusInfosLabel->setText(label);
 }
 
 void MainWindow::sessionConnecting(Session *session)

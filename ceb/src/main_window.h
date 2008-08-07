@@ -94,7 +94,8 @@ private:
     AutoUpdate autoUpdate;
     QSignalMapper *actionSignalMapper;
     QList<QShortcut*> actionShortcuts;
-    QLabel *_statusLabel;
+    QLabel *_statusMessageLabel;
+    QLabel *_statusInfosLabel;
 
     QAction *_actionToggleMenuBarVisibility;
     QAction *_actionToggleStatusBarVisibility;
