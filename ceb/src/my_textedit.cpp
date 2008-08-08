@@ -244,7 +244,7 @@ void MyTextEdit::dropEvent(QDropEvent *event)
     {
         QUrl ftpUrl(Profile::instance().uploadUrl);
 
-        if (!ftpUrl.isValid() || ftpUrl.scheme().toLower() != QLatin1String("ftp"))
+        if (!ftpUrl.isValid() || ftpUrl.scheme().compare("ftp", Qt::CaseInsensitive))
         {
             QString message;
 
@@ -285,15 +285,15 @@ void MyTextEdit::dropEvent(QDropEvent *event)
         ftp = new QFtp(this);
 
         connect(ftp, SIGNAL(commandFinished(int, bool)),
-            this, SLOT(ftpCommandFinished(int, bool)));
+				this, SLOT(ftpCommandFinished(int, bool)));
         connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
-            this, SLOT(updateDataTransferProgress(qint64, qint64)));
+				this, SLOT(updateDataTransferProgress(qint64, qint64)));
 
         ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
 
         if (!ftpUrl.userName().isEmpty())
             // send login and password
-            ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLatin1()), ftpUrl.password());
+            ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLocal8Bit()), ftpUrl.password());
         else
             ftp->login(); // anonymous connection
 
@@ -367,7 +367,7 @@ void MyTextEdit::ftpCommandFinished(int commandId, bool error)
 {
     if (ftp->currentCommand() == QFtp::ConnectToHost && error)
         QMessageBox::critical(this, tr("Error"), tr("Unable to connect to %1. Please check that the hostname is correct.")
-                    .arg(Profile::instance().uploadUrl));
+							  .arg(Profile::instance().uploadUrl));
 
     if (ftp->currentCommand() == QFtp::Put)
     {
@@ -407,9 +407,9 @@ void MyTextEdit::ftpCommandFinished(int commandId, bool error)
             if (current.file->atEnd())
             {
                 QString url = Profile::instance().downloadUrl;
-                
+
                 if (url.right(1) != "/") url += "/";
-                
+
                 url += current.finalUrl + " " + tr("(%n bytes)", "", current.file->size());
 
                 emit sendToChat(url);

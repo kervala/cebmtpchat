@@ -110,6 +110,8 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     // Execute modifier
     RenderScript::executeRenderScript(_session, token.type(), segments);
 
+	// TODO: search for URL patterns and re-segment all
+
     // Render all
     foreach (const RenderSegment &segment, segments)
         if (lineStarted)
