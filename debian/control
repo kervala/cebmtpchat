@@ -1,12 +1,12 @@
 Source: cebmtpchat
-Section: web
+Section: net
 Priority: optional
 Maintainer: Guillaume DENRY <guillaume.denry@gmail.com>
-Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.4.0), qt4-dev-tools (>= 4.4.0), liblua5.1-0-dev, cmake (>= 2.6)
-Standards-Version: 3.7.2
+Build-Depends: debhelper (>= 5), libqt4-dev, qt4-dev-tools, liblua5.1-0-dev, cmake (>= 2.4)
+Standards-Version: 3.8.0
 
 Package: cebmtpchat
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: libqt4-core, libqt4-gui, lua5.1
 Description: An <Mtp> Chat ! client written in Qt4
  CeB is a multiplatform client for an old type of chat server started at the college and which continues to work :-)

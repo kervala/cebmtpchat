@@ -196,3 +196,11 @@ INSTALL(DIRECTORY share/ceb
         DESTINATION share
         PATTERN .svn
         EXCLUDE)
+INSTALL(DIRECTORY share/applications
+        DESTINATION share
+        PATTERN .svn
+        EXCLUDE)
+INSTALL(DIRECTORY share/pixmaps
+        DESTINATION share
+        PATTERN .svn
+        EXCLUDE)

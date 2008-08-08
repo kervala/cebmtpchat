@@ -1,3 +1,49 @@
+cebmtpchat (0.1.7) intrepid; urgency=low
+
+  * Background colors are not forced and are now using system defaults
+  * CTRL+C work with Topic text
+  * Update dialog show an error message when it encounters a HTTP error
+  * Added a ceb.ini file for patching details
+  * Fixed Vista specific problem when launching an new installer of CeB
+  * CeB parse correctly emails and mtpchat protocol
+  * Focus channel widget BEFORE removing a session widget
+  * Command line accept mtpchat://server.com urls
+  * New strings translated
+  * Informations in status bar
+  * You can now open folder with user settings
+  * Hide/show status bar and users list
+  * When someone talks about me in channel, put the tab in red
+  * New menu organization
+  * System logs are in a tab
+  * CeB is installed in Internet menu under Linux
+  * Tabs labels are more simplified
+  * Right informations on connection/disconnection of an user in a tell
+  * Keepalive date commands are not recorded in logs anymore
+  * Client send the quit command before closing the connection
+  * Window can be always on top
+  * Use local timestamp
+
+ -- Kervala <kervala@gmail.com>  Fri, 08 Aug 2008 11:23:06 +0200
+
+cebmtpchat (0.1.6) intrepid; urgency=low
+
+  * Forgot translations
+
+ -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:57:36 +0200
+
+cebmtpchat (0.1.5) intrepid; urgency=low
+
+  * Oops forgot to add application icon to CMake
+
+ -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:52:01 +0200
+
+cebmtpchat (0.1.4) intrepid; urgency=low
+
+  * Application icon
+  * Updated dependencies
+
+ -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:02:50 +0200
+
 cebmtpchat (0.1.3) intrepid; urgency=low
 
   * New tabs style
