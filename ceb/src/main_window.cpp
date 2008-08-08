@@ -58,7 +58,7 @@ bool isVista()
     OSVERSIONINFO osver;
 
     osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	
+
     if (::GetVersionEx(&osver) && osver.dwPlatformId == VER_PLATFORM_WIN32_NT && (osver.dwMajorVersion >= 6)) return true;
 
     return false;
@@ -70,15 +70,15 @@ bool myShellExec(HWND hwnd, LPCTSTR pszVerb, LPCTSTR pszPath, LPCTSTR pszParamet
 
     memset(&shex, 0, sizeof(shex));
 
-    shex.cbSize			= sizeof( SHELLEXECUTEINFO ); 
-    shex.fMask			= 0; 
+    shex.cbSize			= sizeof( SHELLEXECUTEINFO );
+    shex.fMask			= 0;
     shex.hwnd			= hwnd;
-    shex.lpVerb			= pszVerb; 
-    shex.lpFile			= pszPath; 
-    shex.lpParameters	= pszParameters; 
-    shex.lpDirectory	= pszDirectory; 
-    shex.nShow			= SW_NORMAL; 
- 
+    shex.lpVerb			= pszVerb;
+    shex.lpFile			= pszPath;
+    shex.lpParameters	= pszParameters;
+    shex.lpDirectory	= pszDirectory;
+    shex.nShow			= SW_NORMAL;
+
     return ::ShellExecuteExA(&shex) == 1;
 }
 
@@ -978,7 +978,7 @@ void MainWindow::closeTabWidget()
         qobject_cast<SystemWidget*>(widget)) // Don't close channel widget or system logs
         return;
 
-    Session *session = 0;
+/*    Session *session = 0;
     if (qobject_cast<SessionWidget*>(widget))
         session = qobject_cast<SessionWidget*>(widget)->session();
 
@@ -989,10 +989,8 @@ void MainWindow::closeTabWidget()
     {
         tabWidgetMain->setCurrentWidget(channelWidget);
         channelWidget->focusWidget()->setFocus();
-    }
-
-    tabWidgetMain->removeTab(tabWidgetMain->indexOf(widget));
-    widget->deleteLater();
+        }*/
+    removeWidget(widget);
 }
 
 /*void MainWindow::highlightSessionWidget()
@@ -1091,6 +1089,10 @@ void MainWindow::sessionLoginChanged(Session *session, const QString &oldLogin, 
 
 void MainWindow::tabWidgetMainCurrentChanged(int index)
 {
+    QWidget *widget = tabWidgetMain->widget(index);
+    if (widget)
+        _focusStack.push(widget);
+
     SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(index));
     if (sessionWidget)
     {
@@ -1486,21 +1488,27 @@ void MainWindow::removeSessionWidgets(Session *session)
     {
         SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(i));
         if (sessionWidget->session() == session)
-        {
-            tabWidgetMain->removeTab(i);
-            delete sessionWidget;
-        }
+            removeWidget(sessionWidget);
     }
 }
 
 void MainWindow::removeWidget(QWidget *widget)
 {
     int index = tabWidgetMain->indexOf(widget);
-    if (index >= 0)
-    {
-        tabWidgetMain->removeTab(index);
-        delete widget;
-    }
+    if (index < 0)
+        return;
+
+    // Remove this widget from the focus stack
+    for (int i = _focusStack.count() - 1; i > 0; --i)
+        if (_focusStack[i] == widget)
+            _focusStack.remove(i);
+
+    // Focus the stack head
+    if (!_focusStack.isEmpty())
+        tabWidgetMain->setCurrentWidget(_focusStack.pop());
+
+    tabWidgetMain->removeTab(index);
+    widget->deleteLater();
 }
 
 void MainWindow::previousTab()

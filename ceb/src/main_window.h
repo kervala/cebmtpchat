@@ -28,6 +28,7 @@
 #include <QSignalMapper>
 #include <QSystemTrayIcon>
 #include <QShortcut>
+#include <QStack>
 
 #include <my_tabwidget.h>
 
@@ -85,6 +86,7 @@ private:
     // Status bar
     QStatusBar *sbMain;
     MyTabWidget *tabWidgetMain;
+    QStack<QWidget*> _focusStack;
     QTimer animationTimer;
     QMap<QWidget*,int> tabToBlinkTime;
     QMap<QWidget*,bool> tabToAscendingOrder;
