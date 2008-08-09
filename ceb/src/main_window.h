@@ -104,6 +104,8 @@ private:
     QAction *_actionToggleSystemLogsVisibility;
     QAction *_actionToggleTopicVisibility;
     QAction *_actionToggleUsersVisibility;
+    QAction *_actionPreviousTab;
+    QAction *_actionNextTab;
 
     MainWindow();
     ~MainWindow();

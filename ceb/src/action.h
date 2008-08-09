@@ -30,6 +30,8 @@ public:
     {
         Action_ToggleMenuBar,
         Action_ToggleStatusBar,
+        Action_PreviousTab,
+        Action_NextTab,
         Action_RefreshWhoColumn,
         Action_ToggleAway,
         Action_Reconnect,

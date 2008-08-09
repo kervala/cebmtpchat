@@ -338,10 +338,12 @@ void MainWindow::makeMenuBar()
     // Windows menu
     QMenu *menuWindows = mbMain->addMenu(tr("&Windows"));
     connect(menuWindows, SIGNAL(aboutToShow()), this, SLOT(aboutToShowWindowsMenu()));
-    QAction *actionPreviousTab = menuWindows->addAction(tr("&Previous tab"));
-    connect(actionPreviousTab, SIGNAL(triggered()), this, SLOT(previousTab()));
-    QAction *actionNextTab = menuWindows->addAction(tr("&Next tab"));
-    connect(actionNextTab, SIGNAL(triggered()), this, SLOT(nextTab()));
+    _actionPreviousTab = menuWindows->addAction(tr("&Previous tab"));
+    _actionPreviousTab->setShortcutContext(Qt::WidgetShortcut);
+    connect(_actionPreviousTab, SIGNAL(triggered()), this, SLOT(previousTab()));
+    _actionNextTab = menuWindows->addAction(tr("&Next tab"));
+    _actionNextTab->setShortcutContext(Qt::WidgetShortcut);
+    connect(_actionNextTab, SIGNAL(triggered()), this, SLOT(nextTab()));
     menuWindows->addSeparator();
     _actionToggleSystemLogsVisibility = menuWindows->addAction(tr("Toggle system logs visibility"));
     connect(_actionToggleSystemLogsVisibility, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
@@ -439,16 +441,16 @@ void MainWindow::reconnect()
 {
     // Get current session config
     Session *session = getCurrentSession();
-    if (session)
-    {
-        if (session->isConnected() &&
-            QMessageBox::question(this, tr("Confirmation"), tr("You seem to be already connected, do you really want to force a reconnection?"),
-                                  QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
+    if (!session)
+        return;
 
-        session->resetBackupServers();
-        session->start();
-    }
+    if (session->isConnected() &&
+        QMessageBox::question(this, tr("Confirmation"), tr("You seem to be already connected, do you really want to force a reconnection?"),
+                              QMessageBox::Yes | QMessageBox::Cancel) != QMessageBox::Yes)
+        return;
+
+    session->resetBackupServers();
+    session->start();
 }
 
 void MainWindow::closeConnection()
@@ -1368,14 +1370,12 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         } else if (event->type() == QEvent::ShortcutOverride)
         {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if (keyEvent->key() == Qt::Key_F11 ||
-                (keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier))
+            if (keyEvent->key() == Qt::Key_Left && keyEvent->modifiers() == Qt::AltModifier)
             {
                 previousTab();
                 return true;
             }
-            else if (keyEvent->key() == Qt::Key_F12 ||
-                     (keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
+            else if ((keyEvent->key() == Qt::Key_Right && keyEvent->modifiers() == Qt::AltModifier) ||
                      (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::ControlModifier))
             {
                 nextTab();
@@ -1413,13 +1413,7 @@ void MainWindow::newTransfer(Transfer *transfer)
 
 void MainWindow::executeAction(int action)
 {
-    // Get current session
-    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
-    if (!sessionWidget)
-         return;
-
-    Session *session = sessionWidget->session();
-
+    Session *session = getCurrentSession();
     switch ((Action::ActionType) action)
     {
     case Action::Action_ToggleMenuBar:
@@ -1428,13 +1422,19 @@ void MainWindow::executeAction(int action)
     case Action::Action_ToggleStatusBar:
         statusBar()->setVisible(!statusBar()->isVisible());
         break;
+    case Action::Action_PreviousTab:
+        previousTab();
+        break;
+    case Action::Action_NextTab:
+        nextTab();
+        break;
     case Action::Action_RefreshWhoColumn:
-        if (!session->isLogged())
+        if (!session || !session->isLogged())
             return;
         getChannelWidget(session)->refreshWhoColumn();
         break;
     case Action::Action_ToggleAway:
-        if (!session->isLogged())
+        if (!session || !session->isLogged())
             return;
 
         session->deactivateAutoAway();
@@ -1562,6 +1562,13 @@ void MainWindow::toggleStatusBarVisibility()
 
 void MainWindow::aboutToShowWindowsMenu()
 {
+    QShortcut *shortcut = shortcutByActionType(Action::Action_PreviousTab);
+    if (shortcut)
+        _actionPreviousTab->setShortcut(shortcut->key());
+    shortcut = shortcutByActionType(Action::Action_NextTab);
+    if (shortcut)
+        _actionNextTab->setShortcut(shortcut->key());
+
     if (tabWidgetMain->indexOf(SystemWidget::instance()) >= 0)
         _actionToggleSystemLogsVisibility->setText(tr("Hide &system logs"));
     else
