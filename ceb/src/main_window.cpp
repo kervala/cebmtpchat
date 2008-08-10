@@ -988,6 +988,23 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
 void MainWindow::closeCurrentTab()
 {
     QWidget *widget = tabWidgetMain->currentWidget();
+    if (!widget)
+        return;
+
+    if (qobject_cast<ChannelWidget*>(widget))
+    {
+        if (QMessageBox::question(this, tr("Confirmation"), tr("If you close this tab, you session will be closed and all relative tabs too, do you want to continue?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+            closeCurrentSession();
+        return;
+    }
+
+    if (qobject_cast<SystemWidget*>(widget))
+    {
+        showSystemLogs();
+        return;
+    }
+
     if (!widget ||
         qobject_cast<ChannelWidget*>(widget) ||
         qobject_cast<SystemWidget*>(widget)) // Don't close channel widget or system logs
