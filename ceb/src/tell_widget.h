@@ -72,6 +72,9 @@ private:
     void setTextColor(int r, int g, int b);
     void initScriptComboBox();
     void toggleSearchWidgetVisibility();
+    void replayPreviousConversation();
+
+    void displayToken(const Token &token, bool old = false);
 
 private slots:
     void sendText(const QString &text);

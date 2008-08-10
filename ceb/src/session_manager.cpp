@@ -88,6 +88,8 @@ Session *SessionManager::newSession(const SessionConfig &config)
             this, SLOT(newToken(const Token&)));
     connect(session, SIGNAL(loginChanged(const QString &, const QString &)),
             this, SLOT(loginChanged(const QString &, const QString &)));
+    connect(session, SIGNAL(privateConversationIncoming(const QString&)),
+            this, SLOT(privateConversationIncoming(const QString&)));
     return session;
 }
 
@@ -176,4 +178,10 @@ void SessionManager::doTimerIdle()
         if (Profile::instance().idleQuit && minutes >= Profile::instance().idleQuitTimeout && session->isLogged())
             session->sendCommand("quit CeB autoquit", false);
     }
+}
+
+void SessionManager::privateConversationIncoming(const QString &login)
+{
+    Session *session = qobject_cast<Session*>(sender());
+    emit sessionPrivateConversationIncoming(session, login);
 }

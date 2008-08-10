@@ -84,6 +84,8 @@ public:
     const WhoPopulation &whoPopulation() const { return _whoPopulation; }
     const ServerGroups &serverGroups() const { return _serverGroups; }
 
+    const QMap<QString, QList<Token> > &privateConversations() const { return _privateConversations; }
+
     int requestTicket(TokenFactory::Command command);
 
     // Reset the backup servers ring
@@ -99,6 +101,7 @@ signals:
     void socketError(const QString &errorStr);
     void loginChanged(const QString &oldLogin, const QString &newLogin);
     void cleared();
+    void privateConversationIncoming(const QString &login);
 
 private:
     SessionConfig _config;
@@ -118,6 +121,7 @@ private:
     ServerGroups _serverGroups;
     int _getGroupTicketID;
     int _groupsTicketID;
+    QMap<QString, QList<Token> > _privateConversations;
 
     QString logPrefix();
     void logInfo(const QString &message);

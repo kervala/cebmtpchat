@@ -123,6 +123,8 @@ TellWidget::TellWidget(Session *session, const QString &login, QWidget *parent) 
 
     init();
 
+    replayPreviousConversation();
+
     connect(_session, SIGNAL(newToken(const Token&)),
             this, SLOT(newTokenFromSession(const Token&)));
 }
@@ -139,7 +141,7 @@ void TellWidget::sendText(const QString &text)
         _session->sendCommand("tell " + _login + " " + line);
 }
 
-void TellWidget::newTokenFromSession(const Token &token)
+void TellWidget::displayToken(const Token &token, bool old)
 {
     QString login;
     bool youTalk = false;
@@ -208,6 +210,9 @@ void TellWidget::newTokenFromSession(const Token &token)
             displayTimeStamp = false;
         }
 
+    if (old)
+        _tokenRenderer.setGrayMode(true);
+
     if (privateToken)
     {
         QStringList args;
@@ -222,6 +227,8 @@ void TellWidget::newTokenFromSession(const Token &token)
     } else
         _tokenRenderer.displayToken(token, displayTimeStamp);
 
+    if (old)
+        _tokenRenderer.setGrayMode(false);
 /*	if (youTalk && _chatBlock != chatBlockYou)
 	{
         _chatBlock = chatBlockYou;
@@ -249,6 +256,11 @@ void TellWidget::newTokenFromSession(const Token &token)
 
     if (scrollDown)
         scrollOutputToBottom();
+}
+
+void TellWidget::newTokenFromSession(const Token &token)
+{
+    displayToken(token);
 }
 
 void TellWidget::scrollOutputToBottom()
@@ -383,3 +395,16 @@ void TellWidget::search()
 {
     toggleSearchWidgetVisibility();
 }
+
+void TellWidget::replayPreviousConversation()
+{
+    const QList<Token> &tokens = _session->privateConversations()[_login];
+    foreach (const Token &token, tokens)
+        displayToken(token, true);
+    if (tokens.count())
+    {
+        QString text = "*** " + tr("End of the previous conversation : %1").arg(tokens[tokens.count()-1].timeStamp().toString());
+        _textEditOutput->addNewLine(text, Profile::instance().textSkin().timeStampFont().font(), Qt::darkGreen);
+    }
+}
+

@@ -404,6 +404,24 @@ void Session::tokenAnalyzed(const Token &token)
     case Token::YouKickSomeone:
         _whoPopulation.removeUser(token.arguments()[1]);
         break;
+    case Token::SomeoneTellsYou:
+    case Token::SomeoneAsksYou:
+    case Token::SomeoneReplies:
+    {
+        QString login = token.arguments()[1];
+        emit privateConversationIncoming(login);
+        _privateConversations[login] << token;
+    }
+    break;
+    case Token::YouTellToSomeone:
+    case Token::YouAskToSomeone:
+    case Token::YouReply:
+    {
+        QString login = token.arguments()[1];
+        emit privateConversationIncoming(login);
+        _privateConversations[login] << token;
+    }
+    break;
     case Token::SomeoneGroup:
         if (_getGroupTicketID == token.ticketID() && token.ticketID() >= 0)
         {

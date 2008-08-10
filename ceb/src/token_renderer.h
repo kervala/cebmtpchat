@@ -31,16 +31,20 @@ class TokenRenderer
 {
 public:
     TokenRenderer()
-        : _session(0), _textEdit(0) {}
+        : _session(0), _textEdit(0), _grayMode(false) {}
 
     void displayToken(const Token &token, bool timeStamp = false);
 
     void setTextEdit(MyTextEdit *value) { _textEdit = value; }
     void setSession(Session *session) { _session = session; }
 
+    bool grayMode() const { return _grayMode; }
+    void setGrayMode(bool value) { _grayMode = value; }
+
 private:
     Session *_session;
     MyTextEdit *_textEdit;
+    bool _grayMode;
 };
 
 #endif // TOKEN_RENDERER_H

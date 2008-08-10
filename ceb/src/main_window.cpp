@@ -129,6 +129,8 @@ MainWindow::MainWindow()
             this, SLOT(sessionConnected(Session *)));
     connect(&sessionManager, SIGNAL(sessionDisconnected(Session *)),
             this, SLOT(sessionDisconnected(Session *)));
+    connect(&sessionManager, SIGNAL(sessionPrivateConversationIncoming(Session *, const QString&)),
+            this, SLOT(sessionPrivateConversationIncoming(Session *, const QString&)));
 
     TransfersManager &transfersManager = TransfersManager::instance();
     connect(&transfersManager, SIGNAL(newTransferAdded(Transfer *)),
@@ -744,19 +746,7 @@ void MainWindow::newSessionToken(Session *session, const Token &token)
             QSound s(Profile::instance().getAboutMeFileName());
             s.play();
         }
-    case Token::YouTellToSomeone:
-    case Token::YouAskToSomeone:
-    case Token::YouReply:
-    {
-        QString login = token.arguments()[1];
-        TellWidget *widget = getTellWidget(session, login);
-        if (!widget)
-        {
-            widget = newTellWidget(session, login);
-            widget->newTokenFromSession(token);
-        }
-    }
-    break;
+        break;
     case Token::SomeoneBeepsYou:
         if (Profile::instance().soundBeepEnabled)
         {
@@ -1750,4 +1740,11 @@ void MainWindow::showGlobalSendDialog()
     if (dialog.exec() == QDialog::Accepted)
         foreach (Session *session, SessionManager::instance().sessionsList())
             session->send(dialog.text());
+}
+
+void MainWindow::sessionPrivateConversationIncoming(Session *session, const QString &login)
+{
+    TellWidget *widget = getTellWidget(session, login);
+    if (!widget)
+        newTellWidget(session, login);
 }

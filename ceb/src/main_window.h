@@ -217,6 +217,7 @@ private slots:
     void toggleUsersVisibility();
     void sessionConnecting(Session *session);
     void sessionConnected(Session *session);
+    void sessionPrivateConversationIncoming(Session *session, const QString &login);
     void sessionDisconnected(Session *session);
     void tabWidgetMainCustomContextMenuRequested(const QPoint &pos);
     void closeTabTriggered();

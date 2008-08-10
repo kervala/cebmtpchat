@@ -112,12 +112,22 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     segments.segmentByURLs();
 
     // Render all
-    foreach (const RenderSegment &segment, segments)
-        if (lineStarted)
-            _textEdit->addString(segment.text(), segment.font(), segment.color());
-        else
-        {
-            lineStarted = true;
-            _textEdit->addNewLine(segment.text(), segment.font(), segment.color());
-        }
+    if (_grayMode)
+        foreach (const RenderSegment &segment, segments)
+            if (lineStarted)
+                _textEdit->addString(segment.text(), segment.font(), Qt::gray);
+            else
+            {
+                lineStarted = true;
+                _textEdit->addNewLine(segment.text(), segment.font(), Qt::gray);
+            }
+    else
+        foreach (const RenderSegment &segment, segments)
+            if (lineStarted)
+                _textEdit->addString(segment.text(), segment.font(), segment.color());
+            else
+            {
+                lineStarted = true;
+                _textEdit->addNewLine(segment.text(), segment.font(), segment.color());
+            }
 }

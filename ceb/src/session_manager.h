@@ -59,6 +59,7 @@ private slots:
     void loginChanged(const QString &oldLogin, const QString &newLogin);
     void timerAutoconnect();
     void doTimerIdle();
+    void privateConversationIncoming(const QString &login);
 
 signals:
     void newSessionToken(Session *session, const Token &token);
@@ -66,6 +67,7 @@ signals:
     void sessionConnecting(Session *session);
     void sessionDisconnected(Session *session);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
+    void sessionPrivateConversationIncoming(Session *session, const QString &login);
 };
 
 #endif
