@@ -936,19 +936,18 @@ Session *MainWindow::getCurrentSession()
 
 void MainWindow::closeCurrentSession()
 {
-    SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->currentWidget());
-    if (sessionWidget)
-    {
-        Session *session = sessionWidget->session();
-        removeSessionWidgets(session);
-        if (!SessionManager::destroyed())
-            SessionManager::instance().removeSession(session);
+    Session *session = getCurrentSession();
+    if (!session)
+        return;
 
-        // Set focus
-        QWidget *widget = tabWidgetMain->currentWidget();
-        if (widget && widget->focusWidget())
-            widget->focusWidget()->setFocus();
-    }
+    removeSessionWidgets(session);
+    if (!SessionManager::destroyed())
+        SessionManager::instance().removeSession(session);
+
+    // Set focus
+    QWidget *widget = tabWidgetMain->currentWidget();
+    if (widget && widget->focusWidget())
+        widget->focusWidget()->setFocus();
 }
 
 void MainWindow::whoItemDblClicked(const QString &login)
@@ -1497,10 +1496,10 @@ void MainWindow::changeWidgetColor(QWidget *widget, const QColor &color)
 
 void MainWindow::removeSessionWidgets(Session *session)
 {
-    for (int i = tabWidgetMain->count() - 1; i > 0; --i)
+    for (int i = tabWidgetMain->count() - 1; i >= 0; --i)
     {
         SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(tabWidgetMain->widget(i));
-        if (sessionWidget->session() == session)
+        if (sessionWidget && sessionWidget->session() == session)
             removeWidget(sessionWidget);
     }
 }
