@@ -60,7 +60,7 @@ function newToken()
 	if not isTabFocused(tab) then
 		c = getTabColor(tab)
 		if c ~= getColor("#FF0000") then
-			if nickInSentence(tokenArgument(2), getSessionInfo("login")) then
+			if # nickInSentence(tokenArgument(2), getSessionInfo("login")) > 0 then
 				setTabColor(tab, "#FF0000")
 			else
 				setTabColor(tab, "#0000FF")
