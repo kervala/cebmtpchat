@@ -345,6 +345,19 @@ void MainWindow::makeMenuBar()
     _actionNextTab->setShortcutContext(Qt::WidgetShortcut);
     connect(_actionNextTab, SIGNAL(triggered()), this, SLOT(nextTab()));
     menuWindows->addSeparator();
+    _actionMoveTabToPreviousPlace = menuWindows->addAction("");
+    _actionMoveTabToPreviousPlace->setShortcutContext(Qt::WidgetShortcut);
+    _actionMoveTabToPreviousPlace->setVisible(false);
+    connect(_actionMoveTabToPreviousPlace, SIGNAL(triggered()), this, SLOT(moveTabToPreviousPlace()));
+    _actionMoveTabToNextPlace = menuWindows->addAction("");
+    _actionMoveTabToNextPlace->setShortcutContext(Qt::WidgetShortcut);
+    _actionMoveTabToNextPlace->setVisible(false);
+    connect(_actionMoveTabToNextPlace, SIGNAL(triggered()), this, SLOT(moveTabToNextPlace()));
+    _actionCloseCurrentTab = menuWindows->addAction(tr("&Close the tab"));
+    _actionCloseCurrentTab->setShortcutContext(Qt::WidgetShortcut);
+    connect(_actionCloseCurrentTab, SIGNAL(triggered()), this, SLOT(closeCurrentTab()));
+
+    menuWindows->addSeparator();
     _actionToggleSystemLogsVisibility = menuWindows->addAction(tr("Toggle system logs visibility"));
     connect(_actionToggleSystemLogsVisibility, SIGNAL(triggered()), this, SLOT(showSystemLogs()));
 
@@ -972,7 +985,7 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     return tellWidget;
 }
 
-void MainWindow::closeTabWidget()
+void MainWindow::closeCurrentTab()
 {
     QWidget *widget = tabWidgetMain->currentWidget();
     if (!widget ||
@@ -980,18 +993,6 @@ void MainWindow::closeTabWidget()
         qobject_cast<SystemWidget*>(widget)) // Don't close channel widget or system logs
         return;
 
-/*    Session *session = 0;
-    if (qobject_cast<SessionWidget*>(widget))
-        session = qobject_cast<SessionWidget*>(widget)->session();
-
-    ChannelWidget *channelWidget = getChannelWidget(session);
-
-    // Focus channel before removing to avoid double-focus problem
-    if (channelWidget)
-    {
-        tabWidgetMain->setCurrentWidget(channelWidget);
-        channelWidget->focusWidget()->setFocus();
-        }*/
     removeWidget(widget);
 }
 
@@ -1361,10 +1362,9 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         } else if (event->type() == QEvent::KeyPress)
         {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if ((keyEvent->key() == Qt::Key_W && keyEvent->modifiers() == Qt::ControlModifier) ||
-                (keyEvent->key() == Qt::Key_Escape))
+            if (keyEvent->key() == Qt::Key_W && keyEvent->modifiers() == Qt::ControlModifier)
             {
-                closeTabWidget();
+                closeCurrentTab();
                 return true;
             }
         } else if (event->type() == QEvent::ShortcutOverride)
@@ -1417,17 +1417,19 @@ void MainWindow::executeAction(int action)
     switch ((Action::ActionType) action)
     {
     case Action::Action_ToggleMenuBar:
-        menuBar()->setVisible(!menuBar()->isVisible());
-        break;
+        menuBar()->setVisible(!menuBar()->isVisible()); break;
     case Action::Action_ToggleStatusBar:
-        statusBar()->setVisible(!statusBar()->isVisible());
-        break;
+        statusBar()->setVisible(!statusBar()->isVisible()); break;
     case Action::Action_PreviousTab:
-        previousTab();
-        break;
+        previousTab(); break;
     case Action::Action_NextTab:
-        nextTab();
-        break;
+        nextTab(); break;
+    case Action::Action_MoveTabToPrevious:
+        moveTabToPreviousPlace(); break;
+    case Action::Action_MoveTabToNext:
+        moveTabToNextPlace(); break;
+    case Action::Action_CloseTab:
+        closeCurrentTab(); break;
     case Action::Action_RefreshWhoColumn:
         if (!session || !session->isLogged())
             return;
@@ -1569,6 +1571,13 @@ void MainWindow::aboutToShowWindowsMenu()
     if (shortcut)
         _actionNextTab->setShortcut(shortcut->key());
 
+    _actionMoveTabToPreviousPlace->setText(tr("Move the tab to the &left"));
+    _actionMoveTabToNextPlace->setText(tr("Move the tab to the &right"));
+
+    shortcut = shortcutByActionType(Action::Action_CloseTab);
+    if (shortcut)
+        _actionCloseCurrentTab->setShortcut(shortcut->key());
+
     if (tabWidgetMain->indexOf(SystemWidget::instance()) >= 0)
         _actionToggleSystemLogsVisibility->setText(tr("Hide &system logs"));
     else
@@ -1687,4 +1696,14 @@ void MainWindow::sessionDisconnected(Session *session)
 {
     if (session == getCurrentSession())
         refreshStatusLabel();
+}
+
+void MainWindow::moveTabToPreviousPlace()
+{
+    // TODO : wait for Qt4.5 and tabs movable
+}
+
+void MainWindow::moveTabToNextPlace()
+{
+    // TODO : wait for Qt4.5 and tabs movable
 }

@@ -39,6 +39,15 @@ Action::Action(ActionType actionType)
     case Action_NextTab:
         _keySequence = QKeySequence(Qt::Key_F12);
         break;
+    case Action_MoveTabToPrevious:
+        _keySequence = QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Left);
+        break;
+    case Action_MoveTabToNext:
+        _keySequence = QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Right);
+        break;
+    case Action_CloseTab:
+        _keySequence = QKeySequence(Qt::Key_Escape);
+        break;
     case Action_RefreshWhoColumn:
         _keySequence = QKeySequence(Qt::Key_F5);
         break;
@@ -61,6 +70,9 @@ QString Action::name(ActionType type)
     case Action_ToggleStatusBar: return "ToggleStatusBar";
     case Action_PreviousTab: return "PreviousTab";
     case Action_NextTab: return "NextTab";
+    case Action_MoveTabToPrevious: return "MoveTabToPrevious";
+    case Action_MoveTabToNext: return "MoveTabToNext";
+    case Action_CloseTab: return "CloseTab";
     case Action_RefreshWhoColumn: return "RefreshWhoColumn";
     case Action_ToggleAway: return "ToggleAway";
     case Action_Reconnect: return "Reconnect";
@@ -74,8 +86,11 @@ QString Action::caption(ActionType type)
     {
     case Action_ToggleMenuBar: return QObject::tr("Show/hide the menu bar");
     case Action_ToggleStatusBar: return QObject::tr("Show/hide the status bar");
-    case Action_PreviousTab: return "Focus the previous tab";
-    case Action_NextTab: return "Focus the next tab";
+    case Action_PreviousTab: return QObject::tr("Focus the previous tab");
+    case Action_NextTab: return QObject::tr("Focus the next tab");
+    case Action_MoveTabToPrevious: return QObject::tr("Move the current tab to the previous place");
+    case Action_MoveTabToNext: return QObject::tr("Move the current tab to the next place");
+    case Action_CloseTab: return QObject::tr("Close the current tab");
     case Action_RefreshWhoColumn: return QObject::tr("Refresh the who column on the current server");
     case Action_ToggleAway: return QObject::tr("Toggle the away state on the current server");
     case Action_Reconnect: return QObject::tr("Reconnect on the current server");

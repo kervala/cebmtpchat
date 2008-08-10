@@ -106,6 +106,9 @@ private:
     QAction *_actionToggleUsersVisibility;
     QAction *_actionPreviousTab;
     QAction *_actionNextTab;
+    QAction *_actionMoveTabToPreviousPlace;
+    QAction *_actionMoveTabToNextPlace;
+    QAction *_actionCloseCurrentTab;
 
     MainWindow();
     ~MainWindow();
@@ -180,7 +183,7 @@ private slots:
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void newProgramVersion(const QString &);
     void whoItemDblClicked(const QString &login);
-    void closeTabWidget();
+    void closeCurrentTab();
 //  void highlightSessionWidget();
     void tabWidgetMainCurrentChanged(int index);
     void whoUserDoubleClicked(const QString &login);
@@ -202,6 +205,8 @@ private slots:
     void captionChanged();
     void previousTab();
     void nextTab();
+    void moveTabToPreviousPlace();
+    void moveTabToNextPlace();
     void toggleMenuBarVisibility();
     void toggleStatusBarVisibility();
     void toggleTopicVisibility();
