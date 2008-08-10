@@ -985,13 +985,9 @@ TellWidget *MainWindow::newTellWidget(Session *session, const QString &login)
     return tellWidget;
 }
 
-void MainWindow::closeCurrentTab()
+void MainWindow::closeTab(QWidget *tab)
 {
-    QWidget *widget = tabWidgetMain->currentWidget();
-    if (!widget)
-        return;
-
-    if (qobject_cast<ChannelWidget*>(widget))
+    if (qobject_cast<ChannelWidget*>(tab))
     {
         if (QMessageBox::question(this, tr("Confirmation"), tr("If you close this tab, you session will be closed and all relative tabs too, do you want to continue?"),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
@@ -999,18 +995,22 @@ void MainWindow::closeCurrentTab()
         return;
     }
 
-    if (qobject_cast<SystemWidget*>(widget))
+    if (qobject_cast<SystemWidget*>(tab))
     {
         showSystemLogs();
         return;
     }
 
-    if (!widget ||
-        qobject_cast<ChannelWidget*>(widget) ||
-        qobject_cast<SystemWidget*>(widget)) // Don't close channel widget or system logs
+    removeWidget(tab);
+}
+
+void MainWindow::closeCurrentTab()
+{
+    QWidget *widget = tabWidgetMain->currentWidget();
+    if (!widget)
         return;
 
-    removeWidget(widget);
+    closeTab(widget);
 }
 
 /*void MainWindow::highlightSessionWidget()
@@ -1367,15 +1367,9 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress)
         {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            QWidget *widget = tabWidgetMain->widgetByTabPosition(mouseEvent->pos());
-            if (qobject_cast<ChannelWidget*>(widget)) // Don't remove channel widget
-                return true;
-            SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
-            if (sessionWidget)
-            {
-                removeWidget(sessionWidget);
-                return true;
-            }
+            QWidget *widget = tabWidgetMain->widgetByTabPosition(mouseEvent->globalPos());
+            if (widget && mouseEvent->button() == Qt::MidButton)
+                closeTab(widget);
         } else if (event->type() == QEvent::KeyPress)
         {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);

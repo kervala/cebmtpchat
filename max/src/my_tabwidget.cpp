@@ -27,5 +27,5 @@ QRect MyTabWidget::tabRect(int tabIndex) const
 
 QWidget *MyTabWidget::widgetByTabPosition(const QPoint &pos) const
 {
-    return widget(tabBar()->tabAt(pos));
+    return widget(tabBar()->tabAt(tabBar()->mapFromGlobal(pos)));
 }

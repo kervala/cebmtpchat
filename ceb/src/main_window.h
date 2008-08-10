@@ -161,6 +161,8 @@ private:
 private:
     bool m_firstShow;
 
+    void closeTab(QWidget *tab);
+
 private slots:
     void newConnection();
     void reconnect();
