@@ -403,7 +403,7 @@ void TellWidget::replayPreviousConversation()
         displayToken(token, true);
     if (tokens.count())
     {
-        QString text = "*** " + tr("End of the previous conversation : %1").arg(tokens[tokens.count()-1].timeStamp().toString());
+        QString text = "*** " + tr("Previous conversation ended at %1").arg(tokens[tokens.count()-1].timeStamp().toString());
         _textEditOutput->addNewLine(text, Profile::instance().textSkin().timeStampFont().font(), Qt::darkGreen);
     }
 }
