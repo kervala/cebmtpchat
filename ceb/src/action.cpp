@@ -54,6 +54,9 @@ Action::Action(ActionType actionType)
     case Action_ToggleAway:
         _keySequence = QKeySequence(Qt::Key_F4);
         break;
+    case Action_GlobalSend:
+        _keySequence = QKeySequence(Qt::CTRL + Qt::Key_G);
+        break;
     case Action_Reconnect:
         _keySequence = QKeySequence(Qt::Key_F9);
         break;
@@ -75,6 +78,7 @@ QString Action::name(ActionType type)
     case Action_CloseTab: return "CloseTab";
     case Action_RefreshWhoColumn: return "RefreshWhoColumn";
     case Action_ToggleAway: return "ToggleAway";
+    case Action_GlobalSend: return "GlobalSend";
     case Action_Reconnect: return "Reconnect";
     default: return "";
     }
@@ -93,6 +97,7 @@ QString Action::caption(ActionType type)
     case Action_CloseTab: return QObject::tr("Close the current tab");
     case Action_RefreshWhoColumn: return QObject::tr("Refresh the who column on the current server");
     case Action_ToggleAway: return QObject::tr("Toggle the away state on the current server");
+    case Action_GlobalSend: return QObject::tr("Broadcast a message");
     case Action_Reconnect: return QObject::tr("Reconnect on the current server");
     default: return "";
     }

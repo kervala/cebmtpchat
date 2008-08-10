@@ -37,7 +37,7 @@ public:
     Session *newSession(const SessionConfig &config);
     void removeSession(Session *session);
 
-    QList<Session*> &sessionsList();
+    QList<Session*> &sessionsList() { return _sessionsList; }
 
 private:
     static SessionManager *_instance;

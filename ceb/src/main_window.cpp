@@ -47,9 +47,10 @@
 #include "logger.h"
 #include "paths.h"
 #include "event_script.h"
+#include "my_textedit.h"
+#include "dialog_broadcast.h"
 
 #include "main_window.h"
-#include "my_textedit.h"
 
 #ifdef Q_OS_WIN32
 
@@ -1458,6 +1459,9 @@ void MainWindow::executeAction(int action)
         else
             session->sendCommand("set away on");
         break;
+    case Action::Action_GlobalSend:
+        showGlobalSendDialog();
+        break;
     case Action::Action_Reconnect:
         reconnect();
         break;
@@ -1738,4 +1742,12 @@ void MainWindow::tabWidgetMainCustomContextMenuRequested(const QPoint &pos)
 void MainWindow::closeTabTriggered()
 {
     closeTab(_contextMenuWidget);
+}
+
+void MainWindow::showGlobalSendDialog()
+{
+    DialogBroadcast dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+        foreach (Session *session, SessionManager::instance().sessionsList())
+            session->send(dialog.text());
 }

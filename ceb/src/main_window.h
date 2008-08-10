@@ -158,6 +158,7 @@ private:
     QShortcut *shortcutByActionType(Action::ActionType type) const;
 
     void refreshStatusLabel();
+    void showGlobalSendDialog();
 
 private:
     bool m_firstShow;

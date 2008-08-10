@@ -37,6 +37,7 @@ public:
         Action_CloseTab,
         Action_RefreshWhoColumn,
         Action_ToggleAway,
+        Action_GlobalSend,
         Action_Reconnect,
         Action_End = Action_Reconnect
     };

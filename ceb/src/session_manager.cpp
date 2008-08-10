@@ -99,11 +99,6 @@ void SessionManager::removeSession(Session *session)
     delete session;
 }
 
-QList<Session*> &SessionManager::sessionsList()
-{
-    return _sessionsList;
-}
-
 void SessionManager::newToken(const Token &token)
 {
     Session *session = qobject_cast<Session*>(sender());
