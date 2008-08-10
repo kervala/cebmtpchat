@@ -7,11 +7,10 @@ class MyTabBar : public QTabBar
 {
     Q_OBJECT
 
-    public:
-    MyTabBar(QWidget *parent = 0) : QTabBar(parent) {}
+public:
+    MyTabBar(QWidget *parent = 0);
 
 protected:
-//	QSize tabSizeHint(int index) const;
 };
 
 #endif // MY_TABBAR_H

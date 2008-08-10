@@ -154,6 +154,9 @@ MainWindow::MainWindow()
     tabWidgetMain->installEventFilter(this);
     setCentralWidget(tabWidgetMain);
 
+    connect(tabWidgetMain, SIGNAL(tabBarCustomContextMenuRequested(const QPoint &)),
+            this, SLOT(tabWidgetMainCustomContextMenuRequested(const QPoint &)));
+
     applyProfileOnTabWidget();
 
     // Create system dialog
@@ -1716,4 +1719,23 @@ void MainWindow::moveTabToPreviousPlace()
 void MainWindow::moveTabToNextPlace()
 {
     // TODO : wait for Qt4.5 and tabs movable
+}
+
+void MainWindow::tabWidgetMainCustomContextMenuRequested(const QPoint &pos)
+{
+    QPoint globalPos = tabWidgetMain->globalTabBarPos(pos);
+    _contextMenuWidget = tabWidgetMain->widgetByTabPosition(globalPos);
+
+    QMenu menu;
+
+    QAction *actionCloseTab = new QAction(tr("&Close this tab"), &menu);
+    menu.addAction(actionCloseTab);
+    connect(actionCloseTab, SIGNAL(triggered()), this, SLOT(closeTabTriggered()));
+
+    menu.exec(globalPos);
+}
+
+void MainWindow::closeTabTriggered()
+{
+    closeTab(_contextMenuWidget);
 }

@@ -1,9 +1,10 @@
+#include <QAction>
+
 #include "my_tabbar.h"
 
-/*QSize MyTabBar::tabSizeHint(int index) const
-  {
-  QSize size = QTabBar::tabSizeHint(index);
+MyTabBar::MyTabBar(QWidget *parent)
+    : QTabBar(parent)
+{
+    setContextMenuPolicy(Qt::CustomContextMenu);
+}
 
-  size.setWidth(size.width() + 16);
-  return size;
-  }*/

@@ -98,6 +98,7 @@ private:
     QList<QShortcut*> actionShortcuts;
     QLabel *_statusMessageLabel;
     QLabel *_statusInfosLabel;
+    QWidget *_contextMenuWidget;
 
     QAction *_actionToggleMenuBarVisibility;
     QAction *_actionToggleStatusBarVisibility;
@@ -216,6 +217,8 @@ private slots:
     void sessionConnecting(Session *session);
     void sessionConnected(Session *session);
     void sessionDisconnected(Session *session);
+    void tabWidgetMainCustomContextMenuRequested(const QPoint &pos);
+    void closeTabTriggered();
 };
 
 #endif // MAIN_WINDOW_H

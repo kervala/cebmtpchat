@@ -14,6 +14,11 @@ public:
     void setTabTextColor(int tabIndex, const QColor &color);
     QRect tabRect(int tabIndex) const;
     QWidget *widgetByTabPosition(const QPoint &pos) const; //!< returns a widget in function of a position supposed to be in a tabrect
+
+    QPoint globalTabBarPos(const QPoint &pos) const;
+
+signals:
+    void tabBarCustomContextMenuRequested(const QPoint &pos);
 };
 
 #endif

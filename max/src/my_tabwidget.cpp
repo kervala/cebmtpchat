@@ -6,6 +6,9 @@
 MyTabWidget::MyTabWidget(QWidget *parent) : QTabWidget(parent)
 {
     setTabBar(new MyTabBar(this));
+
+    connect(tabBar(), SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SIGNAL(tabBarCustomContextMenuRequested(const QPoint &)));
 }
 
 void MyTabWidget::setTabTextColor(int tabIndex, const QColor &color)
@@ -28,4 +31,9 @@ QRect MyTabWidget::tabRect(int tabIndex) const
 QWidget *MyTabWidget::widgetByTabPosition(const QPoint &pos) const
 {
     return widget(tabBar()->tabAt(tabBar()->mapFromGlobal(pos)));
+}
+
+QPoint MyTabWidget::globalTabBarPos(const QPoint &pos) const
+{
+    return tabBar()->mapToGlobal(pos);
 }
