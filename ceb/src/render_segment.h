@@ -22,13 +22,18 @@
 #include <QString>
 #include <QFont>
 #include <QColor>
+#include <QList>
+#include <QRegExp>
 
 class RenderSegment
 {
 public:
     RenderSegment(const QString &text,
                   const QFont &font,
-                  const QColor &color);
+                  const QColor &color)
+        : m_text(text),
+          m_font(font),
+          m_color(color) {}
 
     const QString &text() const { return m_text; }
     void setText(const QString &value) { m_text = value; }
@@ -41,6 +46,30 @@ private:
     QString m_text;
     QFont m_font;
     QColor m_color;
+};
+
+class RenderSegmentList : public QList<RenderSegment>
+{
+public:
+    struct TextRange
+    {
+        int start;
+        int length;
+        int end() const { return start + length - 1; }
+    };
+
+public:
+    RenderSegmentList();
+
+    QList<TextRange> urlRanges(const QString &text) const;
+
+    void segmentByURLs();
+
+private:
+    QList<QRegExp> urlRegexp;
+
+    int segmentIndex(const RenderSegmentList &segments, int charIndex) const;
+    TextRange segmentRange(const RenderSegmentList &segments, int segmentIndex) const;
 };
 
 #endif

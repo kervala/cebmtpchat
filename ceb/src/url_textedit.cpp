@@ -29,13 +29,6 @@ QColor UrlTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
 
 UrlTextEdit::UrlTextEdit(QWidget *parent) : QTextBrowser(parent)
 {
-    urlRegexp << QRegExp("http:\\/\\/\\S*");
-    urlRegexp << QRegExp("mtpchat:\\/\\/\\S*");
-    urlRegexp << QRegExp("ftp:\\/\\/\\S*");
-    urlRegexp << QRegExp("https:\\/\\/\\S*");
-    urlRegexp << QRegExp("www\\.\\S*");
-    urlRegexp << QRegExp("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z.]+");
-
     connect(this, SIGNAL(anchorClicked(const QUrl &)),
             this, SLOT(myAnchorClicked(const QUrl &)));
 
@@ -90,55 +83,13 @@ void UrlTextEdit::insertLine(QTextCursor &cursor, const QString &line, const QFo
     urlFormat.setAnchorHref("");
 
     // Search for URLs
-    QList<UrlRange> urlRanges;
-
-    foreach (const QRegExp &regexp, urlRegexp)
-    {
-        int index = line.indexOf(regexp);
-        while (index >= 0)
-        {
-            UrlRange range;
-            range.start = index;
-            range.length = regexp.matchedLength();
-
-            urlRanges << range;
-
-            index = line.indexOf(regexp, index + regexp.matchedLength());
-        }
-    }
-
-    // Bubble sort by <range.start>
-    for (int i = urlRanges.count() - 1; i > 0; i--)
-        for (int j = 0; j < i; j++)
-        {
-            UrlRange range1 = urlRanges[j];
-            UrlRange range2 = urlRanges[j + 1];
-            if (range1.start >= range2.start)
-            {
-                // Exchange
-                urlRanges[j] = range2;
-                urlRanges[j + 1] = range1;
-            }
-        }
-
-    // Remove cross URLs
-    if (urlRanges.count() > 1)
-        for (int i = urlRanges.count() - 1; i > 0; i--)
-        {
-            UrlRange iRange = urlRanges[i];
-            UrlRange beforeRange = urlRanges[i - 1];
-
-            if (iRange.start >= beforeRange.start &&
-                iRange.start < (beforeRange.start + beforeRange.length))
-                // Cross-over => remove iRange
-                urlRanges.removeAt(i);
-        }
+    QList<RenderSegmentList::TextRange> urlRanges = _segments.urlRanges(line);
 
     // Format work
     int pos = 0;
     for (int i = 0; i < urlRanges.count(); i++)
     {
-        UrlRange range = urlRanges[i];
+        RenderSegmentList::TextRange range = urlRanges[i];
 
         // Normal format
         if (pos < range.start)

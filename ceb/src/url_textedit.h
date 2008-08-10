@@ -22,6 +22,8 @@
 #include <QTextBrowser>
 #include <QProcess>
 
+#include "render_segment.h"
+
 class UrlTextEdit : public QTextBrowser
 {
     Q_OBJECT
@@ -44,14 +46,7 @@ protected:
 
 private:
     static QColor _textBackgroundColor;
-
-    struct UrlRange
-    {
-        int start;
-        int length;
-    };
-
-    QList<QRegExp> urlRegexp;
+    RenderSegmentList _segments;
 
 private slots:
     void myAnchorClicked(const QUrl &link);

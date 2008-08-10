@@ -20,7 +20,6 @@
 #include "token_display.h"
 #include "token_factory.h"
 #include "render_script.h"
-#include "render_segment.h"
 
 #include "token_renderer.h"
 
@@ -43,7 +42,7 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     }
 
     // Compute segments
-    QList<RenderSegment> segments;
+    RenderSegmentList segments;
     MtpRegExp regExp = TokenFactory::defaultFactory.tokenRegexp()[token.type()];
     const QString &allLine = token.arguments()[0];
     QFont allLineFont = textSkin.tokenFont(token.type(), 0);
@@ -110,7 +109,7 @@ void TokenRenderer::displayToken(const Token &token, bool timeStamp)
     // Execute modifier
     RenderScript::executeRenderScript(_session, token.type(), segments);
 
-	// TODO: search for URL patterns and re-segment all
+    segments.segmentByURLs();
 
     // Render all
     foreach (const RenderSegment &segment, segments)

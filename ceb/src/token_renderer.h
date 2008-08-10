@@ -19,14 +19,19 @@
 #ifndef TOKEN_RENDERER_H
 #define TOKEN_RENDERER_H
 
+#include <QList>
+#include <QRegExp>
+
 #include "session.h"
 #include "my_textedit.h"
 #include "token.h"
+#include "render_segment.h"
 
 class TokenRenderer
 {
 public:
-    TokenRenderer() : _session(0), _textEdit(0) {}
+    TokenRenderer()
+        : _session(0), _textEdit(0) {}
 
     void displayToken(const Token &token, bool timeStamp = false);
 
