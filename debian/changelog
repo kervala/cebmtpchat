@@ -1,3 +1,46 @@
+cebmtpchat (0.1.13) intrepid; urgency=low
+
+  * only my login in color in sentences about me instead of the entire line
+  * when a tab is closed, the new focused tab is the last focused one
+  * use of system default color for text
+
+ -- Kervala <kervala@gmail.com>  Mon, 11 Aug 2008 18:47:38 +0200
+
+cebmtpchat (0.1.12) intrepid; urgency=low
+
+  * Re-write the old text in tell tabs
+
+ -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 20:48:55 +0200
+
+cebmtpchat (0.1.11) intrepid; urgency=low
+
+  * bug fix in colorization
+  * broadcasting dialog (Ctrl + g invocation)
+  * contextual menu on tabs
+
+ -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 20:23:22 +0200
+
+cebmtpchat (0.1.10) intrepid; urgency=low
+
+  * crash fixed when the last connection is closed
+
+ -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 18:26:38 +0200
+
+cebmtpchat (0.1.9) intrepid; urgency=low
+
+  * url re-segmentation done
+  * tabs can be removed with middle-click
+  * channel_widget can be closed with ESC too
+  * new shortcut for close and new menu entry
+
+ -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 17:55:36 +0200
+
+cebmtpchat (0.1.8) intrepid; urgency=low
+
+  * previousTab() and nextTab() are now controlled by customizable shortcuts
+
+ -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 14:21:13 +0200
+
 cebmtpchat (0.1.7) intrepid; urgency=low
 
   * Background colors are not forced and are now using system defaults
