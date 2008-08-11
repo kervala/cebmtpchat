@@ -17,6 +17,8 @@
  */
 
 #include <xml_handler.h>
+#include <QTextBrowser>
+#include <QApplication>
 
 #include "token_factory.h"
 #include "token_info.h"
@@ -141,6 +143,8 @@ void TextSkin::init()
 {
     if (_isDefaultSkin)
     {
+        QTextBrowser widget;
+
         // General parameters
 #ifdef Q_OS_WIN32
         QFont font("Courier New", 8);
@@ -152,11 +156,11 @@ void TextSkin::init()
         QFont font("Bitstream Vera Sans Mono", 8);
 		QFont timeStampFont("Bitstream Vera Sans Mono", 7);
 #endif
-        _textFont.setFont(font);
-        _textFont.setColor(Qt::black);
-
         QFont defaultFont;
-        QColor defaultColor = Qt::black;
+        QColor defaultColor = QApplication::palette(&widget).text().color();
+
+        _textFont.setFont(font);
+        _textFont.setColor(defaultColor);
         _inputTextFont.setFont(defaultFont);
         _inputTextFont.setColor(defaultColor);
         _whoTextFont.setFont(defaultFont);
@@ -166,8 +170,8 @@ void TextSkin::init()
         _timeStampFont.setFont(timeStampFont);
         _timeStampFont.setColor(QColor(50, 50, 50));
 
-        _backgroundColor = new QColor(255, 255, 240);
-        _awayBackgroundColor = new QColor(215, 215, 200);
+        _backgroundColor = new QColor(QApplication::palette(&widget).base().color());
+        _awayBackgroundColor = new QColor(QApplication::palette(&widget).dark().color());
 
         QColor systemColor(0, 0, 200);
 
