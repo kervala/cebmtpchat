@@ -1,7 +1,7 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "ceb_ryzom_20080808.exe"
+OutFile "ceb_ryzom_20080811.exe"
 
 RequestExecutionLevel admin
 

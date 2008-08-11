@@ -18,4 +18,4 @@
 
 // any format
 
-#define VERSION "20080808"
+#define VERSION "20080811"
