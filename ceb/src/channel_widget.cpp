@@ -83,8 +83,7 @@ void ChannelWidget::init()
     _lineEditTopic->installEventFilter(this);
     _lineEditTopic->setReadOnly(true);
     QPalette palette = _lineEditTopic->palette();
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, getBackgroundColor());
     _lineEditTopic->setPalette(palette);
     topicLayout->addWidget(_lineEditTopic);
     _widgetTopic->setVisible(Profile::instance().topicWindowVisible);
@@ -114,8 +113,7 @@ void ChannelWidget::init()
     _textEditOutput->setReadOnly(true);
     _textEditOutput->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     palette =_textEditOutput->palette();
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, getBackgroundColor());
     palette.setColor(QPalette::Inactive, QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
     _textEditOutput->setPalette(palette);
     sizePolicy = outputWidget->sizePolicy();
@@ -186,8 +184,7 @@ void ChannelWidget::init()
     _treeViewWho->addAction(action);*/
 
     palette = _treeViewWho->palette();
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, getBackgroundColor());
     _treeViewWho->setPalette(palette);
     _treeViewWho->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     whoLayout->addWidget(_treeViewWho);
@@ -212,9 +209,9 @@ void ChannelWidget::init()
 
     // LineEdit
     _lineEditWidget = new ChatLineWidget;
+
     palette = _lineEditWidget->palette();
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, getBackgroundColor());
     _lineEditWidget->setPalette(palette);
     connect(_lineEditWidget, SIGNAL(textValidated(const QString &)),
             this, SLOT(sendLineEditText(const QString &)));
@@ -225,8 +222,7 @@ void ChannelWidget::init()
     // HistoryWidget
     _historyWidget = new HistoryWidget;
     palette = _historyWidget->palette();
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-        palette.setColor(QPalette::Base, Profile::instance().textSkin().backgroundColor());
+    palette.setColor(QPalette::Base, getBackgroundColor());
     _historyWidget->setPalette(palette);
     _historyWidget->setCompletionMode(true);
     connect(_historyWidget, SIGNAL(textValidated(const QString &)),
@@ -413,12 +409,7 @@ void ChannelWidget::newToken(const Token &token)
         break;
     case Token::YouAway:
     {
-        QColor background;
-        if (Profile::instance().textSkin().isForcedAwayBackgroundColor())
-            background = Profile::instance().textSkin().awayBackgroundColor();
-        else
-            background = QApplication::palette(this).alternateBase().color();
-        colorizeChatItems(background);
+        colorizeChatItems(getAwayBackgroundColor());
         if (Profile::instance().awaySeparatorLines) // Away separator
            _textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
        _textEditOutput->isAway = true;
@@ -426,12 +417,7 @@ void ChannelWidget::newToken(const Token &token)
     break;
     case Token::YouBack:
     {
-        QColor background;
-        if (Profile::instance().textSkin().isForcedBackgroundColor())
-            background = Profile::instance().textSkin().backgroundColor();
-        else
-            background = QApplication::palette(this).base().color();
-        colorizeChatItems(background);
+        colorizeChatItems(getBackgroundColor());
         if (Profile::instance().awaySeparatorLines) // Away separator
            _textEditOutput->addNewLine(Profile::instance().getAwaySeparator(), Profile::instance().textSkin().textFont().font(), Profile::instance().awaySeparatorColor);
        _textEditOutput->isAway = false;
@@ -569,6 +555,30 @@ void ChannelWidget::newToken(const Token &token)
        _textEditOutput->scrollOutputToBottom();
 }
 
+QColor ChannelWidget::getAwayBackgroundColor() const
+{
+    QColor background;
+
+    if (Profile::instance().textSkin().isForcedAwayBackgroundColor())
+        background = Profile::instance().textSkin().awayBackgroundColor();
+    else
+        background = QApplication::palette(this).dark().color();
+
+    return background;
+}
+
+QColor ChannelWidget::getBackgroundColor() const
+{
+    QColor background;
+
+    if (Profile::instance().textSkin().isForcedBackgroundColor())
+        background = Profile::instance().textSkin().backgroundColor();
+    else
+        background = QApplication::palette(this).base().color();
+
+    return background;
+}
+
 void ChannelWidget::colorizeChatItems(const QColor &color)
 {
     // Topic
@@ -618,14 +628,7 @@ void ChannelWidget::sessionConnecting()
 
 void ChannelWidget::sessionConnected()
 {
-    QColor background;
-
-    if (Profile::instance().textSkin().isForcedBackgroundColor())
-       background = Profile::instance().textSkin().backgroundColor();
-    else
-       background = QApplication::palette(this).base().color();
-
-    colorizeChatItems(background);
+    colorizeChatItems(getBackgroundColor());
 
     _manualPassword = "";
     _stackedWidgetEntry->setCurrentIndex(0);
@@ -675,12 +678,7 @@ void ChannelWidget::sessionDisconnected()
     if (_timerKeepAlive.isActive())
         _timerKeepAlive.stop();
 //    _tableWidgetWho->clear();
-        QColor background;
-    if (Profile::instance().textSkin().isForcedAwayBackgroundColor())
-        background = Profile::instance().textSkin().awayBackgroundColor();
-    else
-        background = QApplication::palette(this).alternateBase().color();
-    colorizeChatItems(background);
+    colorizeChatItems(getBackgroundColor());
 }
 
 void ChannelWidget::sessionSocketError(const QString &errorStr)

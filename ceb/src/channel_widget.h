@@ -94,6 +94,8 @@ private:
     WhoSortModel *_whoSortModel;
 
     void init();
+    QColor getAwayBackgroundColor() const;
+    QColor getBackgroundColor() const;
     void colorizeChatItems(const QColor &color);
     void initScriptComboBox();
     void toggleSearchWidgetVisibility();
