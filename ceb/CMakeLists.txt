@@ -1,18 +1,17 @@
 PROJECT(CEB_LOCAL)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
+
+FIND_PACKAGE(Lua51 REQUIRED)
 
 SET(QT_USE_QTXML TRUE)
 SET(QT_USE_QTNETWORK TRUE)
 
 INCLUDE(${QT_USE_FILE})
 
+INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
+
 INCLUDE_DIRECTORIES(${CEB_SOURCE_DIR}/max/src)
-IF(WIN32)
-	INCLUDE_DIRECTORIES(${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src)
-ELSE(WIN32)
-	INCLUDE_DIRECTORIES(/usr/include/lua5.1)
-ENDIF(WIN32)
 
 SET(CEB_SRCS
 	src/main.cpp
@@ -187,11 +186,15 @@ ENDIF(WIN32)
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} /usr/lib/liblua5.1.so
+		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${LUA_LIBRARY}
+#/usr/lib/libSM.so /usr/lib/libICE.so /usr/lib/libXrender.so /usr/lib/libglib-2.0.so
+#/usr/lib/libgthread-2.0.so /usr/lib/libXi.so /usr/lib/libXrandr.so
+#/usr/lib/libfreetype.so /usr/lib/libfontconfig.so
+#/usr/lib/libpng.so
 	)
 ELSEIF(WIN32)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/Release/max.lib ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY} ${CEB_SOURCE_DIR}/CONTRIB/lua-5.1/src/lua51.lib
+		ceb ${CEB_SOURCE_DIR}/max/lib/Release/max.lib ${QT_LIBRARIES} ${LUA_LIBRARY} ${QT_QTMAIN_LIBRARY}
 	)
 ENDIF(UNIX)
 
