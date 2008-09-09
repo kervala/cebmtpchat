@@ -7,6 +7,8 @@ Standards-Version: 3.8.0
 
 Package: cebmtpchat
 Architecture: any
-Depends: libqt4-core, libqt4-gui, lua5.1
+Depends: libqt4-core, libqt4-gui, liblua5.1-0
 Description: An <Mtp> Chat ! client written in Qt4
  CeB is a multiplatform client for an old type of chat server started at the college and which continues to work :-)
+ .
+ Homepage : http://code.google.com/p/cebmtpchat
