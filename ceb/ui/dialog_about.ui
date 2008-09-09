@@ -53,7 +53,7 @@
       <widget class="QLabel" name="labelText" >
        <property name="text" >
         <string>Developped by: Garou, Kervala
-Some LUA parts are from Ace, Drealmer and Ben</string>
+Some Lua parts are from Ace, Drealmer and Ben</string>
        </property>
        <property name="alignment" >
         <set>Qt::AlignCenter</set>
