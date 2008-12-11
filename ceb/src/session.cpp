@@ -145,6 +145,9 @@ void Session::send(const QString &message, bool killIdle)
         // Avoid TELNET command code
         QString toSend = msg.replace(255, QString("%1%1").arg(QChar(255))) + '\n';
 
+        // convert tab to space
+        toSend = toSend.replace('\t', ' ');
+
         // Ok, encode it and send!
         _socket->write(codec->fromUnicode(toSend));
     }
