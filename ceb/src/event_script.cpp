@@ -38,7 +38,7 @@ QColor g_userBackgroundColor;
 
 int getEntry(lua_State *l)
 {
-    lua_pushstring(l, g_entryText.toLatin1());
+    lua_pushstring(l, g_entryText.toUtf8().data());
 
     return 1;
 }
@@ -50,7 +50,7 @@ int setEntry(lua_State *l)
         return 0;
 
     if (lua_isstring(l, 1))
-        g_entryText = QString(lua_tostring(l, 1));
+        g_entryText = QString::fromUtf8(lua_tostring(l, 1));
 
     return 0;
 }

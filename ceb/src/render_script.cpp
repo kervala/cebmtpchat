@@ -68,7 +68,7 @@ int setSegmentText(lua_State *l)
     if (!lua_isstring(l, 2))
         return 0;
 
-    (*gSegments)[argNum].setText(lua_tostring(l, 2));
+    (*gSegments)[argNum].setText(QString::fromUtf8(lua_tostring(l, 2)));
 
     return 0;
 }
@@ -82,7 +82,7 @@ int getSegmentText(lua_State *l)
         return 0;
     int argNum = (int) lua_tonumber(l, 1);
 
-    lua_pushstring(l, (*gSegments)[argNum].text().toLatin1());
+    lua_pushstring(l, (*gSegments)[argNum].text().toUtf8().data());
     return 1;
 }
 

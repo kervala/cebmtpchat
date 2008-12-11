@@ -53,7 +53,7 @@ QString executeLuaFilter(const QString &filterName, const QString &line)
 
     // Push functions and arguments
     lua_getglobal(L, "InputFilter");  // function to be called
-    lua_pushstring(L, line.toLatin1());
+    lua_pushstring(L, line.toUtf8().data());
 
     // do the call (1 arguments, 1 result)
     if (lua_pcall(L, 1, 1, 0))
@@ -69,7 +69,7 @@ QString executeLuaFilter(const QString &filterName, const QString &line)
         return "";
     }
     res = lua_tostring(L, -1);
-    result = QString(res);
+    result = QString::fromUtf8(res);
     lua_pop(L, 1);  // Pop returned value
     lua_close(L);
 
