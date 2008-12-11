@@ -473,17 +473,9 @@ void TokenFactory::createTokenRegularExpressions()
 
     // Fill send regexp
     _sendTokenRegexp.clear();
-    if (_serverType == Mtp)
-    {
-        _sendTokenRegexp << QRegExp("^tell ("LOGIN_RE") (.*)$"); // SendToken::Tell
-        _sendTokenRegexp << QRegExp("^reply (.*)$"); // SendToken::Reply
-        _sendTokenRegexp << QRegExp("^sendmsg ("LOGIN_RE") (.*)$"); // SendToken::Sendmsg
-    } else
-    {
-        _sendTokenRegexp << QRegExp("^.tell ("LOGIN_RE") (.*)$"); // SendToken::Tell
-        _sendTokenRegexp << QRegExp("^.reply (.*)$"); // SendToken::Reply
-        _sendTokenRegexp << QRegExp("^.sendmsg ("LOGIN_RE") (.*)$"); // SendToken::Sendmsg
-    }
+    _sendTokenRegexp << QRegExp("^" + serverCommand("tell") + " ("LOGIN_RE") (.*)$"); // SendToken::Tell
+    _sendTokenRegexp << QRegExp("^" + serverCommand("reply") + " (.*)$"); // SendToken::Reply
+    _sendTokenRegexp << QRegExp("^" + serverCommand("sendmsg") + " ("LOGIN_RE") (.*)$"); // SendToken::Sendmsg
 }
 
 void TokenFactory::dataReceived(const QString &data)
@@ -525,24 +517,15 @@ QStringList TokenFactory::split(const QString &message)
                 {
                 case SendToken_Tell:
                     trueMessage = _sendTokenRegexp[i].cap(2);
-                    if (_serverType == Mtp)
-                        prefix = "tell " + _sendTokenRegexp[i].cap(1) + " ";
-                    else
-                        prefix = ".tell " + _sendTokenRegexp[i].cap(1) + " ";
+                    prefix = serverCommand("tell " + _sendTokenRegexp[i].cap(1) + " ");
                     break;
                 case SendToken_Reply:
                     trueMessage = _sendTokenRegexp[i].cap(1);
-                    if (_serverType == Mtp)
-                        prefix = "reply ";
-                    else
-                        prefix = ".reply";
+                    prefix = serverCommand("reply ");
                     break;
                 case SendToken_Sendmsg:
                     trueMessage = _sendTokenRegexp[i].cap(2);
-                    if (_serverType == Mtp)
-                        prefix = "sendmsg " + _sendTokenRegexp[i].cap(1) + " ";
-                    else
-                        prefix = ".sendmsg " + _sendTokenRegexp[i].cap(1) + " ";
+                    prefix = serverCommand("sendmsg " + _sendTokenRegexp[i].cap(1) + " ");
                     break;
                 default:;
                 }
