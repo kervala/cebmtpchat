@@ -52,6 +52,12 @@ QString Paths::profilePath()
 
 QString Paths::logPath()
 {
+    if (Global::localMode())
+    {
+        QDir appDir(QCoreApplication::applicationDirPath());
+        return QDir(appDir.absolutePath()).filePath("CeB's logs");
+    }
+
     return QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).filePath("CeB's logs");
 }
 
