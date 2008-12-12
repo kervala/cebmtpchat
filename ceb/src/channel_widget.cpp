@@ -670,6 +670,10 @@ void ChannelWidget::sessionLogged()
     }
 
     _regExpAboutMe = QRegExp("(^|\\W)" + _session->serverLogin() + "(\\W|$)", Qt::CaseInsensitive);
+
+    // perform user commands when connected
+    if (!_session->config().performCommands().isEmpty())
+    _session->send(_session->config().performCommands());
 }
 
 void ChannelWidget::sessionDisconnected()

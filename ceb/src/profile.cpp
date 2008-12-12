@@ -608,6 +608,8 @@ SessionConfig Profile::addSessionUrl(const QUrl &url)
     config.setAutoconnect(true);
     config.setBroadcast(true);
     config.setEncodingMib(111);
+    config.setPerformCommands("");
+    config.setQuitMessage("");
 
     for (int j = 0; j < _sessionConfigList.count(); ++j)
         if (_sessionConfigList[j] && _sessionConfigList[j]->address() == config.address() && _sessionConfigList[j]->port() == config.port() && (_sessionConfigList[j]->login() == config.login() || config.login().isEmpty()))

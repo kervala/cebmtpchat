@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="fr">
-<defaultcodec></defaultcodec>
 <context>
     <name>ActionsModel</name>
     <message>
@@ -17,17 +16,17 @@
 <context>
     <name>ChannelWidget</name>
     <message>
-        <location filename="src/channel_widget.cpp" line="612"/>
+        <location filename="src/channel_widget.cpp" line="622"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation>Tentative de connexion sur %1:%2.........</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="633"/>
+        <location filename="src/channel_widget.cpp" line="636"/>
         <source>successful.</source>
         <translation>réussie.</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="910"/>
+        <location filename="src/channel_widget.cpp" line="912"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;pas de filtre&gt;</translation>
     </message>
@@ -45,27 +44,27 @@
         <translation>Sujet :</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="172"/>
+        <location filename="src/channel_widget.cpp" line="170"/>
         <source>finger</source>
         <translation>Informations</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="176"/>
+        <location filename="src/channel_widget.cpp" line="174"/>
         <source>beep</source>
         <translation>Alerter</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="180"/>
+        <location filename="src/channel_widget.cpp" line="178"/>
         <source>kick</source>
         <translation>Renvoyer</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="168"/>
+        <location filename="src/channel_widget.cpp" line="166"/>
         <source>initiate a tell session</source>
         <translation>Parler en privé</translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="564"/>
+        <location filename="src/channel_widget.cpp" line="550"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
         <translation>Ok, on te fait confiance =^^=, on se rend sur (%1:%2)</translation>
     </message>
@@ -126,9 +125,9 @@
     <message>
         <location filename="ui/dialog_about.ui" line="55"/>
         <source>Developped by: Garou, Kervala
-Some LUA parts are from Ace, Drealmer and Ben</source>
-        <translation>Développé par: Garou, Kervala
-Certaines parties LUA sont de Ace, Drealmer et Ben</translation>
+Some Lua parts are from Ace, Drealmer and Ben</source>
+        <translation>Développé par : Garou, Kervala
+Certaines parties Lua sont de Ace, Drealmer et Ben</translation>
     </message>
     <message>
         <location filename="ui/dialog_about.ui" line="68"/>
@@ -162,7 +161,7 @@ Certaines parties LUA sont de Ace, Drealmer et Ben</translation>
         <translation>Diffusion de message</translation>
     </message>
     <message>
-        <location filename="src/dialog_broadcast.cpp" line="22"/>
+        <location filename="src/dialog_broadcast.cpp" line="41"/>
         <source>&amp;broadcast to all servers</source>
         <translation>&amp;diffuser sur tous les serveurs</translation>
     </message>
@@ -1067,7 +1066,7 @@ Here are the problems:
 
 Je suis satisfait (peut être ironique) avec ton client &lt;Mtp&gt; Chat! mais quelques fois, ça craint.
 
-Voici les problèmes:
+Voici les problèmes :
 
 * </translation>
     </message>
@@ -2004,17 +2003,17 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 <context>
     <name>Session</name>
     <message>
-        <location filename="src/session.cpp" line="504"/>
+        <location filename="src/session.cpp" line="507"/>
         <source>Unconnected.</source>
         <translation>Non connecté.</translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="505"/>
+        <location filename="src/session.cpp" line="508"/>
         <source>Connecting...</source>
         <translation>Connexion en cours...</translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="506"/>
+        <location filename="src/session.cpp" line="509"/>
         <source>Ready.</source>
         <translation>Prêt.</translation>
     </message>
@@ -2022,27 +2021,27 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 <context>
     <name>SessionConfigWidget</name>
     <message>
-        <location filename="src/session_config_widget.cpp" line="106"/>
+        <location filename="src/session_config_widget.cpp" line="109"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="81"/>
+        <location filename="src/session_config_widget.cpp" line="84"/>
         <source>Empty name is forbidden</source>
         <translation>Les noms vides sont non autorisés</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="89"/>
+        <location filename="src/session_config_widget.cpp" line="92"/>
         <source>Empty address is forbidden</source>
         <translation>Les adresses vides sont interdites</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="97"/>
+        <location filename="src/session_config_widget.cpp" line="100"/>
         <source>A port number must be specified</source>
         <translation>Un numéro de port doit être spécifié</translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="106"/>
+        <location filename="src/session_config_widget.cpp" line="109"/>
         <source>Confirmation password is not equal to password</source>
         <translation>Le mot de passe confirmé n&apos;est pas égal au mot de passe</translation>
     </message>
@@ -2188,22 +2187,22 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
 <context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="348"/>
+        <location filename="src/tell_widget.cpp" line="368"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;pas de filtre&gt;</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="325"/>
+        <location filename="src/tell_widget.cpp" line="345"/>
         <source>(quit)</source>
         <translation>(parti)</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="327"/>
+        <location filename="src/tell_widget.cpp" line="347"/>
         <source>(away)</source>
         <translation>(absent)</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="406"/>
+        <location filename="src/tell_widget.cpp" line="426"/>
         <source>Previous conversation ended at %1</source>
         <translation>La conversation précédente s&apos;est terminée à %1</translation>
     </message>
@@ -2433,74 +2432,89 @@ Groupe : %1</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="46"/>
+        <location filename="ui/session_config_widget.ui" line="38"/>
         <source>Name:</source>
         <translation>Nom :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="251"/>
+        <location filename="ui/session_config_widget.ui" line="254"/>
         <source>Manage backup servers</source>
         <translation>Gérer les serveurs de secours</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="193"/>
+        <location filename="ui/session_config_widget.ui" line="191"/>
         <source>Auto-connect</source>
         <translation>Connexion automatique</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="70"/>
+        <location filename="ui/session_config_widget.ui" line="62"/>
         <source>Address:</source>
         <translation>Adresse :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="96"/>
+        <location filename="ui/session_config_widget.ui" line="88"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="156"/>
+        <location filename="ui/session_config_widget.ui" line="148"/>
         <source>Confirm password:</source>
         <translation>Confirmez le mot de passe :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="183"/>
+        <location filename="ui/session_config_widget.ui" line="181"/>
         <source>Description:</source>
         <translation>Description :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="127"/>
+        <location filename="ui/session_config_widget.ui" line="119"/>
         <source>Login:</source>
         <translation>Login :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="143"/>
+        <location filename="ui/session_config_widget.ui" line="135"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="275"/>
+        <location filename="ui/session_config_widget.ui" line="319"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="34"/>
+        <location filename="ui/session_config_widget.ui" line="26"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="244"/>
+        <location filename="ui/session_config_widget.ui" line="247"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
         <translation>Mode furtif (ne pas stocker les login/mot de passe)</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="222"/>
+        <location filename="ui/session_config_widget.ui" line="219"/>
         <source>Advanced</source>
         <translation>Avancé</translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="234"/>
+        <location filename="ui/session_config_widget.ui" line="235"/>
         <source>Client/Server stream encoding:</source>
         <translation>Encodage du texte client/serveur :</translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="290"/>
+        <source>Quit message:</source>
+        <translation>Message de déconnexion :</translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="211"/>
+        <source>Enable broadcast by default</source>
+        <translation>Activer la diffusion par défaut</translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="267"/>
+        <source>Perform commands when connected:</source>
+        <translation>Lancer les commands quand connecté :</translation>
     </message>
 </context>
 </TS>

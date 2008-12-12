@@ -106,7 +106,8 @@ void Session::stop()
 {
     if (isLogged())
     {
-        sendCommand("quit");
+        // use personalized quit message
+        sendCommand("quit " + config().quitMessage());
         _socket->waitForDisconnected(1000);
     } else
         _socket->disconnectFromHost();

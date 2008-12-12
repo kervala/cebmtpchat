@@ -59,8 +59,11 @@ void SessionConfigWidget::init(const SessionConfig &config)
     lineEditConfirmPassword->setText(config.password());
     lineEditDescription->setText(config.description());
     checkBoxAutoConnect->setChecked(config.autoconnect());
+    checkBoxBroadcast->setChecked(config.broadcast());
     checkBoxBackupServers->setChecked(config.manageBackupServers());
     checkBoxFurtiveMode->setChecked(config.furtiveMode());
+    plainTextEditPerform->setPlainText(config.performCommands());
+    lineEditQuitMessage->setText(config.quitMessage());
 
     m_oldName = config.name();
     lineEditName->setFocus();
@@ -129,9 +132,11 @@ void SessionConfigWidget::get(SessionConfig &config)
     config.setDescription(lineEditDescription->text());
     config.setFurtiveMode(checkBoxFurtiveMode->isChecked());
     config.setAutoconnect(checkBoxAutoConnect->isChecked());
-    config.setManageBackupServers(checkBoxBackupServers->isChecked());
-
+    config.setBroadcast(checkBoxBroadcast->isChecked());
     config.setEncodingMib(m_mibList[comboBoxEncoding->currentIndex()]);
+    config.setManageBackupServers(checkBoxBackupServers->isChecked());
+    config.setPerformCommands(plainTextEditPerform->toPlainText());
+    config.setQuitMessage(lineEditQuitMessage->text());
 }
 
 void SessionConfigWidget::get(SessionConfig &config, QString &oldName)

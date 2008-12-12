@@ -85,6 +85,10 @@ public:
     void setBackupServers(const QList<BackupServer> &servers) { _backupServers = servers; }
     bool broadcast() const { return _broadcast; }
     void setBroadcast(bool broadcast) { _broadcast = broadcast; }
+    const QString &quitMessage() const { return _quitMessage; }
+    void setQuitMessage(const QString &quitMessage) { _quitMessage = quitMessage; }
+    const QString &performCommands() const { return _performCommands; }
+    void setPerformCommands(const QString &performCommands) { _performCommands = performCommands; }
 
     static QString cryptPassword(const QString &value);
     static QString decryptPassword(const QString &value);
@@ -108,6 +112,8 @@ private:
     bool _autoconnect;
     bool _broadcast;
     bool _manageBackupServers;
+    QString _quitMessage;
+    QString _performCommands;
     int _encodingMib; // http://www.iana.org/assignments/character-sets
     int _topicHeight;
     int _entryHeight;

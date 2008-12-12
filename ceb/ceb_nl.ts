@@ -16,12 +16,12 @@
 <context>
     <name>ChannelWidget</name>
     <message>
-        <location filename="src/channel_widget.cpp" line="633"/>
+        <location filename="src/channel_widget.cpp" line="636"/>
         <source>successful.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="910"/>
+        <location filename="src/channel_widget.cpp" line="912"/>
         <source>&lt;no filter&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -31,32 +31,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="168"/>
+        <location filename="src/channel_widget.cpp" line="166"/>
         <source>initiate a tell session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="172"/>
+        <location filename="src/channel_widget.cpp" line="170"/>
         <source>finger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="176"/>
+        <location filename="src/channel_widget.cpp" line="174"/>
         <source>beep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="180"/>
+        <location filename="src/channel_widget.cpp" line="178"/>
         <source>kick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="564"/>
+        <location filename="src/channel_widget.cpp" line="550"/>
         <source>Ok, let&apos;s trust you =^^=, we move to (%1:%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/channel_widget.cpp" line="612"/>
+        <location filename="src/channel_widget.cpp" line="622"/>
         <source>Attempt to connect %1:%2.........</source>
         <translation type="unfinished"></translation>
     </message>
@@ -117,7 +117,7 @@
     <message>
         <location filename="ui/dialog_about.ui" line="55"/>
         <source>Developped by: Garou, Kervala
-Some LUA parts are from Ace, Drealmer and Ben</source>
+Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -152,7 +152,7 @@ Some LUA parts are from Ace, Drealmer and Ben</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/dialog_broadcast.cpp" line="22"/>
+        <location filename="src/dialog_broadcast.cpp" line="41"/>
         <source>&amp;broadcast to all servers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1672,17 +1672,17 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>Session</name>
     <message>
-        <location filename="src/session.cpp" line="504"/>
+        <location filename="src/session.cpp" line="507"/>
         <source>Unconnected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="505"/>
+        <location filename="src/session.cpp" line="508"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="506"/>
+        <location filename="src/session.cpp" line="509"/>
         <source>Ready.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1690,27 +1690,27 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>SessionConfigWidget</name>
     <message>
-        <location filename="src/session_config_widget.cpp" line="106"/>
+        <location filename="src/session_config_widget.cpp" line="109"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="81"/>
+        <location filename="src/session_config_widget.cpp" line="84"/>
         <source>Empty name is forbidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="89"/>
+        <location filename="src/session_config_widget.cpp" line="92"/>
         <source>Empty address is forbidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="97"/>
+        <location filename="src/session_config_widget.cpp" line="100"/>
         <source>A port number must be specified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session_config_widget.cpp" line="106"/>
+        <location filename="src/session_config_widget.cpp" line="109"/>
         <source>Confirmation password is not equal to password</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1856,22 +1856,22 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="348"/>
+        <location filename="src/tell_widget.cpp" line="368"/>
         <source>&lt;no filter&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="325"/>
+        <location filename="src/tell_widget.cpp" line="345"/>
         <source>(quit)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="327"/>
+        <location filename="src/tell_widget.cpp" line="347"/>
         <source>(away)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="406"/>
+        <location filename="src/tell_widget.cpp" line="426"/>
         <source>Previous conversation ended at %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2087,73 +2087,88 @@ Group: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="46"/>
+        <location filename="ui/session_config_widget.ui" line="38"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="251"/>
+        <location filename="ui/session_config_widget.ui" line="254"/>
         <source>Manage backup servers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="193"/>
+        <location filename="ui/session_config_widget.ui" line="191"/>
         <source>Auto-connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="70"/>
+        <location filename="ui/session_config_widget.ui" line="62"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="96"/>
+        <location filename="ui/session_config_widget.ui" line="88"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="156"/>
+        <location filename="ui/session_config_widget.ui" line="148"/>
         <source>Confirm password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="183"/>
+        <location filename="ui/session_config_widget.ui" line="181"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="127"/>
+        <location filename="ui/session_config_widget.ui" line="119"/>
         <source>Login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="143"/>
+        <location filename="ui/session_config_widget.ui" line="135"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="275"/>
+        <location filename="ui/session_config_widget.ui" line="319"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="34"/>
+        <location filename="ui/session_config_widget.ui" line="26"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="244"/>
+        <location filename="ui/session_config_widget.ui" line="247"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="222"/>
+        <location filename="ui/session_config_widget.ui" line="219"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/session_config_widget.ui" line="234"/>
+        <location filename="ui/session_config_widget.ui" line="235"/>
         <source>Client/Server stream encoding:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="290"/>
+        <source>Quit message:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="211"/>
+        <source>Enable broadcast by default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ui/session_config_widget.ui" line="267"/>
+        <source>Perform commands when connected:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
