@@ -26,6 +26,7 @@ SystemWidget::SystemWidget(QWidget *parent)
     : QWidget(parent)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setMargin(2);
 
     _textEditMain = new QTextEdit;
     mainLayout->addWidget(_textEditMain);
