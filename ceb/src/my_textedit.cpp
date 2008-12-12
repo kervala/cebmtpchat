@@ -37,7 +37,7 @@
 
 MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
 {
-    progressDialog = new QProgressDialog(this);
+    progressDialog = new QProgressDialog(this, Qt::Dialog|Qt::WindowSystemMenuHint);
     progressDialog->setCancelButtonText(tr("Cancel"));
     progressDialog->setLabelText(tr("Uploading..."));
     progressDialog->setModal(false);
@@ -171,7 +171,7 @@ void MyTextEdit::addSeparatorLine()
 void MyTextEdit::filterTriggered(QAction *action)
 {
     QString normalText = textCursor().selection().toPlainText();
-    QDialog *dialog = new QDialog(this);
+    QDialog *dialog = new QDialog(this, Qt::WindowSystemMenuHint);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setWindowTitle(action->text() + " " + tr("(filter)"));
     QVBoxLayout *layout = new QVBoxLayout(dialog);

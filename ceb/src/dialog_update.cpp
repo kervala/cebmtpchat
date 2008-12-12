@@ -21,7 +21,7 @@
 #include "dialog_update.h"
 #include "version.h"
 
-DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
+DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::WindowSystemMenuHint)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle("CeB");
