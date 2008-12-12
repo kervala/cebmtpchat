@@ -702,7 +702,7 @@ void MainWindow::newSessionTokenForActivity(Session *session, const Token &token
             if (changeTray)
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
             if (showWarningo && Profile::instance().warningoEnabled)
-				(new DialogWarningo(session->config().name(), token.line(), this))->show();
+				(new DialogWarningo(session->config().name(), token.line()))->show();
         }
         else if (!trayTalkAboutMe)
             trayIcon->setIcon(QPixmap(":/images/tray-new.png"));
