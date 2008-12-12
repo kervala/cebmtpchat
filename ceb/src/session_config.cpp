@@ -27,6 +27,7 @@ SessionConfig::SessionConfig()
     _port = 4000;
     _furtiveMode = false;
     _autoconnect = false;
+    _broadcast = true;
     _topicHeight = 30;
     _entryHeight = 30;
     _whoWidth = 80;
@@ -47,6 +48,7 @@ void SessionConfig::load(const QDomElement &rootElem)
     _password = decryptPassword(XmlHandler::read(rootElem, "password", ""));
     _furtiveMode = XmlHandler::read(rootElem, "furtive_mode", false);
     _autoconnect = XmlHandler::read(rootElem, "autoconnect", false);
+    _broadcast = XmlHandler::read(rootElem, "broadcast", true);
     _manageBackupServers = XmlHandler::read(rootElem, "manage_backup_servers", true);
     _encodingMib = XmlHandler::read(rootElem, "encoding_mib", 111);
     _topicHeight = XmlHandler::read(rootElem, "topic_height", 30);
@@ -81,6 +83,7 @@ void SessionConfig::save(QDomElement &rootElem)
     XmlHandler::write(rootElem, "password", cryptPassword(_password));
     XmlHandler::write(rootElem, "furtive_mode", _furtiveMode);
     XmlHandler::write(rootElem, "autoconnect", _autoconnect);
+    XmlHandler::write(rootElem, "broadcast", _autoconnect);
     XmlHandler::write(rootElem, "manage_backup_servers", _manageBackupServers);
     XmlHandler::write(rootElem, "encoding_mib", _encodingMib);
     XmlHandler::write(rootElem, "topic_height", _topicHeight);
@@ -123,6 +126,7 @@ SessionConfig &SessionConfig::getTemplate()
     config->_port = 4000;
     config->_description = "";
     config->_autoconnect = false;
+    config->_broadcast = true;
     config->_manageBackupServers = true;
     config->_encodingMib = 111; // ISO-8859-15
     config->_topicHeight = 30;

@@ -83,6 +83,8 @@ public:
     void setWhoWidth(int value) { _whoWidth = value; }
     const QList<BackupServer> backupServers() const { return _backupServers; }
     void setBackupServers(const QList<BackupServer> &servers) { _backupServers = servers; }
+    bool broadcast() const { return _broadcast; }
+    void setBroadcast(bool broadcast) { _broadcast = broadcast; }
 
     static QString cryptPassword(const QString &value);
     static QString decryptPassword(const QString &value);
@@ -104,6 +106,7 @@ private:
     QString _password;
     bool _furtiveMode;
     bool _autoconnect;
+    bool _broadcast;
     bool _manageBackupServers;
     int _encodingMib; // http://www.iana.org/assignments/character-sets
     int _topicHeight;

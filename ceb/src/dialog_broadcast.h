@@ -2,6 +2,7 @@
 #define DIALOG_BROADCAST_H
 
 #include <QDialog>
+#include <QSignalMapper>
 
 #include <history_widget.h>
 
@@ -15,12 +16,14 @@ public:
     const QString &text() const { return _text; }
 
 private:
+    QSignalMapper *_signalMapper;
     HistoryWidget *_historyWidget;
     QString _text;
 
 private slots:
     void sendButtonClicked();
     void textValidated(const QString &text);
+    void selectServer(QObject *object);
 };
 
 #endif

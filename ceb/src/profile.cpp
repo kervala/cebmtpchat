@@ -606,6 +606,7 @@ SessionConfig Profile::addSessionUrl(const QUrl &url)
     config.setLogin(url.userName());
     config.setPassword(url.password());
     config.setAutoconnect(true);
+    config.setBroadcast(true);
     config.setEncodingMib(111);
 
     for (int j = 0; j < _sessionConfigList.count(); ++j)

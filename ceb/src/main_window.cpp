@@ -1739,7 +1739,8 @@ void MainWindow::showGlobalSendDialog()
     DialogBroadcast dialog(this);
     if (dialog.exec() == QDialog::Accepted)
         foreach (Session *session, SessionManager::instance().sessionsList())
-            session->send(dialog.text());
+            if (session->config().broadcast())
+                session->send(dialog.text());
 }
 
 void MainWindow::sessionPrivateConversationIncoming(Session *session, const QString &login)
