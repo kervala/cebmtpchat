@@ -673,7 +673,7 @@ void ChannelWidget::sessionLogged()
 
     // perform user commands when connected
     if (!_session->config().performCommands().isEmpty())
-    _session->send(_session->config().performCommands());
+        _session->send(_session->config().performCommands());
 }
 
 void ChannelWidget::sessionDisconnected()
