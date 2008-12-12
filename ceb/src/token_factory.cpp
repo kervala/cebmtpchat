@@ -713,6 +713,27 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                 case Token::HelpBegin:
                     _state = State_Help;
                     break;
+                case Token::SomeoneTellsYou:
+                case Token::YouTellToSomeone:
+                {
+                    QString emoteCommand = serverCommand("emote ");
+                    QString text = regExp.cap(2);
+
+                    if (text.indexOf(emoteCommand) == 0)
+                    {
+                        QString login = regExp.cap(1);
+                        text = "*" + login + " " + text.mid(emoteCommand.length()) + "*";
+                        QStringList strList;
+                        strList << serverName();
+                        strList << login << text;
+                        QList<int> positions;
+                        positions << 0 << 1 << 2;
+                        emit newToken(Token(token, strList, positions, ticketID));
+                        return;
+                    }
+
+                    break;
+                }
                 default:;
                 }
 

@@ -217,11 +217,21 @@ void TellWidget::displayToken(const Token &token, bool old)
     {
         QStringList args;
         const QString &sentence = token.arguments()[2];
+        const QString &raw = token.arguments()[0];
+
+        Token::Type token = Token::SomeoneSays;
+
+        if (sentence.left(1) == "*" && raw.length() == 3)
+        {
+            login = raw;
+            token = Token::MtpSays;
+        }
+
         args << "<" + login + "> " + sentence << login << sentence;
         QList<int> positions;
         positions << 0 << 1 << login.length() + 3;
 
-        Token translatedToken(Token::SomeoneSays, args, positions, 0);
+        Token translatedToken(token, args, positions, 0);
 
         _tokenRenderer.displayToken(translatedToken, displayTimeStamp);
     } else
