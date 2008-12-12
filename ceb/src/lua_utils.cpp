@@ -31,7 +31,7 @@ extern "C" {
 
 int showLuaError(lua_State *l, const QString &error)
 {
-    SystemWidget::error("LUA : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));
+    SystemWidget::error("Lua : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));
     return 0;
 }
 
