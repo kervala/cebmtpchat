@@ -216,14 +216,15 @@ void TellWidget::displayToken(const Token &token, bool old)
     if (privateToken)
     {
         QStringList args;
-        const QString &sentence = token.arguments()[2];
+        QString sentence = token.arguments()[2];
         const QString &raw = token.arguments()[0];
 
         Token::Type token = Token::SomeoneSays;
 
-        if (sentence.left(1) == "*" && raw.length() == 3)
+        if (raw.length() == 5 && raw[0] == '<' && raw[4] == '>')
         {
-            login = raw;
+            sentence = "*" + login + " " + sentence + "*";
+            login = raw.mid(1, 3);
             token = Token::MtpSays;
         }
 

@@ -722,9 +722,9 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                     if (text.indexOf(emoteCommand) == 0)
                     {
                         QString login = regExp.cap(1);
-                        text = "*" + login + " " + text.mid(emoteCommand.length()) + "*";
+                        text = text.mid(emoteCommand.length());
                         QStringList strList;
-                        strList << serverName();
+                        strList << "<" + serverName() + ">";
                         strList << login << text;
                         QList<int> positions;
                         positions << 0 << 1 << 2;
