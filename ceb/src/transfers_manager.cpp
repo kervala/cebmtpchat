@@ -121,7 +121,7 @@ bool TransfersManager::isProposeCommand(const QString &str, QString &file)
     if (regExp.exactMatch(str))
     {
         file = regExp.cap(2);
-        qDebug(qPrintable(file));
+        qDebug("%s", qPrintable(file));
         return true;
     }
     return false;

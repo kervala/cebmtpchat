@@ -63,7 +63,7 @@ namespace Script
             return 0;
 
         if (lua_isstring(l, 1))
-            qDebug(lua_tostring(l, 1));
+            qDebug("%s", lua_tostring(l, 1));
         else if (lua_isnumber(l, 1))
             qDebug("%f", lua_tonumber(l, 1));
         else if (lua_isboolean(l, 1))
