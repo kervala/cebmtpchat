@@ -85,7 +85,7 @@ void SessionConfig::save(QDomElement &rootElem)
     XmlHandler::write(rootElem, "password", cryptPassword(_password));
     XmlHandler::write(rootElem, "furtive_mode", _furtiveMode);
     XmlHandler::write(rootElem, "autoconnect", _autoconnect);
-    XmlHandler::write(rootElem, "broadcast", _autoconnect);
+    XmlHandler::write(rootElem, "broadcast", _broadcast);
     XmlHandler::write(rootElem, "manage_backup_servers", _manageBackupServers);
     XmlHandler::write(rootElem, "encoding_mib", _encodingMib);
     XmlHandler::write(rootElem, "perform_commands", _performCommands);

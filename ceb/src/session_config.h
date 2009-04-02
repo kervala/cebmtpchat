@@ -84,7 +84,7 @@ public:
     const QList<BackupServer> backupServers() const { return _backupServers; }
     void setBackupServers(const QList<BackupServer> &servers) { _backupServers = servers; }
     bool broadcast() const { return _broadcast; }
-    void setBroadcast(bool broadcast) { _broadcast = broadcast; }
+    void setBroadcast(bool value) { _broadcast = value; }
     const QString &quitMessage() const { return _quitMessage; }
     void setQuitMessage(const QString &quitMessage) { _quitMessage = quitMessage; }
     const QString &performCommands() const { return _performCommands; }
