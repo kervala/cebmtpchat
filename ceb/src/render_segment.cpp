@@ -34,8 +34,8 @@ QList<RenderSegmentList::TextRange> RenderSegmentList::urlRanges(const QString &
 
     foreach (const QRegExp &regexp, urlRegexp)
     {
-        int index = text.indexOf(regexp);
-        while (index >= 0)
+        int index = 0;
+        while ((index = regexp.indexIn(text, index)) != -1)
         {
             TextRange range;
             range.start = index;
@@ -43,7 +43,7 @@ QList<RenderSegmentList::TextRange> RenderSegmentList::urlRanges(const QString &
 
             urlRanges << range;
 
-            index = text.indexOf(regexp, index + regexp.matchedLength());
+            index += range.length;
         }
     }
 
