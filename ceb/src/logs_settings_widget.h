@@ -34,7 +34,9 @@ public:
     void feedProfile(Profile &profile);
 
 private:
-    QString chooseDirectory();
+	bool _interactive;
+
+    static QString chooseDirectory(QWidget *parent = 0);
 
 private slots:
     void on_toolButtonCustomDirectory_clicked();

@@ -23,7 +23,8 @@
 #include "logs_settings_widget.h"
 
 LogsSettingsWidget::LogsSettingsWidget(QWidget *parent)
-    : SettingsWidget(parent)
+    : SettingsWidget(parent),
+	  _interactive(true)
 {
     setupUi(this);
     lineEditDefaultDirectory->setText(Logger::getDefaultLogsDir());
@@ -31,6 +32,8 @@ LogsSettingsWidget::LogsSettingsWidget(QWidget *parent)
 
 void LogsSettingsWidget::applyProfile(const Profile &profile)
 {
+	_interactive = false;
+
     // Directory
     if (profile.logsDefaultDir)
         radioButtonDefaultDirectory->setChecked(true);
@@ -58,6 +61,8 @@ void LogsSettingsWidget::applyProfile(const Profile &profile)
 
     // Miscellaneaous
     checkBoxTimestamps->setChecked(profile.logsTimeStamp);
+
+	_interactive = true;
 }
 
 void LogsSettingsWidget::feedProfile(Profile &profile)
@@ -78,21 +83,24 @@ void LogsSettingsWidget::feedProfile(Profile &profile)
 
 void LogsSettingsWidget::on_toolButtonCustomDirectory_clicked()
 {
-    QString dir = chooseDirectory();
+    QString dir = chooseDirectory(this);
     if (QDir(dir).exists())
         lineEditCustomDirectory->setText(dir);
 }
 
-QString LogsSettingsWidget::chooseDirectory()
+QString LogsSettingsWidget::chooseDirectory(QWidget *parent)
 {
-    return QFileDialog::getExistingDirectory(this, tr("Choose a logs directory"));
+    return QFileDialog::getExistingDirectory(parent, tr("Choose a logs directory"));
 }
 
 void LogsSettingsWidget::on_radioButtonCustomDirectory_toggled(bool checked)
 {
+	if (!_interactive)
+		return;
+
     if (checked && lineEditCustomDirectory->text() == "")
     {
-        QString dir = chooseDirectory();
+        QString dir = chooseDirectory(this);
         if (QDir(dir).exists())
             lineEditCustomDirectory->setText(dir);
     }
