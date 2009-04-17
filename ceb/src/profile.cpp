@@ -566,15 +566,15 @@ void Profile::save() const
     if (!propertiesElem.firstChildElement().isNull())
         rootElem.appendChild(propertiesElem);
 
-	// ftp upload
-	XmlHandler::write(rootElem, "ftp_upload_url", uploadUrl);
-	XmlHandler::write(rootElem, "http_download_url", downloadUrl);
-	XmlHandler::write(rootElem, "prefix_date", prefixDate);
+    // ftp upload
+    XmlHandler::write(rootElem, "ftp_upload_url", uploadUrl);
+    XmlHandler::write(rootElem, "http_download_url", downloadUrl);
+    XmlHandler::write(rootElem, "prefix_date", prefixDate);
 
     // Save
     QString xml = document.toString();
     QTextStream out(&file);
-    out << xml.toLatin1();
+    out << xml.toUtf8();
 }
 
 SessionConfig *Profile::sessionConfigAt(int i) const
