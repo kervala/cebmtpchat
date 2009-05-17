@@ -35,9 +35,20 @@
 
 #include "my_textedit.h"
 
+#ifdef Q_WS_WIN
+    #include <sdkddkver.h>
+    #ifdef _WIN32_WINNT_WIN7
+        // only supported by Windows 7 Platform SDK
+        #include <ShObjIdl.h>
+        #define TASKBAR_PROGRESS 1
+        static ITaskbarList3* pTaskbarList = NULL;
+    #endif
+#endif
+
 MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
 {
-    progressDialog = new QProgressDialog(this, Qt::Dialog|Qt::WindowSystemMenuHint);
+    progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
+    progressDialog->setWindowTitle("CeB");
     progressDialog->setCancelButtonText(tr("Cancel"));
     progressDialog->setLabelText(tr("Uploading..."));
     progressDialog->setModal(false);
@@ -48,6 +59,18 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(fa
     isAway = false;
 
     setAcceptDrops(true);
+
+#ifdef TASKBAR_PROGRESS
+    // instanciate the taskbar control COM object
+    CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pTaskbarList));
+#endif // TASKBAR_PROGRESS
+}
+
+MyTextEdit::~MyTextEdit()
+{
+#ifdef TASKBAR_PROGRESS
+    if (pTaskbarList) pTaskbarList->Release();
+#endif // TASKBAR_PROGRESS
 }
 
 void MyTextEdit::keyPressEvent(QKeyEvent *e)
@@ -171,7 +194,7 @@ void MyTextEdit::addSeparatorLine()
 void MyTextEdit::filterTriggered(QAction *action)
 {
     QString normalText = textCursor().selection().toPlainText();
-    QDialog *dialog = new QDialog(this, Qt::WindowSystemMenuHint);
+    QDialog *dialog = new QDialog(this, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setWindowTitle(action->text() + " " + tr("(filter)"));
     QVBoxLayout *layout = new QVBoxLayout(dialog);
@@ -285,9 +308,9 @@ void MyTextEdit::dropEvent(QDropEvent *event)
         ftp = new QFtp(this);
 
         connect(ftp, SIGNAL(commandFinished(int, bool)),
-				this, SLOT(ftpCommandFinished(int, bool)));
+                this, SLOT(ftpCommandFinished(int, bool)));
         connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
-				this, SLOT(updateDataTransferProgress(qint64, qint64)));
+                this, SLOT(updateDataTransferProgress(qint64, qint64)));
 
         ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
 
@@ -367,7 +390,7 @@ void MyTextEdit::ftpCommandFinished(int commandId, bool error)
 {
     if (ftp->currentCommand() == QFtp::ConnectToHost && error)
         QMessageBox::critical(this, tr("Error"), tr("Unable to connect to %1. Please check that the hostname is correct.")
-							  .arg(Profile::instance().uploadUrl));
+                              .arg(Profile::instance().uploadUrl));
 
     if (ftp->currentCommand() == QFtp::Put)
     {
@@ -440,6 +463,11 @@ void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
 
     progressDialog->setMaximum(totalBytes);
     progressDialog->setValue(readBytes);
+
+#ifdef TASKBAR_PROGRESS
+    // update the taskbar progress
+    if (pTaskbarList) pTaskbarList->SetProgressValue((HWND)progressDialog->winId(), readBytes, totalBytes);
+#endif // TASKBAR_PROGRESS
 }
 
 void MyTextEdit::cancelDownload()
