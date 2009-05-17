@@ -7,7 +7,7 @@
 #include "dialog_broadcast.h"
 
 DialogBroadcast::DialogBroadcast(QWidget *parent)
-    : QDialog(parent, Qt::WindowSystemMenuHint)
+    : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
     setWindowTitle(tr("Message broadcasting"));
     QVBoxLayout *layout = new QVBoxLayout(this);

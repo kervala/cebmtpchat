@@ -24,12 +24,12 @@
 #include <QPushButton>
 #include <QSpacerItem>
 
-DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::WindowSystemMenuHint)
+DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
 	init(false);
 }
 
-DialogBasic::DialogBasic(bool isCloseWindow, QWidget *parent) : QDialog(parent, Qt::WindowSystemMenuHint)
+DialogBasic::DialogBasic(bool isCloseWindow, QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
 	init(isCloseWindow);
 }

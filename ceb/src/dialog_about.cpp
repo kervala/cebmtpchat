@@ -18,7 +18,7 @@
 
 #include "dialog_about.h"
 
-DialogAbout::DialogAbout(QWidget *parent) : QDialog(parent)
+DialogAbout::DialogAbout(QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
     setupUi(this);
 }
