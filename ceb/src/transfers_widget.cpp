@@ -301,7 +301,7 @@ QWidget *TransfersWidget::getWidget(Transfer *transfer)
         if (widget && widget->transfer() == transfer)
             return widget;
         else if (widget)
-            qDebug("PAS GLOP: %x", (unsigned int)widget->transfer());
+            qDebug("PAS GLOP: %p", widget->transfer());
 
     }
     return 0;
