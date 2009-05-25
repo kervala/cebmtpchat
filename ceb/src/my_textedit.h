@@ -36,7 +36,7 @@ public:
     bool isAway;
 
     MyTextEdit(QWidget *parent = 0);
-	virtual ~MyTextEdit();
+    virtual ~MyTextEdit();
 
     void addNewLine(const QString &line, const QFont &font, const QColor &color); // Url analyzing
     void addString(const QString &line, const QFont &font, const QColor &color);

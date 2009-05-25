@@ -41,7 +41,7 @@
         // only supported by Windows 7 Platform SDK
         #include <ShObjIdl.h>
         #define TASKBAR_PROGRESS 1
-        static ITaskbarList3* pTaskbarList = NULL;
+        ITaskbarList3* pTaskbarList = NULL;
     #endif
 #endif
 
