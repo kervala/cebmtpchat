@@ -699,6 +699,8 @@ void MainWindow::newSessionTokenForActivity(Session *session, const Token &token
 
         if (showWarningo || changeTray)
         {
+            QApplication::alert(this);
+
             if (changeTray)
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
             if (showWarningo && Profile::instance().warningoEnabled)
