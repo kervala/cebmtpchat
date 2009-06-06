@@ -35,17 +35,16 @@
 
 #include "my_textedit.h"
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     #include <sdkddkver.h>
     #ifdef _WIN32_WINNT_WIN7
         // only supported by Windows 7 Platform SDK
         #include <ShObjIdl.h>
         #define TASKBAR_PROGRESS 1
-        ITaskbarList3* pTaskbarList = NULL;
     #endif
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL), pTaskbarList(NULL)
 {
     progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
     progressDialog->setWindowTitle("CeB");
@@ -69,7 +68,11 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(fa
 MyTextEdit::~MyTextEdit()
 {
 #ifdef TASKBAR_PROGRESS
-    if (pTaskbarList) pTaskbarList->Release();
+    if (pTaskbarList)
+    {
+        pTaskbarList->Release();
+        pTaskbarList = NULL;
+    }
 #endif // TASKBAR_PROGRESS
 }
 

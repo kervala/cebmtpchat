@@ -28,6 +28,10 @@ class QFtp;
 class QProgressDialog;
 QT_END_NAMESPACE
 
+#ifdef Q_OS_WIN
+    class ITaskbarList3;
+#endif
+
 class MyTextEdit : public UrlTextEdit
 {
     Q_OBJECT
@@ -77,6 +81,10 @@ private:
     };
 
     QList<FtpQueue> ftpQueue;
+
+#ifdef Q_OS_WIN
+    ITaskbarList3* pTaskbarList;
+#endif
 
 signals:
     void myKeyPressed(const QKeyEvent &e);
