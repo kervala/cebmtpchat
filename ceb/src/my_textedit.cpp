@@ -102,7 +102,10 @@ void MyTextEdit::keyPressEvent(QKeyEvent *e)
 
 void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
 {
-    QMenu *menu = createStandardContextMenu();
+    QPoint pt(e->pos().x() + horizontalScrollBar()->value(), 
+              e->pos().y() + verticalScrollBar()->value());
+
+    QMenu *menu = createStandardContextMenu(pt);
 
     if (m_allowFilters)
     {
