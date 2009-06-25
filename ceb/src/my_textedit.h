@@ -29,7 +29,7 @@ class QProgressDialog;
 QT_END_NAMESPACE
 
 #ifdef Q_OS_WIN
-    class ITaskbarList3;
+    struct ITaskbarList3;
 #endif
 
 class MyTextEdit : public UrlTextEdit
