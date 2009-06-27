@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include "my_application.h"
 
 MyApplication::MyApplication(int &argc, char **argv) : QApplication(argc, argv)

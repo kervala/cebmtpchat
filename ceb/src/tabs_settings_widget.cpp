@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include "tabs_settings_widget.h"
 
 TabsSettingsWidget::TabsSettingsWidget(QWidget *parent)
