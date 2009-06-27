@@ -16,37 +16,26 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef FILTER_WIDGET_H
-#define FILTER_WIDGET_H
+#ifndef COMMON_H
+#define COMMON_H
 
-#include <QLineEdit>
-#include <QComboBox>
-#include <QTreeView>
-#include <QToolButton>
+#include <QtGui/QtGui>
 
-#include "generic_sort_model.h"
-
-class FilterWidget : public QWidget
-{
-	Q_OBJECT
-
-public:
-	FilterWidget(QWidget *parent = 0);
-
-	void setTreeView(QTreeView *treeView);
-
-private:
-	QLineEdit *m_lineEditFilter;
-	QComboBox *m_comboBoxColumn;
-	QToolButton *m_clearToolButton;
-
-	QTreeView *m_treeView;
-
-	GenericSortModel *getProxyModel() const;
-
-private slots:
-	void filterTextChanged(const QString &text);
-	void columnIndexChanged(int index);
-};
+#if defined(WIN32) && defined(_DEBUG)
+	#define _CRTDBG_MAP_ALLOC
+	#ifdef _malloca
+		#undef _malloca
+	#endif
+	#include <stdlib.h>
+	#include <crtdbg.h>
+	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+	#define new DEBUG_NEW
+	#ifdef realloc
+		#undef realloc
+	#endif
+	#ifdef free
+		#undef free
+	#endif
+#endif
 
 #endif
