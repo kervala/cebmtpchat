@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QDir>
 #include <QMessageBox>
 
@@ -25,6 +26,7 @@
 
 DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)
 {
+    setWindowTitle(tr("What's new in CeB ?"));
     _textBrowser = new QTextBrowser;
     mainLayout->insertWidget(0, _textBrowser);
 
@@ -32,3 +34,4 @@ DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)
     _textBrowser->setSource(url);
     resize(400, 250);
 }
+
