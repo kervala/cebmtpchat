@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QHBoxLayout>
 
 #include "search_widget.h"
@@ -27,7 +28,7 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setMargin(0);
 
-    QPushButton *closeButton = new QPushButton;
+    QPushButton *closeButton = new QPushButton(this);
     mainLayout->addWidget(closeButton);
     closeButton->setIcon(QIcon(":/images/clear.png"));
     QSize size = closeButton->maximumSize();
@@ -35,28 +36,28 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
     closeButton->setMaximumSize(size);
     connect(closeButton, SIGNAL(clicked()), this, SIGNAL(hideMe()));
 
-    _lineEditSearch = new QLineEdit;
+    _lineEditSearch = new QLineEdit(this);
     mainLayout->addWidget(_lineEditSearch);
 
     connect(_lineEditSearch, SIGNAL(textChanged(const QString &)),
             this, SLOT(lineEditTextChanged(const QString &)));
 
-    _previousButton = new QPushButton(tr("&Previous"));
+    _previousButton = new QPushButton(tr("&Previous"), this);
     mainLayout->addWidget(_previousButton);
     _previousButton->setIcon(QIcon(":/images/up.png"));
     connect(_previousButton, SIGNAL(clicked()), this, SLOT(searchForPrevious()));
 
-    _nextButton = new QPushButton(tr("&Next"));
+    _nextButton = new QPushButton(tr("&Next"), this);
     mainLayout->addWidget(_nextButton);
     _nextButton->setIcon(QIcon(":/images/down.png"));
     connect(_nextButton, SIGNAL(clicked()), this, SLOT(searchForNext()));
 
-    _toolButtonOptions = new QToolButton;
+    _toolButtonOptions = new QToolButton(this);
     _toolButtonOptions->setText(tr("&Options"));
     mainLayout->addWidget(_toolButtonOptions);
     _toolButtonOptions->setAutoRaise(true);
 
-    _menuOptions = new QMenu(this);
+    _menuOptions = new QMenu(_toolButtonOptions);
     _toolButtonOptions->setMenu(_menuOptions);
     _toolButtonOptions->setPopupMode(QToolButton::InstantPopup);
     QAction *action = _menuOptions->addAction(tr("Case sensitive find"));
@@ -65,6 +66,11 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
     action = _menuOptions->addAction(tr("Match only complete words"));
     action->setCheckable(true);
     connect(action, SIGNAL(triggered(bool)), this, SLOT(completeWordsActionTriggered(bool)));
+}
+
+SearchWidget::~SearchWidget()
+{
+    delete _menuOptions;
 }
 
 void SearchWidget::setTextWidget(QTextBrowser *textWidget)

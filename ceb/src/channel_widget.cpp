@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QVBoxLayout>
 #include <QScrollBar>
 #include <QTextCursor>
@@ -163,23 +164,23 @@ void ChannelWidget::init()
     // Who list context menu
     QAction *action;
 
-    action = new QAction(tr("initiate a tell session"), 0);
+    action = new QAction(tr("initiate a tell session"), _treeViewWho);
     connect(action, SIGNAL(triggered()), this, SLOT(initiateTellSession()));
     _treeViewWho->addAction(action);
 
-    action = new QAction(tr("finger"), 0);
+    action = new QAction(tr("finger"), _treeViewWho);
     connect(action, SIGNAL(triggered()), this, SLOT(finger()));
     _treeViewWho->addAction(action);
 
-    action = new QAction(tr("beep"), 0);
+    action = new QAction(tr("beep"), _treeViewWho);
     connect(action, SIGNAL(triggered()), this, SLOT(beep()));
     _treeViewWho->addAction(action);
 
-    action = new QAction(tr("kick"), 0);
+    action = new QAction(tr("kick"), _treeViewWho);
     connect(action, SIGNAL(triggered()), this, SLOT(kick()));
     _treeViewWho->addAction(action);
 
-/* WAITING FOR FILE TRANSFER	action = new QAction("send a file...", 0);
+/* WAITING FOR FILE TRANSFER	action = new QAction("send a file...", _treeViewWho);
     connect(action, SIGNAL(triggered()), this, SLOT(sendAFile()));
     _treeViewWho->addAction(action);*/
 

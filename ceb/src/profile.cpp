@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QUrl>
@@ -45,6 +46,15 @@ Profile &Profile::instance()
         _instance = new Profile;
 
     return *_instance;
+}
+
+void Profile::free()
+{
+    if (_instance)
+    {
+        delete _instance;
+        _instance = NULL;
+    }
 }
 
 Profile::Profile()

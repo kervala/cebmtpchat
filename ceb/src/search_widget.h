@@ -32,6 +32,7 @@ class SearchWidget : public QWidget
 
 public:
     SearchWidget(QWidget *parent = 0);
+    virtual ~SearchWidget();
 
     void setTextWidget(QTextBrowser *textWidget);
 

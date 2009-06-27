@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QKeyEvent>
 #include <QTextCursor>
 #include <QMessageBox>
@@ -67,6 +68,8 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(fa
 
 MyTextEdit::~MyTextEdit()
 {
+    delete progressDialog;
+
 #ifdef TASKBAR_PROGRESS
     if (pTaskbarList)
     {
@@ -111,7 +114,7 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
     {
         menu->addSeparator();
 
-        QMenu *filterMenu = new QMenu(tr("Filter it!"));
+        QMenu *filterMenu = new QMenu(tr("Filter it!"), menu);
         connect(filterMenu, SIGNAL(triggered(QAction*)),
                 this, SLOT(filterTriggered(QAction*)));
 
@@ -121,7 +124,7 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
         nameFilters << "*.lua";
         foreach (QFileInfo fileInfo, scriptsDir.entryInfoList(nameFilters, QDir::Files))
         {
-            QAction *action = new QAction(fileInfo.baseName(), 0);
+            QAction *action = new QAction(fileInfo.baseName(), filterMenu);
             filterMenu->addAction(action);
         }
 

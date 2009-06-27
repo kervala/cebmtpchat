@@ -16,17 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QDir>
 #include "system_widget.h"
 
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
 #include "paths.h"
-
+#include "script.h"
 #include "lua_utils.h"
 
 int showLuaError(lua_State *l, const QString &error)

@@ -52,6 +52,7 @@ public:
     };
 
     static Profile &instance();
+    static void free();
 
     bool load();
     void save() const;

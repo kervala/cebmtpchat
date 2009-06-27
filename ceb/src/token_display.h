@@ -86,6 +86,7 @@ public:
     static const TextSkin &defaultSkin() { return *_defaultSkin; }
 
     static void createDefaultSkin();
+    static void freeDefaultSkin();
 
     void clear(); // Reset to defaultSkin
     void load(const QDomElement &root);
@@ -96,6 +97,7 @@ public:
     {
     public:
         MtpFont() : _defaultFont(0), _font(0), _color(0) {}
+        virtual ~MtpFont() { if (_color) delete _color; if (_font) delete _font; }
         MtpFont(const MtpFont &source) { operator=(source); }
 
         void setDefaultFont(const MtpFont *value) { _defaultFont = value; }

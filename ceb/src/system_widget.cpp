@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QVBoxLayout>
 
 #include "system_widget.h"
@@ -28,7 +29,7 @@ SystemWidget::SystemWidget(QWidget *parent)
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setMargin(2);
 
-    _textEditMain = new QTextEdit;
+    _textEditMain = new QTextEdit(this);
     mainLayout->addWidget(_textEditMain);
     _textEditMain->setReadOnly(true);
 }
@@ -87,4 +88,14 @@ SystemWidget *SystemWidget::instance()
         _instance = new SystemWidget;
 
     return _instance;
+}
+
+void SystemWidget::free()
+{
+    if (_instance)
+    {
+        delete _instance;
+
+        _instance = NULL;
+    }
 }

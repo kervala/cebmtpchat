@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QApplication>
 #include <QDesktopServices>
 
@@ -27,6 +28,9 @@
 
 int main(int argc, char **argv)
 {
+#if defined(_MSC_VER) && defined(_DEBUG)
+	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
     MyApplication a(argc, argv);
 
     a.setApplicationName("CeB");
@@ -49,15 +53,23 @@ int main(int argc, char **argv)
             Profile::instance().addSessionUrl(url);
     }
 
-    QDesktopServices::setUrlHandler("mtpchat", new MtpChatHandler(), "addSession");
+	MtpChatHandler *handler = new MtpChatHandler();
+
+    QDesktopServices::setUrlHandler("mtpchat", handler, "addSession");
 
     MainWindow::instance()->show();
 
     int appRes = a.exec();
 
+	delete handler;
+
     Script::closeModifiers(); // Close all lua chunks
 
     Profile::instance().save();
+	Profile::free();
+
+	MainWindow::free();
+	TextSkin::freeDefaultSkin();
 
     return appRes;
 }

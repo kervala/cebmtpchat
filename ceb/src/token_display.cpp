@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <xml_handler.h>
 #include <QTextBrowser>
 #include <QApplication>
@@ -137,6 +138,15 @@ void TextSkin::createDefaultSkin()
 {
     if (!_defaultSkin)
         _defaultSkin = new TextSkin(true);
+}
+
+void TextSkin::freeDefaultSkin()
+{
+    if (_defaultSkin)
+    {
+        delete _defaultSkin;
+        _defaultSkin = NULL;
+    }
 }
 
 void TextSkin::init()

@@ -49,6 +49,7 @@ class MainWindow : public QMainWindow
 
 public:
     static MainWindow *instance();
+    static void free();
 
     //! For Lua scripts
     QWidget *getTab(Session *session, const QString &category, const QString &argument);
@@ -112,7 +113,7 @@ private:
     QAction *_actionCloseCurrentTab;
 
     MainWindow();
-    ~MainWindow();
+    virtual ~MainWindow();
 
     void makeMenuBar();
     void makeToolBar();

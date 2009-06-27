@@ -28,6 +28,7 @@ class SystemWidget : public QWidget
 
 public:
     static SystemWidget *instance();
+    static void free();
 
     void sendInfo(const QString &log);
     void sendError(const QString &log);

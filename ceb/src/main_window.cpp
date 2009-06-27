@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "common.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QPushButton>
@@ -98,6 +99,14 @@ MainWindow *MainWindow::instance()
         _instance = new MainWindow;
 
     return _instance;
+}
+
+void MainWindow::free()
+{
+    if (_instance)
+        delete _instance;
+
+    _instance = NULL;
 }
 
 MainWindow::MainWindow()
@@ -204,6 +213,8 @@ MainWindow::~MainWindow()
 {
     // Free some singletons
     SessionManager::free();
+    SystemWidget::free();
+    TransfersManager::free();
 }
 
 void MainWindow::createActionShortcuts()
@@ -551,7 +562,7 @@ ChannelWidget *MainWindow::connectTo(const SessionConfig &config)
     Session *session = SessionManager::instance().newSession(config);
 
     // Create a new ChannelWidget and add it
-    channelWidget = new ChannelWidget(session);
+    channelWidget = new ChannelWidget(session, this);
     connect(channelWidget, SIGNAL(whoUserDoubleClicked(const QString&)),
             this, SLOT(whoUserDoubleClicked(const QString&)));
     connect(channelWidget, SIGNAL(tellSessionAsked(const QString&)),
