@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="de">
+<!DOCTYPE TS>
+<TS version="2.0" language="de">
 <context>
     <name>ActionsModel</name>
     <message>
@@ -31,7 +32,6 @@
         <translation>&lt;kein filter&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/channel_widget.cpp" line="1005"/>
         <source>%n user(s)</source>
         <translation type="obsolete">
             <numerusform>%n Benutzer</numerusform>
@@ -72,31 +72,39 @@
 <context>
     <name>DetailedFontsSettings</name>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="206"/>
         <location filename="ui/detailed_fonts_settings.ui" line="16"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="207"/>
         <location filename="ui/detailed_fonts_settings.ui" line="101"/>
         <source>Forced font</source>
         <translation>Erzwungene Schriftart</translation>
     </message>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="208"/>
         <location filename="ui/detailed_fonts_settings.ui" line="122"/>
         <source>Pick a font...</source>
         <translation>Schriftart wählen...</translation>
     </message>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="209"/>
         <location filename="ui/detailed_fonts_settings.ui" line="132"/>
         <source>Forced color</source>
         <translation>Erzwungene Farbe</translation>
     </message>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="210"/>
         <location filename="ui/detailed_fonts_settings.ui" line="150"/>
         <source>Pick a color...</source>
         <translation>Farbe wählen....</translation>
     </message>
     <message>
+        <location filename="src/ui_detailed_fonts_settings.h" line="211"/>
+        <location filename="src/ui_detailed_fonts_settings.h" line="212"/>
+        <location filename="ui/detailed_fonts_settings.ui" line="197"/>
         <location filename="ui/detailed_fonts_settings.ui" line="239"/>
         <source>TextLabel</source>
         <translation>TextÜberschrift</translation>
@@ -118,18 +126,21 @@
 <context>
     <name>DialogAbout</name>
     <message>
+        <location filename="src/ui_dialog_about.h" line="98"/>
         <location filename="ui/dialog_about.ui" line="25"/>
         <source>About CeB</source>
         <translation>Über CeB</translation>
     </message>
     <message>
+        <location filename="src/ui_dialog_about.h" line="100"/>
         <location filename="ui/dialog_about.ui" line="55"/>
         <source>Developped by: Garou, Kervala
 Some Lua parts are from Ace, Drealmer and Ben</source>
-        <translation type="unfinished">Entwickelt von: Garou, Kervala
+        <translation>Entwickelt von: Garou, Kervala
 Einige Teile sind von Ace, Drealmer und Ben</translation>
     </message>
     <message>
+        <location filename="src/ui_dialog_about.h" line="102"/>
         <location filename="ui/dialog_about.ui" line="68"/>
         <source>&amp;Close</source>
         <translation>&amp;Schließen</translation>
@@ -260,212 +271,170 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation>Allgemeines</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="81"/>
         <source>Application language:</source>
         <translation type="obsolete">Anwendungssprache:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="93"/>
         <source>Check for CeB update at startup</source>
         <translation type="obsolete">Beim Start auf CeB-Updates überprüfen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="109"/>
         <source>&lt;Default language&gt;</source>
         <translation type="obsolete">&lt;Standard Sprache&gt;</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="172"/>
         <source>Enable logs</source>
         <translation type="obsolete">Logs aktivieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="182"/>
         <source>Logs directory</source>
         <translation type="obsolete">Log-Verzeichnis</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="186"/>
         <source>Default directory: </source>
         <translation type="obsolete">Standardverzeichnis:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="203"/>
         <source>Custom directory: </source>
         <translation type="obsolete">Benutzerdefiniertes Verzeichnis:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="233"/>
         <source>Logs file policy</source>
         <translation type="obsolete">Log-Datei Einstellungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="235"/>
         <source>Save your logs in a file:</source>
         <translation type="obsolete">Speichere deine Logs in einer Datei:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="237"/>
         <source>Daily</source>
         <translation type="obsolete">Täglich</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="239"/>
         <source>Weekly (from monday to sunday)</source>
         <translation type="obsolete">Wöchentlich (von Montag bis Sonntag)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="241"/>
         <source>Monthly</source>
         <translation type="obsolete">Monatlich</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="243"/>
         <source>Uniq</source>
         <translation type="obsolete">Einmalig</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="267"/>
         <source>Alway timestamps</source>
         <translation type="obsolete">Stets Zeitstempel</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="287"/>
         <source>Enable tray icon</source>
         <translation type="obsolete">Symbol in der Infoleiste</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="293"/>
         <source>Always visible</source>
         <translation type="obsolete">Immer sichtbar</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="297"/>
         <source>Hide from task bar when minimized</source>
         <translation type="obsolete">Nicht in der Taskleiste anzeigen, wenn es minimiert ist</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="338"/>
         <source>Display icons in tabs</source>
         <translation type="obsolete">Symbole in tabs anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="342"/>
         <source>Tabs disposition</source>
         <translation type="obsolete">Tabs neu positionieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="359"/>
         <source>Two tabs ranges</source>
         <translation type="obsolete">Zwei Tabreihen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="371"/>
         <source>Tabs location</source>
         <translation type="obsolete">Tabposition</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="416"/>
         <source>On the top</source>
         <translation type="obsolete">Oben</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="420"/>
         <source>On the bottom</source>
         <translation type="obsolete">Unten</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="397"/>
         <source>Servers tabs location</source>
         <translation type="obsolete">Position des Servertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="413"/>
         <source>Sub-tabs location</source>
         <translation type="obsolete">Position der Untertabs</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="462"/>
         <source>Enable away/back separator lines</source>
         <translation type="obsolete">Abwesend/Anwesend Trennlinien aktivieren</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="474"/>
         <source>Pick a color</source>
         <translation type="obsolete">Farbe aussuchen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="489"/>
         <source>Lines length: </source>
         <translation type="obsolete">Zeilenlänge:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="504"/>
         <source>Periodic separator string:</source>
         <translation type="obsolete">Periodischer Trennsatz:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="520"/>
         <source>Timestamp policy</source>
         <translation type="obsolete">Zeitstempeleinstellungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="524"/>
         <source>Classic display (server choice)</source>
         <translation type="obsolete">Klassische Ansicht (Serverauswahl)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="525"/>
         <source>Always display timestamp</source>
         <translation type="obsolete">Immer Zeitstempel anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="526"/>
         <source>Never display timestamp</source>
         <translation type="obsolete">Nie Zeitstempel anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="527"/>
         <source>Display timestamp in tell tabs</source>
         <translation type="obsolete">Zeitstempel in Privatnachrichtentabs anzeigen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="548"/>
         <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
         <translation type="obsolete">Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="575"/>
         <source>who command</source>
         <translation type="obsolete">who-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="576"/>
         <source>wall command</source>
         <translation type="obsolete">wall-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="577"/>
         <source>finger command</source>
         <translation type="obsolete">finger-Befehl</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="588"/>
         <source>Copy on selection (unix style)</source>
         <translation type="obsolete">Bei Auswahl kopieren (unix art)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="602"/>
         <source>Warning</source>
         <translation type="obsolete">Warnung</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="602"/>
         <source>You must restart CeB to apply your language changes</source>
         <translation type="obsolete">Du musst CeB neu starten um die Spracheinstellungen zu übernehmen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="738"/>
         <source>Choose a logs directory</source>
         <translation type="obsolete">Bitte ein Log-Verzeichnis auswählen</translation>
     </message>
@@ -475,22 +444,18 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation>Neue Verbindung</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="266"/>
         <source>Misc</source>
         <translation type="obsolete">Allgemein</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="836"/>
         <source>Server 1</source>
         <translation type="obsolete">Server 1</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="846"/>
         <source>Server 2</source>
         <translation type="obsolete">Server 2</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="573"/>
         <source>Tabs for</source>
         <translation type="obsolete">Tabs für</translation>
     </message>
@@ -500,22 +465,18 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation>Verbindungen</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="563"/>
         <source>sec</source>
         <translation type="obsolete">sec</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="348"/>
         <source>All tabs in one row with captions of form:</source>
         <translation type="obsolete">Alle Tabs in einer Reihe mit Beschriftungen der Form:</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="346"/>
         <source>Channel (Server)</source>
         <translation type="obsolete">Kanal (Server)</translation>
     </message>
     <message>
-        <location filename="src/dialog_settings.cpp" line="347"/>
         <source>Server</source>
         <translation type="obsolete">Server</translation>
     </message>
@@ -531,12 +492,10 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>DialogSystem</name>
     <message>
-        <location filename="src/dialog_system.cpp" line="27"/>
         <source>System logs</source>
         <translation type="obsolete">System-Logs</translation>
     </message>
     <message>
-        <location filename="src/dialog_system.cpp" line="45"/>
         <source>&amp;Hide</source>
         <translation type="obsolete">&amp;verstecken</translation>
     </message>
@@ -575,6 +534,14 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
     </message>
 </context>
 <context>
+    <name>DialogWhatsNew</name>
+    <message>
+        <location filename="src/dialog_whatsnew.cpp" line="28"/>
+        <source>What&apos;s new in CeB ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FilterWidget</name>
     <message>
         <location filename="../max/src/filter_widget.cpp" line="18"/>
@@ -595,71 +562,89 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>FontsSettings</name>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="221"/>
         <location filename="ui/fonts_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="222"/>
         <location filename="ui/fonts_settings.ui" line="43"/>
         <source>Font</source>
         <translation>Schriftart</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="223"/>
+        <location filename="src/ui_fonts_settings.h" line="230"/>
+        <location filename="src/ui_fonts_settings.h" line="231"/>
+        <location filename="ui/fonts_settings.ui" line="70"/>
+        <location filename="ui/fonts_settings.ui" line="229"/>
         <location filename="ui/fonts_settings.ui" line="239"/>
         <source>Pick a color...</source>
         <translation>Farbe wählen...</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="224"/>
         <location filename="ui/fonts_settings.ui" line="80"/>
         <source>Pick a font...</source>
         <translation>Schriftart wählen...</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="225"/>
         <location filename="ui/fonts_settings.ui" line="87"/>
         <source>font, size</source>
         <translation>Schriftart, Größe</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="226"/>
         <location filename="ui/fonts_settings.ui" line="110"/>
         <source>Force font</source>
         <translation>Schriftart erzwingen</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="227"/>
         <location filename="ui/fonts_settings.ui" line="117"/>
         <source>Force text color</source>
         <translation>Schriftfarbe erzwingen</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="228"/>
         <location filename="ui/fonts_settings.ui" line="193"/>
         <source>Force background color</source>
         <translation>Hintergrundfarbe erzwingen</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="229"/>
         <location filename="ui/fonts_settings.ui" line="200"/>
         <source>Force background away color</source>
         <translation>Hintergrundfarbe für abwesend erzwingen</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="236"/>
         <location filename="ui/fonts_settings.ui" line="299"/>
         <source>Output</source>
         <translation>Ausgabe</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="238"/>
         <location filename="ui/fonts_settings.ui" line="304"/>
         <source>Input</source>
         <translation>Eingabe</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="240"/>
         <location filename="ui/fonts_settings.ui" line="309"/>
         <source>Who</source>
         <translation>Who</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="242"/>
         <location filename="ui/fonts_settings.ui" line="314"/>
         <source>Topic</source>
         <translation>Topic</translation>
     </message>
     <message>
+        <location filename="src/ui_fonts_settings.h" line="244"/>
         <location filename="ui/fonts_settings.ui" line="319"/>
         <source>Timestamp</source>
         <translation>Zeitstempel</translation>
@@ -668,21 +653,25 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>GeneralSettings</name>
     <message>
+        <location filename="src/ui_general_settings.h" line="76"/>
         <location filename="ui/general_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_general_settings.h" line="77"/>
         <location filename="ui/general_settings.ui" line="19"/>
         <source>Application language:</source>
         <translation>Anwendungssprache :</translation>
     </message>
     <message>
+        <location filename="src/ui_general_settings.h" line="78"/>
         <location filename="ui/general_settings.ui" line="29"/>
         <source>Check for CeB update at startup</source>
         <translation>Beim Start auf CeB-Updates überprüfen</translation>
     </message>
     <message>
+        <location filename="src/ui_general_settings.h" line="79"/>
         <location filename="ui/general_settings.ui" line="36"/>
         <source>Keep CeB above other windows</source>
         <translation type="unfinished"></translation>
@@ -709,51 +698,63 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>IdleSettings</name>
     <message>
+        <location filename="src/ui_idle_settings.h" line="211"/>
         <location filename="ui/idle_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="212"/>
         <location filename="ui/idle_settings.ui" line="31"/>
         <source>Auto-away</source>
         <translation>Auto-Abwesend</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="213"/>
         <location filename="ui/idle_settings.ui" line="45"/>
         <source>Set away ON after</source>
         <translation>Abwesend nach %1 auf ON setzen</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="214"/>
+        <location filename="src/ui_idle_settings.h" line="230"/>
+        <location filename="ui/idle_settings.ui" line="83"/>
         <location filename="ui/idle_settings.ui" line="241"/>
         <source>minutes of idle</source>
         <translation>Minuten abwesend</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="215"/>
         <location filename="ui/idle_settings.ui" line="105"/>
         <source>Expressions which don&apos;t break auto-away</source>
         <translation>Ausdrücke die Auto-Abwesend nicht beeinflussen</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="217"/>
         <location filename="ui/idle_settings.ui" line="126"/>
         <source>Add an expression</source>
         <translation>Einen Ausdruck hinzufügen</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="221"/>
         <location filename="ui/idle_settings.ui" line="145"/>
         <source>Remove the focused expression</source>
         <translation>Den ausgewählten Ausdruck entfernen</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="225"/>
         <location filename="ui/idle_settings.ui" line="158"/>
         <source>Reset all expressions to the default configuration</source>
         <translation>Alle Ausdrücke zur Standard-Konfiguration zurücksetzen</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="228"/>
         <location filename="ui/idle_settings.ui" line="189"/>
         <source>Auto-quit</source>
         <translation>Auto-Beenden</translation>
     </message>
     <message>
+        <location filename="src/ui_idle_settings.h" line="229"/>
         <location filename="ui/idle_settings.ui" line="203"/>
         <source>Quit after</source>
         <translation>Beenden nach</translation>
@@ -775,46 +776,55 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>LinksSettings</name>
     <message>
+        <location filename="src/ui_links_settings.h" line="172"/>
         <location filename="ui/links_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="173"/>
         <location filename="ui/links_settings.ui" line="27"/>
         <source>Links are managed by the system itself</source>
         <translation>Links werden vom System selbst verwaltet</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="174"/>
         <location filename="ui/links_settings.ui" line="37"/>
         <source>Force the opening of links with the application below:</source>
         <translation>Erzwinge das Öffnen von Links mit dem Programm unten:</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="175"/>
         <location filename="ui/links_settings.ui" line="75"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="176"/>
         <location filename="ui/links_settings.ui" line="118"/>
         <source>Example : ftp://login:password@ftp.domain.com/htdocs/folder</source>
         <translation>Beispiel: ftp://login:passwort@ftp.domain.com/htdocs/verzeichnis</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="177"/>
         <location filename="ui/links_settings.ui" line="125"/>
         <source>Download URL:</source>
         <translation>Download URL:</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="178"/>
         <location filename="ui/links_settings.ui" line="155"/>
         <source>Example : http://www.domain.com/folder</source>
         <translation>Beispiel: http://www.domain.de/ordner</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="179"/>
         <location filename="ui/links_settings.ui" line="162"/>
         <source>Upload URL:</source>
         <translation>Hochlade-URL:</translation>
     </message>
     <message>
+        <location filename="src/ui_links_settings.h" line="180"/>
         <location filename="ui/links_settings.ui" line="173"/>
         <source>Prefix the filename with the date in YYMMDDHHMM format</source>
         <translation>Bei Dateinamen das Datum im Format YYMMDDHHMM als Präfix verwenden</translation>
@@ -823,71 +833,85 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>LogsSettings</name>
     <message>
+        <location filename="src/ui_logs_settings.h" line="207"/>
         <location filename="ui/logs_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="208"/>
         <location filename="ui/logs_settings.ui" line="25"/>
         <source>Enable logs</source>
         <translation>Logs aktivieren</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="212"/>
         <location filename="ui/logs_settings.ui" line="46"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="209"/>
         <location filename="ui/logs_settings.ui" line="52"/>
         <source>Default directory:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="210"/>
         <location filename="ui/logs_settings.ui" line="95"/>
         <source>Custom directory:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="211"/>
         <location filename="ui/logs_settings.ui" line="133"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="218"/>
         <location filename="ui/logs_settings.ui" line="143"/>
         <source>Policy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="213"/>
         <location filename="ui/logs_settings.ui" line="149"/>
         <source>Save your logs in a file:</source>
         <translation>Speichere deine Logs in einer Datei :</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="214"/>
         <location filename="ui/logs_settings.ui" line="156"/>
         <source>Daily</source>
         <translation>Täglich</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="215"/>
         <location filename="ui/logs_settings.ui" line="163"/>
         <source>Weekly (from monday to sunday)</source>
         <translation>Wöchentlich (von Montag bis Sonntag)</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="216"/>
         <location filename="ui/logs_settings.ui" line="170"/>
         <source>Monthly</source>
         <translation>Monatlich</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="217"/>
         <location filename="ui/logs_settings.ui" line="177"/>
         <source>Uniq</source>
         <translation>Einmalig</translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="220"/>
         <location filename="ui/logs_settings.ui" line="193"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_logs_settings.h" line="219"/>
         <location filename="ui/logs_settings.ui" line="199"/>
         <source>Always timestamps</source>
         <translation type="unfinished"></translation>
@@ -896,7 +920,7 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>LogsSettingsWidget</name>
     <message>
-        <location filename="src/logs_settings_widget.cpp" line="88"/>
+        <location filename="src/logs_settings_widget.cpp" line="93"/>
         <source>Choose a logs directory</source>
         <translation>Bitte ein Log-Verzeichnis auswählen</translation>
     </message>
@@ -959,12 +983,10 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation>&amp;Ansicht</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="290"/>
         <source>&amp;Topic window</source>
         <translation type="obsolete">&amp;Themen-Fenster</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="297"/>
         <source>&amp;System logs</source>
         <translation type="obsolete">&amp;System-Logs</translation>
     </message>
@@ -1024,27 +1046,28 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
         <translation>Eine neue Verbindung einrichten</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="985"/>
+        <location filename="src/main_window.cpp" line="467"/>
+        <location filename="src/main_window.cpp" line="987"/>
         <source>Confirmation</source>
         <translation>Bestätigung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1088"/>
+        <location filename="src/main_window.cpp" line="1090"/>
         <source>File transfers</source>
         <translation>Dateiübertragungen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1260"/>
+        <location filename="src/main_window.cpp" line="1262"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1260"/>
+        <location filename="src/main_window.cpp" line="1262"/>
         <source>You must close every CeB instance to continue installation</source>
         <translation>Du musst jede CeB-Instanz beenden um die Installation fortzusetzen</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1241"/>
+        <location filename="src/main_window.cpp" line="1243"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1061,7 +1084,7 @@ Hier die Probleme:
 *</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1248"/>
+        <location filename="src/main_window.cpp" line="1250"/>
         <source>Hi!
 
 I&apos;m happy (can be ironic) with your &lt;Mtp&gt; Chat! client but sometimes, it really sucks.
@@ -1083,21 +1106,21 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation>Sie scheinen bereits verbunden zu sein, wollen sie wirklich einen neuaufbau der Verbindung erzwingen?</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="803"/>
+        <location filename="src/main_window.cpp" line="805"/>
         <source>(away)</source>
         <translation>(away)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="872"/>
         <source>(quit)</source>
         <translation type="obsolete">(beenden)</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1228"/>
+        <location filename="src/main_window.cpp" line="1230"/>
         <source>Messages</source>
         <translation>Nachrichten</translation>
     </message>
     <message>
+        <location filename="src/main_window.cpp" line="167"/>
         <location filename="src/main_window.cpp" line="523"/>
         <source>System</source>
         <translation type="unfinished"></translation>
@@ -1133,57 +1156,57 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1547"/>
+        <location filename="src/main_window.cpp" line="1549"/>
         <source>Hide &amp;menu bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1549"/>
+        <location filename="src/main_window.cpp" line="1551"/>
         <source>Show &amp;menu bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1554"/>
+        <location filename="src/main_window.cpp" line="1556"/>
         <source>Hide &amp;status bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1556"/>
+        <location filename="src/main_window.cpp" line="1558"/>
         <source>Show &amp;status bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1589"/>
+        <location filename="src/main_window.cpp" line="1591"/>
         <source>Hide &amp;system logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1591"/>
+        <location filename="src/main_window.cpp" line="1593"/>
         <source>Show &amp;system logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1597"/>
+        <location filename="src/main_window.cpp" line="1599"/>
         <source>Hide &amp;topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1599"/>
+        <location filename="src/main_window.cpp" line="1601"/>
         <source>Show &amp;topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1601"/>
+        <location filename="src/main_window.cpp" line="1603"/>
         <source>Hide &amp;users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1603"/>
+        <location filename="src/main_window.cpp" line="1605"/>
         <source>Show &amp;users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1675"/>
+        <location filename="src/main_window.cpp" line="1677"/>
         <source>yourself</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1193,7 +1216,7 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="src/main_window.cpp" line="1664"/>
+        <location filename="src/main_window.cpp" line="1666"/>
         <source>%n user(s)</source>
         <translation>
             <numerusform>%n Benutzer</numerusform>
@@ -1201,12 +1224,12 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         </translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1674"/>
+        <location filename="src/main_window.cpp" line="1676"/>
         <source>Conversation with %1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1683"/>
+        <location filename="src/main_window.cpp" line="1685"/>
         <source>System logs</source>
         <translation>System-Logs</translation>
     </message>
@@ -1216,22 +1239,22 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="985"/>
+        <location filename="src/main_window.cpp" line="987"/>
         <source>If you close this tab, you session will be closed and all relative tabs too, do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1581"/>
+        <location filename="src/main_window.cpp" line="1583"/>
         <source>Move the tab to the &amp;left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1582"/>
+        <location filename="src/main_window.cpp" line="1584"/>
         <source>Move the tab to the &amp;right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="1725"/>
+        <location filename="src/main_window.cpp" line="1727"/>
         <source>&amp;Close this tab</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1270,71 +1293,83 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>MiscSettings</name>
     <message>
+        <location filename="src/ui_misc_settings.h" line="158"/>
         <location filename="ui/misc_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="159"/>
         <location filename="ui/misc_settings.ui" line="19"/>
         <source>Timestamp policy</source>
         <translation>Zeitstempeleinstellungen</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="160"/>
         <location filename="ui/misc_settings.ui" line="25"/>
         <source>Classic display (server choice)</source>
         <translation>Klassische Ansicht (Serverauswahl)</translation>
     </message>
     <message>
-        <location filename="ui/misc_settings.ui" line="35"/>
         <source>Always display timestamp</source>
         <translation type="obsolete">Immer Zeitstempel anzeigen</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="162"/>
         <location filename="ui/misc_settings.ui" line="39"/>
         <source>Never display timestamp</source>
         <translation>Nie Zeitstempel anzeigen</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="163"/>
         <location filename="ui/misc_settings.ui" line="46"/>
         <source>Display timestamp in tell tabs</source>
         <translation>Zeitstempel in Privatnachrichtentabs anzeigen</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="164"/>
         <location filename="ui/misc_settings.ui" line="56"/>
         <source>Keep Alive (the &quot;date&quot; command is sent frequently)</source>
         <translation>Lebenserhaltung (der &quot;date&quot; befehl wird regelmäßig gesendet)</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="165"/>
         <location filename="ui/misc_settings.ui" line="84"/>
         <source>seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="166"/>
         <location filename="ui/misc_settings.ui" line="106"/>
         <source>Tabs for</source>
         <translation>Tabs für</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="167"/>
         <location filename="ui/misc_settings.ui" line="112"/>
         <source>who command</source>
         <translation>who-Befehl</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="168"/>
         <location filename="ui/misc_settings.ui" line="119"/>
         <source>wall command</source>
         <translation>wall-Befehl</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="169"/>
         <location filename="ui/misc_settings.ui" line="126"/>
         <source>finger command</source>
         <translation>finger-Befehl</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="170"/>
         <location filename="ui/misc_settings.ui" line="136"/>
         <source>Copy on selection (unix style)</source>
         <translation>Bei Auswahl kopieren (unix art)</translation>
     </message>
     <message>
+        <location filename="src/ui_misc_settings.h" line="161"/>
         <location filename="ui/misc_settings.ui" line="32"/>
         <source>Always display timestamp in</source>
         <translation type="unfinished"></translation>
@@ -1343,82 +1378,84 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="201"/>
+        <location filename="src/my_textedit.cpp" line="230"/>
         <source>Send to chat!</source>
         <translation>An den Chat senden!</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="85"/>
+        <location filename="src/my_textedit.cpp" line="114"/>
         <source>Filter it!</source>
         <translation>Filtere es!</translation>
     </message>
     <message>
-        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Warning</source>
         <translation type="obsolete">Warnung</translation>
     </message>
     <message>
-        <location filename="src/Copie de my_textedit.cpp" line="291"/>
         <source>Failed to open URL</source>
         <translation type="obsolete">Konnte die URL nicht öffnen</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="176"/>
+        <location filename="src/my_textedit.cpp" line="205"/>
         <source>(filter)</source>
         <translation>(Filter)</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="42"/>
+        <location filename="src/my_textedit.cpp" line="52"/>
         <source>Uploading...</source>
         <translation>Lade hoch...</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="252"/>
+        <location filename="src/my_textedit.cpp" line="281"/>
         <source>To upload a file, you need to configure an FTP URL</source>
         <translation>Um eine Datei hochzuladen musst du eine FTP-URL einrichten</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="254"/>
+        <location filename="src/my_textedit.cpp" line="283"/>
         <source>&quot;%1&quot; is not a valid FTP URL</source>
         <translation>&quot;%1&quot; ist keine gültige FTP-URL</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="402"/>
+        <location filename="src/my_textedit.cpp" line="285"/>
+        <location filename="src/my_textedit.cpp" line="301"/>
+        <location filename="src/my_textedit.cpp" line="348"/>
+        <location filename="src/my_textedit.cpp" line="398"/>
+        <location filename="src/my_textedit.cpp" line="431"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="268"/>
+        <location filename="src/my_textedit.cpp" line="297"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation>Um eine Datei hochzuladen musst du eine Empfänger-URL einrichten</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="41"/>
+        <location filename="src/my_textedit.cpp" line="51"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="270"/>
+        <location filename="src/my_textedit.cpp" line="299"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation>&quot;%1&quot; ist keine gültige URL</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="319"/>
+        <location filename="src/my_textedit.cpp" line="348"/>
         <source>Unable to open the file %1: %2.</source>
         <translation>Kann Datei %1: %2 nicht öffnen.</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="370"/>
+        <location filename="src/my_textedit.cpp" line="398"/>
         <source>Unable to connect to %1. Please check that the hostname is correct.</source>
         <translation>Kann nicht mit %1 verbinden. Bitte überprüfe, ob der Name richtig angegeben wurde.</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="402"/>
+        <location filename="src/my_textedit.cpp" line="431"/>
         <source>Canceled upload of %1</source>
         <translation>Hochladen von %1 abgebrochen</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="413"/>
+        <location filename="src/my_textedit.cpp" line="442"/>
         <source>(%n bytes)</source>
         <translation>
             <numerusform>(%n Byte)</numerusform>
@@ -1429,26 +1466,31 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>OutputSettings</name>
     <message>
+        <location filename="src/ui_output_settings.h" line="103"/>
         <location filename="ui/output_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_output_settings.h" line="104"/>
         <location filename="ui/output_settings.ui" line="19"/>
         <source>Enable away/back separator lines</source>
         <translation>Abwesend/Anwesend Trennlinien aktivieren</translation>
     </message>
     <message>
+        <location filename="src/ui_output_settings.h" line="105"/>
         <location filename="ui/output_settings.ui" line="35"/>
         <source>Pick a color</source>
         <translation>Farbe aussuchen</translation>
     </message>
     <message>
+        <location filename="src/ui_output_settings.h" line="106"/>
         <location filename="ui/output_settings.ui" line="42"/>
         <source>Line length:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_output_settings.h" line="107"/>
         <location filename="ui/output_settings.ui" line="59"/>
         <source>Periodic separator string:</source>
         <translation>Periodischer Trennsatz :</translation>
@@ -1988,17 +2030,17 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>Session</name>
     <message>
-        <location filename="src/session.cpp" line="507"/>
+        <location filename="src/session.cpp" line="508"/>
         <source>Unconnected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="508"/>
+        <location filename="src/session.cpp" line="509"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/session.cpp" line="509"/>
+        <location filename="src/session.cpp" line="510"/>
         <source>Ready.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2006,6 +2048,9 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>SessionConfigWidget</name>
     <message>
+        <location filename="src/session_config_widget.cpp" line="84"/>
+        <location filename="src/session_config_widget.cpp" line="92"/>
+        <location filename="src/session_config_widget.cpp" line="100"/>
         <location filename="src/session_config_widget.cpp" line="109"/>
         <source>Error</source>
         <translation>Fehler</translation>
@@ -2047,31 +2092,39 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>ShortcutsSettings</name>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="120"/>
         <location filename="ui/shortcuts_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="121"/>
         <location filename="ui/shortcuts_settings.ui" line="25"/>
         <source>Shortcut for selected action</source>
         <translation>Tastenkombination für aktuelle Aktion</translation>
     </message>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="122"/>
         <location filename="ui/shortcuts_settings.ui" line="37"/>
         <source>TextLabel</source>
         <translation>TextÜberschrift</translation>
     </message>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="123"/>
+        <location filename="src/ui_shortcuts_settings.h" line="126"/>
+        <location filename="ui/shortcuts_settings.ui" line="52"/>
         <location filename="ui/shortcuts_settings.ui" line="73"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="124"/>
         <location filename="ui/shortcuts_settings.ui" line="59"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
+        <location filename="src/ui_shortcuts_settings.h" line="125"/>
         <location filename="ui/shortcuts_settings.ui" line="66"/>
         <source>Custom</source>
         <translation>Benutzerdefiniert</translation>
@@ -2080,6 +2133,8 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>ShortcutsSettingsWidget</name>
     <message>
+        <location filename="src/shortcuts_settings_widget.cpp" line="75"/>
+        <location filename="src/shortcuts_settings_widget.cpp" line="86"/>
         <location filename="src/shortcuts_settings_widget.cpp" line="135"/>
         <source>None</source>
         <translation>Keine</translation>
@@ -2093,36 +2148,55 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>SoundSettings</name>
     <message>
+        <location filename="src/ui_sound_settings.h" line="247"/>
         <location filename="ui/sound_settings.ui" line="16"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="248"/>
         <location filename="ui/sound_settings.ui" line="28"/>
         <source>Enable beep sound</source>
         <translation>Beep-Ton aktivieren</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="249"/>
+        <location filename="src/ui_sound_settings.h" line="255"/>
+        <location filename="ui/sound_settings.ui" line="51"/>
         <location filename="ui/sound_settings.ui" line="169"/>
         <source>Custom sound</source>
         <translation>Benutzerdefinierter Ton</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="250"/>
+        <location filename="src/ui_sound_settings.h" line="251"/>
+        <location filename="src/ui_sound_settings.h" line="256"/>
+        <location filename="src/ui_sound_settings.h" line="258"/>
+        <location filename="ui/sound_settings.ui" line="66"/>
+        <location filename="ui/sound_settings.ui" line="91"/>
+        <location filename="ui/sound_settings.ui" line="184"/>
         <location filename="ui/sound_settings.ui" line="216"/>
         <source>Play</source>
         <translation>Absielen</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="252"/>
+        <location filename="src/ui_sound_settings.h" line="257"/>
+        <location filename="ui/sound_settings.ui" line="98"/>
         <location filename="ui/sound_settings.ui" line="201"/>
         <source>Default sound</source>
         <translation>Standard-Ton</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="253"/>
+        <location filename="src/ui_sound_settings.h" line="259"/>
+        <location filename="ui/sound_settings.ui" line="118"/>
         <location filename="ui/sound_settings.ui" line="236"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
+        <location filename="src/ui_sound_settings.h" line="254"/>
         <location filename="ui/sound_settings.ui" line="146"/>
         <source>Enable AboutMe sound</source>
         <translation>ÜberMich-Ton aktivieren</translation>
@@ -2131,6 +2205,7 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>SoundSettingsWidget</name>
     <message>
+        <location filename="src/sound_settings_widget.cpp" line="84"/>
         <location filename="src/sound_settings_widget.cpp" line="113"/>
         <source>Choose a wav file</source>
         <translation>Eine wave-Datei auswählen</translation>
@@ -2139,31 +2214,37 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>TabsSettings</name>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="64"/>
         <location filename="ui/tabs_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="65"/>
         <location filename="ui/tabs_settings.ui" line="22"/>
         <source>Tabs position:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="68"/>
         <location filename="ui/tabs_settings.ui" line="30"/>
         <source>North</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="69"/>
         <location filename="ui/tabs_settings.ui" line="35"/>
         <source>South</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="70"/>
         <location filename="ui/tabs_settings.ui" line="40"/>
         <source>West</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_tabs_settings.h" line="71"/>
         <location filename="ui/tabs_settings.ui" line="45"/>
         <source>East</source>
         <translation type="unfinished"></translation>
@@ -2172,22 +2253,22 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>TellWidget</name>
     <message>
-        <location filename="src/tell_widget.cpp" line="368"/>
+        <location filename="src/tell_widget.cpp" line="349"/>
         <source>&lt;no filter&gt;</source>
         <translation>&lt;kein Filter&gt;</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="345"/>
+        <location filename="src/tell_widget.cpp" line="326"/>
         <source>(quit)</source>
         <translation>(beenden)</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="347"/>
+        <location filename="src/tell_widget.cpp" line="328"/>
         <source>(away)</source>
         <translation>(away)</translation>
     </message>
     <message>
-        <location filename="src/tell_widget.cpp" line="426"/>
+        <location filename="src/tell_widget.cpp" line="407"/>
         <source>Previous conversation ended at %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2210,11 +2291,14 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation>Ablehen</translation>
     </message>
     <message>
+        <location filename="src/transfers_widget.cpp" line="188"/>
         <location filename="src/transfers_widget.cpp" line="279"/>
         <source>Pause</source>
         <translation>Pausieren</translation>
     </message>
     <message>
+        <location filename="src/transfers_widget.cpp" line="190"/>
+        <location filename="src/transfers_widget.cpp" line="219"/>
         <location filename="src/transfers_widget.cpp" line="281"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
@@ -2245,6 +2329,7 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation>Lade &lt;b&gt;%1&lt;/b&gt; von &lt;b&gt;%2&lt;/b&gt; herunter</translation>
     </message>
     <message>
+        <location filename="src/transfers_widget.cpp" line="180"/>
         <location filename="src/transfers_widget.cpp" line="271"/>
         <source>456 KiB/s</source>
         <translation>456 KiB/s</translation>
@@ -2273,21 +2358,25 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>TraySettings</name>
     <message>
+        <location filename="src/ui_tray_settings.h" line="73"/>
         <location filename="ui/tray_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_tray_settings.h" line="74"/>
         <location filename="ui/tray_settings.ui" line="19"/>
         <source>Enable tray icon</source>
         <translation>Symbol in der Infoleiste</translation>
     </message>
     <message>
+        <location filename="src/ui_tray_settings.h" line="75"/>
         <location filename="ui/tray_settings.ui" line="28"/>
         <source>Always visible</source>
         <translation>Immer sichtbar</translation>
     </message>
     <message>
+        <location filename="src/ui_tray_settings.h" line="76"/>
         <location filename="ui/tray_settings.ui" line="35"/>
         <source>Hide from task bar when minimized</source>
         <translation>Nicht in der Taskleiste anzeigen, wenn es minimiert ist</translation>
@@ -2296,12 +2385,10 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>UrlTextEdit</name>
     <message>
-        <location filename="src/url_textedit.cpp" line="163"/>
         <source>Warning</source>
         <translation type="obsolete">Warnung</translation>
     </message>
     <message>
-        <location filename="src/url_textedit.cpp" line="163"/>
         <source>Failed to open URL</source>
         <translation type="obsolete">Konnte die URL nicht öffnen</translation>
     </message>
@@ -2309,81 +2396,97 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
 <context>
     <name>WarningoSettings</name>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="222"/>
         <location filename="ui/warningo_settings.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="223"/>
         <location filename="ui/warningo_settings.ui" line="22"/>
         <source>Enable Warningo</source>
         <translation>Warningo aktivieren</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="227"/>
         <location filename="ui/warningo_settings.ui" line="49"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="224"/>
         <location filename="ui/warningo_settings.ui" line="74"/>
         <source> ms</source>
         <translation> ms</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="226"/>
         <location filename="ui/warningo_settings.ui" line="103"/>
         <source>Life time:</source>
         <translation>Lebenszeit:</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="234"/>
         <location filename="ui/warningo_settings.ui" line="119"/>
         <source>Location</source>
         <translation>Ort</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="228"/>
         <location filename="ui/warningo_settings.ui" line="133"/>
         <source>Display on screen:</source>
         <translation>Auf dem Bildschirm anzeigen:</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="229"/>
         <location filename="ui/warningo_settings.ui" line="145"/>
         <source>Choose your Warningo location:</source>
         <translation>Die Position von Warningo auswählen:</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="230"/>
         <location filename="ui/warningo_settings.ui" line="152"/>
         <source>On the top-left</source>
         <translation>Oben Links</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="231"/>
         <location filename="ui/warningo_settings.ui" line="159"/>
         <source>On the top-right</source>
         <translation>Oben Rechts</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="232"/>
         <location filename="ui/warningo_settings.ui" line="166"/>
         <source>On the bottom-left</source>
         <translation>Unten Links</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="233"/>
         <location filename="ui/warningo_settings.ui" line="173"/>
         <source>On the bottom-right</source>
         <translation>Unten Rechts</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="238"/>
         <location filename="ui/warningo_settings.ui" line="202"/>
         <source>Events</source>
         <translation>Ereignisse</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="235"/>
         <location filename="ui/warningo_settings.ui" line="227"/>
         <source>Sentences about me</source>
         <translation>Sätze über mich</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="236"/>
         <location filename="ui/warningo_settings.ui" line="234"/>
         <source>Private sentences (tell, etc)</source>
         <translation>Private Sätze (tell, usw.)</translation>
     </message>
     <message>
+        <location filename="src/ui_warningo_settings.h" line="237"/>
         <location filename="ui/warningo_settings.ui" line="241"/>
         <source>Raise a Warningo for:</source>
         <translation>Warningo für Folgendes anzeigen:</translation>
@@ -2397,6 +2500,7 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation>Benutzer: %1</translation>
     </message>
     <message>
+        <location filename="src/who_model.cpp" line="86"/>
         <location filename="src/who_model.cpp" line="87"/>
         <source>unregistered</source>
         <translation>unregistriert</translation>
@@ -2412,91 +2516,109 @@ Gruppe: %1</translation>
 <context>
     <name>WidgetSessionConfig</name>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="307"/>
         <location filename="ui/session_config_widget.ui" line="13"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="317"/>
         <location filename="ui/session_config_widget.ui" line="26"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="308"/>
         <location filename="ui/session_config_widget.ui" line="38"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="309"/>
         <location filename="ui/session_config_widget.ui" line="62"/>
         <source>Address:</source>
         <translation>Adresse:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="310"/>
         <location filename="ui/session_config_widget.ui" line="88"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="311"/>
         <location filename="ui/session_config_widget.ui" line="119"/>
         <source>Login:</source>
         <translation>Benutzername:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="312"/>
         <location filename="ui/session_config_widget.ui" line="135"/>
         <source>Password:</source>
         <translation>Passwort:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="313"/>
         <location filename="ui/session_config_widget.ui" line="148"/>
         <source>Confirm password:</source>
         <translation>Passwort bestätigen:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="314"/>
         <location filename="ui/session_config_widget.ui" line="181"/>
         <source>Description:</source>
         <translation>Beschreibung:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="315"/>
         <location filename="ui/session_config_widget.ui" line="191"/>
         <source>Auto-connect</source>
         <translation>Automatisch verbinden</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="323"/>
         <location filename="ui/session_config_widget.ui" line="219"/>
         <source>Advanced</source>
         <translation>Erweitert</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="318"/>
         <location filename="ui/session_config_widget.ui" line="235"/>
         <source>Client/Server stream encoding:</source>
         <translation>Client/Server stream Enkodierung:</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="319"/>
         <location filename="ui/session_config_widget.ui" line="247"/>
         <source>Furtive mode (don&apos;t store login/password)</source>
         <translation>Sicherer Modus (Benutzername/Passwort nicht speichern)</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="320"/>
         <location filename="ui/session_config_widget.ui" line="254"/>
         <source>Manage backup servers</source>
         <translation>Backupserver verwalten</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="324"/>
         <location filename="ui/session_config_widget.ui" line="319"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="322"/>
         <location filename="ui/session_config_widget.ui" line="290"/>
         <source>Quit message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="316"/>
         <location filename="ui/session_config_widget.ui" line="211"/>
         <source>Enable broadcast by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui_session_config_widget.h" line="321"/>
         <location filename="ui/session_config_widget.ui" line="267"/>
         <source>Perform commands when connected:</source>
         <translation type="unfinished"></translation>

@@ -8,9 +8,11 @@ function userBackgroundColor(login)
 	{
 		["HeadArch"] = "#ffff00",
 		["SnrGM"] = "#660066",
+		["EvtMngr"] = "#00ffff",
 		["GM"] = "#ff0000",
 		["VtnGuide"] = "#00ff00",
 		["SnrGuide"] = "#0000ff",
+		["EvtGuide"] = "#0000ff",
 		["Guide"] = "#ff8000"
 	}
 

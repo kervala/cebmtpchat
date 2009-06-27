@@ -1,7 +1,8 @@
 !include "MUI.nsh"
 
 Name "CeB"
-OutFile "ceb_ryzom_20080811.exe"
+OutFile "ceb_ryzom_20090625.exe"
+XPStyle on
 
 RequestExecutionLevel admin
 
@@ -62,14 +63,17 @@ Section "CeB" SecCeB
 
   SetOutPath "$INSTDIR"
   
-  ;ADD YOUR OWN FILES HERE...
+  ;exe
   File "..\CeB\bin\ceb.exe"
 
   ;dlls
-  File "..\CeB\bin\lua51.dll"
   File "..\CeB\bin\Microsoft.VC90.CRT.manifest"
   File "..\CeB\bin\msvcp90.dll"
   File "..\CeB\bin\msvcr90.dll"
+  File "..\CeB\bin\QtCore4.dll"
+  File "..\CeB\bin\QtGui4.dll"
+  File "..\CeB\bin\QtNetwork4.dll"
+  File "..\CeB\bin\QtXml4.dll"
 
   ;docs
   File "..\ceb\share\ceb\whatsnew.html"
@@ -93,6 +97,8 @@ Section "CeB" SecCeB
   ;scripts
   SetOutPath "$INSTDIR\scripts"
   File "..\ceb\share\ceb\scripts\calc.lua"
+  File "..\ceb\share\ceb\scripts\code.lua"
+  File "..\ceb\share\ceb\scripts\justify.lua"
 
   SetOutPath "$INSTDIR\modifiers"
   File "..\ceb\share\ceb\modifiers\event.lua"
@@ -150,6 +156,10 @@ Section "Uninstall"
   Delete $INSTDIR\Microsoft.VC90.CRT.manifest
   Delete $INSTDIR\msvcp90.dll
   Delete $INSTDIR\msvcr90.dll
+  Delete $INSTDIR\QtCore4.dll
+  Delete $INSTDIR\QtGui4.dll
+  Delete $INSTDIR\QtNetwork4.dll
+  Delete $INSTDIR\QtXml4.dll
   Delete $INSTDIR\uninstall.exe
   Delete $INSTDIR\scripts
   Delete $INSTDIR\modifiers

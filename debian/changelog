@@ -1,3 +1,55 @@
+cebmtpchat (0.1.19) intrepid; urgency=low
+
+  * fix problem with upload dialog title bar
+
+ -- Kervala <kervala@gmail.com>  Sun, 14 Dec 2008 13:53:35 +0100
+
+cebmtpchat (0.1.18) intrepid; urgency=low
+
+  * fix problem with broadcast title bar
+
+ -- Kervala <kervala@gmail.com>  Sun, 14 Dec 2008 09:19:11 +0100
+
+cebmtpchat (0.1.17) intrepid; urgency=low
+
+  * fix problem with title bars
+
+ -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 12:41:18 +0100
+
+cebmtpchat (0.1.16) intrepid; urgency=low
+
+  * fix compilation under amd64
+  * whatsnew.html updated
+  * version 20081213
+
+ -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 10:07:03 +0100
+
+cebmtpchat (0.1.15) intrepid; urgency=low
+
+  * Update icon is using alpha channel
+  * New CeB icon
+  * Tabulations are not removed anymore (temporary hack)
+  * Fixed bug when Warningo was popping up the main window
+  * User can perform commands when connected
+  * Personnalised message when user disconnects
+  * Broadcasting dialog has been updated to choose destination servers
+  * New Lua script for justified text (by Ben)
+  * New Lua script for code indentation (by Ulukyn)
+  * Emotes are working in tells (dirty hack)
+  * Fixed bug in UTF-8
+  * Removed hint icon in title bar under Windows
+  * Decreased margins for System Logs page
+  * Logs are now saved in CeB folder when in "local" mode
+
+
+ -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 09:41:19 +0100
+
+cebmtpchat (0.1.14) intrepid; urgency=low
+
+  * fixed the dependencies to liblua
+
+ -- Kervala <kervala@gmail.com>  Sun, 07 Dec 2008 11:15:38 +0100
+
 cebmtpchat (0.1.13) intrepid; urgency=low
 
   * only my login in color in sentences about me instead of the entire line
