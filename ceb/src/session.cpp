@@ -137,21 +137,20 @@ void Session::send(const QString &message, bool killIdle)
         !r.exactMatch(message) &&
         !Profile::instance().matchIdleAwayBypassExpressions(message))
     {
-        _socket->write(codec->fromUnicode(_tokenFactory.serverCommand("set away off\n")));
+        _socket->write(_tokenFactory.serverCommand("set away off\n").toLatin1());
         _autoAway = false;
     }
 
+    QString toSend = message;
+
+    // Avoid TELNET command code and convert tab to space
+	toSend = toSend.replace(255, QString("%1%1").arg(QChar(255))).replace('\t', ' ');
+
     // If message is multi-lines, split it before sending
-    foreach (QString msg, _tokenFactory.split(message))
+    foreach (QString msg, _tokenFactory.split(toSend, codec))
     {
-        // Avoid TELNET command code
-        QString toSend = msg.replace(255, QString("%1%1").arg(QChar(255))) + '\n';
-
-        // convert tab to space
-        toSend = toSend.replace('\t', ' ');
-
         // Ok, encode it and send!
-        _socket->write(codec->fromUnicode(toSend));
+        _socket->write(codec->fromUnicode(msg + '\n'));
     }
 
     if (killIdle)

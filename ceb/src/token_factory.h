@@ -83,7 +83,7 @@ public:
      */
     QString serverCommand(const QString &command) const;
 
-    QStringList split(const QString &message);
+    QStringList split(const QString &message, QTextCodec *codec);
     void reset();
 
     int requestTicket(Command command);

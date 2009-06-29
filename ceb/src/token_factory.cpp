@@ -496,7 +496,7 @@ QString TokenFactory::serverCommand(const QString &command) const
         return "." + command;
 }
 
-QStringList TokenFactory::split(const QString &message)
+QStringList TokenFactory::split(const QString &message, QTextCodec *codec)
 {
     QStringList strings; // Contains the result
 
@@ -505,7 +505,8 @@ QStringList TokenFactory::split(const QString &message)
     {
         QString trueMessage = line;
         QString prefix;
-        int len = 256;
+		int maxLength = 255;
+        int len = maxLength;
 
         // Split the message in function of the recognized form
         for (int i = 0; i < _sendTokenRegexp.count(); i++)
@@ -537,11 +538,25 @@ QStringList TokenFactory::split(const QString &message)
 
         while (!trueMessage.isEmpty())
         {
-            strings << prefix + trueMessage.left(len);
+			int usedLength = len;
+
+			QString str = prefix + trueMessage.left(len);
+
+			if (codec)
+			{
+				// we are chopping characters until the string is smaller than 256
+				while (codec->fromUnicode(str).size() > maxLength)
+				{
+					str.chop(1);
+					--usedLength;
+				}
+			}
+
+            strings << str;
 
             // Next
-            if (trueMessage.length() > len)
-                trueMessage = trueMessage.right(trueMessage.length() - len);
+            if (trueMessage.length() > usedLength)
+                trueMessage = trueMessage.right(trueMessage.length() - usedLength);
             else
                 trueMessage = "";
         }
