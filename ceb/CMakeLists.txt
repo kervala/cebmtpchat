@@ -162,6 +162,11 @@ QT4_WRAP_CPP(CEB_MOC ${CEB_MOCH})
 
 QT4_ADD_RESOURCES(CEB_RES ceb.qrc)
 
+# translations
+FILE(GLOB CEB_TSS ceb_*.ts)
+QT4_ADD_TRANSLATION(CEB_QMS ${CEB_TSS})
+ADD_CUSTOM_TARGET(translations ALL DEPENDS ${CEB_QMS})
+
 IF(MINGW)
 	# resource compilation for MinGW
 	ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ceb_rc.o
@@ -186,11 +191,7 @@ ENDIF(WIN32)
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/libmax.a ${QT_LIBRARIES} ${LUA_LIBRARY}
-#/usr/lib/libSM.so /usr/lib/libICE.so /usr/lib/libXrender.so /usr/lib/libglib-2.0.so
-#/usr/lib/libgthread-2.0.so /usr/lib/libXi.so /usr/lib/libXrandr.so
-#/usr/lib/libfreetype.so /usr/lib/libfontconfig.so
-#/usr/lib/libpng.so
+		ceb max ${QT_LIBRARIES} ${LUA_LIBRARY}
 	)
 ELSEIF(WIN32)
 	TARGET_LINK_LIBRARIES(
@@ -204,6 +205,8 @@ INSTALL(DIRECTORY share/ceb
         DESTINATION share
         PATTERN .svn
         EXCLUDE)
+INSTALL(FILES ${CEB_QMS}
+        DESTINATION share/ceb/languages)
 INSTALL(DIRECTORY share/applications
         DESTINATION share
         PATTERN .svn
