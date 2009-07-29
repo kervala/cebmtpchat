@@ -1,3 +1,42 @@
+cebmtpchat (0.1.23) jaunty; urgency=low
+
+  * fixed compilation
+  * fixed translations update
+
+ -- Kervala <kervala@gmail.com>  Wed, 29 Jul 2009 15:22:32 +0200
+
+cebmtpchat (0.1.22) jaunty; urgency=low
+
+  * fixed broadcast variable name
+  * log directory choice for custom is not poped anymore at configuration dialog execution time
+  * fixed quit and join messages with unicode characters
+  * use of Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint for dialogs to remove context help button
+  * fixed a display of pointer
+  * fixed a crash when closing a tab
+  * main window is blinking in taskbar when we receive a private tell or someone is talking about us
+  * fixed a crash when closing a tab
+  * fixed copy of url from contextual menu (patch provided by csr.sywindt)
+  * new version (20090625)
+  * colors for EG and EM (Ryzom Animation team ranks)
+  * added a title in "what's new" window
+  * fixed a lot of memory leaks
+  * fixed a bug in unicode where some characters were removed when accents were present in text
+
+ -- Kervala <kervala@gmail.com>  Wed, 29 Jul 2009 12:56:47 +0200
+
+cebmtpchat (0.1.21) jaunty; urgency=low
+
+  * fixed the bug with infinite loop in Qt 4.5
+
+ -- Kervala <kervala@gmail.com>  Mon, 13 Apr 2009 15:33:42 +0200
+
+cebmtpchat (0.1.20) jaunty; urgency=low
+
+  * linked to Qt 4.5
+  * removed emotes in tells
+
+ -- Kervala <kervala@gmail.com>  Sat, 14 Mar 2009 18:21:31 +0100
+
 cebmtpchat (0.1.19) intrepid; urgency=low
 
   * fix problem with upload dialog title bar
