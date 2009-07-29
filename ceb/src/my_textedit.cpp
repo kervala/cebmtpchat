@@ -45,7 +45,7 @@
     #endif
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL), pTaskbarList(NULL)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
 {
     progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
     progressDialog->setWindowTitle("CeB");
@@ -61,6 +61,7 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(fa
     setAcceptDrops(true);
 
 #ifdef TASKBAR_PROGRESS
+    pTaskbarList = NULL;
     // instanciate the taskbar control COM object
     CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pTaskbarList));
 #endif // TASKBAR_PROGRESS
