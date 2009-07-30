@@ -331,11 +331,6 @@ void MainWindow::makeMenuBar()
     connect(menuEdit, SIGNAL(aboutToShow()), this, SLOT(aboutToShowEditMenu()));
     QAction *actionSearch = menuEdit->addAction(tr("&Search"));
     connect(actionSearch, SIGNAL(triggered()), this, SLOT(searchActionTriggered()));
-    menuEdit->addSeparator();
-    _actionToggleTopicVisibility = menuEdit->addAction("");
-    connect(_actionToggleTopicVisibility, SIGNAL(triggered()), this, SLOT(toggleTopicVisibility()));
-    _actionToggleUsersVisibility = menuEdit->addAction("");
-    connect(_actionToggleUsersVisibility, SIGNAL(triggered()), this, SLOT(toggleUsersVisibility()));
 
     // Configuration menu
     QMenu *menuConfiguration = mbMain->addMenu(tr("Confi&guration"));
@@ -346,6 +341,10 @@ void MainWindow::makeMenuBar()
     _actionToggleStatusBarVisibility = menuConfiguration->addAction("");
     _actionToggleStatusBarVisibility->setShortcutContext(Qt::WidgetShortcut);
     connect(_actionToggleStatusBarVisibility, SIGNAL(triggered()), this, SLOT(toggleStatusBarVisibility()));
+    _actionToggleTopicVisibility = menuConfiguration->addAction("");
+    connect(_actionToggleTopicVisibility, SIGNAL(triggered()), this, SLOT(toggleTopicVisibility()));
+    _actionToggleUsersVisibility = menuConfiguration->addAction("");
+    connect(_actionToggleUsersVisibility, SIGNAL(triggered()), this, SLOT(toggleUsersVisibility()));
     menuConfiguration->addSeparator();
     actionEditConnectionConfig = menuConfiguration->addAction(tr("&Connection configuration..."));
     actionEditConnectionConfig->setEnabled(false);
@@ -1570,6 +1569,14 @@ void MainWindow::aboutToShowConfigurationMenu()
     shortcut = shortcutByActionType(Action::Action_ToggleStatusBar);
     if (shortcut)
         _actionToggleStatusBarVisibility->setShortcut(shortcut->key());
+    if (Profile::instance().topicWindowVisible)
+        _actionToggleTopicVisibility->setText(tr("Hide &topic"));
+    else
+        _actionToggleTopicVisibility->setText(tr("Show &topic"));
+    if (Profile::instance().usersWindowVisible)
+        _actionToggleUsersVisibility->setText(tr("Hide &users"));
+    else
+        _actionToggleUsersVisibility->setText(tr("Show &users"));
 }
 
 void MainWindow::toggleMenuBarVisibility()
@@ -1606,14 +1613,6 @@ void MainWindow::aboutToShowWindowsMenu()
 
 void MainWindow::aboutToShowEditMenu()
 {
-    if (Profile::instance().topicWindowVisible)
-        _actionToggleTopicVisibility->setText(tr("Hide &topic"));
-    else
-        _actionToggleTopicVisibility->setText(tr("Show &topic"));
-    if (Profile::instance().usersWindowVisible)
-        _actionToggleUsersVisibility->setText(tr("Hide &users"));
-    else
-        _actionToggleUsersVisibility->setText(tr("Show &users"));
 }
 
 Session *MainWindow::getCurrentSession() const
