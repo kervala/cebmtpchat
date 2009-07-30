@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QHeaderView>
+#include <QLibraryInfo>
 
 #include "version.h"
 #include "profile.h"
@@ -646,7 +647,7 @@ void ChannelWidget::sessionLogged()
 {
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->sendCommand("set client CeB " + QString(VERSION));
+    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(VERSION).arg(qVersion()).arg(QLibraryInfo::buildKey()));
 
     // Send first groups command
     _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);
