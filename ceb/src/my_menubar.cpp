@@ -31,22 +31,15 @@ void MyMenuBar::paintEvent(QPaintEvent *event)
 #ifdef Q_OS_WIN32
     if (Profile::instance().checkForUpdate)
     {
-        QPixmap pixmap;
-
-        // Paint warning
-        if (_updateAvailable)
-            pixmap = QPixmap(":/images/update.png");
-        else
-            pixmap = QPixmap(":/images/no_update.png");
-
         QPainter painter(this);
-        int left = width() - 18;
-        int top = 0;
+        int left = width() - pixmap.width() - 2;
+		int top = (height() - pixmap.height()) / 2;
         if (updateIconPressed && mouseOverIcon)
         {
             left++;
             top++;
         }
+        // Paint warning
         painter.drawPixmap(left, top, pixmap);
     }
 #endif
@@ -62,7 +55,13 @@ void MyMenuBar::setUpdateAvailable(bool value)
     if (_updateAvailable != value)
     {
         _updateAvailable = value;
-        repaint();
+
+		if (_updateAvailable)
+            pixmap = QPixmap(":/images/update.png");
+        else
+            pixmap = QPixmap(":/images/no_update.png");
+
+		repaint();
     }
 }
 
@@ -70,6 +69,8 @@ MyMenuBar::MyMenuBar(QWidget *parent) : QMenuBar(parent)
 {
     _updateAvailable = false;
     updateIconPressed = false;
+    mouseOverIcon = false;
+    pixmap = QPixmap(":/images/no_update.png");
 }
 
 void MyMenuBar::mousePressEvent(QMouseEvent *event)
@@ -80,10 +81,13 @@ void MyMenuBar::mousePressEvent(QMouseEvent *event)
     if (Profile::instance().checkForUpdate)
     {
         // Icon?
-        updateIconPressed = (event->x() >= width() - 18) &&
-            (event->x() < width() - 2) &&
-            (event->y() >= 0) &&
-            (event->y() < 16);
+        int left = width() - pixmap.width() - 2;
+		int top = (height() - pixmap.height()) / 2;
+
+		updateIconPressed = (event->x() >= left) &&
+            (event->x() < left + pixmap.width()) &&
+            (event->y() >= top) &&
+            (event->y() < top + pixmap.height());
         mouseOverIcon = updateIconPressed;
 
         if (updateIconPressed)
@@ -122,10 +126,13 @@ void MyMenuBar::mouseMoveEvent(QMouseEvent *event)
 #ifdef Q_OS_WIN32
     if (Profile::instance().checkForUpdate)
     {
-        bool overIcon = (event->x() >= width() - 18) &&
-            (event->x() < width() - 2) &&
-            (event->y() >= 0) &&
-            (event->y() < 16);
+        int left = width() - pixmap.width() - 2;
+		int top = (height() - pixmap.height()) / 2;
+
+		bool overIcon = (event->x() >= left) &&
+            (event->x() < left + pixmap.width()) &&
+            (event->y() >= top) &&
+            (event->y() < top + pixmap.height());
 
         if (overIcon != mouseOverIcon)
         {

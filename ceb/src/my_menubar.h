@@ -29,6 +29,7 @@ private:
     bool _updateAvailable;
     bool updateIconPressed;
     bool mouseOverIcon;
+    QPixmap pixmap;
 
 protected:
     virtual void paintEvent(QPaintEvent * event);
