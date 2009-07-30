@@ -124,23 +124,23 @@ void SessionConfig::save(QDomElement &rootElem)
         rootElem.appendChild(propertiesElem);
 }
 
-SessionConfig &SessionConfig::getTemplate()
+SessionConfig SessionConfig::getTemplate()
 {
-    SessionConfig *config = new SessionConfig;
-    config->_address = "";
-    config->_port = 4000;
-    config->_description = "";
-    config->_autoconnect = false;
-    config->_broadcast = true;
-    config->_manageBackupServers = true;
-    config->_encodingMib = 111; // ISO-8859-15
-    config->_performCommands = "";
-    config->_quitMessage = "";
-    config->_topicHeight = 30;
-    config->_entryHeight = 30;
-    config->_whoWidth = 80;
+    SessionConfig config;
+    config._address = "";
+    config._port = 4000;
+    config._description = "";
+    config._autoconnect = false;
+    config._broadcast = true;
+    config._manageBackupServers = true;
+    config._encodingMib = 111; // ISO-8859-15
+    config._performCommands = "";
+    config._quitMessage = "";
+    config._topicHeight = 30;
+    config._entryHeight = 30;
+    config._whoWidth = 80;
 
-    return *config;
+    return config;
 }
 
 BackupServer SessionConfig::nextBackupServer(const QString address, int port) const

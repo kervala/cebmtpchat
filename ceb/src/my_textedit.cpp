@@ -69,7 +69,15 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(fa
 
 MyTextEdit::~MyTextEdit()
 {
-    delete progressDialog;
+	std::map<int, FtpQueue>::iterator it = ftpQueue.begin(), iend = ftpQueue.end();
+
+	while(it != iend)
+	{
+		if (it->second.file) delete it->second.file;
+		++it;
+	}
+	
+	delete progressDialog;
 
 #ifdef TASKBAR_PROGRESS
     if (pTaskbarList)
@@ -308,31 +316,27 @@ void MyTextEdit::dropEvent(QDropEvent *event)
         }
 
         // if an FTP connection is already set, we close it
-        if (ftp)
+        if (!ftp)
         {
-            ftp->abort();
-            ftp->deleteLater();
-            ftp = NULL;
+            ftp = new QFtp(this);
+
+	        connect(ftp, SIGNAL(commandFinished(int, bool)),
+				    this, SLOT(ftpCommandFinished(int, bool)));
+			connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
+			        this, SLOT(updateDataTransferProgress(qint64, qint64)));
+
+		    ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
+
+	        if (!ftpUrl.userName().isEmpty())
+				// send login and password
+			    ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLocal8Bit()), ftpUrl.password());
+		    else
+	            ftp->login(); // anonymous connection
+
+			// change directory
+		    if (!ftpUrl.path().isEmpty())
+	            ftp->cd(ftpUrl.path());
         }
-
-        ftp = new QFtp(this);
-
-        connect(ftp, SIGNAL(commandFinished(int, bool)),
-                this, SLOT(ftpCommandFinished(int, bool)));
-        connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
-                this, SLOT(updateDataTransferProgress(qint64, qint64)));
-
-        ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
-
-        if (!ftpUrl.userName().isEmpty())
-            // send login and password
-            ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLocal8Bit()), ftpUrl.password());
-        else
-            ftp->login(); // anonymous connection
-
-        // change directory
-        if (!ftpUrl.path().isEmpty())
-            ftp->cd(ftpUrl.path());
 
         // get the list of all files to upload
         QList<QUrl> urlList = event->mimeData()->urls();
@@ -381,10 +385,10 @@ void MyTextEdit::dropEvent(QDropEvent *event)
             }
 
             // send the file to FTP
-            queue.id = ftp->put(queue.file, queue.finalUrl);
+            int id = ftp->put(queue.file, queue.finalUrl);
 
             // add details on the file to the ftp queue
-            ftpQueue.append(queue);
+            ftpQueue[id] = queue;
         }
 
         event->acceptProposedAction();
@@ -404,31 +408,7 @@ void MyTextEdit::ftpCommandFinished(int commandId, bool error)
 
     if (ftp->currentCommand() == QFtp::Put)
     {
-        FtpQueue current;
-
-        current.id = -1;
-
-        int i = 0;
-
-        // remove the just completed file from the queue
-        while(i < ftpQueue.size())
-        {
-            if (ftpQueue.at(i).id == commandId)
-            {
-                current = ftpQueue.at(i);
-                ftpQueue.removeAt(i);
-                break;
-            }
-
-            ++i;
-        }
-
-        // we didn't find the right file
-        if (current.id == -1)
-        {
-//          addNewLine(tr("Command id %1 not found").arg(commandId));
-            return;
-        }
+        FtpQueue &current = ftpQueue[commandId];
 
         if (error)
         {
@@ -457,10 +437,13 @@ void MyTextEdit::ftpCommandFinished(int commandId, bool error)
 
         delete current.file;
 
+		current.file = NULL;
+
         // if no files in ftp queue, we can safely close connection
         if (!ftp->hasPendingCommands())
         {
-            ftp->abort();
+//            ftp->abort();
+			ftp->close();
             ftp->deleteLater();
             ftp = NULL;
         }
@@ -482,5 +465,11 @@ void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
 
 void MyTextEdit::cancelDownload()
 {
-    if (ftp) ftp->abort();
+    if (ftp)
+	{
+//		ftp->abort();
+		ftp->close();
+		ftp->deleteLater();
+		ftp = NULL;
+	}
 }

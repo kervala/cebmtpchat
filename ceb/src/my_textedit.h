@@ -74,13 +74,12 @@ private:
 
     struct FtpQueue
     {
-        int id;
         QString fileName;
         QString finalUrl;
         QFile *file;
     };
 
-    QList<FtpQueue> ftpQueue;
+    std::map<int, FtpQueue> ftpQueue;
 
 #ifdef Q_OS_WIN
     ITaskbarList3* pTaskbarList;

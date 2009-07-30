@@ -99,7 +99,7 @@ public:
 
     Properties &properties() { return _properties; }
 
-    static SessionConfig &getTemplate();
+    static SessionConfig getTemplate();
 
 private:
     QString _name;
