@@ -33,7 +33,7 @@ void MyMenuBar::paintEvent(QPaintEvent *event)
     {
         QPainter painter(this);
         int left = width() - pixmap.width() - 2;
-		int top = (height() - pixmap.height()) / 2;
+        int top = (height() - pixmap.height()) / 2;
         if (updateIconPressed && mouseOverIcon)
         {
             left++;
@@ -56,12 +56,12 @@ void MyMenuBar::setUpdateAvailable(bool value)
     {
         _updateAvailable = value;
 
-		if (_updateAvailable)
+        if (_updateAvailable)
             pixmap = QPixmap(":/images/update.png");
         else
             pixmap = QPixmap(":/images/no_update.png");
 
-		repaint();
+        repaint();
     }
 }
 
@@ -82,9 +82,9 @@ void MyMenuBar::mousePressEvent(QMouseEvent *event)
     {
         // Icon?
         int left = width() - pixmap.width() - 2;
-		int top = (height() - pixmap.height()) / 2;
+        int top = (height() - pixmap.height()) / 2;
 
-		updateIconPressed = (event->x() >= left) &&
+        updateIconPressed = (event->x() >= left) &&
             (event->x() < left + pixmap.width()) &&
             (event->y() >= top) &&
             (event->y() < top + pixmap.height());
@@ -127,9 +127,9 @@ void MyMenuBar::mouseMoveEvent(QMouseEvent *event)
     if (Profile::instance().checkForUpdate)
     {
         int left = width() - pixmap.width() - 2;
-		int top = (height() - pixmap.height()) / 2;
+        int top = (height() - pixmap.height()) / 2;
 
-		bool overIcon = (event->x() >= left) &&
+        bool overIcon = (event->x() >= left) &&
             (event->x() < left + pixmap.width()) &&
             (event->y() >= top) &&
             (event->y() < top + pixmap.height());
