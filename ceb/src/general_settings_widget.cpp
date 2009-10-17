@@ -17,10 +17,7 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-
 #include "language_manager.h"
-
 #include "general_settings_widget.h"
 
 GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)

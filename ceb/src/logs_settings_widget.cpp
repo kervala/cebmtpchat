@@ -17,10 +17,7 @@
  */
 
 #include "common.h"
-#include <QFileDialog>
-
 #include "logger.h"
-
 #include "logs_settings_widget.h"
 
 LogsSettingsWidget::LogsSettingsWidget(QWidget *parent)

@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QTreeWidgetItem>
-#include <QFontDialog>
-#include <QColorDialog>
 
 #include "profile.h"
 #include "token_info.h"

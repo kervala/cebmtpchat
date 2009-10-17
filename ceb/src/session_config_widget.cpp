@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-#include <QVBoxLayout>
-#include <QSpacerItem>
-#include <QTextCodec>
-
 #include "session_config_widget.h"
 
 SessionConfigWidget::SessionConfigWidget(QWidget *parent, bool showRemoveButton) : QWidget(parent)

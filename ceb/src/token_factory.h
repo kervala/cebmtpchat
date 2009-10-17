@@ -19,10 +19,6 @@
 #ifndef TOKEN_FACTORY_H
 #define TOKEN_FACTORY_H
 
-#include <QObject>
-#include <QRegExp>
-#include <QMap>
-
 #include "token.h"
 
 class MtpRegExp : public QRegExp

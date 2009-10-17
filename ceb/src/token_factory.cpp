@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QVector>
-#include <QStringList>
-#include <QMessageBox>
-
 #include "token_info.h"
 
 #include "token_factory.h"

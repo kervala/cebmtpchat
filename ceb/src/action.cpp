@@ -17,7 +17,6 @@
  */
 
 #include "common.h"
-#include <QCoreApplication>
 
 #include <xml_handler.h>
 

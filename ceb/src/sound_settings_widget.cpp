@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QDir>
-#include <QSound>
-#include <QFileDialog>
-
 #include "paths.h"
 
 #include "sound_settings_widget.h"

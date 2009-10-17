@@ -19,9 +19,9 @@
 #ifndef WHO_USER_H
 #define WHO_USER_H
 
-#include <QList>
-#include <QString>
-#include <QObject>
+#include <QtCore/QList>
+#include <QtCore/QString>
+#include <QtCore/QObject>
 
 class WhoUser
 {

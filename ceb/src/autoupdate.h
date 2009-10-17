@@ -19,9 +19,6 @@
 #ifndef AUTOUPDATE_H
 #define AUTOUPDATE_H
 
-#include <QHttp>
-#include <QFile>
-
 class AutoUpdate : public QObject
 {
     Q_OBJECT

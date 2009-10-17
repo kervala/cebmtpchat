@@ -17,12 +17,7 @@
  */
 
 #include "common.h"
-#include <QDir>
-#include <QCoreApplication>
-#include <QDesktopServices>
-
 #include "global.h"
-
 #include "paths.h"
 
 QString Paths::sharePath()

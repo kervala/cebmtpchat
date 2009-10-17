@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-#include <QShortcut>
-
 #include "idle_settings_widget.h"
 
 IdleSettingsWidget::IdleSettingsWidget(QWidget *parent) : SettingsWidget(parent)

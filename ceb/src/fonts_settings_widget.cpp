@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QFontDialog>
-#include <QColorDialog>
-
 #include "profile.h"
 #include "fonts_settings_widget.h"
 

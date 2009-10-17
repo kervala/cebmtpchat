@@ -17,13 +17,6 @@
  */
 
 #include "common.h"
-#include <QVBoxLayout>
-#include <QScrollBar>
-#include <QTextCursor>
-#include <QKeyEvent>
-#include <QApplication>
-#include <QDir>
-
 #include "profile.h"
 #include "lua_utils.h"
 #include "paths.h"

@@ -19,8 +19,6 @@
 #ifndef DIALOG_SHORTCUT_H
 #define DIALOG_SHORTCUT_H
 
-#include <QPushButton>
-
 #include <dialog_basic.h>
 
 class DialogShortcut : public DialogBasic

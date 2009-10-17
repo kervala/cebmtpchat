@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QFileDialog>
-
 #include "links_settings_widget.h"
 
 LinksSettingsWidget::LinksSettingsWidget(QWidget *parent) : SettingsWidget(parent)

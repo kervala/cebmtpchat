@@ -21,8 +21,6 @@
 
 #include "session.h"
 
-#include <QWidget>
-
 class SessionWidget : public QWidget
 {
     Q_OBJECT

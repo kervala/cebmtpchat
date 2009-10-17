@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-
 #include "profile.h"
 #include "session_manager.h"
 #include "logger.h"

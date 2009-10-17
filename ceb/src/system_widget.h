@@ -19,9 +19,6 @@
 #ifndef DIALOG_SYSTEM_H
 #define DIALOG_SYSTEM_H
 
-#include <QTextEdit>
-#include <QPushButton>
-
 class SystemWidget : public QWidget
 {
     Q_OBJECT

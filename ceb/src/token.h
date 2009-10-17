@@ -19,9 +19,6 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include <QStringList>
-#include <QTime>
-
 class Token
 {
 public:

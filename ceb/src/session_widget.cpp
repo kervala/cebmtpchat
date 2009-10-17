@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QKeyEvent>
-#include <QShortcutEvent>
-
 #include "session_widget.h"
 
 SessionWidget::SessionWidget(Session *session, QWidget *parent) :

@@ -19,9 +19,8 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include <QTcpSocket>
-#include <QStringList>
-#include <QHostAddress>
+#include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QHostAddress>
 
 #include "session_config.h"
 #include "token_factory.h"

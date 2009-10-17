@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QDesktopWidget>
-#include <QApplication>
-
 #include "warningo_settings_widget.h"
 
 WarningoSettingsWidget::WarningoSettingsWidget(QWidget *parent) : SettingsWidget(parent)

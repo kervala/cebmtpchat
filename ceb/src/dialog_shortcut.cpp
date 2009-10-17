@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QLabel>
-#include <QKeyEvent>
-#include <QtDebug>
-#include <QMessageBox>
-
 #include "dialog_shortcut.h"
 
 DialogShortcut::DialogShortcut(QWidget *parent)

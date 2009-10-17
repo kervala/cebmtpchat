@@ -19,9 +19,6 @@
 #ifndef MTPCHAT_HANDLER_H
 #define MTPCHAT_HANDLER_H
 
-#include <QObject>
-#include <QUrl>
-
 class MtpChatHandler : public QObject
 {
     Q_OBJECT

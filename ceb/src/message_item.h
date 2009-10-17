@@ -19,8 +19,6 @@
 #ifndef MESSAGE_ITEM_H
 #define MESSAGE_ITEM_H
 
-#include <QString>
-
 class MessageItem
 {
 public:

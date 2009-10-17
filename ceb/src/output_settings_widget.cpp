@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QColorDialog>
-
 #include "output_settings_widget.h"
 
 OutputSettingsWidget::OutputSettingsWidget(QWidget *parent)

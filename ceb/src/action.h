@@ -19,10 +19,6 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include <QList>
-#include <QKeySequence>
-#include <QDomElement>
-
 class Action
 {
 public:

@@ -17,17 +17,6 @@
  */
 
 #include "common.h"
-#include <QCoreApplication>
-#include <QDir>
-#include <QUrl>
-#include <QTextStream>
-#include <QFile>
-#include <QMessageBox>
-#include <QFileInfo>
-#include <QDomDocument>
-#include <QTextStream>
-#include <QTranslator>
-
 #include <xml_handler.h>
 
 #include "version.h"

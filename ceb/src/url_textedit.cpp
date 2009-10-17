@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QTextCursor>
-#include <QMessageBox>
-#include <QTextDocumentFragment>
-#include <QDesktopServices>
-
 #include "profile.h"
 #include "url_textedit.h"
 

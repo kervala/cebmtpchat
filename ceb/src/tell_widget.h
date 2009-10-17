@@ -19,9 +19,6 @@
 #ifndef TELL_WIDGET_H
 #define TELL_WIDGET_H
 
-#include <QSplitter>
-#include <QComboBox>
-
 #include <history_widget.h>
 
 #include "session_widget.h"

@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QObject>
-
 #include "token_info.h"
 
 QString TokenInfo::tokenToIDString(Token::Type token)

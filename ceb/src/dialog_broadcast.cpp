@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QCheckBox>
 
 #include "session_manager.h"
 #include "dialog_broadcast.h"
@@ -79,7 +75,7 @@ void DialogBroadcast::textValidated(const QString &text)
 
 void DialogBroadcast::selectServer(QObject *object)
 {
-    Session *session = dynamic_cast<Session*>(object);
+    Session *session = qobject_cast<Session*>(object);
     if (!session) return;
     SessionConfig config = session->config();
     config.setBroadcast(!config.broadcast());

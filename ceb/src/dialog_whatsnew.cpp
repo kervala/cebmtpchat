@@ -17,11 +17,7 @@
  */
 
 #include "common.h"
-#include <QDir>
-#include <QMessageBox>
-
 #include "paths.h"
-
 #include "dialog_whatsnew.h"
 
 DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)

@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QPainter>
-#include <QMessageBox>
-#include <QMouseEvent>
-
 #include "profile.h"
 #include "my_menubar.h"
 

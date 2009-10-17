@@ -19,9 +19,6 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
 
-#include <QDomElement>
-#include <QList>
-
 class Property
 {
 public:

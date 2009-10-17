@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QIcon>
-
 #include "who_model.h"
 #include "event_script.h"
 

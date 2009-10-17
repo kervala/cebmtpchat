@@ -19,11 +19,6 @@
 #ifndef PROFILE_H
 #define PROFILE_H
 
-#include <QString>
-#include <QList>
-#include <QColor>
-#include <QTabWidget>
-
 #include "session_config.h"
 #include "token_display.h"
 #include "action.h"

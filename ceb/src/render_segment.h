@@ -19,12 +19,6 @@
 #ifndef RENDER_SEGMENT_H
 #define RENDER_SEGMENT_H
 
-#include <QString>
-#include <QFont>
-#include <QColor>
-#include <QList>
-#include <QRegExp>
-
 class RenderSegment
 {
 public:

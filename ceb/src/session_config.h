@@ -19,11 +19,6 @@
 #ifndef SESSION_CONFIG_H
 #define SESSION_CONFIG_H
 
-#include <QVariant>
-#include <QString>
-#include <QStringList>
-#include <QDomElement>
-
 #include "property.h"
 
 class BackupServer

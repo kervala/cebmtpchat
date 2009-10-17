@@ -19,8 +19,6 @@
 #ifndef TOKEN_INFO_H
 #define TOKEN_INFO_H
 
-#include <QString>
-
 #include "token.h"
 
 namespace TokenInfo

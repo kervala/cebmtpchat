@@ -19,14 +19,6 @@
 #ifndef MESSAGE_WIDGET_H
 #define MESSAGE_WIDGET_H
 
-#include <QWidget>
-#include <QCheckBox>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QSplitter>
-#include <QPushButton>
-#include <QTreeView>
-
 #include <generic_sort_model.h>
 
 #include "session_widget.h"

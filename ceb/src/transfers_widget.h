@@ -19,10 +19,6 @@
 #ifndef TRANSFERS_WIDGET_H
 #define TRANSFERS_WIDGET_H
 
-#include <QVBoxLayout>
-#include <QPainter>
-#include <QPushButton>
-
 #include "session_widget.h"
 #include "transfers_manager.h"
 

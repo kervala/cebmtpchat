@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QFrame>
-
 #include "dialog_update.h"
 #include "version.h"
 

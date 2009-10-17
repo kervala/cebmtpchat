@@ -17,15 +17,6 @@
  */
 
 #include "common.h"
-#include <QScrollArea>
-#include <QVBoxLayout>
-#include <QSpacerItem>
-#include <QLabel>
-#include <QPushButton>
-#include <QPainter>
-#include <QProgressBar>
-#include <QFileDialog>
-
 #include "transfers_widget.h"
 #include "transfers_manager.h"
 

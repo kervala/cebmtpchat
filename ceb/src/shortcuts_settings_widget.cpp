@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QFileDialog>
-#include <QHeaderView>
-
 #include "profile.h"
 #include "dialog_shortcut.h"
 #include "shortcuts_settings_widget.h"

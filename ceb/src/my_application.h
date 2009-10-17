@@ -19,8 +19,6 @@
 #ifndef MY_APPLICATION_H
 #define MY_APPLICATION_H
 
-#include <QApplication>
-
 class MyApplication : public QApplication
 {
     Q_OBJECT

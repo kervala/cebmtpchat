@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QDate>
-#include <QDir>
-#include <QApplication>
-#include <QTextStream>
-
 #include "profile.h"
 #include "global.h"
 #include "paths.h"

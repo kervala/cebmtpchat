@@ -21,12 +21,6 @@
 
 #include "autoupdate.h"
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QLabel>
-#include <QProgressBar>
-
 class DialogUpdate: public QDialog
 {
     Q_OBJECT

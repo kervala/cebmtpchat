@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-#include <QHeaderView>
-#include <QScrollBar>
-
 #include <filter_widget.h>
 
 #include "message_widget.h"

@@ -17,20 +17,6 @@
  */
 
 #include "common.h"
-#include <QApplication>
-#include <QMainWindow>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QToolBar>
-#include <QMenuBar>
-#include <QLabel>
-#include <QTabWidget>
-#include <QMessageBox>
-#include <QCloseEvent>
-#include <QWindowStateChangeEvent>
-#include <QDir>
-#include <QSound>
-#include <QDesktopServices>
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -57,22 +43,22 @@
 
 bool isVista()
 {
-    OSVERSIONINFO osver;
+    OSVERSIONINFOW osver;
 
-    osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOW);
 
-    if (::GetVersionEx(&osver) && osver.dwPlatformId == VER_PLATFORM_WIN32_NT && (osver.dwMajorVersion >= 6)) return true;
+    if (::GetVersionExW(&osver) && osver.dwPlatformId == VER_PLATFORM_WIN32_NT && (osver.dwMajorVersion >= 6)) return true;
 
     return false;
 }
 
-bool myShellExec(HWND hwnd, LPCTSTR pszVerb, LPCTSTR pszPath, LPCTSTR pszParameters = NULL, LPCTSTR pszDirectory = NULL)
+bool myShellExec(HWND hwnd, LPCWSTR pszVerb, LPCWSTR pszPath, LPCWSTR pszParameters = NULL, LPCWSTR pszDirectory = NULL)
 {
-    SHELLEXECUTEINFO shex;
+    SHELLEXECUTEINFOW shex;
 
     memset(&shex, 0, sizeof(shex));
 
-    shex.cbSize			= sizeof( SHELLEXECUTEINFO );
+    shex.cbSize			= sizeof(SHELLEXECUTEINFOW);
     shex.fMask			= 0;
     shex.hwnd			= hwnd;
     shex.lpVerb			= pszVerb;
@@ -81,12 +67,12 @@ bool myShellExec(HWND hwnd, LPCTSTR pszVerb, LPCTSTR pszPath, LPCTSTR pszParamet
     shex.lpDirectory	= pszDirectory;
     shex.nShow			= SW_NORMAL;
 
-    return ::ShellExecuteExA(&shex) == 1;
+    return ::ShellExecuteExW(&shex) == 1;
 }
 
-bool runElevated(HWND hwnd, LPCTSTR pszPath, LPCTSTR pszParameters = NULL, LPCTSTR pszDirectory = NULL)
+bool runElevated(HWND hwnd, LPCWSTR pszPath, LPCWSTR pszParameters = NULL, LPCWSTR pszDirectory = NULL)
 {
-    return myShellExec(hwnd, "runas", pszPath, pszParameters, pszDirectory);
+    return myShellExec(hwnd, L"runas", pszPath, pszParameters, pszDirectory);
 }
 
 #endif
@@ -1276,7 +1262,7 @@ void MainWindow::updateAccepted()
 #ifdef Q_OS_WIN32
 	if (isVista())
     {
-    	bool bSuccess = runElevated(winId(), installer.toLatin1());
+        bool bSuccess = runElevated(winId(), installer.toStdWString().c_str());
     }
     else
 #endif
@@ -1660,7 +1646,7 @@ void MainWindow::toggleUsersVisibility()
 
 QShortcut *MainWindow::shortcutByActionType(Action::ActionType type) const
 {
-    QShortcut *shortcut = dynamic_cast<QShortcut*>(actionSignalMapper->mapping(type));
+    QShortcut *shortcut = qobject_cast<QShortcut*>(actionSignalMapper->mapping(type));
     return shortcut;
 }
 

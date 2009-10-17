@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QString>
-#include <QDateTime>
-#include <QMap>
-#include <QDir>
-
 #include "token_info.h"
 #include "paths.h"
 #include "profile.h"

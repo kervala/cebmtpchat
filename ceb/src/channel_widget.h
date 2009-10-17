@@ -19,15 +19,6 @@
 #ifndef CHANNEL_WIDGET_H
 #define CHANNEL_WIDGET_H
 
-#include <QLineEdit>
-#include <QSplitter>
-#include <QTreeView>
-#include <QLabel>
-#include <QTimer>
-#include <QStackedWidget>
-#include <QToolBar>
-#include <QComboBox>
-
 #include <history_widget.h>
 #include <chat_line_widget.h>
 

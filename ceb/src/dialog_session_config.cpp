@@ -19,8 +19,6 @@
 #include "common.h"
 #include "dialog_session_config.h"
 
-#include <QVBoxLayout>
-
 void DialogSessionConfig::init()
 {
     _sessionConfigWidget = new SessionConfigWidget;

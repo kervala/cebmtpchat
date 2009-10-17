@@ -17,9 +17,7 @@
  */
 
 #include "common.h"
-#include <QDir>
 #include "system_widget.h"
-
 #include "paths.h"
 #include "script.h"
 #include "lua_utils.h"

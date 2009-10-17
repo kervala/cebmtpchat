@@ -20,10 +20,6 @@
 #include "cmd_output_widget.h"
 #include "profile.h"
 
-#include <QVBoxLayout>
-#include <QScrollBar>
-#include <QApplication>
-
 CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent) : SessionWidget(session, parent),
                                                                                               _cmdName(cmdName)
 {

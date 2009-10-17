@@ -21,8 +21,6 @@
 
 #include "message_item.h"
 
-#include <QAbstractItemModel>
-
 class MessageModel : public QAbstractItemModel
 {
     Q_OBJECT

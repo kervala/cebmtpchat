@@ -19,11 +19,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <QObject>
-#include <QMap>
-#include <QString>
-#include <QFile>
-
 class Logger : public QObject
 {
     Q_OBJECT

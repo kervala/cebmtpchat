@@ -19,8 +19,6 @@
 #ifndef MY_MENUBAR_H
 #define MY_MENUBAR_H
 
-#include <QMenuBar>
-
 class MyMenuBar : public QMenuBar
 {
     Q_OBJECT

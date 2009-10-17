@@ -20,9 +20,6 @@
 #include "autoupdate.h"
 #include "version.h"
 
-#include <QDir>
-#include <QSettings>
-
 #include "action.h"
 #include "paths.h"
 

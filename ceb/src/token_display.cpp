@@ -18,9 +18,6 @@
 
 #include "common.h"
 #include <xml_handler.h>
-#include <QTextBrowser>
-#include <QApplication>
-
 #include "token_factory.h"
 #include "token_info.h"
 

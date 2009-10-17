@@ -19,9 +19,6 @@
 #ifndef DIALOG_BROADCAST_H
 #define DIALOG_BROADCAST_H
 
-#include <QDialog>
-#include <QSignalMapper>
-
 #include <history_widget.h>
 
 class DialogBroadcast : public QDialog

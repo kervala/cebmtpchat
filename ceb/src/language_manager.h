@@ -19,9 +19,6 @@
 #ifndef LANGUAGE_MANAGER_H
 #define LANGUAGE_MANAGER_H
 
-#include <QStringList>
-#include <QMap>
-
 class LanguageManager
 {
 private:

@@ -19,17 +19,6 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QStatusBar>
-#include <QMenu>
-#include <QAction>
-#include <QTabWidget>
-#include <QSignalMapper>
-#include <QSystemTrayIcon>
-#include <QShortcut>
-#include <QStack>
-
 #include <my_tabwidget.h>
 
 #include "session.h"

@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QVBoxLayout>
-
 #include "system_widget.h"
 
 SystemWidget *SystemWidget::_instance = 0;

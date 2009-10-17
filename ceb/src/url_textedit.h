@@ -19,9 +19,6 @@
 #ifndef URL_TEXTEDIT_H
 #define URL_TEXTEDIT_H
 
-#include <QTextBrowser>
-#include <QProcess>
-
 #include "render_segment.h"
 
 class UrlTextEdit : public QTextBrowser

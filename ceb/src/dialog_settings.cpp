@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QApplication>
-#include <QPushButton>
-#include <QHeaderView>
-#include <QTreeWidgetItem>
-
 #include "profile.h"
 #include "session_config_widget.h"
 #include "language_manager.h"

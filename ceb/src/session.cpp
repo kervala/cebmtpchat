@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QIODevice>
-#include <QTextCodec>
-
 #include "system_widget.h"
 #include "profile.h"
 #include "token_script.h"

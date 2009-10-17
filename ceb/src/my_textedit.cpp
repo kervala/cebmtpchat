@@ -17,19 +17,6 @@
  */
 
 #include "common.h"
-#include <QKeyEvent>
-#include <QTextCursor>
-#include <QMessageBox>
-#include <QTextDocumentFragment>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QSplitter>
-#include <QPushButton>
-#include <QScrollBar>
-#include <QtNetwork>
-#include <QProgressDialog>
-#include <QDate>
-
 #include "profile.h"
 #include "lua_utils.h"
 #include "paths.h"

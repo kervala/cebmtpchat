@@ -19,9 +19,6 @@
 #ifndef TOKEN_RENDERER_H
 #define TOKEN_RENDERER_H
 
-#include <QList>
-#include <QRegExp>
-
 #include "session.h"
 #include "my_textedit.h"
 #include "token.h"

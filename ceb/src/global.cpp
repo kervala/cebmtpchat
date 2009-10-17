@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QCoreApplication>
-#include <QDir>
-#include <QFile>
-
 #include "global.h"
 
 #define LOCAL_FILENAME "local"

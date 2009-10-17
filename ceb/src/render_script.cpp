@@ -17,10 +17,6 @@
  */
 
 #include "common.h"
-#include <QMap>
-#include <QDir>
-#include <QDateTime>
-
 #include "lua_utils.h"
 #include "token_info.h"
 #include "paths.h"

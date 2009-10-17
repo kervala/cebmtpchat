@@ -19,12 +19,6 @@
 #ifndef TOKEN_DISPLAY_H
 #define TOKEN_DISPLAY_H
 
-#include <QFont>
-#include <QColor>
-#include <QList>
-#include <QMap>
-#include <QDomElement>
-
 #include "token_factory.h"
 
 class TokenDisplayElement

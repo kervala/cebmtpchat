@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QString>
-
 struct lua_State;
 
 QString executeLuaFilter(const QString &filterName, const QString &line);

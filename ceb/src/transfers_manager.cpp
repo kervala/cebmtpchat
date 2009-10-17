@@ -18,10 +18,6 @@
 
 #include "common.h"
 #include <stdlib.h>
-
-#include <QFileInfo>
-#include <QRegExp>
-
 #include "session_manager.h"
 #include "transfers_manager.h"
 

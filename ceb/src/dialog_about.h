@@ -19,8 +19,6 @@
 #ifndef DIALOG_ABOUT_H
 #define DIALOG_ABOUT_H
 
-#include <QDialog>
-
 #include "ui_dialog_about.h"
 
 class DialogAbout : public QDialog, private Ui::DialogAbout

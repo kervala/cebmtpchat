@@ -22,9 +22,6 @@
 #include "session.h"
 #include "session_config.h"
 
-#include <QList>
-#include <QTimer>
-
 class SessionManager : public QObject
 {
     Q_OBJECT

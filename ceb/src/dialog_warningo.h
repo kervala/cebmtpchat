@@ -19,9 +19,6 @@
 #ifndef DIALOG_WARNINGO_H
 #define DIALOG_WARNINGO_H
 
-#include <QDialog>
-#include <QTimer>
-
 class DialogWarningo: public QDialog
 {
     Q_OBJECT

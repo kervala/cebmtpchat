@@ -17,14 +17,7 @@
  */
 
 #include "common.h"
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QDesktopWidget>
-#include <QApplication>
-
 #include "profile.h"
-
 #include "dialog_warningo.h"
 
 DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent)

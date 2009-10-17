@@ -21,8 +21,6 @@
 
 #include <dialog_basic.h>
 
-#include <QTextBrowser>
-
 class DialogWhatsNew : public DialogBasic
 {
     Q_OBJECT

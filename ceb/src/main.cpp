@@ -17,9 +17,6 @@
  */
 
 #include "common.h"
-#include <QApplication>
-#include <QDesktopServices>
-
 #include "my_application.h"
 #include "main_window.h"
 #include "script.h"

@@ -17,19 +17,6 @@
  */
 
 #include "common.h"
-#include <QVBoxLayout>
-#include <QScrollBar>
-#include <QTextCursor>
-#include <QKeyEvent>
-#include <QApplication>
-#include <QLabel>
-#include <QAction>
-#include <QMessageBox>
-#include <QDir>
-#include <QFileDialog>
-#include <QHeaderView>
-#include <QLibraryInfo>
-
 #include "version.h"
 #include "profile.h"
 #include "token_info.h"

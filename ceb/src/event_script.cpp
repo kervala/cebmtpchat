@@ -17,12 +17,7 @@
  */
 
 #include "common.h"
-#include <QDir>
-#include <QFileInfo>
-#include <QColor>
-
 #include "paths.h"
-
 #include "event_script.h"
 #include "lua_utils.h"
 

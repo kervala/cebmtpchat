@@ -17,11 +17,6 @@
  */
 
 #include "common.h"
-#include <QApplication>
-#include <QDir>
-#include <QFileInfo>
-#include <QRegExp>
-
 #include "paths.h"
 
 #include "language_manager.h"

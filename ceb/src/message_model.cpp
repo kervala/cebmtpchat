@@ -17,8 +17,6 @@
  */
 
 #include "common.h"
-#include <QMessageBox>
-
 #include "message_model.h"
 
 MessageModel::MessageModel(const QList<MessageItem> &myMessages)

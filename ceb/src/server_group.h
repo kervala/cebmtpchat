@@ -19,9 +19,6 @@
 #ifndef SERVER_GROUP_H
 #define SERVER_GROUP_H
 
-#include <QObject>
-#include <QList>
-
 class ServerGroup
 {
 public:

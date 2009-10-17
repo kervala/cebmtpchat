@@ -19,12 +19,6 @@
 #ifndef SESSION_CONFIG_WIDGET_H
 #define SESSION_CONFIG_WIDGET_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QPushButton>
-
 #include "session_config.h"
 #include "ui_session_config_widget.h"
 

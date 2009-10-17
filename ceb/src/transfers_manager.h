@@ -19,10 +19,6 @@
 #ifndef TRANSFERS_MANAGER_H
 #define TRANSFERS_MANAGER_H
 
-#include <QObject>
-#include <QFileInfo>
-#include <QTcpServer>
-
 #include "session.h"
 
 class Transfer

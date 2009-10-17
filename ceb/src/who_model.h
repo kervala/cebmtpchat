@@ -19,9 +19,6 @@
 #ifndef WHO_MODEL_H
 #define WHO_MODEL_H
 
-#include <QAbstractListModel>
-#include <QSortFilterProxyModel>
-
 #include "session.h"
 
 class WhoModel : public QAbstractListModel

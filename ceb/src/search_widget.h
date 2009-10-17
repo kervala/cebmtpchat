@@ -19,13 +19,6 @@
 #ifndef SEARCH_WIDGET_H
 #define SEARCH_WIDGET_H
 
-#include <QLineEdit>
-#include <QPushButton>
-#include <QTextBrowser>
-#include <QToolButton>
-#include <QMenu>
-#include <QTextDocument>
-
 class SearchWidget : public QWidget
 {
     Q_OBJECT

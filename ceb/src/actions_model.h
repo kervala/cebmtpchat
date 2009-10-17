@@ -19,8 +19,6 @@
 #ifndef ACTIONS_MODEL_H
 #define ACTIONS_MODEL_H
 
-#include <QAbstractListModel>
-
 class ActionsModel : public QAbstractListModel
 {
     Q_OBJECT
