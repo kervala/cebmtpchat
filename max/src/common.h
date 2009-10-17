@@ -20,6 +20,7 @@
 #define COMMON_H
 
 #include <QtGui/QtGui>
+#include <QtXml/QtXml>
 
 #if defined(WIN32) && defined(_DEBUG)
 	#define _CRTDBG_MAP_ALLOC
