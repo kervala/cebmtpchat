@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de</string>
+		<string>fr</string>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>ceb</string>
+	<key>CFBundleGetInfoString</key>
+	<string>CeB 0.14</string>
+	<key>CFBundleIconFile</key>
+	<string>ceb.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.meltingpot.cebmtpchat</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLongVersionString</key>
+	<string>0.14, (c) 2001-2009 MeltingPot</string>
+	<key>CFBundleName</key>
+	<string>CeB</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.14</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.14</string>
+	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2001-2009 MeltingPot</string>
+</dict>
+</plist>
