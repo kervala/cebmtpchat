@@ -159,7 +159,7 @@ void TextSkin::init()
 #ifdef Q_OS_WIN32
         QFont font("Courier New", 8);
         QFont timeStampFont("Courier New", 7);
-#elif Q_OS_DARWIN
+#elif defined(Q_OS_DARWIN)
 		QFont font("Monaco", 16);
 		QFont timeStampFont("Monaco", 14);
 #else
