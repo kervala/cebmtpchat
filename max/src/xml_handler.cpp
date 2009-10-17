@@ -17,9 +17,6 @@
 */
 
 #include "common.h"
-#include <QDomNode>
-#include <QDomDocument>
-
 #include "xml_handler.h"
 
 QString XmlHandler::read(const QDomElement &father, const QString &name, const QString &defaultValue)

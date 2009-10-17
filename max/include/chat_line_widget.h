@@ -19,8 +19,6 @@
 #ifndef CHAT_LINE_WIDGET_H
 #define CHAT_LINE_WIDGET_H
 
-#include <QLineEdit>
-
 class ChatLineWidget : public QLineEdit
 {
 	Q_OBJECT

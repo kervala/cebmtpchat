@@ -19,11 +19,6 @@
 #ifndef FILTER_WIDGET_H
 #define FILTER_WIDGET_H
 
-#include <QLineEdit>
-#include <QComboBox>
-#include <QTreeView>
-#include <QToolButton>
-
 #include "generic_sort_model.h"
 
 class FilterWidget : public QWidget

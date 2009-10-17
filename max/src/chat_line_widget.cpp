@@ -19,8 +19,6 @@
 #include "common.h"
 #include "chat_line_widget.h"
 
-#include <QKeyEvent>
-
 ChatLineWidget::ChatLineWidget(QWidget *parent) : QLineEdit(parent)
 {
 }

@@ -19,10 +19,6 @@
 #ifndef ICON_EDITOR_H
 #define ICON_EDITOR_H
 
-#include <QColor>
-#include <QImage>
-#include <QWidget>
-
 class IconEditor : public QWidget
 {
 	Q_OBJECT

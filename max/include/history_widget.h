@@ -19,10 +19,6 @@
 #ifndef HISTORY_WIDGET_H
 #define HISTORY_WIDGET_H
 
-#include <QTextEdit>
-#include <QLinkedList>
-#include <QMap>
-
 class HistoryWidget : public QTextEdit
 {
     Q_OBJECT

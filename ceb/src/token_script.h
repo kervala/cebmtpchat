@@ -19,14 +19,6 @@
 #ifndef TOKEN_SCRIPT_H
 #define TOKEN_SCRIPT_H
 
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
-#include <QList>
-
 #include "session.h"
 #include "token.h"
 

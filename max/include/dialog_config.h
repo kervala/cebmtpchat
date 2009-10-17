@@ -19,10 +19,6 @@
 #ifndef DIALOG_CONFIG_H
 #define DIALOG_CONFIG_H
 
-#include <QLabel>
-#include <QTreeWidget>
-#include <QStackedWidget>
-
 #include "dialog_basic.h"
 
 class DialogConfig : public DialogBasic

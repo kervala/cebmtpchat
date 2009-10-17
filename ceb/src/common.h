@@ -23,6 +23,12 @@
 #include <QtNetwork/QtNetwork>
 #include <QtXml/QtXml>
 
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
+
 #if defined(WIN32) && defined(_DEBUG)
 	#define _CRTDBG_MAP_ALLOC
 	#ifdef _malloca

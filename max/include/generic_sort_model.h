@@ -19,8 +19,6 @@
 #ifndef GENERIC_SORT_MODEL_H
 #define GENERIC_SORT_MODEL_H
 
-#include <QSortFilterProxyModel>
-
 class GenericSortModel : public QSortFilterProxyModel
 {
 	Q_OBJECT

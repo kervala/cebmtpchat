@@ -19,8 +19,6 @@
 #ifndef XML_HANDLER_H
 #define XML_HANDLER_H
 
-#include <QDomElement>
-
 class XmlHandler
 {
 public:

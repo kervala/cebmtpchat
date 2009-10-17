@@ -17,8 +17,6 @@
 */
 
 #include "common.h"
-#include <QTabBar>
-
 #include "my_tabbar.h"
 #include "my_tabwidget.h"
 

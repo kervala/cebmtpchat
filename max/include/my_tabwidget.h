@@ -19,8 +19,6 @@
 #ifndef MY_TABWIDGET_H
 #define MY_TABWIDGET_H
 
-#include <QTabWidget>
-
 class MyTabWidget : public QTabWidget
 {
     Q_OBJECT

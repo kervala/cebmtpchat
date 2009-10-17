@@ -19,11 +19,6 @@
 #include "common.h"
 #include "history_widget.h"
 
-#include <QApplication>
-#include <QKeyEvent>
-#include <QTextCursor>
-#include <QTextBlock>
-
 HistoryWidget::HistoryWidget(QWidget *parent) : QTextEdit(parent)
 {
     historyIt = history.end();

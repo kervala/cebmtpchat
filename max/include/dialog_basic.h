@@ -19,11 +19,6 @@
 #ifndef DIALOG_BASIC_H
 #define DIALOG_BASIC_H
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
-
 class DialogBasic : public QDialog
 {
     Q_OBJECT

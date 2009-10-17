@@ -17,9 +17,6 @@
 */
 
 #include "common.h"
-#include <QLabel>
-#include <QHBoxLayout>
-
 #include "filter_widget.h"
 
 FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)

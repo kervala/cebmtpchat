@@ -19,9 +19,6 @@
 #ifndef MULTI_TAB_WIDGET_H
 #define MULTI_TAB_WIDGET_H
 
-#include <QVBoxLayout>
-#include <QMap>
-
 #include "my_tabwidget.h"
 
 class MultiTabWidget : public QWidget

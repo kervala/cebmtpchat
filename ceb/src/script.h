@@ -1,12 +1,6 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
 #include "token.h"
 #include "session.h"
 

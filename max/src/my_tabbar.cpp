@@ -17,8 +17,6 @@
 */
 
 #include "common.h"
-#include <QAction>
-
 #include "my_tabbar.h"
 
 MyTabBar::MyTabBar(QWidget *parent)

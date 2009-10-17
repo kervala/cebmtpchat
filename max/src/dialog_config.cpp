@@ -19,10 +19,6 @@
 #include "common.h"
 #include "dialog_config.h"
 
-#include <QSpacerItem>
-#include <QSplitter>
-#include <QFrame>
-
 DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 {
     // Main frame

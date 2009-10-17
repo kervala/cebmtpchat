@@ -19,12 +19,6 @@
 #include "common.h"
 #include "dialog_basic.h"
 
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QSpacerItem>
-
 DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
 	init(false);
