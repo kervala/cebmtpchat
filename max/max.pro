@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += staticlib debug_and_release precompile_header
+CONFIG += staticlib release precompile_header
 QT += xml
 
 # Use Precompiled headers (PCH)

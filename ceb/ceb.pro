@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += debug_and_release precompile_header
+CONFIG += release precompile_header
 QT += xml network
 
 # Use Precompiled headers (PCH)
