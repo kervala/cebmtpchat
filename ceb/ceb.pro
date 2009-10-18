@@ -189,12 +189,15 @@ win32{
 }
 
 unix{
-    LIBS += ../max/lib/lib$${LIBMAX}.a -llua
+    LIBS += ../max/lib/lib$${LIBMAX}.a
 }
 
-linux{
-    CONFIG += link_pkgconfig
-    PKGCONFIG += lua
+linux-*{
+# lua 5.1 doesn't use pkg-config under Ubuntu
+#    CONFIG += link_pkgconfig
+#    PKGCONFIG += lua
+     INCLUDEPATH += /usr/include/lua5.1
+     LIBS += -llua5.1
 }
 
 macx{
@@ -204,6 +207,7 @@ macx{
     RC_FILE = misc/ceb.icns
     QMAKE_INFO_PLIST = misc/Info.plist
     QMAKE_CXXFLAGS += -mmacosx-version-min=10.4
+    LIBS += -llua
 }
 
 DESTDIR = bin
