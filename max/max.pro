@@ -1,9 +1,9 @@
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib debug_and_release precompile_header
 QT += xml
 
 # Use Precompiled headers (PCH)
-PRECOMPILED_HEADER = src/common.h	
+PRECOMPILED_HEADER = src/common.h
 
 VERSION = 0.1
 
@@ -34,5 +34,17 @@ SOURCES += \
 INCLUDEPATH += include
 DESTDIR = lib
 TARGET = max
+
+CONFIG(debug, debug|release) {
+    TARGET = maxd
+}
+
 OBJECTS_DIR = obj
 MOC_DIR = moc
+
+macx{
+    CONFIG += x86 ppc
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+    QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.4u.sdk
+    QMAKE_CXXFLAGS_x86 += -mmacosx-version-min=10.4
+}

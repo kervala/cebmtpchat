@@ -1,9 +1,9 @@
 TEMPLATE = app
-CONFIG += link_pkgconfig
+CONFIG += debug_and_release precompile_header
 QT += xml network
 
 # Use Precompiled headers (PCH)
-PRECOMPILED_HEADER = src/common.h	
+PRECOMPILED_HEADER = src/common.h
 
 HEADERS += \
     src/action.h \
@@ -40,13 +40,13 @@ HEADERS += \
     src/my_menubar.h \
     src/my_textedit.h \
     src/output_settings_widget.h \
-	src/paths.h \
+    src/paths.h \
     src/profile.h \
     src/property.h \
     src/render_script.h \
     src/render_segment.h \
     src/script.h \
-	src/search_widget.h \
+    src/search_widget.h \
     src/server_group.h \
     src/session.h \
     src/session_config.h \
@@ -71,7 +71,7 @@ HEADERS += \
     src/url_textedit.h \
     src/version.h \
     src/warningo_settings_widget.h \
-	src/who_model.h \
+    src/who_model.h \
     src/who_user.h
 
 SOURCES += \
@@ -109,13 +109,13 @@ SOURCES += \
     src/my_menubar.cpp \
     src/my_textedit.cpp \
     src/output_settings_widget.cpp \
-	src/paths.cpp \
+    src/paths.cpp \
     src/profile.cpp \
     src/property.cpp \
     src/render_script.cpp \
     src/render_segment.cpp \
     src/script.cpp \
-	src/search_widget.cpp \
+    src/search_widget.cpp \
     src/server_group.cpp \
     src/session.cpp \
     src/session_config.cpp \
@@ -138,53 +138,77 @@ SOURCES += \
     src/tray_settings_widget.cpp \
     src/url_textedit.cpp \
     src/warningo_settings_widget.cpp \
-	src/who_model.cpp \
+    src/who_model.cpp \
     src/who_user.cpp
 
 FORMS += \
-	ui/idle_settings.ui \
+    ui/idle_settings.ui \
     ui/detailed_fonts_settings.ui \
     ui/dialog_about.ui \
     ui/fonts_settings.ui \
+    ui/general_settings.ui \
     ui/links_settings.ui \
+    ui/logs_settings.ui \
+    ui/misc_settings.ui \
+    ui/output_settings.ui \
     ui/session_config_widget.ui \
     ui/shortcuts_settings.ui \
     ui/sound_settings.ui \
+    ui/tabs_settings.ui \
+    ui/tray_settings.ui \
     ui/warningo_settings.ui
 
 TRANSLATIONS = \
     ceb_fr.ts \
     ceb_nl.ts \
-	ceb_pt-br.ts \
+    ceb_pt-br.ts \
     ceb_us.ts \
     ceb_en.ts
 
 RESOURCES = ceb.qrc
 
 INCLUDEPATH += ../max/include
+DEPENDPATH += uic
+
+LIBMAX = max
+TARGET = ceb
+
+CONFIG(debug, debug|release) {
+    TARGET = cebd
+    LIBMAX = maxd
+}
+
+message(Using configuration $$LIBMAX)
 
 win32{
     RC_FILE = ceb.rc
-	win32-msvc*{
-        LIBS += ../max/lib/max.lib lua51.lib ole32.lib shell32.lib
+    win32-msvc*{
+        LIBS += ../max/lib/$${LIBMAX}.lib lua51.lib ole32.lib shell32.lib
     }
-	win32-g++{
-        LIBS += ../max/lib/max.a lua51.dll
+    win32-g++{
+        LIBS += ../max/lib/lib$${LIBMAX}.a lua51.dll
     }
 }
 
 unix{
-    PKGCONFIG += lua5.1
-    LIBS += ../max/lib/max.a
+    LIBS += ../max/lib/lib$${LIBMAX}.a -llua
+}
+
+linux{
+    CONFIG += link_pkgconfig
+    PKGCONFIG += lua
 }
 
 macx{
+    CONFIG += x86 ppc
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+    QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.4u.sdk
     RC_FILE = misc/ceb.icns
-    PKGCONFIG += lua5.1
-    LIBS += ../max/lib/max.a
+    QMAKE_INFO_PLIST = misc/Info.plist
+    QMAKE_CXXFLAGS_x86 += -mmacosx-version-min=10.4
 }
 
 DESTDIR = bin
-TARGET = ceb
 OBJECTS_DIR = obj
 MOC_DIR = moc
+UI_DIR = uic

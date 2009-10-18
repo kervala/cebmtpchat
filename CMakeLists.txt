@@ -1,6 +1,7 @@
 PROJECT(CEB)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
+INCLUDE(PCHSupport.cmake)
 
 FIND_PACKAGE(Qt4 REQUIRED) # find and setup Qt4 for this project
 
