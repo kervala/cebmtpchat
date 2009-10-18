@@ -178,8 +178,6 @@ CONFIG(debug, debug|release) {
     LIBMAX = maxd
 }
 
-message(Using configuration $$LIBMAX)
-
 win32{
     RC_FILE = ceb.rc
     win32-msvc*{
@@ -200,12 +198,12 @@ linux{
 }
 
 macx{
-    CONFIG += x86 ppc
+    CONFIG += x86
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
     QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.4u.sdk
     RC_FILE = misc/ceb.icns
     QMAKE_INFO_PLIST = misc/Info.plist
-    QMAKE_CXXFLAGS_x86 += -mmacosx-version-min=10.4
+    QMAKE_CXXFLAGS += -mmacosx-version-min=10.4
 }
 
 DESTDIR = bin

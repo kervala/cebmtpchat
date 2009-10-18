@@ -43,8 +43,8 @@ OBJECTS_DIR = obj
 MOC_DIR = moc
 
 macx{
-    CONFIG += x86 ppc
+    CONFIG += x86
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
     QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.4u.sdk
-    QMAKE_CXXFLAGS_x86 += -mmacosx-version-min=10.4
+    QMAKE_CXXFLAGS += -mmacosx-version-min=10.4
 }

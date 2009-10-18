@@ -335,7 +335,7 @@ void MainWindow::makeMenuBar()
     actionEditConnectionConfig = menuConfiguration->addAction(tr("&Connection configuration..."));
     actionEditConnectionConfig->setEnabled(false);
     connect(actionEditConnectionConfig, SIGNAL(triggered()), this, SLOT(editConnectionConfig()));
-    connect(menuConfiguration->addAction(tr("&General settings...")), SIGNAL(triggered()), this, SLOT(editSettings()));
+    connect(menuConfiguration->addAction(tr("&Settings...")), SIGNAL(triggered()), this, SLOT(editSettings()));
 
     // Windows menu
     QMenu *menuWindows = mbMain->addMenu(tr("&Windows"));
