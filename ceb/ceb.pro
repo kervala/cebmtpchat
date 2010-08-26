@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += release precompile_header
+CONFIG += release precompile_header link_pkgconfig
 QT += xml network
 
 # Use Precompiled headers (PCH)
@@ -165,6 +165,16 @@ TRANSLATIONS = \
     ceb_us.ts \
     ceb_en.ts
 
+QMAKE_LRELEASE = lrelease -silent
+
+updateqm.input = $$TRANSLATIONS
+updateqm.output = $$DESTDIR/translations/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $$DESTDIR/translations/${QMAKE_FILE_BASE}.qm
+updateqm.CONFIG += no_link target_predeps
+
+QMAKE_EXTRA_COMPILERS += updateqm
+OTHER_FILES +=
+
 RESOURCES = ceb.qrc
 
 INCLUDEPATH += ../max/include
@@ -206,8 +216,8 @@ macx{
     QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.4u.sdk
     RC_FILE = misc/ceb.icns
     QMAKE_INFO_PLIST = misc/Info.plist
+    PKGCONFIG += lua5.1
     QMAKE_CXXFLAGS += -mmacosx-version-min=10.4
-    LIBS += -llua
 }
 
 DESTDIR = bin
