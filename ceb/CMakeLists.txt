@@ -15,6 +15,7 @@ INCLUDE_DIRECTORIES(${CEB_SOURCE_DIR}/max/include)
 SET(CMAKE_BUILD_TYPE Release)
 
 SET(CEB_SRCS
+	src/common.cpp
 	src/main.cpp
 	src/my_application.cpp
 	src/main_window.cpp
@@ -61,11 +62,11 @@ SET(CEB_SRCS
 	src/actions_model.cpp
 	src/dialog_shortcut.cpp
 	src/search_widget.cpp
-        src/global.cpp
-        src/paths.cpp
-        src/script.cpp
-        src/token_script.cpp
-        src/property.cpp
+	src/global.cpp
+	src/paths.cpp
+	src/script.cpp
+	src/token_script.cpp
+	src/property.cpp
 	src/event_script.cpp
 	src/who_user.cpp
 	src/who_model.cpp
@@ -184,20 +185,12 @@ IF(WIN32)
 	ADD_DEFINITIONS(-DZLIB_WINAPI)
 ENDIF(WIN32)
 
-IF(WIN32)
-	ADD_EXECUTABLE(ceb WIN32 ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
-ELSE(WIN32)
-	ADD_EXECUTABLE(ceb ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
-ENDIF(WIN32)
+ADD_EXECUTABLE(ceb WIN32 ${CEB_SRCS} ${CEB_UIS_H} ${CEB_MOC} ${CEB_RES})
 
 IF(UNIX)
-	TARGET_LINK_LIBRARIES(
-		ceb max ${QT_LIBRARIES} ${LUA_LIBRARY}
-	)
+	TARGET_LINK_LIBRARIES(ceb max ${QT_LIBRARIES} ${LUA_LIBRARY})
 ELSEIF(WIN32)
-	TARGET_LINK_LIBRARIES(
-		ceb ${CEB_SOURCE_DIR}/max/lib/Release/max.lib ${QT_LIBRARIES} ${LUA_LIBRARY} ${QT_QTMAIN_LIBRARY}
-	)
+	TARGET_LINK_LIBRARIES(ceb max ${QT_LIBRARIES} ${LUA_LIBRARY} ${QT_QTMAIN_LIBRARY})
 ENDIF(UNIX)
 
 ADD_NATIVE_PRECOMPILED_HEADER(ceb ${CMAKE_CURRENT_SOURCE_DIR}/src/common.h ${CMAKE_CURRENT_SOURCE_DIR}/src/common.cpp)

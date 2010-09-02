@@ -9,6 +9,7 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
 SET(CMAKE_BUILD_TYPE Release)
 
 SET(MAX_SRCS
+	src/common.cpp
 	src/dialog_basic.cpp
 	src/dialog_config.cpp
 	src/xml_handler.cpp
@@ -44,4 +45,3 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 ADD_LIBRARY(max ${MAX_SRCS} ${MAX_MOC})
 
 ADD_NATIVE_PRECOMPILED_HEADER(max ${CMAKE_CURRENT_SOURCE_DIR}/src/common.h ${CMAKE_CURRENT_SOURCE_DIR}/src/common.cpp)
-
