@@ -3,6 +3,7 @@
 
 #cmakedefine SHARE_PREFIX "${SHARE_PREFIX}"
 #cmakedefine TARGET "${TARGET}"
+#cmakedefine TARGET_ICON "${TARGET_ICON}"
 #cmakedefine PRODUCT "${PRODUCT}"
 #cmakedefine DESCRIPTION "${DESCRIPTION}"
 #cmakedefine VERSION "${VERSION}"
