@@ -20,6 +20,10 @@
 #include "global.h"
 #include "paths.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 QString Paths::sharePath()
 {
     QDir appDir(QCoreApplication::applicationDirPath());
@@ -32,7 +36,11 @@ QString Paths::sharePath()
 
 
 #if defined(Q_OS_LINUX)
+#ifdef SHARE_PREFIX
+    return QDir(appDir.filePath(SHARE_PREFIX)).canonicalPath();
+#else
     return QDir(appDir.filePath("/usr/share/ceb")).canonicalPath();
+#endif
 #else
     return appDir.absolutePath();
 #endif
