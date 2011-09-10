@@ -8,8 +8,6 @@ FILE(GLOB UI ui/*.ui)
 FILE(GLOB QRC *.qrc)
 FILE(GLOB TS *.ts)
 
-SET(TRANS ${SRC} ${UI} ${HEADER})
-
 # Generate .cpp from .qrc
 QT4_ADD_RESOURCES(QRC_SRC ${QRC})
 
@@ -19,9 +17,14 @@ QT4_WRAP_UI(UI_HEADERS ${UI})
 # Generate .cxx from .h
 QT4_WRAP_CPP(MOC_SRC ${HEADER})
 
-# Generate translations
-QT4_CREATE_TRANSLATION(QM  ${TRANS} ${TS})
-QT4_ADD_TRANSLATION(QM ${TS})
+IF(WITH_UPDATE_TRANSLATIONS)
+  # Create or update TS files and generate QM files
+  SET(TRANS ${SRC} ${UI} ${HEADER})
+  QT4_CREATE_TRANSLATION(QM ${TRANS} ${TS})
+ELSE(WITH_UPDATE_TRANSLATIONS)
+  # Only generate QM files
+  QT4_ADD_TRANSLATION(QM ${TS})
+ENDIF(WITH_UPDATE_TRANSLATIONS)
 
 SOURCE_GROUP("generated" FILES ${UI_HEADERS} ${QRC_SRC} ${MOC_SRC})
 SOURCE_GROUP("res" FILES ${QRC})

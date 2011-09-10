@@ -319,6 +319,7 @@ MACRO(SETUP_DEFAULT_OPTIONS)
   ENDIF(WIN32)
   OPTION(WITH_PREFIX_LIB          "With lib prefix for libraries."                OFF)
   OPTION(WITH_INSTALL_LIBRARIES   "With libraries installation."                  ON )
+  OPTION(WITH_UPDATE_TRANSLATIONS "Update translations from sources."             OFF)
 
   ###
   # Optional support
