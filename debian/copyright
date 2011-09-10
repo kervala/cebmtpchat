@@ -17,7 +17,16 @@ License:
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
+   MA 02110-1301, USA.
 
 On Debian systems, the complete text of the GNU General Public License
 Version 2 can be found in `/usr/share/common-licenses/GPL' file.
+
+The Debian packaging is:
+
+    Copyright (C) 2008 Guillaume DENRY <guillaume.denry@gmail.com>
+
+and is licensed under the GPL version 2, 
+see `/usr/share/common-licenses/GPL-2'.
+
