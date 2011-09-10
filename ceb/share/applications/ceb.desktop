@@ -1,13 +1,13 @@
 [Desktop Entry]
-Encoding=UTF-8
+Version=1.0
 Name=CeB
 GenericName=MtpChat Client
 Comment=CeB is a MtpChat client
 Comment[fr]=CeB est un client MtpChat
 Exec=ceb %U
 Terminal=false
-Icon=/usr/share/pixmaps/ceb_48x48.png
+Icon=ceb
 Type=Application
-Categories=Network;Chat;
-MimeType=application/x-mtpchat
+Categories=Qt;Network;Chat;
+MimeType=application/x-mtpchat;
 TryExec=ceb
