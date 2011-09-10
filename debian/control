@@ -2,7 +2,8 @@ Source: cebmtpchat
 Section: net
 Priority: optional
 Maintainer: Guillaume DENRY <guillaume.denry@gmail.com>
-Build-Depends: debhelper (>= 5), libqt4-dev, qt4-dev-tools, liblua-dev, cmake (>= 2.6)
+Uploaders: Cédric OCHS <kervala@gmail.com>
+Build-Depends: debhelper (>= 7.3.0), libqt4-dev, qt4-dev-tools, liblua-dev, cmake (>= 2.6)
 Standards-Version: 3.9.1
 
 Package: cebmtpchat
@@ -11,7 +12,7 @@ Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: An <Mtp> Chat ! client written in Qt4
  CeB is a multiplatform client for an old type of chat server started at the college and which continues to work :-)
  .
- Homepage : http://code.google.com/p/cebmtpchat
+ Homepage: http://code.google.com/p/cebmtpchat
 
 Package: cebmtpchat-dbg
 Priority: extra
@@ -21,4 +22,4 @@ Depends: ${misc:Depends}, cebmtpchat (= ${binary:Version})
 Description: An <Mtp> Chat ! client written in Qt4 (debug)
  CeB is a multiplatform client for an old type of chat server started at the college and which continues to work :-)
  .
- Homepage : http://code.google.com/p/cebmtpchat
+ Homepage: http://code.google.com/p/cebmtpchat

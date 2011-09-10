@@ -1,3 +1,21 @@
+cebmtpchat (0.1.25~natty0) natty; urgency=low
+
+  * Natty Narwhal version
+
+ -- Cédric OCHS <kervala@gmail.com>  Tue, 15 Feb 2011 12:58:01 +0100
+
+cebmtpchat (0.1.25~maverick0) maverick; urgency=low
+
+  * New upstream version
+
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 04 Sep 2010 21:47:45 +0200
+
+cebmtpchat (0.1.24~intrepid) intrepid; urgency=low
+
+  * Intrepid Ibex version
+
+ -- Cédric OCHS <kervala@gmail.com>  Wed, 12 Aug 2009 08:53:57 +0200
+
 cebmtpchat (0.1.24) jaunty; urgency=low
 
   * fixed a memory leak
@@ -5,14 +23,14 @@ cebmtpchat (0.1.24) jaunty; urgency=low
   * put all show/hide options in configuration menu
   * added Qt version and OS information in "client" variable
 
- -- Kervala <kervala@gmail.com>  Thu, 30 Jul 2009 20:39:50 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Thu, 30 Jul 2009 20:39:50 +0200
 
 cebmtpchat (0.1.23) jaunty; urgency=low
 
   * fixed compilation
   * fixed translations update
 
- -- Kervala <kervala@gmail.com>  Wed, 29 Jul 2009 15:22:32 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Wed, 29 Jul 2009 15:22:32 +0200
 
 cebmtpchat (0.1.22) jaunty; urgency=low
 
@@ -31,38 +49,38 @@ cebmtpchat (0.1.22) jaunty; urgency=low
   * fixed a lot of memory leaks
   * fixed a bug in unicode where some characters were removed when accents were present in text
 
- -- Kervala <kervala@gmail.com>  Wed, 29 Jul 2009 12:56:47 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Wed, 29 Jul 2009 12:56:47 +0200
 
 cebmtpchat (0.1.21) jaunty; urgency=low
 
   * fixed the bug with infinite loop in Qt 4.5
 
- -- Kervala <kervala@gmail.com>  Mon, 13 Apr 2009 15:33:42 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Mon, 13 Apr 2009 15:33:42 +0200
 
 cebmtpchat (0.1.20) jaunty; urgency=low
 
   * linked to Qt 4.5
   * removed emotes in tells
 
- -- Kervala <kervala@gmail.com>  Sat, 14 Mar 2009 18:21:31 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 14 Mar 2009 18:21:31 +0100
 
 cebmtpchat (0.1.19) intrepid; urgency=low
 
   * fix problem with upload dialog title bar
 
- -- Kervala <kervala@gmail.com>  Sun, 14 Dec 2008 13:53:35 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 14 Dec 2008 13:53:35 +0100
 
 cebmtpchat (0.1.18) intrepid; urgency=low
 
   * fix problem with broadcast title bar
 
- -- Kervala <kervala@gmail.com>  Sun, 14 Dec 2008 09:19:11 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 14 Dec 2008 09:19:11 +0100
 
 cebmtpchat (0.1.17) intrepid; urgency=low
 
   * fix problem with title bars
 
- -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 12:41:18 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 13 Dec 2008 12:41:18 +0100
 
 cebmtpchat (0.1.16) intrepid; urgency=low
 
@@ -70,7 +88,7 @@ cebmtpchat (0.1.16) intrepid; urgency=low
   * whatsnew.html updated
   * version 20081213
 
- -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 10:07:03 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 13 Dec 2008 10:07:03 +0100
 
 cebmtpchat (0.1.15) intrepid; urgency=low
 
@@ -90,13 +108,13 @@ cebmtpchat (0.1.15) intrepid; urgency=low
   * Logs are now saved in CeB folder when in "local" mode
 
 
- -- Kervala <kervala@gmail.com>  Sat, 13 Dec 2008 09:41:19 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 13 Dec 2008 09:41:19 +0100
 
 cebmtpchat (0.1.14) intrepid; urgency=low
 
   * fixed the dependencies to liblua
 
- -- Kervala <kervala@gmail.com>  Sun, 07 Dec 2008 11:15:38 +0100
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 07 Dec 2008 11:15:38 +0100
 
 cebmtpchat (0.1.13) intrepid; urgency=low
 
@@ -104,13 +122,13 @@ cebmtpchat (0.1.13) intrepid; urgency=low
   * when a tab is closed, the new focused tab is the last focused one
   * use of system default color for text
 
- -- Kervala <kervala@gmail.com>  Mon, 11 Aug 2008 18:47:38 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Mon, 11 Aug 2008 18:47:38 +0200
 
 cebmtpchat (0.1.12) intrepid; urgency=low
 
   * Re-write the old text in tell tabs
 
- -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 20:48:55 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 10 Aug 2008 20:48:55 +0200
 
 cebmtpchat (0.1.11) intrepid; urgency=low
 
@@ -118,13 +136,13 @@ cebmtpchat (0.1.11) intrepid; urgency=low
   * broadcasting dialog (Ctrl + g invocation)
   * contextual menu on tabs
 
- -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 20:23:22 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 10 Aug 2008 20:23:22 +0200
 
 cebmtpchat (0.1.10) intrepid; urgency=low
 
   * crash fixed when the last connection is closed
 
- -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 18:26:38 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 10 Aug 2008 18:26:38 +0200
 
 cebmtpchat (0.1.9) intrepid; urgency=low
 
@@ -133,13 +151,13 @@ cebmtpchat (0.1.9) intrepid; urgency=low
   * channel_widget can be closed with ESC too
   * new shortcut for close and new menu entry
 
- -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 17:55:36 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 10 Aug 2008 17:55:36 +0200
 
 cebmtpchat (0.1.8) intrepid; urgency=low
 
   * previousTab() and nextTab() are now controlled by customizable shortcuts
 
- -- Kervala <kervala@gmail.com>  Sun, 10 Aug 2008 14:21:13 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 10 Aug 2008 14:21:13 +0200
 
 cebmtpchat (0.1.7) intrepid; urgency=low
 
@@ -166,33 +184,33 @@ cebmtpchat (0.1.7) intrepid; urgency=low
   * Window can be always on top
   * Use local timestamp
 
- -- Kervala <kervala@gmail.com>  Fri, 08 Aug 2008 11:23:06 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Fri, 08 Aug 2008 11:23:06 +0200
 
 cebmtpchat (0.1.6) intrepid; urgency=low
 
   * Forgot translations
 
- -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:57:36 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 02 Aug 2008 20:57:36 +0200
 
 cebmtpchat (0.1.5) intrepid; urgency=low
 
   * Oops forgot to add application icon to CMake
 
- -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:52:01 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 02 Aug 2008 20:52:01 +0200
 
 cebmtpchat (0.1.4) intrepid; urgency=low
 
   * Application icon
   * Updated dependencies
 
- -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 20:02:50 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 02 Aug 2008 20:02:50 +0200
 
 cebmtpchat (0.1.3) intrepid; urgency=low
 
   * New tabs style
   * Translations added
 
- -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 17:30:09 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 02 Aug 2008 17:30:09 +0200
 
 cebmtpchat (0.1.2) intrepid; urgency=low
 
@@ -222,7 +240,7 @@ cebmtpchat (0.1.2) intrepid; urgency=low
   * Remove button in connections settings fixed
   * Some crashs fixed
 
- -- Kervala <kervala@gmail.com>  Sat, 02 Aug 2008 15:30:10 +0200
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 02 Aug 2008 15:30:10 +0200
 
 cebmtpchat (0.1.1-0ubuntu1) unstable; urgency=low
 
