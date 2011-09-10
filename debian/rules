@@ -6,4 +6,4 @@ override_dh_strip:
 	dh_strip -pcebmtpchat --dbg-package=cebmtpchat-dbg
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DETC_PREFIX=/etc/cebmtpchat -DWITH_EXCEPTIONS=OFF -DWITH_RTTI=OFF
+	dh_auto_configure -- -DETC_PREFIX=/etc/ceb -DWITH_EXCEPTIONS=OFF -DWITH_RTTI=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_WARNINGS=ON -DWITH_STATIC=ON
