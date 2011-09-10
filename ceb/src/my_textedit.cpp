@@ -32,7 +32,7 @@
     #endif
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), m_allowFilters(false), ftp(NULL)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allowFilters(false)
 {
     progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
     progressDialog->setWindowTitle("CeB");

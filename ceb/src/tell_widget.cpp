@@ -138,7 +138,7 @@ void TellWidget::sendText(const QString &text)
 void TellWidget::displayToken(const Token &token, bool old)
 {
     QString login;
-    bool youTalk = false;
+//    bool youTalk = false;
     bool privateToken = false;
     switch(token.type())
     {
@@ -157,7 +157,7 @@ void TellWidget::displayToken(const Token &token, bool old)
         if (token.arguments()[1] != _login)
             return;
 
-        youTalk = true;
+//        youTalk = true;
         login = _session->serverLogin();
         privateToken = true;
         break;

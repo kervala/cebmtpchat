@@ -273,10 +273,12 @@ namespace Script
 
         QString arg;
         if (n == 2)
+        {
             if (!lua_isstring(l, 2))
                 return 0;
             else
                 arg = QString(lua_tostring(l, 2));
+        }
 
         lua_pushlightuserdata(l, MainWindow::instance()->getTab(Script::getSession(), category, arg));
 

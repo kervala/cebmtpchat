@@ -772,7 +772,7 @@ void TokenFactory::analyzeAfterLogin(const QString &data)
                 case State_Message:
                     if (tickets[Command_ShowMsg].count() > 0)
                     {
-                        if (token = Token::MessageEnd)
+                        if (token == Token::MessageEnd)
                             ticketID = tickets[Command_ShowMsg].takeFirst().ID;
                         else
                             ticketID = tickets[Command_ShowMsg].first().ID;

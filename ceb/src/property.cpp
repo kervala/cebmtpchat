@@ -25,6 +25,8 @@ Property::Property(const QDomElement &root)
 {
     _name = root.attribute("name");
     _type = strToType(root.attribute("type"));
+    _intValue = 0;
+    _boolValue = false;
     switch (_type)
     {
     case IntegerProperty:

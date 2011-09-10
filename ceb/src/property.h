@@ -28,8 +28,8 @@ public:
         BooleanProperty
     };
 
-    Property() : _type(StringProperty) {}
-    Property(const QString &name, Type type) : _name(name), _type(type) {}
+    Property() : _type(StringProperty), _intValue(0), _boolValue(false) {}
+    Property(const QString &name, Type type) : _name(name), _type(type), _intValue(0), _boolValue(false) {}
     Property(const QDomElement &root);
 
     void init(const QString &value);

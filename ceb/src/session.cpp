@@ -505,6 +505,7 @@ QString Session::socketStateCaption() const
     case QAbstractSocket::UnconnectedState: return tr("Unconnected.");
     case QAbstractSocket::ConnectingState: return tr("Connecting...");
     case QAbstractSocket::ConnectedState: return tr("Ready.");
+    default: break;
     }
 
     return "";
