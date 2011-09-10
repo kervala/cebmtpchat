@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 
     TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 
-    a.setWindowIcon(QIcon(":/images/ceb.png"));
+    a.setWindowIcon(QIcon(":/images/ceb_16x16.png"));
 
     Profile::instance().load();
 

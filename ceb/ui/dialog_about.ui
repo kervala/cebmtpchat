@@ -1,80 +1,73 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DialogAbout</class>
- <widget class="QDialog" name="DialogAbout" >
-  <property name="geometry" >
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>330</width>
-    <height>314</height>
-   </rect>
-  </property>
-  <property name="minimumSize" >
+ <widget class="QDialog" name="DialogAbout">
+  <property name="minimumSize">
    <size>
     <width>330</width>
     <height>314</height>
    </size>
   </property>
-  <property name="maximumSize" >
+  <property name="maximumSize">
    <size>
     <width>330</width>
     <height>314</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>About CeB</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>4</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>2</number>
    </property>
-   <item row="0" column="0" colspan="2" >
-    <layout class="QVBoxLayout" >
-     <property name="spacing" >
+   <item row="0" column="0" colspan="2">
+    <layout class="QVBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
-     <property name="margin" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="labelImage" >
-       <property name="text" >
-        <string/>
+      <widget class="QLabel" name="labelImage">
+       <property name="pixmap">
+        <pixmap resource="../ceb.qrc">:/images/ceb_256x256.png</pixmap>
        </property>
-       <property name="pixmap" >
-        <pixmap resource="../ceb.qrc" >:/images/about.png</pixmap>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelText" >
-       <property name="text" >
+      <widget class="QLabel" name="labelText">
+       <property name="text">
         <string>Developped by: Garou, Kervala
 Some Lua parts are from Ace, Drealmer and Ben</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="1" >
-    <widget class="QPushButton" name="pushButtonClose" >
-     <property name="text" >
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pushButtonClose">
+     <property name="text">
       <string>&amp;Close</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" >
+   <item row="2" column="0">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>251</width>
        <height>20</height>
@@ -82,12 +75,12 @@ Some Lua parts are from Ace, Drealmer and Ben</string>
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
+   <item row="1" column="0" colspan="2">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
       <enum>QFrame::HLine</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
     </widget>
@@ -95,7 +88,7 @@ Some Lua parts are from Ace, Drealmer and Ben</string>
   </layout>
  </widget>
  <resources>
-  <include location="../ceb.qrc" />
+  <include location="../ceb.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -104,11 +97,11 @@ Some Lua parts are from Ace, Drealmer and Ben</string>
    <receiver>DialogAbout</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>369</x>
      <y>210</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>-16</x>
      <y>66</y>
     </hint>
