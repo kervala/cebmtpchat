@@ -178,7 +178,6 @@ private slots:
     void newProgramVersion(const QString &);
     void whoItemDblClicked(const QString &login);
     void closeCurrentTab();
-//  void highlightSessionWidget();
     void tabWidgetMainCurrentChanged(int index);
     void whoUserDoubleClicked(const QString &login);
     void showLogsDir();
@@ -191,7 +190,6 @@ private slots:
     void menuIconClicked();
     void updateAccepted();
     void tellSessionAsked(const QString &login);
-//    void animationTimeout();
     void showFileTransfers();
     void newTransfer(Transfer *transfer);
     void executeAction(int action);

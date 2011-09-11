@@ -1004,50 +1004,6 @@ void MainWindow::closeCurrentTab()
     closeTab(widget);
 }
 
-/*void MainWindow::highlightSessionWidget()
-{
-    SessionWidget *widget = qobject_cast<SessionWidget*>(sender());
-
-    switch (widget->highlightType())
-    {
-    case SessionWidget::NoHighlight:
-        if (!Profile::instance().tabsIcons)
-        {
-            widget->setStared(false);
-            mtwMain->renameLabel(widget, widget->caption());
-        }
-        tabToBlinkTime[widget] = 0;
-        mtwMain->changeTabTextColor(widget, mtwMain->palette().color(QPalette::WindowText));
-        break;
-    case SessionWidget::MinorHighlight:
-        if (widget == mtwMain->focusedWidget())
-            return;
-
-        if (!Profile::instance().tabsIcons)
-        {
-            widget->setStared(true);
-            mtwMain->renameLabel(widget, widget->caption());
-        }
-        tabToBlinkTime[widget] = 5000;
-        tabToAscendingOrder[widget] = false;
-        mtwMain->changeTabTextColor(widget, Qt::blue);
-        break;
-    case SessionWidget::MajorHighlight:
-        if (widget == mtwMain->focusedWidget())
-            return;
-
-        if (!Profile::instance().tabsIcons)
-        {
-            widget->setStared(true);
-            mtwMain->renameLabel(widget, widget->caption());
-        }
-        tabToBlinkTime[widget] = 5000;
-        tabToAscendingOrder[widget] = false;
-        mtwMain->changeTabTextColor(widget, Qt::red);
-        break;
-    }
-    }*/
-
 CmdOutputWidget *MainWindow::getCmdOutputWidget(Session *session, const QString &cmdName)
 {
     for (int i = 0; i < tabWidgetMain->count(); ++i)
@@ -1270,86 +1226,6 @@ void MainWindow::updateAccepted()
         QProcess::startDetached(installer);
     }
 }
-
-/*void MainWindow::animationTimeout()
-{
-    static const int increment = 20;
-
-    // Go through all tab animations
-    foreach (QWidget *wi, mtwMain->getWidgets())
-    {
-        SessionWidget *w = qobject_cast<SessionWidget*>(wi);
-        int blinkTime = tabToBlinkTime[w];
-        if (blinkTime > 0)
-        {
-            // It remains time to blink
-            tabToBlinkTime[w] = blinkTime - animationTimer.interval();
-
-            QColor currentColor = mtwMain->tabTextColor(w);
-            int colorCompo;
-            bool isBlue = w->highlightType() == SessionWidget::MinorHighlight;
-            if (isBlue)
-                colorCompo = currentColor.blue();
-            else
-                colorCompo = currentColor.red();
-
-            if (tabToAscendingOrder[w])
-            {
-                if (colorCompo < 255)
-                {
-                    if (colorCompo + increment <= 255)
-                    {
-                        if (isBlue)
-                            currentColor.setBlue(colorCompo + increment);
-                        else
-                            currentColor.setRed(colorCompo + increment);
-                    }
-                    else
-                    {
-                        if (isBlue)
-                            currentColor.setBlue(255);
-                        else
-                            currentColor.setRed(255);
-                    }
-                }
-                else
-                    tabToAscendingOrder[w] = false;
-            } else
-            {
-                if (colorCompo > 0)
-                {
-                    if (colorCompo - increment >= 0)
-                    {
-                        if (isBlue)
-                            currentColor.setBlue(colorCompo - increment);
-                        else
-                            currentColor.setRed(colorCompo - increment);
-                    }
-                    else
-                    {
-                        if (isBlue)
-                            currentColor.setBlue(0);
-                        else
-                            currentColor.setRed(0);
-                    }
-                }
-                else
-                    tabToAscendingOrder[w] = true;
-            }
-            if (w->highlightType() == SessionWidget::NoHighlight)
-                mtwMain->changeTabTextColor(w, mtwMain->palette().color(QPalette::WindowText));
-            else if (tabToBlinkTime[w] <= 0)
-            {
-                if (isBlue)
-                    mtwMain->changeTabTextColor(w, Qt::blue);
-                else
-                    mtwMain->changeTabTextColor(w, Qt::red);
-            }
-            else
-                mtwMain->changeTabTextColor(w, currentColor);
-        }
-    }
-    }*/
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
