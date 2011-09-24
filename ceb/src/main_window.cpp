@@ -874,12 +874,14 @@ void MainWindow::showEvent(QShowEvent *)
     {
         m_firstShow = false;
 
+#ifndef QT_PLUGIN
         if (VERSION != Profile::instance().clientVersion)
             launchWhatsNew();
 
         // Default connect to
         if (!Profile::instance().sessionConfigs().count())
             newConnection();
+#endif
     }
 }
 

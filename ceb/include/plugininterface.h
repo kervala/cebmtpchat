@@ -1,4 +1,9 @@
- class PluginInterface
+#ifndef PLUGIN_INTERFACE_H
+#define PLUGIN_INTERFACE_H
+
+class QMainWindow;
+
+class PluginInterface
  {
  public:
      virtual ~PluginInterface() {}
@@ -10,3 +15,5 @@
  };
 
  Q_DECLARE_INTERFACE(PluginInterface, "ceb.plugin.interface")
+
+ #endif
