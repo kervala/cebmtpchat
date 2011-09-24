@@ -1,11 +1,11 @@
 #include <QObject>
 
-#include "../include/plugininterface.h"
+#include "../include/cebinterface.h"
 
-class CeBPlugin : public QObject, public PluginInterface
+class CeBPlugin : public QObject, public CeBInterface
 {
     Q_OBJECT
-    Q_INTERFACES(PluginInterface)
+    Q_INTERFACES(CeBInterface)
 
 public:
     QMainWindow *getMainWindow() const;

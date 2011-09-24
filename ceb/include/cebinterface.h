@@ -1,12 +1,12 @@
-#ifndef PLUGIN_INTERFACE_H
-#define PLUGIN_INTERFACE_H
+#ifndef CEBINTERFACE_H
+#define CEBINTERFACE_H
 
 class QMainWindow;
 
-class PluginInterface
+class CeBInterface
  {
  public:
-     virtual ~PluginInterface() {}
+     virtual ~CeBInterface() {}
 
      /** Init the plugin.
       * Must be called before using getMainWindow().
@@ -22,6 +22,6 @@ class PluginInterface
      virtual QMainWindow *getMainWindow() const = 0;
  };
 
- Q_DECLARE_INTERFACE(PluginInterface, "ceb.plugin.interface")
+ Q_DECLARE_INTERFACE(CeBInterface, "ceb.plugin.interface")
 
  #endif
