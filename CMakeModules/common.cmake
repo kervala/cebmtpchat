@@ -258,7 +258,7 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
     IF(MAC_RESOURCES_DIR)
       SET_TARGET_PROPERTIES(${name} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
 
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${MAC_RESOURCES_DIR}/PkgInfo ${CONTENTS_DIR} COMMENT "Copying PkgInfo")
+      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${MAC_RESOURCES_DIR}/PkgInfo ${CONTENTS_DIR})
     ENDIF(MAC_RESOURCES_DIR)
 
     # extract translatable strings from xib
@@ -297,7 +297,7 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
 
     # Copying all images to Bundle
     FOREACH(_IMAGE ${_IMAGES})
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ${_IMAGE} ${RESOURCES_DIR} COMMENT "Copying ${_IMAGE}")
+      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ${_IMAGE} ${RESOURCES_DIR})
     ENDFOREACH(_IMAGE)
 
     # Fix Qt bundle
@@ -305,25 +305,25 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
       ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR}/translations)
       # Copying all Qt translations to bundle
       FOREACH(_QM ${_QMS})
-        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations COMMENT "Copying ${_QM}")
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations)
       ENDFOREACH(_QM)
 
       FOREACH(_LANG ${_LANGS})
         SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
         IF(EXISTS ${LANG_FILE})
-          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations COMMENT "Copying ${LANG_FILE}")
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations)
         ENDIF(EXISTS ${LANG_FILE})
       ENDFOREACH(_LANG)
 
       # Copying qt_menu.nib to bundle
       IF(MAC_RESOURCES_DIR)
-        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR} COMMENT "Copying qt_menu.nib")
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR})
       ENDIF(MAC_RESOURCES_DIR)
     ENDIF(_QMS)
 
     # Copying all icons to bundle
     FOREACH(_ICNS ${_ICNSS})
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_ICNS} ${RESOURCES_DIR} COMMENT "Copying ${_ICNS}")
+      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_ICNS} ${RESOURCES_DIR})
     ENDFOREACH(_ICNS)
 
     # Fixing Bundle files for iOS
@@ -342,6 +342,20 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
     IF(CLANG)
       SET_TARGET_PROPERTIES(${name} PROPERTIES COMPILE_FLAGS "-fobjc-arc -fobjc-abi-version=2 -fobjc-legacy-dispatch")
     ENDIF(CLANG)
+  ELSE(APPLE)
+    IF(_QMS)
+      # Install all applications Qt translations
+      INSTALL(FILES ${_QMS} DESTINATION ${SHARE_PREFIX}/translations)
+
+      IF(WIN32)
+        FOREACH(_LANG ${_LANGS})
+          SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
+          IF(EXISTS ${LANG_FILE})
+            INSTALL(FILES ${LANG_FILE} DESTINATION ${SHARE_PREFIX}/translations)
+          ENDIF(EXISTS ${LANG_FILE})
+        ENDFOREACH(_LANG)
+      ENDIF(WIN32)
+    ENDIF(_QMS)
   ENDIF(APPLE)
 
   IF(MSVC)

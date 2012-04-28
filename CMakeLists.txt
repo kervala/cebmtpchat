@@ -25,7 +25,7 @@ PROJECT(${PRODUCT} CXX C)
 
 INIT_DEFAULT_OPTIONS()
 
-# TODO: Add option -DWITH_RYZOM
+OPTION(WITH_RYZOM "Use Ryzom configuration files" OFF)
 
 # Qt doesn't use RTTI or C++ exceptions
 SET_OPTION_DEFAULT(WITH_EXCEPTIONS OFF)
