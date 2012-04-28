@@ -89,7 +89,11 @@ void DialogUpdate::newVersion(const QString &version)
     QPalette palette = labelUpdate->palette();
     palette.setColor(QPalette::Foreground, Qt::blue);
     labelUpdate->setPalette(palette);
+#if defined(Q_OS_WIN)
     fileName = autoUpdate.filePrefix + version + ".exe";
+#elif defined(Q_OS_MAC)
+    fileName = autoUpdate.filePrefix + version + ".dmg";
+#endif
     bUpdate->setEnabled(true);
 }
 
