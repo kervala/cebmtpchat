@@ -19,6 +19,10 @@
 #include "common.h"
 #include "multi_tab_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MultiTabWidget::MultiTabWidget(QWidget *parent) : QWidget(parent)
 {
     tabWidgetMain = 0;

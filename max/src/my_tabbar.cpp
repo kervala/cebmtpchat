@@ -19,6 +19,10 @@
 #include "common.h"
 #include "my_tabbar.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MyTabBar::MyTabBar(QWidget *parent)
     : QTabBar(parent)
 {

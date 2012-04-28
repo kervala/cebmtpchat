@@ -19,6 +19,10 @@
 #include "common.h"
 #include "history_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 HistoryWidget::HistoryWidget(QWidget *parent) : QTextEdit(parent)
 {
     historyIt = history.end();

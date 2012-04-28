@@ -19,6 +19,10 @@
 #include "common.h"
 #include "dialog_basic.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
 	init(false);

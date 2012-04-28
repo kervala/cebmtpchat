@@ -19,6 +19,10 @@
 #include "common.h"
 #include "generic_sort_model.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 GenericSortModel::GenericSortModel(QObject *parent) : QSortFilterProxyModel(parent),
 		m_filterAny(true)
 {

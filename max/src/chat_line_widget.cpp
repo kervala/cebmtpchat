@@ -19,6 +19,10 @@
 #include "common.h"
 #include "chat_line_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 ChatLineWidget::ChatLineWidget(QWidget *parent) : QLineEdit(parent)
 {
 }

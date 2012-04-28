@@ -19,6 +19,10 @@
 #include "common.h"
 #include "xml_handler.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QString XmlHandler::read(const QDomElement &father, const QString &name, const QString &defaultValue)
 {
 	QDomElement elem = father.firstChildElement(name);

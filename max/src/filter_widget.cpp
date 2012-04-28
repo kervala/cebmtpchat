@@ -19,6 +19,10 @@
 #include "common.h"
 #include "filter_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
 	m_treeView = 0;

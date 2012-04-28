@@ -19,6 +19,10 @@
 #include "common.h"
 #include "dialog_config.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogConfig::DialogConfig(QWidget *parent): DialogBasic(parent)
 {
     // Main frame

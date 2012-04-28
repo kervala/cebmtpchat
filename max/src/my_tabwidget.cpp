@@ -20,6 +20,10 @@
 #include "my_tabbar.h"
 #include "my_tabwidget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MyTabWidget::MyTabWidget(QWidget *parent) : QTabWidget(parent)
 {
     setTabBar(new MyTabBar(this));
