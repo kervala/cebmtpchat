@@ -2,46 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>de</string>
-		<string>fr</string>
-	</array>
 	<key>CFBundleExecutable</key>
-	<string>ceb</string>
+	<string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>CeB 0.14</string>
+	<string>${MACOSX_BUNDLE_INFO_STRING}</string>
 	<key>CFBundleIconFile</key>
-	<string>ceb.icns</string>
+	<string>${MACOSX_BUNDLE_ICON_FILE}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.meltingpot.cebmtpchat</string>
+	<string>${MACOSX_BUNDLE_GUI_IDENTIFIER}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLongVersionString</key>
-	<string>0.14, (c) 2001-2009 MeltingPot</string>
-	<key>CFBundleDisplayName</key>
-	<string>CeB</string>
+	<string>${MACOSX_BUNDLE_LONG_VERSION_STRING}</string>
 	<key>CFBundleName</key>
-	<string>CeB</string>
+	<string>${MACOSX_BUNDLE_BUNDLE_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.14</string>
+	<string>${MACOSX_BUNDLE_SHORT_VERSION_STRING}</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.14</string>
-	<key>LSRequiresCarbon</key>
-	<true/>
-	<key>CSResourcesFileMapped</key>
-	<true/>
+	<string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2001-2010 MeltingPot</string>
+	<string>${MACOSX_BUNDLE_COPYRIGHT}</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.3.9</string>
+	<string>10.5.0</string>
 	<key>LSFileQuarantineEnabled</key>
 	<true/>
 	<key>CFBundleURLTypes</key>
