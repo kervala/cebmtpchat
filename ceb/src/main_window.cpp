@@ -336,7 +336,7 @@ void MainWindow::makeMenuBar()
     connect(_actionToggleTopicVisibility, SIGNAL(triggered()), this, SLOT(toggleTopicVisibility()));
     _actionToggleUsersVisibility = menuConfiguration->addAction("");
     connect(_actionToggleUsersVisibility, SIGNAL(triggered()), this, SLOT(toggleUsersVisibility()));
-    QAction *actionEditSettings = menuConfiguration->addAction(tr("&Settings..."));
+    QAction *actionEditSettings = menuConfiguration->addAction(tr("&General settings..."));
     actionEditSettings->setMenuRole(QAction::PreferencesRole);
     connect(actionEditSettings, SIGNAL(triggered()), this, SLOT(editSettings()));
     menuConfiguration->addSeparator();
