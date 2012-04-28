@@ -23,20 +23,34 @@
 #include "profile.h"
 #include "mtpchat_handler.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#else
+#define PRODUCT "CeB"
+#define AUTHOR "MeltingPot"
+#endif
+
+#ifdef QT_STATICPLUGIN
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(qsvgicon);
+#endif
+
 int main(int argc, char **argv)
 {
 #if defined(_MSC_VER) && defined(_DEBUG)
 	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-    MyApplication a(argc, argv);
 
-    a.setApplicationName("CeB");
-    a.setOrganizationName("http://www.melting-pot.org");
-    a.setOrganizationName("MeltingPot");
+    Q_INIT_RESOURCE(ceb);
+
+    QApplication a(argc, argv);
+
+    QApplication::setApplicationName(PRODUCT);
+    QApplication::setOrganizationName(AUTHOR);
 
     TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 
-    a.setWindowIcon(QIcon(":/images/ceb_16x16.png"));
+    QApplication::setWindowIcon(QIcon(":/images/ceb.svg"));
 
     Profile::instance().load();
 

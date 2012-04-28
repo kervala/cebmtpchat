@@ -55,7 +55,11 @@
      inkscape:snap-grids="false">
     <inkscape:grid
        type="xygrid"
-       id="grid3769" />
+       id="grid3769"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <metadata
      id="metadata2518">
@@ -77,11 +81,11 @@
     <image
        sodipodi:absref="D:\Projects\ceb\ceb\images\Projects/cebmtpchat/ceb/ceb.ico"
        xlink:href="Projects/cebmtpchat/ceb/ceb.ico"
-       width="16"
-       height="16"
-       id="image5002"
+       y="0.071287036"
        x="0.018811747"
-       y="0.071287036" />
+       id="image5002"
+       height="16"
+       width="16" />
   </g>
   <g
      id="layer1"
