@@ -34,13 +34,14 @@ QString Paths::sharePath()
     if (Global::localMode())
         return appDir.absolutePath();
 
-
 #if defined(Q_OS_LINUX)
 #ifdef SHARE_PREFIX
     return QDir(appDir.filePath(SHARE_PREFIX)).canonicalPath();
 #else
     return QDir(appDir.filePath("/usr/share/ceb")).canonicalPath();
 #endif
+#elif defined(Q_OS_MAC)
+    return QDir(appDir.filePath("../Resources")).canonicalPath();
 #else
     return appDir.absolutePath();
 #endif
