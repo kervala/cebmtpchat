@@ -52,7 +52,7 @@ void AutoUpdate::checkDataReadProgress(int done, int total)
     {
         char version[20];
         httpCheck.read(version, total);
-        QString oldVer = VERSION;
+        QString oldVer = UPDATE_VERSION;
         QString newVer = QString::fromAscii(version, total).trimmed();
         if (newVer > oldVer)
         {

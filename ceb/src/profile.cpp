@@ -137,11 +137,33 @@ bool Profile::load()
     // Load and parse
     QFile file(QDir(Paths::profilePath()).filePath("settings.xml"));
 
+    // Get current locale
+    QString locale = QLocale::system().name().left(2).toLower();
+
     if (!file.exists())
     {
         // Search for the "old school" file
+#if defined(Q_OS_MAC)
+        // Profiles are located in application bundle
+        QDir profilesDir(QDir(Paths::sharePath()).filePath("profiles"));
+#elif defined(Q_OS_WIN)
+        // Profiles are located in a subdirectory
         QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
-        file.setFileName(profilesDir.filePath("default.xml"));
+#else
+        // Profiles are located in SHARE_PREFIX
+        QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
+#endif
+
+        // Checking a default profile with current locale
+        file.setFileName(profilesDir.filePath("default_" + locale + ".xml"));
+
+        // Checking a default profile in english
+        if (!file.exists() && locale != "en")
+            file.setFileName(profilesDir.filePath("default_en.xml"));
+
+        // Checking a default profile
+        if (!file.exists())
+            file.setFileName(profilesDir.filePath("default.xml"));
     }
 
     if (!file.open(QFile::ReadOnly))
@@ -179,8 +201,13 @@ bool Profile::load()
     // Load the language
     if (language != "")
     {
-        QString fileName = LanguageManager::getLanguageFileName(language);
-        if (!fileName.isEmpty())
+        language = locale;
+    }
+
+    QStringList fileNames = LanguageManager::getLanguageFileNames(language);
+    if (!fileNames.isEmpty())
+    {
+        foreach(const QString &fileName, fileNames)
         {
             QTranslator *translator = new QTranslator(qApp);
             translator->load(fileName);
@@ -460,7 +487,7 @@ void Profile::save() const
     XmlHandler::write(rootElem, "tab_for_finger", tabForFinger);
 
     // Client version
-    XmlHandler::write(rootElem, "client_version", QString(VERSION));
+    XmlHandler::write(rootElem, "client_version", QString(UPDATE_VERSION));
 
     // Tray
     QDomElement trayElem = document.createElement("tray");

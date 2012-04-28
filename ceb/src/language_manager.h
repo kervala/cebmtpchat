@@ -28,7 +28,7 @@ private:
 public:
     static QString getLanguageDisplayName(const QString &language);
     static QStringList getAvailableLanguages();
-    static QString getLanguageFileName(const QString &language);
+    static QStringList getLanguageFileNames(const QString &language);
 };
 
 #endif

@@ -634,7 +634,7 @@ void ChannelWidget::sessionLogged()
 {
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(VERSION).arg(qVersion()).arg(QLibraryInfo::buildKey()));
+    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(UPDATE_VERSION).arg(qVersion()).arg(QLibraryInfo::buildKey()));
 
     // Send first groups command
     _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);

@@ -27,7 +27,7 @@ QMap<QString, QString> LanguageManager::languageDisplayNames;
 QStringList LanguageManager::getAvailableLanguages()
 {
     QStringList languages;
-    QDir languagesDir(QDir(Paths::sharePath()).filePath("languages"));
+    QDir languagesDir(QDir(Paths::sharePath()).filePath("translations"));
 
     QStringList nameFilters;
     nameFilters << "*.qm";
@@ -36,7 +36,7 @@ QStringList LanguageManager::getAvailableLanguages()
     {
         QFileInfo fileInfo(languagesDir.filePath(entryList.at(i)));
         QString baseName = fileInfo.baseName();
-        QRegExp regExp("_(.+)$");
+        QRegExp regExp("ceb_(.+)$");
         if (regExp.lastIndexIn(baseName) >= 0)
             languages << regExp.cap(1);
     }
@@ -44,22 +44,22 @@ QStringList LanguageManager::getAvailableLanguages()
     return languages;
 }
 
-QString LanguageManager::getLanguageFileName(const QString &language)
+QStringList LanguageManager::getLanguageFileNames(const QString &language)
 {
-    QDir languagesDir(QDir(Paths::sharePath()).filePath("languages"));
+    QStringList filenames;
+    QDir languagesDir(QDir(Paths::sharePath()).filePath("translations"));
 
-    QStringList nameFilters;
-    nameFilters << "*.qm";
-    QStringList entryList = languagesDir.entryList(nameFilters, QDir::Files);
-    for (int i = 0; i < entryList.size(); i++)
-    {
-        QString fileName = languagesDir.filePath(entryList.at(i));
-        QString baseName = QFileInfo(fileName).baseName();
-        QRegExp regExp("_(.+)$");
-        if (regExp.lastIndexIn(baseName) >= 0 && regExp.cap(1) == language)
-            return fileName;
-    }
-    return "";
+#ifdef Q_OS_LINUX
+    // Use system Qt translations
+    filenames << QString("/usr/share/qt4/translations/qt_%1.qm").arg(language);
+#else
+    // Use local Qt translations
+    filenames << languagesDir.filePath(QString("qt_%1.qm").arg(language));
+#endif
+
+    filenames << languagesDir.filePath(QString("ceb_%1.qm").arg(language));
+
+    return filenames;
 }
 
 QString LanguageManager::getLanguageDisplayName(const QString &language)

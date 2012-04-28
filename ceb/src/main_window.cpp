@@ -39,6 +39,10 @@
 
 #include "main_window.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #ifdef Q_OS_WIN32
 
 bool isVista()
@@ -309,8 +313,9 @@ void MainWindow::makeMenuBar()
     connect(actionCloseConnection, SIGNAL(triggered()), this, SLOT(closeConnection()));
 
     mConnections->addSeparator();
-    QAction *action = mConnections->addAction(tr("&Quit"));
-    connect(action, SIGNAL(triggered()), this, SLOT(close()));
+    QAction *actionQuit = mConnections->addAction(tr("&Quit"));
+    actionQuit->setMenuRole(QAction::QuitRole);
+    connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
     // Edit menu
     QMenu *menuEdit = mbMain->addMenu(tr("&Edit"));
@@ -331,11 +336,13 @@ void MainWindow::makeMenuBar()
     connect(_actionToggleTopicVisibility, SIGNAL(triggered()), this, SLOT(toggleTopicVisibility()));
     _actionToggleUsersVisibility = menuConfiguration->addAction("");
     connect(_actionToggleUsersVisibility, SIGNAL(triggered()), this, SLOT(toggleUsersVisibility()));
+    QAction *actionEditSettings = menuConfiguration->addAction(tr("&Settings..."));
+    actionEditSettings->setMenuRole(QAction::PreferencesRole);
+    connect(actionEditSettings, SIGNAL(triggered()), this, SLOT(editSettings()));
     menuConfiguration->addSeparator();
     actionEditConnectionConfig = menuConfiguration->addAction(tr("&Connection configuration..."));
     actionEditConnectionConfig->setEnabled(false);
     connect(actionEditConnectionConfig, SIGNAL(triggered()), this, SLOT(editConnectionConfig()));
-    connect(menuConfiguration->addAction(tr("&Settings...")), SIGNAL(triggered()), this, SLOT(editSettings()));
 
     // Windows menu
     QMenu *menuWindows = mbMain->addMenu(tr("&Windows"));
@@ -382,8 +389,12 @@ void MainWindow::makeMenuBar()
     connect(menuHelp->addAction(tr("&Report a bug")), SIGNAL(triggered()), this, SLOT(launchBugReport()));
     connect(menuHelp->addAction(tr("&Report a wanted feature")), SIGNAL(triggered()), this, SLOT(launchFeatureReport()));
     menuHelp->addSeparator();
-    connect(menuHelp->addAction(tr("&About...")), SIGNAL(triggered()), this, SLOT(about()));
-    connect(menuHelp->addAction(tr("About &Qt...")), SIGNAL(triggered()), this, SLOT(aboutQt()));
+    QAction *actionHelpAbout = menuHelp->addAction(tr("&About..."));
+    actionHelpAbout->setMenuRole(QAction::AboutRole);
+    connect(actionHelpAbout, SIGNAL(triggered()), this, SLOT(about()));
+    QAction *actionHelpAboutQt = menuHelp->addAction(tr("About &Qt..."));
+    actionHelpAboutQt->setMenuRole(QAction::AboutQtRole);
+    connect(actionHelpAboutQt, SIGNAL(triggered()), this, SLOT(aboutQt()));
 }
 
 void MainWindow::makeToolBar()
@@ -523,8 +534,7 @@ void MainWindow::showSystemLogs()
 
 void MainWindow::about()
 {
-    DialogAbout dialog(this);
-    dialog.exec();
+    QMessageBox::about(this, tr("About %1 %2").arg(PRODUCT).arg(VERSION), tr("Developped by: Garou, Kervala\n\nSome Lua parts are from Ace, Drealmer and Ben"));
 }
 
 void MainWindow::aboutQt()
@@ -875,7 +885,7 @@ void MainWindow::showEvent(QShowEvent *)
         m_firstShow = false;
 
 #ifndef QT_PLUGIN
-        if (VERSION != Profile::instance().clientVersion)
+        if (Profile::instance().clientVersion != UPDATE_VERSION)
             launchWhatsNew();
 
         // Default connect to
