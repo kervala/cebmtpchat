@@ -3,7 +3,13 @@ SET(COMMON_MODULE_FOUND TRUE)
 # Force Release configuration for compiler checks
 SET(CMAKE_TRY_COMPILE_CONFIGURATION "Release")
 
+# Check .desktop file under Gnome
 SET(DESKTOP_FILE $ENV{GIO_LAUNCHED_DESKTOP_FILE})
+
+# Check build directory
+IF(NOT DESKTOP_FILE)
+  SET(DESKTOP_FILE ${CMAKE_BINARY_DIR})
+ENDIF(NOT DESKTOP_FILE)
 
 # Force Debug configuration if launched from Qt Creator
 IF(NOT CMAKE_BUILD_TYPE AND DESKTOP_FILE MATCHES "qtcreator")
