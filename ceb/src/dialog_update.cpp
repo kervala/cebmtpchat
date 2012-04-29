@@ -20,6 +20,10 @@
 #include "dialog_update.h"
 #include "version.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
     setAttribute(Qt::WA_DeleteOnClose);

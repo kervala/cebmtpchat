@@ -19,6 +19,10 @@
 #include "common.h"
 #include "idle_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 IdleSettingsWidget::IdleSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
     setupUi(this);

@@ -20,6 +20,10 @@
 #include "paths.h"
 #include "dialog_whatsnew.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogWhatsNew::DialogWhatsNew(QWidget *parent) : DialogBasic(true, parent)
 {
     setWindowTitle(tr("What's new in CeB ?"));

@@ -20,6 +20,10 @@
 #include "profile.h"
 #include "actions_model.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 int ActionsModel::columnCount(const QModelIndex &parent) const
 {
     return columnsCount;

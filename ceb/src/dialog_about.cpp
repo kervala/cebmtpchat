@@ -19,6 +19,10 @@
 #include "common.h"
 #include "dialog_about.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogAbout::DialogAbout(QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
     setupUi(this);

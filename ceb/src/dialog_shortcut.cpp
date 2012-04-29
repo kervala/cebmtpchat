@@ -19,6 +19,10 @@
 #include "common.h"
 #include "dialog_shortcut.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogShortcut::DialogShortcut(QWidget *parent)
     : DialogBasic(parent),
       _closeIt(false)

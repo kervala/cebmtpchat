@@ -22,6 +22,10 @@
 #define LOCAL_FILENAME "local"
 #define DEV_FILENAME "dev"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 bool Global::localMode()
 {
     QDir appDir(QCoreApplication::applicationDirPath());

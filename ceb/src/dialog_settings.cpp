@@ -37,6 +37,9 @@
 
 #include "dialog_settings.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
 
 DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 {

@@ -26,6 +26,10 @@
 #include "lua_qt.h"
 #endif
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Script::LuaScript adminScript;
 Script::LuaScript userScript;
 

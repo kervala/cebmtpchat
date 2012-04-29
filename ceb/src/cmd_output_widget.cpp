@@ -20,6 +20,10 @@
 #include "cmd_output_widget.h"
 #include "profile.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 CmdOutputWidget::CmdOutputWidget(Session *session, const QString &cmdName, QWidget *parent) : SessionWidget(session, parent),
                                                                                               _cmdName(cmdName)
 {

@@ -19,6 +19,10 @@
 #include "common.h"
 #include "dialog_session_config.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 void DialogSessionConfig::init()
 {
     _sessionConfigWidget = new SessionConfigWidget;

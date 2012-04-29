@@ -23,6 +23,10 @@
 #include "action.h"
 #include "paths.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
     QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, Paths::sharePath());

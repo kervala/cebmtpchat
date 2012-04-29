@@ -19,6 +19,10 @@
 #include "common.h"
 #include "links_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 LinksSettingsWidget::LinksSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
     setupUi(this);

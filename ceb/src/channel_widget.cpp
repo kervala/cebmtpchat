@@ -28,6 +28,10 @@
 
 #include "channel_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 ChannelWidget::ChannelWidget(Session *session, QWidget *parent) : SessionWidget(session, parent)
 {
     init();

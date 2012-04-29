@@ -20,6 +20,10 @@
 #include "profile.h"
 #include "dialog_warningo.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogWarningo::DialogWarningo(const QString &title, const QString &message, QWidget *parent)
     : QDialog(parent, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::ToolTip)
 {

@@ -22,6 +22,10 @@
 
 #include "action.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Action::Action(ActionType actionType)
 {
     _actionType = actionType;

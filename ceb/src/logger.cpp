@@ -23,6 +23,10 @@
 
 #include "logger.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Logger *Logger::_instance = 0;
 
 Logger &Logger::instance()

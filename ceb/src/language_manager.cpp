@@ -21,6 +21,10 @@
 
 #include "language_manager.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 bool LanguageManager::languageDisplayNameInitialized = false;
 QMap<QString, QString> LanguageManager::languageDisplayNames;
 

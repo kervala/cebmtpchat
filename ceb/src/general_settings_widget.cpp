@@ -20,6 +20,10 @@
 #include "language_manager.h"
 #include "general_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
     : SettingsWidget(parent)
 {

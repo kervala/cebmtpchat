@@ -21,6 +21,10 @@
 #include "session_manager.h"
 #include "dialog_broadcast.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 DialogBroadcast::DialogBroadcast(QWidget *parent)
     : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {

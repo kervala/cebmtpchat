@@ -20,6 +20,10 @@
 #include "profile.h"
 #include "fonts_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 FontsSettingsWidget::FontsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
     setupUi(this);
