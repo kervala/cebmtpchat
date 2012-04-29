@@ -23,6 +23,10 @@
 
 #include "session_config.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SessionConfig::SessionConfig()
 {
     _port = 4000;

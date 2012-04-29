@@ -24,6 +24,10 @@
 #include "tell_widget.h"
 #include "event_script.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 void TellWidget::init()
 {
     installEventFilter(this);

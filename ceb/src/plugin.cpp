@@ -4,6 +4,10 @@
 #include "main_window.h"
 #include "plugin.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QMainWindow *CeBPlugin::getMainWindow() const {
     return MainWindow::instance();
 }

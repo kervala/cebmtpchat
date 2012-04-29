@@ -19,6 +19,10 @@
 #include "common.h"
 #include "session_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SessionWidget::SessionWidget(Session *session, QWidget *parent) :
     QWidget(parent),
     _session(session),

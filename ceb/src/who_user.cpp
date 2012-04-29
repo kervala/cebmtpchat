@@ -19,6 +19,10 @@
 #include "common.h"
 #include "who_user.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QString WhoUser::propertyByName(const QString &name) const
 {
     if (!name.compare("group", Qt::CaseInsensitive))

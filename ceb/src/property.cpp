@@ -21,6 +21,10 @@
 
 #include "property.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Property::Property(const QDomElement &root)
 {
     _name = root.attribute("name");

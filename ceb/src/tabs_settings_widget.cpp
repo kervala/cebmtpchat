@@ -19,6 +19,10 @@
 #include "common.h"
 #include "tabs_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 TabsSettingsWidget::TabsSettingsWidget(QWidget *parent)
     : SettingsWidget(parent)
 {

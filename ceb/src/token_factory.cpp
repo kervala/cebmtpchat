@@ -21,6 +21,10 @@
 
 #include "token_factory.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 //#define LOGIN_RE "[a-zA-Z][a-zA-Z\\d]*" // MTP style
 #define LOGIN_RE "[a-zA-Z\\d]+"
 #define ID_RE "[a-zA-Z][a-zA-Z\\d]+"

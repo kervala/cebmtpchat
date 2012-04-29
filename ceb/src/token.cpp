@@ -19,6 +19,10 @@
 #include "common.h"
 #include "token.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Token::Token()
 {
     init(End, QStringList(), QList<int>(), -1, QTime());

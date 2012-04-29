@@ -19,6 +19,10 @@
 #include "common.h"
 #include "token_info.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QString TokenInfo::tokenToIDString(Token::Type token)
 {
     switch (token)

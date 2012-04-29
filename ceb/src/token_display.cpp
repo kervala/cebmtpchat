@@ -23,6 +23,10 @@
 
 #include "token_display.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 TokenDisplayElement::~TokenDisplayElement()
 {
     if (_font)

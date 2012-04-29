@@ -19,6 +19,10 @@
 #include "common.h"
 #include "my_application.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MyApplication::MyApplication(int &argc, char **argv) : QApplication(argc, argv)
 {
 }

@@ -19,6 +19,10 @@
 #include "common.h"
 #include "output_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 OutputSettingsWidget::OutputSettingsWidget(QWidget *parent)
     : SettingsWidget(parent)
 {

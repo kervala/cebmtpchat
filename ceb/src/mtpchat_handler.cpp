@@ -22,6 +22,10 @@
 #include "profile.h"
 #include "main_window.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MtpChatHandler::MtpChatHandler():QObject()
 {
 }

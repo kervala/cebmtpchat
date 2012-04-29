@@ -24,6 +24,10 @@
 
 #include "token_renderer.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 void TokenRenderer::displayToken(const Token &token, bool timeStamp)
 {
     Q_ASSERT(_textEdit);

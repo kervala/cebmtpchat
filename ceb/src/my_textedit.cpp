@@ -32,6 +32,10 @@
     #endif
 #endif
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allowFilters(false)
 {
     progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);

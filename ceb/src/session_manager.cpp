@@ -21,6 +21,10 @@
 #include "session_manager.h"
 #include "logger.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SessionManager *SessionManager::_instance = 0;
 
 SessionManager::SessionManager() : QObject()

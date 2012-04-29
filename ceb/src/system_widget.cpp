@@ -19,6 +19,10 @@
 #include "common.h"
 #include "system_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SystemWidget *SystemWidget::_instance = 0;
 
 SystemWidget::SystemWidget(QWidget *parent)

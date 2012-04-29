@@ -24,6 +24,10 @@
 #include "config.h"
 #endif
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QString Paths::sharePath()
 {
     QDir appDir(QCoreApplication::applicationDirPath());

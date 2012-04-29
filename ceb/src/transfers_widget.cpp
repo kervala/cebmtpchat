@@ -20,6 +20,10 @@
 #include "transfers_widget.h"
 #include "transfers_manager.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 TransfersWidget::TransfersWidget(Session *session, QWidget *parent) : SessionWidget(session, parent)
 {
     connect(&TransfersManager::instance(), SIGNAL(newTransferAdded(Transfer *)),

@@ -19,6 +19,10 @@
 #include "common.h"
 #include "message_model.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MessageModel::MessageModel(const QList<MessageItem> &myMessages)
 {
     _myMessages = myMessages;

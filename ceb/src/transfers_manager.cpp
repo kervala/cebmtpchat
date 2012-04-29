@@ -21,6 +21,10 @@
 #include "session_manager.h"
 #include "transfers_manager.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Transfer::Transfer(Session *session, int id, int peerId,
 				   Direction dir, const QString &nickName, const QString &fileName)
 {

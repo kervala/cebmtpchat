@@ -19,6 +19,10 @@
 #include "common.h"
 #include "server_group.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 ///////////////////////////////////////////////////
 
 void ServerGroups::clear()

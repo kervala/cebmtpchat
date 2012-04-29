@@ -19,6 +19,10 @@
 #include "common.h"
 #include "render_segment.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 RenderSegmentList::RenderSegmentList()
 {
     urlRegexp << QRegExp("http:\\/\\/\\S*");

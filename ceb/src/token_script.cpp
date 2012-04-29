@@ -23,6 +23,10 @@
 
 #include "token_script.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 static Token g_token;
 
 int tokenArgumentCount(lua_State *l)

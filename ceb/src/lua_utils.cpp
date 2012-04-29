@@ -22,6 +22,10 @@
 #include "script.h"
 #include "lua_utils.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 int showLuaError(lua_State *l, const QString &error)
 {
     SystemWidget::error("Lua : " + error + " " + QString(l ? lua_tostring(l, -1):"not initialized"));

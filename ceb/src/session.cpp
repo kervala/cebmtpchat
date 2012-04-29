@@ -23,6 +23,10 @@
 
 #include "session.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Session::Session(QObject *parent)
     : QObject(parent),
       _socket(0)

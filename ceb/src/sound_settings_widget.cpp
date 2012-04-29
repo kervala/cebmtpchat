@@ -21,6 +21,10 @@
 
 #include "sound_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SoundSettingsWidget::SoundSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
     setupUi(this);

@@ -21,6 +21,10 @@
 #include "dialog_shortcut.h"
 #include "shortcuts_settings_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 ShortcutsSettingsWidget::ShortcutsSettingsWidget(QWidget *parent) : SettingsWidget(parent)
 {
     setupUi(this);

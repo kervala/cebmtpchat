@@ -20,6 +20,10 @@
 #include "who_model.h"
 #include "event_script.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 WhoModel::WhoModel(Session *session, QObject *parent)
     : QAbstractListModel(parent),
       _session(session)

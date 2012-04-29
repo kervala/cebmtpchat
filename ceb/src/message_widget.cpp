@@ -22,6 +22,10 @@
 #include "message_widget.h"
 #include "profile.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 MessageWidget::MessageWidget(Session *session, QWidget *parent) : SessionWidget(session, parent)
 {
     init();

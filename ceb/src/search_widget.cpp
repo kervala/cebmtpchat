@@ -19,6 +19,10 @@
 #include "common.h"
 #include "search_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent),
                                               _textWidget(0),
                                               _findFlags(0)

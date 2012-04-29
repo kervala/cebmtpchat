@@ -19,6 +19,10 @@
 #include "common.h"
 #include "session_config_widget.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 SessionConfigWidget::SessionConfigWidget(QWidget *parent, bool showRemoveButton) : QWidget(parent)
 {
     setupUi(this);

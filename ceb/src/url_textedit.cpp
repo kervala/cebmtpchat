@@ -20,6 +20,10 @@
 #include "profile.h"
 #include "url_textedit.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 QColor UrlTextEdit::_textBackgroundColor = QColor(0, 0, 0, 0);
 
 

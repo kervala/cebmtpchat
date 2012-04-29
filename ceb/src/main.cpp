@@ -35,6 +35,10 @@
 Q_IMPORT_PLUGIN(qsvgicon);
 #endif
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 int main(int argc, char **argv)
 {
 #if defined(_MSC_VER) && defined(_DEBUG)
