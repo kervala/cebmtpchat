@@ -26,6 +26,10 @@
 
 #include "profile.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 Profile *Profile::_instance = 0;
 const QStringList Profile::idleAwayBypassDefaultExpressions = QStringList() << "^who(|( .*))$" << "^wall$" << "^history$" << "^set away off$" << "^users(|( .*))$" << "^get .* group$";
 
@@ -149,9 +153,12 @@ bool Profile::load()
 #elif defined(Q_OS_WIN)
         // Profiles are located in a subdirectory
         QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
-#else
+#elif defined(SHARE_PREFIX)
         // Profiles are located in SHARE_PREFIX
-        QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
+        QDir profilesDir(QDir(SHARE_PREFIX).filePath("profiles"));
+#else
+        // Profiles are located in /usr/share/ceb
+        QDir profilesDir(QDir("/usr/share/ceb").filePath("profiles"));
 #endif
 
         // Checking a default profile with current locale
