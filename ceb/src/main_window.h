@@ -174,7 +174,7 @@ private slots:
     void newSessionTokenForActivity(Session *session, const Token &token);
     void newSessionToken(Session *session, const Token &token);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
-    void trayActivated(QSystemTrayIcon::ActivationReason reason);
+    void trayActivated(QSystemTrayIcon::ActivationReason reason = QSystemTrayIcon::Trigger);
     void newProgramVersion(const QString &);
     void whoItemDblClicked(const QString &login);
     void closeCurrentTab();

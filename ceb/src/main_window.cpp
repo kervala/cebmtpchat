@@ -43,6 +43,10 @@
 #include "config.h"
 #endif
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 #ifdef Q_OS_WIN32
 
 bool isVista()
@@ -108,12 +112,26 @@ MainWindow::MainWindow()
     _statusInfosLabel = new QLabel;
     statusBar()->addPermanentWidget(_statusInfosLabel);
 
-    trayMenu = new QMenu(this);
-    trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
-    if (Profile::instance().trayEnabled && Profile::instance().trayAlwaysVisible)
-        trayIcon->show();
+    if (QSystemTrayIcon::isSystemTrayAvailable())
+    {
+        trayMenu = new QMenu(this);
+        QAction *restoreAction = trayMenu->addAction(tr("Restore"));
+        connect(restoreAction, SIGNAL(triggered()), this, SLOT(trayActivated()));
+        QAction *quitAction = trayMenu->addAction(tr("Quit"));
+        connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+    	trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
+        trayIcon->setContextMenu(trayMenu);
+        connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
+        if (Profile::instance().trayEnabled && Profile::instance().trayAlwaysVisible)
+            trayIcon->show();
+    }
+    else
+    {
+        trayMenu = NULL;
+        trayIcon = NULL;
+    }
 
     SessionManager &sessionManager = SessionManager::instance();
     connect(&sessionManager, SIGNAL(newSessionToken(Session *, const Token &)),
@@ -263,7 +281,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Profile::instance().save();
 
     // Hide tray
-    trayIcon->hide();
+    if (trayIcon)
+        trayIcon->hide();
 
     // Close all sessions
     SessionManager::instance().free();
@@ -410,7 +429,7 @@ bool MainWindow::winEvent(MSG *message, long *result)
     {
         if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
             hide();
-        if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
+        if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible && trayIcon)
             trayIcon->show();
         trayTalkAboutMe = false;
         if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
@@ -597,24 +616,27 @@ void MainWindow::refreshProfileSettings()
     createActionShortcuts();
 
     // Tray stuffs
-    if (Profile::instance().trayEnabled)
+    if (trayIcon)
     {
-        if (Profile::instance().trayHideFromTaskBar && isMinimized())
-            hide();
-        else if (!Profile::instance().trayHideFromTaskBar && !isVisible())
-            trayIcon->show();
-        else
+        if (Profile::instance().trayEnabled)
         {
-            if (Profile::instance().trayAlwaysVisible)
+            if (Profile::instance().trayHideFromTaskBar && isMinimized())
+                hide();
+            else if (!Profile::instance().trayHideFromTaskBar && !isVisible())
                 trayIcon->show();
             else
-                trayIcon->hide();
+            {
+                if (Profile::instance().trayAlwaysVisible)
+                    trayIcon->show();
+                else
+                    trayIcon->hide();
+            }
         }
-    }
-    else
-    {
-        show();
-        trayIcon->hide();
+        else
+        {
+            show();
+            trayIcon->hide();
+        }
     }
 
     // Update stuffs
@@ -707,12 +729,12 @@ void MainWindow::newSessionTokenForActivity(Session *session, const Token &token
         {
             QApplication::alert(this);
 
-            if (changeTray)
+            if (changeTray && trayIcon)
                 trayIcon->setIcon(QIcon(":/images/tray-myself.png"));
             if (showWarningo && Profile::instance().warningoEnabled)
 				(new DialogWarningo(session->config().name(), token.line()))->show();
         }
-        else if (!trayTalkAboutMe)
+        else if (!trayTalkAboutMe && trayIcon)
             trayIcon->setIcon(QPixmap(":/images/tray-new.png"));
     }
 }
@@ -859,8 +881,9 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
         show();
     if (isMinimized())
         showNormal();
+    raise();
     activateWindow();
-    if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible)
+    if (Profile::instance().trayEnabled && !Profile::instance().trayAlwaysVisible && trayIcon)
         trayIcon->hide();
 }
 
@@ -868,7 +891,9 @@ bool MainWindow::event(QEvent *e)
 {
     if (e->type() == QEvent::WindowActivate)
     {
-        trayIcon->setIcon(QIcon(":/images/tray-neutral.png"));
+        if (trayIcon)
+            trayIcon->setIcon(QIcon(":/images/tray-neutral.png"));
+
         trayTalkAboutMe = false;
 
         EventScript::focused();
