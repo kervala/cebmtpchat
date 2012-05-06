@@ -507,6 +507,11 @@ MACRO(SET_TARGET_LIB name)
     ENDIF(ARG STREQUAL STATIC)
   ENDFOREACH(ARG ${ARGN})
 
+  IF(IS_PRIVATE)
+    SET(IS_STATIC ON)
+    SET(IS_SHARED OFF)
+  ENDIF(IS_PRIVATE)
+
   SET(STATIC_LIB OFF)
 
   # If library mode is not specified, prepend it
