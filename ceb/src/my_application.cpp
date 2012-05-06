@@ -29,5 +29,5 @@ MyApplication::MyApplication(int &argc, char **argv) : QApplication(argc, argv)
 
 void MyApplication::commitData(QSessionManager &)
 {
-//	manager.release();
+//    manager.release();
 }

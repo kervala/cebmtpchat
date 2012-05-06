@@ -34,7 +34,7 @@ public:
     void feedProfile(Profile &profile);
 
 private:
-	bool _interactive;
+    bool _interactive;
 
     static QString chooseDirectory(QWidget *parent = 0);
 

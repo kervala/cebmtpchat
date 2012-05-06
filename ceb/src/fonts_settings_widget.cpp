@@ -154,7 +154,7 @@ void FontsSettingsWidget::on_pushButtonForcedFont_clicked()
 
         switch (listWidget->currentRow())
         {
-        case outputRow:	textSkin.textFont().setFont(font); break;
+        case outputRow: textSkin.textFont().setFont(font); break;
         case inputRow: textSkin.inputTextFont().setFont(font); break;
         case whoRow: textSkin.whoTextFont().setFont(font); break;
         case topicRow: textSkin.topicTextFont().setFont(font); break;

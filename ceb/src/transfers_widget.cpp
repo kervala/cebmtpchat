@@ -320,7 +320,7 @@ void TransfersWidget::transferStateChanged(Transfer *transfer)
     if (insertIt)
         _widgetsLayout->insertWidget(insertionIndex, widget);
     else
-	_widgetsLayout->addWidget(widget);
+        _widgetsLayout->addWidget(widget);
 
     fillWidget(widget, transfer);
     widget->repaint();

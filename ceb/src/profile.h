@@ -125,8 +125,8 @@ public:
     int transferPort;
     bool transferInit;
 
-	QString uploadUrl;
-	QString downloadUrl;
+    QString uploadUrl;
+    QString downloadUrl;
     bool prefixDate;
 
     ActionManager actionManager;

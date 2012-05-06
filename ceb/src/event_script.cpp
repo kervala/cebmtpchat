@@ -271,7 +271,7 @@ lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &lu
 
     if (error)
     {
-		luaScript.fileDateTime = QDateTime();
+        luaScript.fileDateTime = QDateTime();
         return 0;
     } else if (tryToLoad)
         luaScript.fileDateTime = fileInfo.lastModified();

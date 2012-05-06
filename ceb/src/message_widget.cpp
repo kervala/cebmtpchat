@@ -121,8 +121,8 @@ void MessageWidget::init()
 
 void MessageWidget::currentMessageChanged(const QModelIndex & current, const QModelIndex &)
 {
-	if (!current.isValid())
-		return;
+    if (!current.isValid())
+        return;
     QModelIndex currentSource = _sortModel->mapToSource(current);
     const MessageItem &message = _messageModel->myMessages()[currentSource.row()];
 //    _textEditMessage->addNewLine(message.message(), Profile::instance().textSkin().textFont().font(), QColor(0, 0, 0));

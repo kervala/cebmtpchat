@@ -26,7 +26,7 @@
 
 LogsSettingsWidget::LogsSettingsWidget(QWidget *parent)
     : SettingsWidget(parent),
-	  _interactive(true)
+      _interactive(true)
 {
     setupUi(this);
     lineEditDefaultDirectory->setText(Logger::getDefaultLogsDir());
