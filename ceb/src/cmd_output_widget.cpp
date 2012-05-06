@@ -61,7 +61,7 @@ void CmdOutputWidget::init()
     _textEditOutput->setCurrentFont(QFont("Courier New", 8, 0));
 #endif
 #ifdef Q_OS_DARWIN
-    _textEditOutput->setCurrentFont(QFont("Monaco", 16, 0));
+    _textEditOutput->setCurrentFont(QFont("Monaco", 10, 0));
 #endif
 #ifdef Q_OS_LINUX
     _textEditOutput->setCurrentFont(QFont("Bitstream Vera Sans Mono", 8, 0));

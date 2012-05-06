@@ -161,11 +161,11 @@ void TextSkin::init()
         QFont font("Courier New", 8);
         QFont timeStampFont("Courier New", 7);
 #elif defined(Q_OS_DARWIN)
-		QFont font("Monaco", 16);
-		QFont timeStampFont("Monaco", 14);
+        QFont font("Monaco", 10);
+        QFont timeStampFont("Monaco", 8);
 #else
         QFont font("Bitstream Vera Sans Mono", 8);
-		QFont timeStampFont("Bitstream Vera Sans Mono", 7);
+        QFont timeStampFont("Bitstream Vera Sans Mono", 7);
 #endif
         QFont defaultFont;
         QColor defaultColor = QApplication::palette(&widget).text().color();
