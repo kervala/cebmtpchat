@@ -26,6 +26,7 @@ PROJECT(${PRODUCT} CXX C)
 INIT_DEFAULT_OPTIONS()
 
 OPTION(WITH_RYZOM "Use Ryzom configuration files" OFF)
+OPTION(WITH_UPDATE_TRANSLATIONS "Update translations" OFF)
 
 # Qt doesn't use RTTI or C++ exceptions
 SET_OPTION_DEFAULT(WITH_EXCEPTIONS OFF)
