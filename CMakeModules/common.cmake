@@ -173,6 +173,10 @@ MACRO(SIGN_FILE target)
 #      COMMAND ${WINSDK_SIGNTOOL} sign ${filename}
 #      VERBATIM)
   ENDIF(WITH_SIGN_FILE AND WIN32 AND WINSDK_SIGNTOOL AND ${CMAKE_BUILD_TYPE} STREQUAL "Release")
+
+  IF(IOS)
+    SET_TARGET_PROPERTIES(${target} PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
+  ENDIF(IOS)
 ENDMACRO(SIGN_FILE)
 
 ###
@@ -201,6 +205,10 @@ MACRO(SET_TARGET_CONSOLE_EXECUTABLE name)
   ADD_EXECUTABLE(${name} ${ARGN})
   SET_DEFAULT_PROPS(${name})
 
+  IF(APPLE)
+    SET_TARGET_PROPERTIES(${name} PROPERTIES LINK_FLAGS "-Wl,-sectcreate,__TEXT,__info_plist,${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TARGET}.app/Info.plist")
+  ENDIF(APPLE)
+
   INSTALL(TARGETS ${name} RUNTIME DESTINATION ${BIN_PREFIX})
   SIGN_FILE(${name})
 ENDMACRO(SET_TARGET_CONSOLE_EXECUTABLE)
@@ -219,14 +227,22 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
   SET(_QMS)
   SET(_ICNSS)
   SET(_LANGS)
+  SET(_ITUNESARTWORK)
 
   FOREACH(ARG ${ARGN})
+    SET(_INCLUDE ON)
     # XIB file
     IF(ARG MATCHES "\\.xib")
       LIST(APPEND _XIBS ${ARG})
+#      SET(_INCLUDE OFF)
     ENDIF(ARG MATCHES "\\.xib")
     IF(ARG MATCHES "\\.png")
-      LIST(APPEND _IMAGES ${ARG})
+      SET(_INCLUDE OFF)
+      IF(ARG MATCHES "iTunesArtwork\\.png")
+        SET(_ITUNESARTWORK ${ARG})
+      ELSE(ARG MATCHES "iTunesArtwork\\.png")
+        LIST(APPEND _IMAGES ${ARG})
+      ENDIF(ARG MATCHES "iTunesArtwork\\.png")
     ENDIF(ARG MATCHES "\\.png")
     IF(ARG MATCHES "\\.qm")
       STRING(REGEX REPLACE "^.*_([a-z-]*)\\.qm$" "\\1" _LANG ${ARG})
@@ -236,14 +252,16 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
     IF(ARG MATCHES "\\.icns")
       LIST(APPEND _ICNSS ${ARG})
     ENDIF(ARG MATCHES "\\.icns")
-    LIST(APPEND _FILENAMES ${ARG})
+    IF(_INCLUDE)
+      LIST(APPEND _FILENAMES ${ARG})
+    ENDIF(_INCLUDE)
   ENDFOREACH(ARG ${ARGN})
   
   ADD_EXECUTABLE(${name} WIN32 MACOSX_BUNDLE ${_FILENAMES})
   SET_DEFAULT_PROPS(${name})
 
   IF(APPLE)
-    SET(OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TARGET}.app)
+    SET(OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}.app)
 
     IF(NOT IOS)
       SET(_SUBDIR "mac")
@@ -264,14 +282,48 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
       ENDFOREACH(ITEM)
     ENDIF(NOT MAC_RESOURCES_DIR)
 
+    IF(NOT MACOSX_BUNDLE_INFO_STRING)
+      SET(MACOSX_BUNDLE_INFO_STRING ${PRODUCT})
+    ENDIF(NOT MACOSX_BUNDLE_INFO_STRING)
+
+    IF(NOT MACOSX_BUNDLE_LONG_VERSION_STRING)
+      SET(MACOSX_BUNDLE_LONG_VERSION_STRING "${PRODUCT} version ${VERSION}")
+    ENDIF(NOT MACOSX_BUNDLE_LONG_VERSION_STRING)
+
+    IF(NOT MACOSX_BUNDLE_BUNDLE_NAME)
+      SET(MACOSX_BUNDLE_BUNDLE_NAME ${PRODUCT})
+    ENDIF(NOT MACOSX_BUNDLE_BUNDLE_NAME)
+
+    IF(NOT MACOSX_BUNDLE_SHORT_VERSION_STRING)
+      SET(MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION})
+    ENDIF(NOT MACOSX_BUNDLE_SHORT_VERSION_STRING)
+
+    IF(NOT MACOSX_BUNDLE_BUNDLE_VERSION)
+      SET(MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION})
+    ENDIF(NOT MACOSX_BUNDLE_BUNDLE_VERSION)
+
+    IF(NOT MACOSX_BUNDLE_COPYRIGHT)
+      SET(MACOSX_BUNDLE_COPYRIGHT "Copyright ${YEAR} ${AUTHOR}")
+    ENDIF(NOT MACOSX_BUNDLE_COPYRIGHT)
+
     # Make sure the 'Resources' Directory is correctly created before we build
-    ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR})
+    IF(NOT XCODE)
+      ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR})
+    ELSE(NOT XCODE)
+      IF(IOS)
+        SET_TARGET_PROPERTIES(${name} PROPERTIES
+          XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_VERSION}
+          XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2")
+      ENDIF(IOS)
+    ENDIF(NOT XCODE)
 
     # Set a custom plist file for the app bundle
     IF(MAC_RESOURCES_DIR)
       SET_TARGET_PROPERTIES(${name} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
 
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${MAC_RESOURCES_DIR}/PkgInfo ${CONTENTS_DIR})
+      IF(NOT XCODE)
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${MAC_RESOURCES_DIR}/PkgInfo ${CONTENTS_DIR})
+      ENDIF(NOT XCODE)
     ENDIF(MAC_RESOURCES_DIR)
 
     # extract translatable strings from xib
@@ -288,73 +340,111 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
 	
     # Compile the .xib files using the 'ibtool' program with the destination being the app package
     IF(_XIBS)
-      # Make sure we can find the 'ibtool' program. If we can NOT find it we skip generation of this project
-      FIND_PROGRAM(IBTOOL ibtool HINTS "/usr/bin" "${OSX_DEVELOPER_ROOT}/usr/bin" NO_CMAKE_FIND_ROOT_PATH)
+      IF(XCODE)
+#        SET_SOURCE_FILES_PROPERTIES(${_XIBS} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+      ELSE(XCODE)
+        # Make sure we can find the 'ibtool' program. If we can NOT find it we skip generation of this project
+        FIND_PROGRAM(IBTOOL ibtool HINTS "/usr/bin" "${OSX_DEVELOPER_ROOT}/usr/bin" NO_CMAKE_FIND_ROOT_PATH)
 
-      IF(${IBTOOL} STREQUAL "IBTOOL-NOTFOUND")
-        MESSAGE(SEND_ERROR "ibtool can not be found and is needed to compile the .xib files. It should have been installed with the Apple developer tools. The default system paths were searched in addition to ${OSX_DEVELOPER_ROOT}/usr/bin")
-      ENDIF(${IBTOOL} STREQUAL "IBTOOL-NOTFOUND")
+        IF(${IBTOOL} STREQUAL "IBTOOL-NOTFOUND")
+          MESSAGE(SEND_ERROR "ibtool can not be found and is needed to compile the .xib files. It should have been installed with the Apple developer tools. The default system paths were searched in addition to ${OSX_DEVELOPER_ROOT}/usr/bin")
+        ENDIF(${IBTOOL} STREQUAL "IBTOOL-NOTFOUND")
 
-      FOREACH(XIB ${_XIBS})
-        FILE(RELATIVE_PATH NIB ${CMAKE_CURRENT_SOURCE_DIR} ${XIB})
-        STRING(REPLACE ".xib" ".nib" NIB ${NIB})
-        GET_FILENAME_COMPONENT(NIB_OUTPUT_DIR ${RESOURCES_DIR}/${NIB} PATH)
-        ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${NIB_OUTPUT_DIR})
-        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
-          COMMAND ${IBTOOL} --errors --warnings --notices --output-format human-readable-text
-            --compile ${RESOURCES_DIR}/${NIB}
-            ${XIB}
-          COMMENT "Building XIB object ${NIB}")
-      ENDFOREACH(XIB)
+        FOREACH(XIB ${_XIBS})
+          FILE(RELATIVE_PATH NIB ${CMAKE_CURRENT_SOURCE_DIR} ${XIB})
+          STRING(REPLACE ".xib" ".nib" NIB ${NIB})
+          GET_FILENAME_COMPONENT(NIB_OUTPUT_DIR ${RESOURCES_DIR}/${NIB} PATH)
+          ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${NIB_OUTPUT_DIR})
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
+            COMMAND ${IBTOOL} --errors --warnings --notices --output-format human-readable-text
+              --compile ${RESOURCES_DIR}/${NIB}
+              ${XIB}
+            COMMENT "Building XIB object ${NIB}")
+        ENDFOREACH(XIB)
+      ENDIF(XCODE)
     ENDIF(_XIBS)
 
-    # Copying all images to Bundle
-    FOREACH(_IMAGE ${_IMAGES})
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ${_IMAGE} ${RESOURCES_DIR})
-    ENDFOREACH(_IMAGE)
+    IF(_IMAGES)
+      IF(XCODE)
+#        SET_SOURCE_FILES_PROPERTIES(${_IMAGES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+      ELSE(XCODE)
+        # Copying all images to Bundle
+        FOREACH(_IMAGE ${_IMAGES})
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ${_IMAGE} ${RESOURCES_DIR})
+        ENDFOREACH(_IMAGE)
+      ENDIF(XCODE)
+    ENDIF(_IMAGES)
 
-    # Fix Qt bundle
-    IF(_QMS)
-      ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR}/translations)
-      # Copying all Qt translations to bundle
-      FOREACH(_QM ${_QMS})
-        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations)
-      ENDFOREACH(_QM)
+    IF(NOT XCODE)
+      # Fix Qt bundle
+      IF(_QMS)
+        ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR}/translations)
+        # Copying all Qt translations to bundle
+        FOREACH(_QM ${_QMS})
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations)
+        ENDFOREACH(_QM)
 
-      FOREACH(_LANG ${_LANGS})
-        SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
-        IF(EXISTS ${LANG_FILE})
-          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations)
-        ENDIF(EXISTS ${LANG_FILE})
-      ENDFOREACH(_LANG)
+        FOREACH(_LANG ${_LANGS})
+          SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
+          IF(EXISTS ${LANG_FILE})
+            ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations)
+          ENDIF(EXISTS ${LANG_FILE})
+        ENDFOREACH(_LANG)
 
-      # Copying qt_menu.nib to bundle
-      IF(MAC_RESOURCES_DIR)
-        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR})
-      ENDIF(MAC_RESOURCES_DIR)
-    ENDIF(_QMS)
+        # Copying qt_menu.nib to bundle
+        IF(MAC_RESOURCES_DIR)
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR})
+        ENDIF(MAC_RESOURCES_DIR)
+      ENDIF(_QMS)
+    ENDIF(NOT XCODE)
 
-    # Copying all icons to bundle
-    FOREACH(_ICNS ${_ICNSS})
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_ICNS} ${RESOURCES_DIR})
-    ENDFOREACH(_ICNS)
+    IF(_ICNSS)
+      SET_SOURCE_FILES_PROPERTIES(${_ICNSS} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
-    # Fixing Bundle files for iOS
-    IF(IOS)
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
-        COMMAND mv ${OUTPUT_DIR}/Contents/MacOS/${name} ${OUTPUT_DIR}
-        COMMENT "Moving executable")
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
-        COMMAND mv ${OUTPUT_DIR}/Contents/Info.plist ${OUTPUT_DIR}
-        COMMENT "Moving Info.plist")
-      ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
-        COMMAND rm -rf ${OUTPUT_DIR}/Contents
-        COMMENT "Removing Contents directory")
-    ENDIF(IOS)
+      # Copying all icons to bundle
+      FOREACH(_ICNS ${_ICNSS})
+        # If target Mac OS X, use first icon for Bundle
+        IF(NOT IOS AND NOT MACOSX_BUNDLE_ICON_FILE)
+          GET_FILENAME_COMPONENT(_ICNS_NAME ${_ICNS} NAME)
+          SET(MACOSX_BUNDLE_ICON_FILE ${_ICNS_NAME})
+        ENDIF(NOT IOS AND NOT MACOSX_BUNDLE_ICON_FILE)
+        IF(NOT XCODE)
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_ICNS} ${RESOURCES_DIR})
+        ENDIF(NOT XCODE)
+      ENDFOREACH(_ICNS)
+    ENDIF(_ICNSS)
 
-    IF(CLANG)
+    IF(NOT XCODE)
+      # Fixing Bundle files for iOS
+      IF(IOS)
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
+          COMMAND mv ${OUTPUT_DIR}/Contents/MacOS/* ${OUTPUT_DIR})
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
+          COMMAND mv ${OUTPUT_DIR}/Contents/Info.plist ${OUTPUT_DIR})
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD
+          COMMAND rm -rf ${OUTPUT_DIR}/Contents)
+
+        # Creating .ipa package
+        IF(_ITUNESARTWORK)
+          SET(IPA ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}_ipa)
+          ADD_CUSTOM_TARGET(package
+            COMMAND rm -rf ${OUTPUT_DIR}/Contents
+            COMMAND mkdir -p ${IPA}/Payload
+            COMMAND CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate codesign -fs "iPhone Developer" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}.app
+            COMMAND cp -R ${OUTPUT_DIR} ${IPA}/Payload
+            COMMAND cp ${_ITUNESARTWORK} ${IPA}/iTunesArtwork
+            COMMAND ditto -c -k ${IPA} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}.ipa
+            COMMAND rm -rf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}_ipa
+            COMMENT "Creating IPA archive..."
+            SOURCES ${_ITUNESARTWORK})
+          SET_TARGET_LABEL(package "PACKAGE")
+        ENDIF(_ITUNESARTWORK)
+      ENDIF(IOS)
+    ENDIF(NOT XCODE)
+
+    IF(CLANG AND NOT XCODE)
       SET_TARGET_PROPERTIES(${name} PROPERTIES COMPILE_FLAGS "-fobjc-arc -fobjc-abi-version=2 -fobjc-legacy-dispatch")
-    ENDIF(CLANG)
+    ENDIF(CLANG AND NOT XCODE)
   ELSE(APPLE)
     IF(_QMS)
       # Install all applications Qt translations
@@ -545,6 +635,13 @@ ENDMACRO(SET_TARGET_PLUGIN)
 
 MACRO(SET_TARGET_LABEL name label)
   SET_TARGET_PROPERTIES(${name} PROPERTIES PROJECT_LABEL ${label})
+
+  # Under Mac OS X, executables should use project label
+  GET_TARGET_PROPERTY(type ${name} TYPE)
+
+  IF(${type} STREQUAL EXECUTABLE AND APPLE)
+    SET_TARGET_PROPERTIES(${name} PROPERTIES OUTPUT_NAME ${label})
+  ENDIF(${type} STREQUAL EXECUTABLE AND APPLE)
 ENDMACRO(SET_TARGET_LABEL)
 
 MACRO(SET_TARGET_EXTENSION name extension)
@@ -761,6 +858,11 @@ MACRO(INIT_BUILD_FLAGS)
     MESSAGE(STATUS "Using Clang compiler")
   ENDIF(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
 
+  IF(CMAKE_GENERATOR MATCHES "Xcode")
+    SET(XCODE ON)
+    MESSAGE(STATUS "Generating Xcode project")
+  ENDIF(CMAKE_GENERATOR MATCHES "Xcode")
+
   # If target and host CPU are the same
   IF("${HOST_CPU}" STREQUAL "${TARGET_CPU}")
     # x86-compatible CPU
@@ -890,13 +992,23 @@ MACRO(INIT_BUILD_FLAGS)
       SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -DWIN32 -D_WIN32")
     ENDIF(WIN32)
 
-    IF(HOST_CPU STREQUAL "x86_64" AND TARGET_CPU STREQUAL "x86")
-      SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -m32 -march=i686")
-    ENDIF(HOST_CPU STREQUAL "x86_64" AND TARGET_CPU STREQUAL "x86")
+    IF(APPLE)
+      IF(TARGET_CPU STREQUAL "x86")
+        SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -arch i386")
+      ENDIF(TARGET_CPU STREQUAL "x86")
 
-    IF(HOST_CPU STREQUAL "x86" AND TARGET_CPU STREQUAL "x86_64")
-      SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -m64")
-    ENDIF(HOST_CPU STREQUAL "x86" AND TARGET_CPU STREQUAL "x86_64")
+      IF(TARGET_CPU STREQUAL "x86_64")
+        SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -arch x86_64")
+      ENDIF(TARGET_CPU STREQUAL "x86_64")
+    ELSE(APPLE)
+      IF(HOST_CPU STREQUAL "x86_64" AND TARGET_CPU STREQUAL "x86")
+        SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -m32 -march=i686")
+      ENDIF(HOST_CPU STREQUAL "x86_64" AND TARGET_CPU STREQUAL "x86")
+
+      IF(HOST_CPU STREQUAL "x86" AND TARGET_CPU STREQUAL "x86_64")
+        SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -m64")
+      ENDIF(HOST_CPU STREQUAL "x86" AND TARGET_CPU STREQUAL "x86_64")
+    ENDIF(APPLE)
 
     SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -D_REENTRANT")
 
@@ -917,25 +1029,40 @@ MACRO(INIT_BUILD_FLAGS)
       ENDIF(CLANG)
     ENDIF(WITH_WARNINGS)
 
-    IF(APPLE)
-      # -gdwarf-2
+    IF(APPLE AND XCODE)
+      IF(IOS)
+        SET(CMAKE_OSX_SYSROOT "iphoneos" CACHE PATH "" FORCE)
+      ELSE(IOS)
+        SET(CMAKE_OSX_SYSROOT "macosx" CACHE PATH "" FORCE)
+      ENDIF(IOS)
+    ELSEIF(APPLE AND NOT XCODE)
+      IF(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+        SET(CMAKE_OSX_DEPLOYMENT_TARGET "10.5")
+      ENDIF(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+
+      FOREACH(_SDK ${_CMAKE_OSX_SDKS})
+        IF(${_SDK} MATCHES "MacOSX${CMAKE_OSX_DEPLOYMENT_TARGET}\\.sdk")
+          SET(CMAKE_OSX_SYSROOT ${_SDK} CACHE PATH "" FORCE)
+        ENDIF(${_SDK} MATCHES "MacOSX${CMAKE_OSX_DEPLOYMENT_TARGET}\\.sdk")
+      ENDFOREACH(_SDK)
+
       IF(CMAKE_OSX_SYSROOT)
         SET(PLATFORM_CFLAGS "-isysroot ${CMAKE_OSX_SYSROOT} ${PLATFORM_CFLAGS}")
+      ELSE(CMAKE_OSX_SYSROOT)
+        MESSAGE(FATAL_ERROR "CMAKE_OSX_SYSROOT can't be determinated")
       ENDIF(CMAKE_OSX_SYSROOT)
+
       IF(CMAKE_OSX_ARCHITECTURES)
-        # TODO: browse all CMAKE_OSX_ARCHITECTURES and use -arch <arch>
-        SET(PLATFORM_CFLAGS "-arch ${CMAKE_OSX_ARCHITECTURES} ${PLATFORM_CFLAGS}")
+        FOREACH(_ARCH ${CMAKE_OSX_ARCHITECTURES})
+          SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -arch ${_ARCH}")
+        ENDFOREACH(_ARCH)
       ENDIF(CMAKE_OSX_ARCHITECTURES)
 
       IF(IOS)
-        IF(${IOS_PLATFORM} STREQUAL "OS")
-          IF(IOS_VERSION)
-            SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -miphoneos-version-min=${IOS_VERSION}")
-          ENDIF(IOS_VERSION)
-        ELSE(IOS AND ${IOS_PLATFORM} STREQUAL "OS")
-          # TODO: Check for framework version
-          SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -mmacosx-version-min=10.6")
-        ENDIF(${IOS_PLATFORM} STREQUAL "OS")
+        IF(${IOS_PLATFORM} STREQUAL "OS" AND IOS_VERSION)
+          SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -miphoneos-version-min=${IOS_VERSION}")
+          SET(CMAKE_C_OSX_DEPLOYMENT_TARGET_FLAG)
+        ENDIF(${IOS_PLATFORM} STREQUAL "OS" AND IOS_VERSION)
 
         IF(IOS_VERSION)
           PARSE_VERSION_STRING(${IOS_VERSION} IOS_VERSION_MAJOR IOS_VERSION_MINOR IOS_VERSION_PATCH)
@@ -945,12 +1072,16 @@ MACRO(INIT_BUILD_FLAGS)
         ENDIF(IOS_VERSION)
       ENDIF(IOS)
 
+      IF(CMAKE_C_OSX_DEPLOYMENT_TARGET_FLAG)
+        SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+      ENDIF(CMAKE_C_OSX_DEPLOYMENT_TARGET_FLAG)
+
       SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-headerpad_max_install_names")
 
       IF(HAVE_FLAG_SEARCH_PATHS_FIRST)
         SET(PLATFORM_LINKFLAGS "-Wl,-search_paths_first ${PLATFORM_LINKFLAGS}")
       ENDIF(HAVE_FLAG_SEARCH_PATHS_FIRST)
-    ENDIF(APPLE)
+    ENDIF(APPLE AND XCODE)
 
     # Fix "relocation R_X86_64_32 against.." error on x64 platforms
     IF(TARGET_X64 AND WITH_STATIC AND NOT WITH_STATIC_PLUGINS)
