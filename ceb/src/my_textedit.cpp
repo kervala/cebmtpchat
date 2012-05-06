@@ -60,11 +60,11 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allo
 
 MyTextEdit::~MyTextEdit()
 {
-	std::map<int, FtpQueue>::iterator it = ftpQueue.begin(), iend = ftpQueue.end();
+	QMap<int, FtpQueue>::ConstIterator it = ftpQueue.constBegin(), iend = ftpQueue.constEnd();
 
 	while(it != iend)
 	{
-		if (it->second.file) delete it->second.file;
+		if (it.value().file) delete it.value().file;
 		++it;
 	}
 	

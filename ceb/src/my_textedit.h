@@ -79,7 +79,7 @@ private:
         QFile *file;
     };
 
-    std::map<int, FtpQueue> ftpQueue;
+    QMap<int, FtpQueue> ftpQueue;
 
 #ifdef Q_OS_WIN
     ITaskbarList3* pTaskbarList;
