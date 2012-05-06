@@ -20,6 +20,10 @@
 #include "profile.h"
 #include "my_menubar.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 void MyMenuBar::paintEvent(QPaintEvent *event)
 {
     QMenuBar::paintEvent(event);
