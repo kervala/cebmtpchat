@@ -1108,15 +1108,6 @@ Hier die fehlenden Funktionen, die ich in der nächsten Version gerne sehen wür
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="556"/>
-        <source>Version: %1
-
-Developped by: Garou, Kervala
-
-Some Lua parts are from Ace, Drealmer and Ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="src/main_window.cpp" line="1458"/>
         <source>Hide &amp;menu bar</source>
         <translation type="unfinished"></translation>
@@ -1149,6 +1140,15 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
     <message>
         <location filename="src/main_window.cpp" line="1472"/>
         <source>Hide &amp;topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="556"/>
+        <source>%1 %2
+
+Developped by: Garou, Kervala
+
+Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

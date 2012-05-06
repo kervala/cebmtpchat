@@ -1116,13 +1116,12 @@ Voici les fonctionnalités manquantes que j&apos;aimerais voir dans la prochaine
         <translation>Ouvrir le répertoire avec le &amp;profil</translation>
     </message>
     <message>
-        <location filename="src/main_window.cpp" line="556"/>
         <source>Version: %1
 
 Developped by: Garou, Kervala
 
 Some Lua parts are from Ace, Drealmer and Ben</source>
-        <translation>Version: %1
+        <translation type="obsolete">Version: %1
 
 Développé par : Garou, Kervala
 
@@ -1162,6 +1161,19 @@ Certaines parties Lua sont de Ace, Drealmer et Ben</translation>
         <location filename="src/main_window.cpp" line="1472"/>
         <source>Hide &amp;topic</source>
         <translation>Cacher le &amp;sujet</translation>
+    </message>
+    <message>
+        <location filename="src/main_window.cpp" line="556"/>
+        <source>%1 %2
+
+Developped by: Garou, Kervala
+
+Some Lua parts are from Ace, Drealmer and Ben</source>
+        <translation>%1 %2
+
+Développé par : Garou, Kervala
+
+Certaines parties Lua sont de Ace, Drealmer et Ben</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="1474"/>

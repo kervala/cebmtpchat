@@ -553,7 +553,7 @@ void MainWindow::showSystemLogs()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About %1 %2").arg(PRODUCT).arg(VERSION), tr("Version: %1\n\nDevelopped by: Garou, Kervala\n\nSome Lua parts are from Ace, Drealmer and Ben").arg(VERSION));
+    QMessageBox::about(this, tr("About %1 %2").arg(PRODUCT).arg(VERSION), tr("%1 %2\n\nDevelopped by: Garou, Kervala\n\nSome Lua parts are from Ace, Drealmer and Ben").arg(PRODUCT).arg(VERSION));
 }
 
 void MainWindow::aboutQt()

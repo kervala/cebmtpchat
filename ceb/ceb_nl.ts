@@ -707,6 +707,15 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/main_window.cpp" line="556"/>
+        <source>%1 %2
+
+Developped by: Garou, Kervala
+
+Some Lua parts are from Ace, Drealmer and Ben</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="src/main_window.cpp" line="1079"/>
         <source>File transfers</source>
         <translation type="unfinished"></translation>
@@ -818,15 +827,6 @@ Here are the missing features I&apos;d like to see in the next version:
     <message>
         <location filename="src/main_window.cpp" line="396"/>
         <source>Open &amp;profile directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/main_window.cpp" line="556"/>
-        <source>Version: %1
-
-Developped by: Garou, Kervala
-
-Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
