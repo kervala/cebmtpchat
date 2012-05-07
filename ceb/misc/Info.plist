@@ -30,9 +30,15 @@
 	<string>${CMAKE_OSX_DEPLOYMENT_TARGET}.0</string>
 	<key>LSFileQuarantineEnabled</key>
 	<true/>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.social-networking</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>ceb</string>
 			<key>CFBundleURLName</key>
 			<string>Mtp chat</string>
 			<key>CFBundleURLSchemes</key>
