@@ -256,12 +256,16 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
       LIST(APPEND _FILENAMES ${ARG})
     ENDIF(_INCLUDE)
   ENDFOREACH(ARG ${ARGN})
-  
+
   ADD_EXECUTABLE(${name} WIN32 MACOSX_BUNDLE ${_FILENAMES})
   SET_DEFAULT_PROPS(${name})
 
   IF(APPLE)
-    SET(OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}.app)
+    IF(XCODE)
+      SET(OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(CONFIGURATION)/${PRODUCT}.app)
+    ELSE(XCODE)
+      SET(OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PRODUCT}.app)
+    ENDIF(XCODE)
 
     IF(NOT IOS)
       SET(_SUBDIR "mac")
@@ -375,28 +379,26 @@ MACRO(SET_TARGET_GUI_EXECUTABLE name)
       ENDIF(XCODE)
     ENDIF(_IMAGES)
 
-    IF(NOT XCODE)
-      # Fix Qt bundle
-      IF(_QMS)
-        ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR}/translations)
-        # Copying all Qt translations to bundle
-        FOREACH(_QM ${_QMS})
-          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations)
-        ENDFOREACH(_QM)
+    # Fix Qt bundle
+    IF(_QMS)
+      ADD_CUSTOM_COMMAND(TARGET ${name} PRE_BUILD COMMAND mkdir -p ${RESOURCES_DIR}/translations)
+      # Copying all Qt translations to bundle
+      FOREACH(_QM ${_QMS})
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${_QM} ${RESOURCES_DIR}/translations)
+      ENDFOREACH(_QM)
 
-        FOREACH(_LANG ${_LANGS})
-          SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
-          IF(EXISTS ${LANG_FILE})
-            ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations)
-          ENDIF(EXISTS ${LANG_FILE})
-        ENDFOREACH(_LANG)
+      FOREACH(_LANG ${_LANGS})
+        SET(LANG_FILE "${QT_TRANSLATIONS_DIR}/qt_${_LANG}.qm")
+        IF(EXISTS ${LANG_FILE})
+          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp ARGS ${LANG_FILE} ${RESOURCES_DIR}/translations)
+        ENDIF(EXISTS ${LANG_FILE})
+      ENDFOREACH(_LANG)
 
-        # Copying qt_menu.nib to bundle
-        IF(MAC_RESOURCES_DIR)
-          ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR})
-        ENDIF(MAC_RESOURCES_DIR)
-      ENDIF(_QMS)
-    ENDIF(NOT XCODE)
+      # Copying qt_menu.nib to bundle
+      IF(MAC_RESOURCES_DIR)
+        ADD_CUSTOM_COMMAND(TARGET ${name} POST_BUILD COMMAND cp -r ARGS ${MAC_RESOURCES_DIR}/qt_menu.nib ${RESOURCES_DIR})
+      ENDIF(MAC_RESOURCES_DIR)
+    ENDIF(_QMS)
 
     IF(_ICNSS)
       SET_SOURCE_FILES_PROPERTIES(${_ICNSS} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)

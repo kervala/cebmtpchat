@@ -16,7 +16,7 @@ QT4_ADD_RESOURCES(QRC_SRC ${QRC})
 QT4_WRAP_UI(UI_HEADERS ${UI})
 
 # Generate .cxx from .h
-QT4_WRAP_CPP(MOC_SRC ${HEADER})
+QT4_WRAP_CPP(MOC_SRC ${HEADER} OPTIONS -nn)
 
 IF(WITH_UPDATE_TRANSLATIONS)
   # Create or update TS files and generate QM files
