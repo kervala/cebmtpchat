@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Guillaume DENRY <guillaume.denry@gmail.com>
 Uploaders: Cédric OCHS <kervala@gmail.com>
-Build-Depends: debhelper (>= 7.3.0), libqt4-dev, qt4-dev-tools, liblua5.1-0-dev, cmake (>= 2.6)
+Build-Depends: debhelper (>= 7.3.0), libqt4-dev, qt4-dev-tools, liblua5.1-0-dev, cmake (>= 2.6), pkg-config
 Standards-Version: 3.9.1
 
 Package: cebmtpchat

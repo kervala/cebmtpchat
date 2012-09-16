@@ -1,4 +1,4 @@
-FIND_PACKAGE_HELPER(Lua lua.h "lua51 lua5.1 lua-5.1 lua" "lua51d lua5.1d lua-5.1d luad" QUIET)
+FIND_PACKAGE_HELPER(Lua lua.h "lua51 lua5.1 lua-5.1 lua" "lua51d lua5.1d lua-5.1d luad" QUIET "lua5.1")
 
 IF(LUA_FOUND)
   # include the math library for Unix
