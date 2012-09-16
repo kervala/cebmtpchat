@@ -120,7 +120,7 @@ MainWindow::MainWindow()
         QAction *quitAction = trayMenu->addAction(tr("Quit"));
         connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-    	trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
+        trayIcon = new QSystemTrayIcon(QIcon(":/images/tray-neutral.png"), this);
         trayIcon->setContextMenu(trayMenu);
         connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                 this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
