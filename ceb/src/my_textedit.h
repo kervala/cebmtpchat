@@ -68,18 +68,19 @@ private:
 
     QTextEdit *filterTextEdit;
     QProgressDialog *progressDialog;
-    QFtp *ftp;
+    QNetworkAccessManager *networkManager;
+    QNetworkReply *lastReply;
     
     bool m_allowFilters;
 
-    struct FtpQueue
+    class UploadData : public QObjectUserData
     {
+    public:
         QString fileName;
-        QString finalUrl;
-        QFile *file;
+        qint64 fileSize;
+        QString uploadUrl;
+        QString downloadUrl;
     };
-
-    QMap<int, FtpQueue> ftpQueue;
 
 #ifdef Q_OS_WIN
     ITaskbarList3* pTaskbarList;
@@ -93,8 +94,8 @@ private slots:
     void sendIt();
 
     // ftp methods
-    void cancelDownload();
-    void ftpCommandFinished(int commandId, bool error);
+    void cancelUpload();
+    void ftpCommandFinished(QNetworkReply *reply);
     void updateDataTransferProgress(qint64 readBytes,
                                     qint64 totalBytes);
 

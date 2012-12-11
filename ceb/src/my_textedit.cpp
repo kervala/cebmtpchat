@@ -36,7 +36,7 @@
 #define new DEBUG_NEW
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allowFilters(false)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), networkManager(NULL), lastReply(NULL), m_allowFilters(false)
 {
     progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
     progressDialog->setWindowTitle("CeB");
@@ -44,8 +44,10 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allo
     progressDialog->setLabelText(tr("Uploading..."));
     progressDialog->setModal(false);
 
-    connect(progressDialog, SIGNAL(canceled()),
-            this, SLOT(cancelDownload()));
+    networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(ftpCommandFinished(QNetworkReply*)));
+
+    connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelUpload()));
 
     isAway = false;
 
@@ -60,15 +62,7 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), ftp(NULL), m_allo
 
 MyTextEdit::~MyTextEdit()
 {
-	QMap<int, FtpQueue>::ConstIterator it = ftpQueue.constBegin(), iend = ftpQueue.constEnd();
-
-	while(it != iend)
-	{
-		if (it.value().file) delete it.value().file;
-		++it;
-	}
-	
-	delete progressDialog;
+    delete progressDialog;
 
 #ifdef TASKBAR_PROGRESS
     if (pTaskbarList)
@@ -272,18 +266,20 @@ void MyTextEdit::dragMoveEvent(QDragMoveEvent *event)
 
 void MyTextEdit::dropEvent(QDropEvent *event)
 {
+    if (lastReply) return;
+
     if (event->mimeData()->hasUrls())
     {
-        QUrl ftpUrl(Profile::instance().uploadUrl);
+        QUrl uploadUrl(Profile::instance().uploadUrl);
 
-        if (!ftpUrl.isValid() || ftpUrl.scheme().compare("ftp", Qt::CaseInsensitive))
+        if (!uploadUrl.isValid())
         {
             QString message;
 
-            if (ftpUrl.isEmpty())
-                message = tr("To upload a file, you need to configure an FTP URL");
+            if (uploadUrl.isEmpty())
+                message = tr("To upload a file, you need to configure an upload URL");
             else
-                message = tr("\"%1\" is not a valid FTP URL").arg(ftpUrl.toString());
+                message = tr("\"%1\" is not a valid upload URL").arg(uploadUrl.toString());
 
             QMessageBox::critical(this, tr("Error"), message);
 
@@ -307,47 +303,32 @@ void MyTextEdit::dropEvent(QDropEvent *event)
         }
 
         // if an FTP connection is already set, we close it
-        if (!ftp)
-        {
-            ftp = new QFtp(this);
-
-	        connect(ftp, SIGNAL(commandFinished(int, bool)),
-				    this, SLOT(ftpCommandFinished(int, bool)));
-			connect(ftp, SIGNAL(dataTransferProgress(qint64, qint64)),
-			        this, SLOT(updateDataTransferProgress(qint64, qint64)));
-
-		    ftp->connectToHost(ftpUrl.host(), ftpUrl.port(21));
-
-	        if (!ftpUrl.userName().isEmpty())
-				// send login and password
-			    ftp->login(QUrl::fromPercentEncoding(ftpUrl.userName().toLocal8Bit()), ftpUrl.password());
-		    else
-	            ftp->login(); // anonymous connection
-
-			// change directory
-		    if (!ftpUrl.path().isEmpty())
-	            ftp->cd(ftpUrl.path());
-        }
+//      connect(networkManager, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(auth(QNetworkReply*, QAuthenticator*)));
 
         // get the list of all files to upload
         QList<QUrl> urlList = event->mimeData()->urls();
 
         for (int i = 0; i < urlList.size() && i < 32; ++i)
         {
-            FtpQueue queue;
+            UploadData *data = new UploadData();
 
-            queue.fileName = urlList.at(i).toLocalFile();
-            queue.file = new QFile(queue.fileName);
+            data->fileName = urlList.at(i).toLocalFile();
+            data->uploadUrl =  uploadUrl.toString();
+            data->fileSize = 0;
 
-            QFileInfo info(queue.fileName);
+            QFile *file = new QFile(data->fileName);
+
+            QFileInfo info(data->fileName);
 
             // error when opening local file
-            if (!queue.file->open(QIODevice::ReadOnly))
+            if (!file->open(QIODevice::ReadOnly))
             {
-                QMessageBox::critical(this, tr("Error"), tr("Unable to open the file %1: %2.").arg(queue.fileName).arg(queue.file->errorString()));
-                delete queue.file;
+                QMessageBox::critical(this, tr("Error"), tr("Unable to open the file %1: %2.").arg(data->fileName).arg(file->errorString()));
+                delete file;
                 continue;
             }
+
+            data->fileSize = file->size();
 
             static const unsigned char ascii_replacement[] = "                                             -. 0123456789   =  @ABCDEFGHIJKLMNOPQRSTUVWXYZ[ ]   abcdefghijklmnopqrstuvwxyz{ }            S O        .--  s o zY  c                             AAAAAAACEEEEIIIIDNOOOOOxOUUUUYPSaaaaaaaceeeeiiiionooooo ouuuuy y";
 
@@ -367,19 +348,36 @@ void MyTextEdit::dropEvent(QDropEvent *event)
                 QDateTime date = QDateTime::currentDateTime();
 
                 // set the final URL
-                queue.finalUrl = date.toString("yyMMddhhmm") + "_" + encoded;
+                data->downloadUrl = date.toString("yyMMddhhmm") + "_" + encoded;
             }
             else
             {
                 // set the final URL
-                queue.finalUrl = encoded;
+                data->downloadUrl = encoded;
             }
 
-            // send the file to FTP
-            int id = ftp->put(queue.file, queue.finalUrl);
+            // a file
+            if (data->uploadUrl.right(4) == ".php" || data->uploadUrl.right(4) == ".asp" || data->uploadUrl.right(4) == ".htm" || data->uploadUrl.right(5) == ".html")
+            {
+                data->uploadUrl += "?filename=";
+            }
+            else
+            {
+                // a directory
+                if (data->uploadUrl.right(1) != "/") data->uploadUrl += "/";
+            }
 
-            // add details on the file to the ftp queue
-            ftpQueue[id] = queue;
+            data->uploadUrl += data->downloadUrl;
+
+            // send the file to FTP
+            QNetworkReply *reply = networkManager->put(QNetworkRequest(QUrl(data->uploadUrl)), file);
+            file->setParent(reply);
+
+            reply->setUserData(0, data);
+
+            connect(reply, SIGNAL(uploadProgress(qint64, qint64)), this, SLOT(updateDataTransferProgress(qint64, qint64)));
+
+            lastReply = reply;
         }
 
         event->acceptProposedAction();
@@ -391,54 +389,33 @@ void MyTextEdit::dragLeaveEvent(QDragLeaveEvent *event)
     event->accept();
 }
 
-void MyTextEdit::ftpCommandFinished(int commandId, bool error)
+void MyTextEdit::ftpCommandFinished(QNetworkReply *reply)
 {
-    if (ftp->currentCommand() == QFtp::ConnectToHost && error)
-        QMessageBox::critical(this, tr("Error"), tr("Unable to connect to %1. Please check that the hostname is correct.")
-                              .arg(Profile::instance().uploadUrl));
+    lastReply = NULL;
 
-    if (ftp->currentCommand() == QFtp::Put)
+    QNetworkReply::NetworkError error = reply->error();
+    QString errorStr = reply->errorString();
+
+    UploadData *data = (UploadData*)reply->userData(0);
+
+    if (error != QNetworkReply::NoError)
     {
-        FtpQueue &current = ftpQueue[commandId];
-
-        if (error)
-        {
-            QMessageBox::critical(this, tr("Error"), tr("Canceled upload of %1").arg(current.fileName));
-            ftp->remove(current.finalUrl);
-        }
-        else
-        {
-            if (current.file->atEnd())
-            {
-                QString url = Profile::instance().downloadUrl;
-
-                if (url.right(1) != "/") url += "/";
-
-                url += current.finalUrl + " " + tr("(%n bytes)", "", current.file->size());
-
-                emit sendToChat(url);
-            }
-            else
-                ftp->remove(current.finalUrl); // partially uploaded file so we can safely delete it
-        }
-
-        progressDialog->hide();
-
-        current.file->close();
-
-        delete current.file;
-
-		current.file = NULL;
-
-        // if no files in ftp queue, we can safely close connection
-        if (!ftp->hasPendingCommands())
-        {
-//            ftp->abort();
-			ftp->close();
-            ftp->deleteLater();
-            ftp = NULL;
-        }
+        QMessageBox::critical(this, tr("Error"), tr("Canceled upload of %1: %2").arg(data->fileName).arg(errorStr));
     }
+    else
+    {
+        QString url = Profile::instance().downloadUrl;
+
+        if (url.right(1) != "/") url += "/";
+
+        url += data->downloadUrl + " " + tr("(%n bytes)", "", data->fileSize);
+
+        emit sendToChat(url);
+    }
+
+    progressDialog->hide();
+
+    reply->deleteLater();
 }
 
 void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
@@ -454,13 +431,7 @@ void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
 #endif // TASKBAR_PROGRESS
 }
 
-void MyTextEdit::cancelDownload()
+void MyTextEdit::cancelUpload()
 {
-    if (ftp)
-	{
-//		ftp->abort();
-		ftp->close();
-		ftp->deleteLater();
-		ftp = NULL;
-	}
+    if (lastReply) lastReply->abort();
 }
