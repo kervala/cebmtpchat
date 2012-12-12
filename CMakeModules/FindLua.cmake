@@ -8,9 +8,9 @@ IF(LUA_FOUND)
     # For Windows and Mac, don't need to explicitly include the math library
   ENDIF(UNIX AND NOT APPLE)
 
-  FILE(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_str REGEX "^#define[ \t]+LUA_RELEASE[ \t]+\"Lua .+\"")
+  FILE(STRINGS "${LUA_INCLUDE_DIR}/lua.h" lua_version_str REGEX "^#define[ \t]+LUA_VERSION_NUM[ \t]+")
 
-  STRING(REGEX REPLACE "^#define[ \t]+LUA_RELEASE[ \t]+\"Lua ([^\"]+)\".*" "\\1" LUA_VERSION_STRING "${lua_version_str}")
+  STRING(REGEX REPLACE "^#define[ \t]+LUA_VERSION_NUM[ \t]+([0-9]+)" "\\1" LUA_VERSION_STRING "${lua_version_str}")
   UNSET(lua_version_str)
-  MESSAGE_VERSION_PACKAGE_HELPER(Lua ${LUA_LIBRARIES} ${LUA_VERSION_STRING})
+  MESSAGE_VERSION_PACKAGE_HELPER(Lua "${LUA_LIBRARIES}" "${LUA_VERSION_STRING}")
 ENDIF(LUA_FOUND)
