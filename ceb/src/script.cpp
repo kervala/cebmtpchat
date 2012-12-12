@@ -417,14 +417,22 @@ namespace Script
         lua_State *l = luaL_newstate();
         luaL_openlibs(l);
 
+#if LUA_VERSION_NUM >= 502
+        lua_getglobal(l, "package");
+#else
         lua_getfield(l, LUA_GLOBALSINDEX, "package");   /* table to be indexed */
+#endif
         lua_getfield(l, -1, "path");        /* push result of t.x (2nd arg) */
         lua_remove(l, -2);
         QString path = QDir(QDir(Paths::sharePath()).filePath("modifiers")).filePath("?.lua") + ";";
         if (userScript)
             path += QDir(QDir(Paths::profilePath()).filePath("modifiers")).filePath("?.lua") + ";";
         path += QString(lua_tostring(l, -1));
+#if LUA_VERSION_NUM >= 502
+        lua_getglobal(l, "package");
+#else
         lua_getfield(l, LUA_GLOBALSINDEX, "package");
+#endif
         lua_pushstring(l, path.toLatin1());
         lua_setfield(l, -2, "path");
         lua_remove(l, -1);

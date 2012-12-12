@@ -37,7 +37,12 @@ QString executeLuaFilter(const QString &filterName, const QString &line)
     QString result;
     QString fileName = QDir(QDir(Paths::sharePath()).filePath("scripts")).filePath(filterName + ".lua");
 
+#if LUA_VERSION_NUM >= 502
+    lua_State *L = luaL_newstate();
+#else
     lua_State *L = lua_open();
+#endif
+
     luaL_openlibs(L);
 
     if (luaL_loadfile(L, fileName.toLatin1()) || lua_pcall(L, 0, 0, 0))
