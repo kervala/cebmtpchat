@@ -357,14 +357,22 @@ void MyTextEdit::dropEvent(QDropEvent *event)
             }
 
             // a file
-            if (data->uploadUrl.right(4) == ".php" || data->uploadUrl.right(4) == ".asp" || data->uploadUrl.right(4) == ".htm" || data->uploadUrl.right(5) == ".html")
+            if (data->uploadUrl.right(4) == ".php" ||
+                data->uploadUrl.right(4) == ".cgi" ||
+                data->uploadUrl.right(4) == ".asp" ||
+                data->uploadUrl.right(4) == ".htm" ||
+                data->uploadUrl.right(5) == ".html")
             {
                 data->uploadUrl += "?filename=";
             }
-            else
+            // a script with default parameter
+            else if (data->uploadUrl.right(1) == "=")
             {
-                // a directory
-                if (data->uploadUrl.right(1) != "/") data->uploadUrl += "/";
+            }
+            // a directory
+            else if (data->uploadUrl.right(1) != "/")
+            {
+                data->uploadUrl += "/";
             }
 
             data->uploadUrl += data->downloadUrl;

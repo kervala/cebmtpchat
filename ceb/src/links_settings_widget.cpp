@@ -38,8 +38,8 @@ void LinksSettingsWidget::applyProfile(const Profile &profile)
         lineEditCustomBrowser->setText(profile.linksCustomBrowser);
     }
 
-    httpDownloadUrl->setText(profile.downloadUrl);
-    ftpUploadUrl->setText(profile.uploadUrl);
+    downloadUrl->setText(profile.downloadUrl);
+    uploadUrl->setText(profile.uploadUrl);
     prefixDate->setChecked(profile.prefixDate);
 }
 
@@ -50,8 +50,8 @@ void LinksSettingsWidget::feedProfile(Profile &profile)
     else
         profile.linksCustomBrowser = lineEditCustomBrowser->text();
 
-    profile.downloadUrl = httpDownloadUrl->text();
-    profile.uploadUrl = ftpUploadUrl->text();
+    profile.downloadUrl = downloadUrl->text();
+    profile.uploadUrl = uploadUrl->text();
     profile.prefixDate = prefixDate->isChecked();
 }
 
