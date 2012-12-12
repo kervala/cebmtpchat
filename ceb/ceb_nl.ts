@@ -387,17 +387,12 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
 <context>
     <name>GeneralSettingsWidget</name>
     <message>
-        <location filename="src/general_settings_widget.cpp" line="33"/>
-        <source>&lt;Default language&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/general_settings_widget.cpp" line="74"/>
+        <location filename="src/general_settings_widget.cpp" line="73"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/general_settings_widget.cpp" line="74"/>
+        <location filename="src/general_settings_widget.cpp" line="73"/>
         <source>You must restart CeB to apply your language changes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -470,49 +465,57 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
     </message>
 </context>
 <context>
+    <name>LanguageManager</name>
+    <message>
+        <location filename="src/language_manager.cpp" line="109"/>
+        <source>English</source>
+        <translation>Nederlands</translation>
+    </message>
+</context>
+<context>
     <name>LinksSettings</name>
     <message>
-        <location filename="ui/links_settings.ui" line="13"/>
+        <location filename="ui/links_settings.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="75"/>
+        <location filename="ui/links_settings.ui" line="76"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="27"/>
+        <location filename="ui/links_settings.ui" line="28"/>
         <source>Links are managed by the system itself</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="37"/>
+        <location filename="ui/links_settings.ui" line="38"/>
         <source>Force the opening of links with the application below:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="118"/>
+        <location filename="ui/links_settings.ui" line="119"/>
         <source>Example : ftp://login:password@ftp.domain.com/htdocs/folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="125"/>
+        <location filename="ui/links_settings.ui" line="126"/>
         <source>Download URL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="155"/>
+        <location filename="ui/links_settings.ui" line="156"/>
         <source>Example : http://www.domain.com/folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="162"/>
+        <location filename="ui/links_settings.ui" line="163"/>
         <source>Upload URL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="173"/>
+        <location filename="ui/links_settings.ui" line="174"/>
         <source>Prefix the filename with the date in YYMMDDHHMM format</source>
         <translation type="unfinished"></translation>
     </message>
@@ -703,7 +706,8 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="556"/>
-        <source>About %1 %2</source>
+        <source>About %1</source>
+        <oldsource>About %1 %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -894,7 +898,6 @@ Here are the missing features I&apos;d like to see in the next version:
         <source>%n user(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1035,7 +1038,7 @@ Here are the missing features I&apos;d like to see in the next version:
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="233"/>
+        <location filename="src/my_textedit.cpp" line="227"/>
         <source>Send to chat!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1050,64 +1053,57 @@ Here are the missing features I&apos;d like to see in the next version:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="117"/>
+        <location filename="src/my_textedit.cpp" line="111"/>
         <source>Filter it!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="208"/>
+        <location filename="src/my_textedit.cpp" line="202"/>
         <source>(filter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/my_textedit.cpp" line="280"/>
+        <source>To upload a file, you need to configure an upload URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="282"/>
+        <source>&quot;%1&quot; is not a valid upload URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="411"/>
+        <source>Canceled upload of %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="src/my_textedit.cpp" line="284"/>
-        <source>To upload a file, you need to configure an FTP URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="286"/>
-        <source>&quot;%1&quot; is not a valid FTP URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="288"/>
-        <location filename="src/my_textedit.cpp" line="304"/>
-        <location filename="src/my_textedit.cpp" line="347"/>
-        <location filename="src/my_textedit.cpp" line="397"/>
-        <location filename="src/my_textedit.cpp" line="406"/>
+        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/my_textedit.cpp" line="326"/>
+        <location filename="src/my_textedit.cpp" line="411"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/my_textedit.cpp" line="296"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="302"/>
+        <location filename="src/my_textedit.cpp" line="298"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="347"/>
+        <location filename="src/my_textedit.cpp" line="326"/>
         <source>Unable to open the file %1: %2.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="397"/>
-        <source>Unable to connect to %1. Please check that the hostname is correct.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/my_textedit.cpp" line="406"/>
-        <source>Canceled upload of %1</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="417"/>
+        <location filename="src/my_textedit.cpp" line="419"/>
         <source>(%n bytes)</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1540,26 +1536,6 @@ Here are the missing features I&apos;d like to see in the next version:
     <message>
         <location filename="src/action.cpp" line="105"/>
         <source>Reconnect on the current server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/language_manager.cpp" line="81"/>
-        <source>US English</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/language_manager.cpp" line="82"/>
-        <source>French</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/language_manager.cpp" line="83"/>
-        <source>German</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/language_manager.cpp" line="84"/>
-        <source>Brazilian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

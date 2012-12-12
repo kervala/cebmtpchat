@@ -643,17 +643,16 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
 <context>
     <name>GeneralSettingsWidget</name>
     <message>
-        <location filename="src/general_settings_widget.cpp" line="33"/>
         <source>&lt;Default language&gt;</source>
-        <translation>&lt;Standard Sprache&gt;</translation>
+        <translation type="obsolete">&lt;Standard Sprache&gt;</translation>
     </message>
     <message>
-        <location filename="src/general_settings_widget.cpp" line="74"/>
+        <location filename="src/general_settings_widget.cpp" line="73"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="src/general_settings_widget.cpp" line="74"/>
+        <location filename="src/general_settings_widget.cpp" line="73"/>
         <source>You must restart CeB to apply your language changes</source>
         <translation>Du musst CeB neu starten um die Spracheinstellungen zu übernehmen</translation>
     </message>
@@ -726,49 +725,57 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
     </message>
 </context>
 <context>
+    <name>LanguageManager</name>
+    <message>
+        <location filename="src/language_manager.cpp" line="109"/>
+        <source>English</source>
+        <translation>Deutsch</translation>
+    </message>
+</context>
+<context>
     <name>LinksSettings</name>
     <message>
-        <location filename="ui/links_settings.ui" line="13"/>
+        <location filename="ui/links_settings.ui" line="14"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="27"/>
+        <location filename="ui/links_settings.ui" line="28"/>
         <source>Links are managed by the system itself</source>
         <translation>Links werden vom System selbst verwaltet</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="37"/>
+        <location filename="ui/links_settings.ui" line="38"/>
         <source>Force the opening of links with the application below:</source>
         <translation>Erzwinge das Öffnen von Links mit dem Programm unten:</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="75"/>
+        <location filename="ui/links_settings.ui" line="76"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="118"/>
+        <location filename="ui/links_settings.ui" line="119"/>
         <source>Example : ftp://login:password@ftp.domain.com/htdocs/folder</source>
         <translation>Beispiel: ftp://login:passwort@ftp.domain.com/htdocs/verzeichnis</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="125"/>
+        <location filename="ui/links_settings.ui" line="126"/>
         <source>Download URL:</source>
         <translation>Download URL:</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="155"/>
+        <location filename="ui/links_settings.ui" line="156"/>
         <source>Example : http://www.domain.com/folder</source>
         <translation>Beispiel: http://www.domain.de/ordner</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="162"/>
+        <location filename="ui/links_settings.ui" line="163"/>
         <source>Upload URL:</source>
         <translation>Hochlade-URL:</translation>
     </message>
     <message>
-        <location filename="ui/links_settings.ui" line="173"/>
+        <location filename="ui/links_settings.ui" line="174"/>
         <source>Prefix the filename with the date in YYMMDDHHMM format</source>
         <translation>Bei Dateinamen das Datum im Format YYMMDDHHMM als Präfix verwenden</translation>
     </message>
@@ -982,8 +989,9 @@ Einige Teile sind von Ace, Drealmer und Ben</translation>
     </message>
     <message>
         <location filename="src/main_window.cpp" line="556"/>
-        <source>About %1 %2</source>
-        <translation>Über %1 %2</translation>
+        <source>About %1</source>
+        <oldsource>About %1 %2</oldsource>
+        <translation>Über %1</translation>
     </message>
     <message>
         <source>Developped by: Garou, Kervala
@@ -1326,12 +1334,12 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
 <context>
     <name>MyTextEdit</name>
     <message>
-        <location filename="src/my_textedit.cpp" line="233"/>
+        <location filename="src/my_textedit.cpp" line="227"/>
         <source>Send to chat!</source>
         <translation>An den Chat senden!</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="117"/>
+        <location filename="src/my_textedit.cpp" line="111"/>
         <source>Filter it!</source>
         <translation>Filtere es!</translation>
     </message>
@@ -1344,7 +1352,7 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation type="obsolete">Konnte die URL nicht öffnen</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="208"/>
+        <location filename="src/my_textedit.cpp" line="202"/>
         <source>(filter)</source>
         <translation>(Filter)</translation>
     </message>
@@ -1354,26 +1362,23 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation>Lade hoch...</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="284"/>
         <source>To upload a file, you need to configure an FTP URL</source>
-        <translation>Um eine Datei hochzuladen musst du eine FTP-URL einrichten</translation>
+        <translation type="obsolete">Um eine Datei hochzuladen musst du eine FTP-URL einrichten</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="286"/>
         <source>&quot;%1&quot; is not a valid FTP URL</source>
-        <translation>&quot;%1&quot; ist keine gültige FTP-URL</translation>
+        <translation type="obsolete">&quot;%1&quot; ist keine gültige FTP-URL</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="288"/>
-        <location filename="src/my_textedit.cpp" line="304"/>
-        <location filename="src/my_textedit.cpp" line="347"/>
-        <location filename="src/my_textedit.cpp" line="397"/>
-        <location filename="src/my_textedit.cpp" line="406"/>
+        <location filename="src/my_textedit.cpp" line="284"/>
+        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/my_textedit.cpp" line="326"/>
+        <location filename="src/my_textedit.cpp" line="411"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="300"/>
+        <location filename="src/my_textedit.cpp" line="296"/>
         <source>To upload a file, you need to configure an destination URL</source>
         <translation>Um eine Datei hochzuladen musst du eine Empfänger-URL einrichten</translation>
     </message>
@@ -1383,27 +1388,40 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="302"/>
+        <location filename="src/my_textedit.cpp" line="280"/>
+        <source>To upload a file, you need to configure an upload URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="282"/>
+        <source>&quot;%1&quot; is not a valid upload URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/my_textedit.cpp" line="298"/>
         <source>&quot;%1&quot; is not a valid URL</source>
         <translation>&quot;%1&quot; ist keine gültige URL</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="347"/>
+        <location filename="src/my_textedit.cpp" line="326"/>
         <source>Unable to open the file %1: %2.</source>
         <translation>Kann Datei %1: %2 nicht öffnen.</translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="397"/>
-        <source>Unable to connect to %1. Please check that the hostname is correct.</source>
-        <translation>Kann nicht mit %1 verbinden. Bitte überprüfe, ob der Name richtig angegeben wurde.</translation>
+        <location filename="src/my_textedit.cpp" line="411"/>
+        <source>Canceled upload of %1: %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/my_textedit.cpp" line="406"/>
+        <source>Unable to connect to %1. Please check that the hostname is correct.</source>
+        <translation type="obsolete">Kann nicht mit %1 verbinden. Bitte überprüfe, ob der Name richtig angegeben wurde.</translation>
+    </message>
+    <message>
         <source>Canceled upload of %1</source>
-        <translation>Hochladen von %1 abgebrochen</translation>
+        <translation type="obsolete">Hochladen von %1 abgebrochen</translation>
     </message>
     <message numerus="yes">
-        <location filename="src/my_textedit.cpp" line="417"/>
+        <location filename="src/my_textedit.cpp" line="419"/>
         <source>(%n bytes)</source>
         <translation>
             <numerusform>(%n Byte)</numerusform>
@@ -1842,24 +1860,20 @@ Some Lua parts are from Ace, Drealmer and Ben</source>
         <translation>Unbekannte Nachricht</translation>
     </message>
     <message>
-        <location filename="src/language_manager.cpp" line="81"/>
         <source>US English</source>
-        <translation>Amerikanisches Englisch</translation>
+        <translation type="obsolete">Amerikanisches Englisch</translation>
     </message>
     <message>
-        <location filename="src/language_manager.cpp" line="82"/>
         <source>French</source>
-        <translation>Französisch</translation>
+        <translation type="obsolete">Französisch</translation>
     </message>
     <message>
-        <location filename="src/language_manager.cpp" line="84"/>
         <source>Brazilian</source>
-        <translation>Brasilianisch</translation>
+        <translation type="obsolete">Brasilianisch</translation>
     </message>
     <message>
-        <location filename="src/language_manager.cpp" line="83"/>
         <source>German</source>
-        <translation>Deutsch</translation>
+        <translation type="obsolete">Deutsch</translation>
     </message>
     <message>
         <location filename="src/action.cpp" line="95"/>
