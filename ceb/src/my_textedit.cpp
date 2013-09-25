@@ -27,6 +27,7 @@
     #include <sdkddkver.h>
     #ifdef _WIN32_WINNT_WIN7
         // only supported by Windows 7 Platform SDK
+		#include <BaseTyps.h>
         #include <ShObjIdl.h>
         #define TASKBAR_PROGRESS 1
     #endif
@@ -336,7 +337,7 @@ void MyTextEdit::dropEvent(QDropEvent *event)
 
             for(int i = 0; i < info.fileName().length(); ++i)
             {
-                const unsigned char c = info.fileName().at(i).toAscii();
+                const unsigned char c = info.fileName().at(i).toLatin1();
 
                 encoded += ascii_replacement[c];
             }

@@ -169,7 +169,7 @@ QString SessionConfig::cryptPassword(const QString &value)
     QString res = "";
 
     for(int i = 0; i < val.length(); ++i)
-        res += QString("%1").arg((int)val[i].toAscii(), 2, 16);
+        res += QString("%1").arg((int)val[i].toLatin1(), 2, 16);
 
     return "*" + res;
 }
@@ -186,7 +186,7 @@ QString SessionConfig::decryptPassword(const QString &value)
 
         QChar tmp;
 
-        res += tmp.fromAscii(value.mid(i, 2).toInt(&ok, 16));
+        res += tmp.fromLatin1(value.mid(i, 2).toInt(&ok, 16));
     }
 
     return rot13(res);
@@ -204,7 +204,7 @@ QString SessionConfig::rot13(const QString &value)
 
     for(int i = 0; i < value.length(); ++i)
     {
-        char cbyte = value[i].toAscii();
+        char cbyte = value[i].toLatin1();
 
         if (cbyte >= infLo && cbyte <= supLo)
             cbyte = (cbyte - infLo + 13) % 26 + infLo;
