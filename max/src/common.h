@@ -23,7 +23,15 @@
 #include <QtGui/QtGui>
 #include <QtXml/QtXml>
 
-#if defined(_WIN32) && defined(_DEBUG)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#define USE_QT5
+#endif
+
+#ifdef USE_QT5
+#include <QtWidgets/QtWidgets>
+#endif
+
+#if defined(_MSC_VER) && defined(_DEBUG)
 	#define _CRTDBG_MAP_ALLOC
 	#include <stdlib.h>
 	#include <crtdbg.h>
