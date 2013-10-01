@@ -24,15 +24,11 @@ class AutoUpdate : public QObject
     Q_OBJECT
 
 private:
-    QHttp httpCheck;
-    QHttp httpFile;
-    QString fileToSave;
-    QFile *fileDownload;
-    int fileDownloadID;
+	QNetworkAccessManager networkManager;
 
 public:
     AutoUpdate(QObject * parent = 0);
-    ~AutoUpdate();
+	virtual ~AutoUpdate();
 
     void checkForUpdate();
     void getUpdate(const QString &fileName);
@@ -47,9 +43,8 @@ signals:
     void fileDownloadError();
 
 private slots:
-    void checkDataReadProgress(int done, int total);
-    void fileDataReadProgress(int done, int total);
-    void fileRequestFinished(int id, bool error);
+	void fileDataReadProgress(qint64 done, qint64 total);
+	void onReply(QNetworkReply *reply);
 };
 
 #endif

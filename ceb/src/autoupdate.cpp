@@ -38,67 +38,89 @@ AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
     filePrefix = settings.value("file_prefix").toString();
     settings.endGroup();
 
-    fileDownload = 0;
-    connect(&httpCheck, SIGNAL(dataReadProgress(int, int)), this, SLOT(checkDataReadProgress(int, int)));
-    connect(&httpFile, SIGNAL(dataReadProgress(int, int)), this, SLOT(fileDataReadProgress(int, int)));
-    connect(&httpFile, SIGNAL(requestFinished(int, bool)), this, SLOT(fileRequestFinished(int, bool)));
+	// if no protocol specified, use http:// as default
+	if (siteUrl.indexOf("://") == -1) siteUrl = "http://" + siteUrl;
+
+	connect(&networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onReply(QNetworkReply*)));
 }
 
 AutoUpdate::~AutoUpdate()
 {
-    if (fileDownload)
-        delete fileDownload;
 }
 
-void AutoUpdate::checkDataReadProgress(int done, int total)
+void AutoUpdate::onReply(QNetworkReply *reply)
 {
-    if (done == total && total < 21)
-    {
-        char version[20];
-        httpCheck.read(version, total);
-        QString oldVer = UPDATE_VERSION;
-        QString newVer = QString::fromAscii(version, total).trimmed();
-        if (newVer > oldVer)
-        {
-            emit newVersion(newVer);
-        }
-    }
+	bool res = false;
+
+	QString filename = reply->url().path();
+	QByteArray data = reply->readAll();
+
+	// check if it's not a HTML message
+	if (!data.isEmpty() && data[0] != '<')
+	{
+		// if it's an executable, save it
+		if (filename.indexOf(".exe") > -1)
+		{
+			// use a teporary name
+			QString fileToSave = QDir::tempPath() + "/cebmtpchat_setup.exe";
+
+			// delete previous version
+			if (QFile::exists(fileToSave)) QFile::remove(fileToSave);
+
+			QFile file(fileToSave);
+		
+			// create file
+			if (file.open(QIODevice::WriteOnly))
+			{
+				// write data and check saved size is the same as data
+				if (file.write(data) == data.size())
+				{
+					file.close();
+
+					emit fileDownloadEnd(fileToSave);
+
+					res = true;
+				}
+			}
+		}
+		else
+		{
+			QString oldVer = UPDATE_VERSION;
+			QString newVer = QString::fromUtf8(data).trimmed();
+
+			if (newVer > oldVer)
+			{
+				emit newVersion(newVer);
+			}
+
+			res = true;
+		}
+	}
+
+	if (!res) emit fileDownloadError();
+
+	reply->deleteLater();
 }
 
-void AutoUpdate::fileDataReadProgress(int done, int total)
+void AutoUpdate::fileDataReadProgress(qint64 done, qint64 total)
 {
-    emit updateDataReadProgress(done, total);
+	emit updateDataReadProgress((int)done, (int)total);
 }
 
 void AutoUpdate::checkForUpdate()
 {
-    httpCheck.setHost(siteUrl);
-    httpCheck.get("/ceb.vrn");
+	QNetworkRequest req;
+	req.setUrl(QUrl(siteUrl + "/ceb.vrn"));
+
+	QNetworkReply *reply = networkManager.get(req);
 }
 
 void AutoUpdate::getUpdate(const QString &fileName)
 {
-    fileToSave = QDir::tempPath() + "/" + fileName;
-    fileDownload = new QFile(fileToSave);
-    fileDownload->open(QIODevice::WriteOnly);
-    httpFile.setHost(siteUrl);
-    fileDownloadID = httpFile.get("/" + fileName, fileDownload);
-}
+	QNetworkRequest req;
+	req.setUrl(QUrl(siteUrl + "/" + fileName));
 
-void AutoUpdate::fileRequestFinished(int id, bool error)
-{
-    if (!error && fileDownloadID == id)
-    {
-        fileDownload->reset();
-        char buffer;
-        fileDownload->read(&buffer, 1);
-        fileDownload->close();
-        if (buffer != '<')
-            emit fileDownloadEnd(fileToSave);
-        else
-        {
-            QFile::remove(fileToSave); // error
-            emit fileDownloadError();
-        }
-    }
+	QNetworkReply *reply = networkManager.get(req);
+
+	connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(fileDataReadProgress(qint64, qint64)));
 }
