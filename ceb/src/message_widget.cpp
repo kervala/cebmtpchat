@@ -78,7 +78,11 @@ void MessageWidget::init()
     _treeViewMessages->setAlternatingRowColors(true);
     _treeViewMessages->setSelectionMode(QAbstractItemView::ExtendedSelection);
     _treeViewMessages->header()->setSortIndicatorShown(true);
+#ifndef USE_QT5
     _treeViewMessages->header()->setClickable(true);
+#else
+    _treeViewMessages->header()->setSectionsClickable(true);
+#endif
     _treeViewMessages->header()->setStretchLastSection(false);
     _treeViewMessages->resizeColumnToContents(0);
     _treeViewMessages->resizeColumnToContents(2);

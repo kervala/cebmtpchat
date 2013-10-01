@@ -19,6 +19,10 @@
 #ifndef DIALOG_SYSTEM_H
 #define DIALOG_SYSTEM_H
 
+#ifdef free
+#undef free
+#endif
+
 class SystemWidget : public QWidget
 {
     Q_OBJECT

@@ -30,6 +30,7 @@
 
 #ifdef USE_QT5
 #include <QtWidgets/QtWidgets>
+#include <QtMultimedia/QtMultimedia>
 #endif
 
 extern "C" {

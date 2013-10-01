@@ -22,6 +22,10 @@
 #include "session.h"
 #include "session_config.h"
 
+#ifdef free
+#undef free
+#endif
+
 class SessionManager : public QObject
 {
     Q_OBJECT

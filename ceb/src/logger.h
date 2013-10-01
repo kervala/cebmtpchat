@@ -19,6 +19,10 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#ifdef free
+#undef free
+#endif
+
 class Logger : public QObject
 {
     Q_OBJECT

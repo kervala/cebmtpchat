@@ -51,7 +51,11 @@ public:
 protected:
     void closeEvent(QCloseEvent *event);
 #if defined(Q_OS_WIN32)
+#ifdef USE_QT5
+    bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+#else
     bool winEvent(MSG *message, long *result);
+#endif
 #endif
     bool event(QEvent *e);
     void showEvent(QShowEvent *event);

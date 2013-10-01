@@ -23,6 +23,10 @@
 #include "token_display.h"
 #include "action.h"
 
+#ifdef free
+#undef free
+#endif
+
 class Profile
 {
 public:

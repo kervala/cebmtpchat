@@ -21,6 +21,10 @@
 
 #include "session.h"
 
+#ifdef free
+#undef free
+#endif
+
 class Transfer
 {
     friend class TransfersManager;

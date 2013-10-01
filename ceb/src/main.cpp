@@ -32,7 +32,22 @@
 
 #ifdef QT_STATICPLUGIN
 #include <QtPlugin>
-Q_IMPORT_PLUGIN(qsvgicon);
+
+#ifdef USE_QT5
+#ifdef Q_OS_WIN32
+	Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+#endif
+	
+#ifdef Q_OS_MAC
+	Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
+#endif
+
+	Q_IMPORT_PLUGIN(QSvgPlugin);
+	Q_IMPORT_PLUGIN(QSvgIconPlugin);
+#else
+	Q_IMPORT_PLUGIN(qsvgicon);
+#endif
+
 #endif
 
 #ifdef DEBUG_NEW

@@ -47,8 +47,13 @@ DialogSettings::DialogSettings(QWidget *parent): DialogConfig(parent)
 
     treeMain->setColumnCount(1);
     treeMain->setHeaderLabels(QStringList(tr("Categories")));
+#ifndef USE_QT5
     treeMain->header()->setMovable(false);
     treeMain->header()->setResizeMode(QHeaderView::Stretch);
+#else
+    treeMain->header()->setSectionsMovable(false);
+    treeMain->header()->setSectionResizeMode(QHeaderView::Stretch);
+#endif
     addSettingsWidget(0, new GeneralSettingsWidget, tr("General", "Settings node"), transpIcon);
     addSettingsWidget(0, new ShortcutsSettingsWidget, tr("Shortcuts", "Settings node"), transpIcon);
     createConnectionsNodes();

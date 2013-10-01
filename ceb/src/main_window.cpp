@@ -423,8 +423,14 @@ void MainWindow::makeToolBar()
 
 #if defined(Q_OS_WIN32)
 
+#ifdef USE_QT5
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *msg, long *result)
+{
+    MSG *message = (MSG*)msg;
+#else
 bool MainWindow::winEvent(MSG *message, long *result)
 {
+#endif
     if (message->message == WM_SYSCOMMAND && message->wParam == SC_MINIMIZE)
     {
         if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
@@ -434,11 +440,15 @@ bool MainWindow::winEvent(MSG *message, long *result)
         trayTalkAboutMe = false;
         if (Profile::instance().trayEnabled && Profile::instance().trayHideFromTaskBar)
         {
-            (*result) = false;
+            (*result) = FALSE;
             return true;
         }
     }
+#ifdef USE_QT5
+    return QMainWindow::nativeEvent(eventType, msg, result);
+#else
     return QMainWindow::winEvent(message, result);
+#endif
 }
 
 #endif
@@ -1255,7 +1265,9 @@ void MainWindow::updateAccepted()
 #ifdef Q_OS_WIN32
 	if (isVista())
     {
-        bool bSuccess = runElevated(winId(), installer.toStdWString().c_str());
+        wchar_t str[MAX_PATH];
+        installer.toWCharArray(str);
+        bool bSuccess = runElevated((HWND)winId(), str);
     }
     else
 #endif
