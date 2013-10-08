@@ -1,3 +1,45 @@
+cebmtpchat (1.1.491~quantal1) quantal; urgency=low
+
+  * New upstream release (revision 491)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 16 Sep 2012 13:58:49 +0200
+
+cebmtpchat (1.0.485~quantal1) quantal; urgency=low
+
+  * New upstream release (revision 485)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 16 Sep 2012 09:42:21 +0200
+
+cebmtpchat (1.0.485~precise1) precise; urgency=low
+
+  * New upstream release (revision 485)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sun, 16 Sep 2012 09:41:21 +0200
+
+cebmtpchat (1.0.434~oneiric0) oneiric; urgency=low
+
+  * New upstream release (revision 434)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 10 Sep 2011 14:36:07 +0200
+
+cebmtpchat (1.0.432~oneiric0) oneiric; urgency=low
+
+  * New upstream release (revision 432)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 10 Sep 2011 12:34:34 +0200
+
+cebmtpchat (1.0.430~oneiric0) oneiric; urgency=low
+
+  * New upstream release (revision 430)
+
+ -- Cédric OCHS <kervala@gmail.com>  Sat, 10 Sep 2011 11:40:46 +0200
+
+cebmtpchat (1.0.429~oneiric0) oneiric; urgency=low
+
+  * New upstream release (revision )
+
+-- Cédric OCHS <kervala@gmail.com>  Sat, 10 Sep 2011 11:11:05 +0200
+
 cebmtpchat (0.1.25~natty0) natty; urgency=low
 
   * Natty Narwhal version
