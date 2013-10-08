@@ -22,6 +22,7 @@
 namespace Paths
 {
     QString sharePath();
+	QString translationsPath();
     QString profilePath();
     QString logPath();
 };

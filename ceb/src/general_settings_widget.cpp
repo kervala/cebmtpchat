@@ -30,11 +30,11 @@ GeneralSettingsWidget::GeneralSettingsWidget(QWidget *parent)
     setupUi(this);
 
     QStringList languages = LanguageManager::getAvailableLanguages();
-    comboBoxLanguages->addItem(tr("<Default language>"));
+
     foreach (QString language, languages)
     {
-        comboBoxLanguages->addItem(getLanguageDisplay(language));
-        displayToLanguage.insert(getLanguageDisplay(language), language);
+        comboBoxLanguages->addItem(LanguageManager::getLanguageDisplayName(language));
+        displayToLanguage.insert(LanguageManager::getLanguageDisplayName(language), language);
     }
 
     // Keep above
@@ -56,7 +56,7 @@ void GeneralSettingsWidget::applyProfile(const Profile &profile)
 
     if (!Profile::instance().language.isEmpty())
     {
-        int index = comboBoxLanguages->findText(getLanguageDisplay(Profile::instance().language));
+        int index = comboBoxLanguages->findText(LanguageManager::getLanguageDisplayName(Profile::instance().language));
         if (index >= 0)
             comboBoxLanguages->setCurrentIndex(index);
     }
@@ -76,9 +76,4 @@ void GeneralSettingsWidget::feedProfile(Profile &profile)
 #ifdef Q_OS_WIN32
     profile.keepAboveOtherWindows = checkBoxAlwaysOnTop->isChecked();
 #endif
-}
-
-QString GeneralSettingsWidget::getLanguageDisplay(const QString &language)
-{
-    return LanguageManager::getLanguageDisplayName(language) + " (" + language + ")";
 }

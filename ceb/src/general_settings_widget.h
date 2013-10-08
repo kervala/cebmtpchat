@@ -35,8 +35,6 @@ public:
 
 private:
     QMap<QString, QString> displayToLanguage;
-
-    QString getLanguageDisplay(const QString &language);
 };
 
 #endif

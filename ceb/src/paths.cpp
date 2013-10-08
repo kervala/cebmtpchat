@@ -51,12 +51,62 @@ QString Paths::sharePath()
 #endif
 }
 
+QString Paths::translationsPath()
+{
+    QDir appDir(QCoreApplication::applicationDirPath());
+
+    if (Global::devMode())
+	{
+		appDir.cdUp();
+		appDir.cd("share");
+		appDir.cd("ceb");
+		appDir.cd("translations");
+        return appDir.canonicalPath();
+	}
+
+    if (Global::localMode())
+	{
+		appDir.cd("translations");
+        return appDir.canonicalPath();
+	}
+
+#if defined(Q_OS_LINUX)
+#ifdef SHARE_PREFIX
+    return SHARE_PREFIX;
+#else
+    return "/usr/share/ceb/translations";
+#endif
+#elif defined(Q_OS_MAC)
+	// application root directory
+	appDir.cdUp();
+	appDir.cd("Resources");
+	appDir.cd("translations");
+    return appDir.canonicalPath();
+#elif defined(Q_OS_WIN)
+#if _DEBUG
+	QDir currentDir(QDir::current());
+	// solution directory
+	currentDir.cdUp();
+	// translations directory
+	currentDir.cd("translations");
+	return currentDir.canonicalPath();
+#else
+	appDir.cd("translations");
+	return appDir.canonicalPath();
+#endif
+#endif
+}
+
 QString Paths::profilePath()
 {
     if (Global::devMode() || Global::localMode())
         return QDir(QCoreApplication::applicationDirPath()).filePath(qApp->applicationName());
 
+#ifdef USE_QT5
+	return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
     return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#endif
 }
 
 QString Paths::logPath()
@@ -67,6 +117,13 @@ QString Paths::logPath()
         return QDir(appDir.absolutePath()).filePath("CeB's logs");
     }
 
-    return QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).filePath("CeB's logs");
+	QString location;
+#ifdef USE_QT5
+	location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+#else
+	location = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+#endif
+
+    return QDir(location).filePath("CeB's logs");
 }
 

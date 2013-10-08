@@ -26,32 +26,31 @@
 #endif
 
 bool LanguageManager::languageDisplayNameInitialized = false;
-QMap<QString, QString> LanguageManager::languageDisplayNames;
+QMap<QString, Language> LanguageManager::languageDisplayNames;
 
 QStringList LanguageManager::getAvailableLanguages()
 {
-    QStringList languages;
-    QDir languagesDir(QDir(Paths::sharePath()).filePath("translations"));
+	init();
 
-    QStringList nameFilters;
-    nameFilters << "*.qm";
-    QStringList entryList = languagesDir.entryList(nameFilters, QDir::Files);
-    for (int i = 0; i < entryList.size(); i++)
-    {
-        QFileInfo fileInfo(languagesDir.filePath(entryList.at(i)));
-        QString baseName = fileInfo.baseName();
-        QRegExp regExp("ceb_(.+)$");
-        if (regExp.lastIndexIn(baseName) >= 0)
-            languages << regExp.cap(1);
-    }
+    QStringList languages;
+
+	foreach(const Language &lang, languageDisplayNames)
+	{
+        languages << lang.code;
+	}
 
     return languages;
 }
 
 QStringList LanguageManager::getLanguageFileNames(const QString &language)
 {
-    QStringList filenames;
-    QDir languagesDir(QDir(Paths::sharePath()).filePath("translations"));
+    init();
+
+	QStringList filenames;
+
+	if (language.isEmpty()) return filenames;
+
+    QDir languagesDir(Paths::translationsPath());
 
 #ifdef Q_OS_LINUX
     // Use system Qt translations
@@ -61,7 +60,7 @@ QStringList LanguageManager::getLanguageFileNames(const QString &language)
     filenames << languagesDir.filePath(QString("qt_%1.qm").arg(language));
 #endif
 
-    filenames << languagesDir.filePath(QString("ceb_%1.qm").arg(language));
+	filenames << languageDisplayNames[language].filename;
 
     return filenames;
 }
@@ -69,7 +68,7 @@ QStringList LanguageManager::getLanguageFileNames(const QString &language)
 QString LanguageManager::getLanguageDisplayName(const QString &language)
 {
     init();
-    return languageDisplayNames[language];
+	return languageDisplayNames[language].displayName;
 }
 
 void LanguageManager::init()
@@ -78,8 +77,40 @@ void LanguageManager::init()
         return;
 
     languageDisplayNameInitialized = true;
-    languageDisplayNames.insert("us", QObject::tr("US English"));
-    languageDisplayNames.insert("fr", QObject::tr("French"));
-    languageDisplayNames.insert("de", QObject::tr("German"));
-    languageDisplayNames.insert("pt-br", QObject::tr("Brazilian"));
+
+	{
+		// add english as default language
+		Language lang;
+		lang.displayName = "English";
+		languageDisplayNames[""] = lang;
+	}
+
+	QDir languagesDir(Paths::translationsPath());
+
+    QStringList nameFilters;
+    nameFilters << "*.qm";
+    QStringList entryList = languagesDir.entryList(nameFilters, QDir::Files);
+
+	foreach(const QString &entry, entryList)
+    {
+		QString filename(languagesDir.filePath(entry));
+
+		QFileInfo fileInfo(filename);
+		QString baseName = fileInfo.baseName();
+		QRegExp regExp("ceb_(.+)$");
+        if (regExp.lastIndexIn(baseName) >= 0)
+		{
+			Language lang;
+			lang.filename = filename;
+			lang.code = regExp.cap(1);
+
+			QTranslator translator;
+			if (translator.load(lang.filename))
+			{
+				lang.displayName = translator.translate("LanguageManager", "English");
+			}
+
+			languageDisplayNames[lang.code] = lang;
+		}
+	}
 }

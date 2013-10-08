@@ -19,11 +19,18 @@
 #ifndef LANGUAGE_MANAGER_H
 #define LANGUAGE_MANAGER_H
 
+struct Language
+{
+	QString code;
+	QString displayName;
+	QString filename;
+};
+
 class LanguageManager
 {
 private:
     static bool languageDisplayNameInitialized;
-    static QMap<QString, QString> languageDisplayNames;
+    static QMap<QString, Language> languageDisplayNames;
     static void init();
 public:
     static QString getLanguageDisplayName(const QString &language);
