@@ -1267,6 +1267,7 @@ void MainWindow::updateAccepted()
     {
         wchar_t str[MAX_PATH];
         installer.toWCharArray(str);
+		str[installer.length()] = L'\0';
         bool bSuccess = runElevated((HWND)winId(), str);
     }
     else
