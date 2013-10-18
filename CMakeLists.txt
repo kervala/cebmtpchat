@@ -46,7 +46,7 @@ SETUP_EXTERNAL()
 
 GEN_CONFIG_H()
 
-USE_QT_MODULES(Gui Widgets Network Xml Svg Multimedia)
+USE_QT_MODULES(Gui Network Xml Svg QT5 Widgets Multimedia)
 
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/max/include)
 

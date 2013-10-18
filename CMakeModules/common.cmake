@@ -5,22 +5,15 @@ SET(VERSION_UPDATED OFF)
 # Force Release configuration for compiler checks
 SET(CMAKE_TRY_COMPILE_CONFIGURATION "Release")
 
-# Check .desktop file under Gnome
-SET(DESKTOP_FILE $ENV{GIO_LAUNCHED_DESKTOP_FILE})
-
-# Check build directory
-IF(NOT DESKTOP_FILE)
-  SET(DESKTOP_FILE ${CMAKE_BINARY_DIR})
-ENDIF(NOT DESKTOP_FILE)
-
 INCLUDE(QtSupport)
 INCLUDE(MacSupport)
 INCLUDE(WinSupport)
 
-# Force Release configuration by default
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-ENDIF(NOT CMAKE_BUILD_TYPE)
+ENDIF()
+
+MESSAGE(STATUS "Using configuration ${CMAKE_BUILD_TYPE}")
 
 ###
 # Helper macro that generates .pc and installs it.
@@ -212,6 +205,16 @@ MACRO(CONVERT_VERSION_NUMBER _VERSION_NUMBER _BASE)
   ENDFOREACH(_ARG)
 ENDMACRO(CONVERT_VERSION_NUMBER)
 
+MACRO(CONVERT_NUMBER_VERSION _VERSION_NUMBER _BASE _OUT)
+  SET(${_OUT})
+  SET(_NUMBER ${_VERSION_NUMBER})
+  WHILE(_NUMBER GREATER 0)
+    MATH(EXPR _TEMP "${_NUMBER} % ${_BASE}")
+    LIST(APPEND ${_OUT} ${_TEMP})
+    MATH(EXPR _NUMBER "${_NUMBER} / ${_BASE}")
+  ENDWHILE()
+ENDMACRO(CONVERT_NUMBER_VERSION)
+
 MACRO(SIGN_FILE target)
   IF(WIN32)
     SIGN_FILE_WINDOWS(${target})
@@ -229,15 +232,22 @@ MACRO(CREATE_SOURCE_GROUPS DIR FILES)
   FOREACH(_FILE ${FILES})
     # Get only directory from filename
     GET_FILENAME_COMPONENT(_DIR ${_FILE} PATH)
-    
+
     SET(_NAME)
     SET(_GROUP)
 
     IF(_DIR)
+      # Transform "+" to valid characters in a regular expression
+      STRING(REPLACE "+" "\\+" _GENERATED_DIR ${_GENERATED_DIR})
       IF(_DIR MATCHES "${_GENERATED_DIR}")
         SET(_NAME "GENERATED")
         SET(_GROUP "generated")
       ELSE(_DIR MATCHES "${_GENERATED_DIR}")
+        # If directory is not absolute, fix it
+        IF(NOT IS_ABSOLUTE _DIR)
+          GET_FILENAME_COMPONENT(_DIR ${_DIR} ABSOLUTE)
+        ENDIF()
+
         # Get relative path from CMake current directory
         FILE(RELATIVE_PATH _DIR ${_ROOT_DIR} ${_DIR})
 
@@ -259,9 +269,9 @@ MACRO(CREATE_SOURCE_GROUPS DIR FILES)
     ENDIF(NOT _NAME)
 
     IF(_GROUP)
-      IF(NOT _GROUP STREQUAL ${DIR} AND NOT _GROUP MATCHES "^(${DIR}/|generated)")
+      IF(NOT _GROUP STREQUAL ${DIR} AND NOT _GROUP MATCHES "^(${DIR}\\\\|generated)")
         SET(_GROUP "${DIR}\\${_GROUP}")
-      ENDIF(NOT _GROUP STREQUAL ${DIR} AND NOT _GROUP MATCHES "^(${DIR}/|generated)")
+      ENDIF(NOT _GROUP STREQUAL ${DIR} AND NOT _GROUP MATCHES "^(${DIR}\\\\|generated)")
     ELSE(_GROUP)
       SET(_GROUP "${DIR}")
     ENDIF(_GROUP)
@@ -1123,11 +1133,6 @@ MACRO(INIT_BUILD_FLAGS)
 
   SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
-  IF(NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Release")
-    # enforce release mode if it's neither Debug nor Release
-    SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-  ENDIF(NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Release")
-
   SET(HOST_CPU ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
   IF(HOST_CPU MATCHES "(amd|AMD)64")
@@ -1325,7 +1330,7 @@ MACRO(INIT_BUILD_FLAGS)
       ADD_PLATFORM_FLAGS("/Zm1000")
     ENDIF(WITH_PCH_MAX_SIZE)
 
-    ADD_PLATFORM_FLAGS("/D_WIN32_WINNT=0x0501")
+    ADD_PLATFORM_FLAGS("/D_WIN32_WINNT=0x0501 /DWINVER=0x0501")
 
     IF(TARGET_X64)
       # Fix a bug with Intellisense
@@ -1418,7 +1423,25 @@ MACRO(INIT_BUILD_FLAGS)
       ADD_PLATFORM_FLAGS("--sysroot=${PLATFORM_ROOT}")
       ADD_PLATFORM_FLAGS("-ffunction-sections -funwind-tables")
       ADD_PLATFORM_FLAGS("-DANDROID")
-      ADD_PLATFORM_FLAGS("-Wa,--noexecstack")
+      ADD_PLATFORM_FLAGS("-I${STL_INCLUDE_DIR} -I${STL_INCLUDE_CPU_DIR}")
+
+      IF(CLANG)
+        IF(TARGET_ARM)
+          IF(TARGET_ARMV7)
+            SET(LLVM_TRIPLE "armv7-none-linux-androideabi")
+          ELSE()
+            SET(LLVM_TRIPLE "armv5te-none-linux-androideabi")
+          ENDIF()
+        ENDIF()
+
+       ADD_PLATFORM_FLAGS("-gcc-toolchain ${GCC_TOOLCHAIN_ROOT} -no-canonical-prefixes")
+       SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -gcc-toolchain ${GCC_TOOLCHAIN_ROOT} -no-canonical-prefixes")
+
+        ADD_PLATFORM_FLAGS("-target ${LLVM_TRIPLE}") # -emit-llvm -fPIC -no-canonical-prefixes
+        SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -target ${LLVM_TRIPLE}")
+      ELSE()
+        ADD_PLATFORM_FLAGS("-Wa,--noexecstack")
+      ENDIF()
 
       IF(TARGET_ARM)
         ADD_PLATFORM_FLAGS("-fpic -fstack-protector")
@@ -1433,10 +1456,21 @@ MACRO(INIT_BUILD_FLAGS)
 
         SET(TARGET_THUMB ON)
         IF(TARGET_THUMB)
-          ADD_PLATFORM_FLAGS("-mthumb -fno-strict-aliasing -finline-limit=64")
+          ADD_PLATFORM_FLAGS("-fno-strict-aliasing")
+
+          IF(NOT CLANG)
+            ADD_PLATFORM_FLAGS("-finline-limit=64")
+          ENDIF()
+          
           SET(DEBUG_CFLAGS "${DEBUG_CFLAGS} -marm")
+          SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} -mthumb")
         ELSE(TARGET_THUMB)
-          ADD_PLATFORM_FLAGS("-funswitch-loops -finline-limit=300")
+          ADD_PLATFORM_FLAGS("-funswitch-loops")
+
+          IF(NOT CLANG)
+            ADD_PLATFORM_FLAGS("-finline-limit=300")
+          ENDIF()
+
           SET(DEBUG_CFLAGS "${DEBUG_CFLAGS} -fno-strict-aliasing")
           SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} -fstrict-aliasing")
         ENDIF(TARGET_THUMB)
@@ -1831,6 +1865,17 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
     LIST(APPEND _LIBRARY_PATHS ${${_UPNAME}_DIR}/lib${LIB_SUFFIX})
   ENDIF(DEFINED ${_UPNAME}_DIR)
 
+  IF(UNIX)
+    # Append UNIX standard include paths
+    SET(_UNIX_INCLUDE_PATHS
+      /usr/local/include
+      /usr/include
+      /sw/include
+      /opt/local/include
+      /opt/csw/include
+      /opt/include)
+  ENDIF()
+
   # Search for include directory
   FIND_PATH(${_UPNAME_FIXED}_INCLUDE_DIR 
     ${INCLUDE}
@@ -1841,12 +1886,7 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
     $ENV{${_UPNAME_FIXED}_DIR}/include
     $ENV{${_UPNAME}_DIR}
     $ENV{${_UPNAME_FIXED}_DIR}
-    /usr/local/include
-    /usr/include
-    /sw/include
-    /opt/local/include
-    /opt/csw/include
-    /opt/include
+    ${_UNIX_INCLUDE_PATHS}
     PATH_SUFFIXES
     ${_SUFFIXES}
   )
@@ -1856,16 +1896,19 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
     $ENV{${_UPNAME}_DIR}/lib${LIB_SUFFIX}
     $ENV{${_UPNAME_FIXED}_DIR}/lib${LIB_SUFFIX})
 
-  # Append multiarch libraries paths
-  IF(CMAKE_LIBRARY_ARCHITECTURE)
-    LIST(APPEND _LIBRARY_PATHS
-      /lib/${CMAKE_LIBRARY_ARCHITECTURE}
-      /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE})
-  ENDIF(CMAKE_LIBRARY_ARCHITECTURE)
-
   IF(UNIX)
+    SET(_UNIX_LIBRARY_PATHS)
+
+    # Append multiarch libraries paths
+    IF(CMAKE_LIBRARY_ARCHITECTURE)
+      LIST(APPEND _UNIX_LIBRARY_PATHS
+        /usr/local/lib/${CMAKE_LIBRARY_ARCHITECTURE}
+        /lib/${CMAKE_LIBRARY_ARCHITECTURE}
+        /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE})
+    ENDIF()
+
     # Append UNIX standard libraries paths
-    LIST(APPEND _LIBRARY_PATHS
+    LIST(APPEND _UNIX_LIBRARY_PATHS
       /usr/local/lib
       /usr/lib
       /lib
@@ -1886,6 +1929,22 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
   LIST(APPEND _RELEASE_LIBRARIES ${_LOWNAME} ${_LOWNAME_FIXED} ${NAME} ${_NAME_FIXED})
   LIST(APPEND _DEBUG_LIBRARIES ${_LOWNAME}d ${_LOWNAME_FIXED}d ${NAME}d ${_NAME_FIXED}d)
 
+  # Under Windows, some libs may need the lib prefix
+  IF(WIN32)
+    SET(_LIBS ${_RELEASE_LIBRARIES})
+    FOREACH(_LIB ${_LIBS})
+      LIST(APPEND _RELEASE_LIBRARIES lib${_LIB})
+    ENDFOREACH()
+
+    SET(_LIBS ${_DEBUG_LIBRARIES})
+    FOREACH(_LIB ${_LIBS})
+      LIST(APPEND _DEBUG_LIBRARIES lib${_LIB})
+    ENDFOREACH()
+  ENDIF(WIN32)
+
+  LIST(REMOVE_DUPLICATES _RELEASE_LIBRARIES)
+  LIST(REMOVE_DUPLICATES _DEBUG_LIBRARIES)
+
   # Search for release library
   FIND_LIBRARY(${_UPNAME_FIXED}_LIBRARY_RELEASE
     NAMES
@@ -1893,6 +1952,7 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
     HINTS ${PKG_${_NAME_FIXED}_LIBRARY_DIRS}
     PATHS
     ${_LIBRARY_PATHS}
+    ${_UNIX_LIBRARY_PATHS}
     NO_CMAKE_SYSTEM_PATH
   )
 
@@ -1905,8 +1965,6 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
     ${_LIBRARY_PATHS}
     NO_CMAKE_SYSTEM_PATH
   )
-  
-#  MESSAGE(STATUS "libs = ${${_UPNAME_FIXED}_LIBRARY_RELEASE} ${${_UPNAME_FIXED}_LIBRARY_DEBUG}")
 
   SET(${_UPNAME_FIXED}_FOUND OFF)
 
