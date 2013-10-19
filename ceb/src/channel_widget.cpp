@@ -636,9 +636,15 @@ void ChannelWidget::sessionConnected()
 
 void ChannelWidget::sessionLogged()
 {
+#ifdef USE_QT5
+	QString compiler = QLibraryInfo::licensedProducts();
+#else
+	QString compiler = QLibraryInfo::buildKey();
+#endif
+
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(UPDATE_VERSION).arg(qVersion()).arg(QLibraryInfo::buildKey()));
+    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(UPDATE_VERSION).arg(qVersion()).arg(compiler));
 
     // Send first groups command
     _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);
@@ -903,7 +909,7 @@ void ChannelWidget::initScriptComboBox()
 {
     _comboBoxFilter->clear();
     _comboBoxFilter->addItem(tr("<no filter>"));
-    QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
+    QDir scriptsDir(Paths::scriptsPath());
 
     QStringList nameFilters;
     nameFilters << "*.lua";

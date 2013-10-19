@@ -32,69 +32,89 @@ QString Paths::sharePath()
 {
     QDir appDir(QCoreApplication::applicationDirPath());
 
-    if (Global::devMode())
-        return QDir(appDir.filePath("../share/ceb")).canonicalPath();
-
-    if (Global::localMode())
-        return appDir.absolutePath();
-
-#if defined(Q_OS_LINUX)
-#ifdef SHARE_PREFIX
-    return QDir(appDir.filePath(SHARE_PREFIX)).canonicalPath();
-#else
-    return QDir(appDir.filePath("/usr/share/ceb")).canonicalPath();
-#endif
-#elif defined(Q_OS_MAC)
-    return QDir(appDir.filePath("../Resources")).canonicalPath();
-#else
-    return appDir.absolutePath();
-#endif
-}
-
-QString Paths::translationsPath()
-{
-    QDir appDir(QCoreApplication::applicationDirPath());
-
-    if (Global::devMode())
+	if (Global::devMode())
 	{
 		appDir.cdUp();
 		appDir.cd("share");
 		appDir.cd("ceb");
-		appDir.cd("translations");
-        return appDir.canonicalPath();
 	}
-
-    if (Global::localMode())
+	else if (!Global::localMode())
 	{
-		appDir.cd("translations");
-        return appDir.canonicalPath();
-	}
-
 #if defined(Q_OS_LINUX)
 #ifdef SHARE_PREFIX
-    return SHARE_PREFIX;
+	    appDir.cd(SHARE_PREFIX);
 #else
-    return "/usr/share/ceb/translations";
+	    appDir.cd("/usr/local/share/ceb";
 #endif
 #elif defined(Q_OS_MAC)
-	// application root directory
-	appDir.cdUp();
-	appDir.cd("Resources");
-	appDir.cd("translations");
-    return appDir.canonicalPath();
-#elif defined(Q_OS_WIN)
-#if _DEBUG
-	QDir currentDir(QDir::current());
+		// application root directory
+		appDir.cdUp();
+		appDir.cd("Resources");
+#elif defined(Q_OS_WIN) && defined(_DEBUG)
+		appDir = QDir::current();
+
+		appDir.cdUp();
+		appDir.cdUp();
+		appDir.cd("ceb");
+		appDir.cd("share");
+		appDir.cd("ceb");
+#endif
+	}
+
+	return appDir.canonicalPath();
+}
+
+QString Paths::translationsPath()
+{
+#if defined(Q_OS_WIN) && defined(_DEBUG)
+	// under Windows, when running from Visual C++, translations are located in "build" directory
+	QDir appDir = QDir::current();
+
 	// solution directory
-	currentDir.cdUp();
-	// translations directory
-	currentDir.cd("translations");
-	return currentDir.canonicalPath();
+	appDir.cdUp();
 #else
+    QDir appDir(sharePath());
+#endif
+
+	// translations directory
 	appDir.cd("translations");
 	return appDir.canonicalPath();
-#endif
-#endif
+}
+
+QString Paths::scriptsPath()
+{
+    QDir appDir(sharePath());
+
+	// scripts directory
+	appDir.cd("scripts");
+	return appDir.canonicalPath();
+}
+
+QString Paths::modifiersPath()
+{
+    QDir appDir(sharePath());
+
+	// modifiers directory
+	appDir.cd("modifiers");
+	return appDir.canonicalPath();
+}
+
+QString Paths::profilesPath()
+{
+    QDir appDir(sharePath());
+
+	// profiles directory
+	appDir.cd("profiles");
+	return appDir.canonicalPath();
+}
+
+QString Paths::resourcesPath()
+{
+    QDir appDir(sharePath());
+
+	// resources directory
+	appDir.cd("resources");
+	return appDir.canonicalPath();
 }
 
 QString Paths::profilePath()

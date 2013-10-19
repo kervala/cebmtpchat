@@ -281,12 +281,12 @@ lua_State *EventScript::getScript(const QString &filePath, Script::LuaScript &lu
 
 lua_State *EventScript::getAdminScript()
 {
-    QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
+    QDir modifiersDir(Paths::modifiersPath());
     return getScript(modifiersDir.filePath("event.lua"), adminScript);
 }
 
 lua_State *EventScript::getUserScript()
 {
-    QDir modifiersDir(QDir(Paths::profilePath()).filePath("modifiers"));
+    QDir modifiersDir(Paths::modifiersPath());
     return getScript(modifiersDir.filePath("event.lua"), userScript);
 }

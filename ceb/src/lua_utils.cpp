@@ -35,7 +35,7 @@ int showLuaError(lua_State *l, const QString &error)
 QString executeLuaFilter(const QString &filterName, const QString &line)
 {
     QString result;
-    QString fileName = QDir(QDir(Paths::sharePath()).filePath("scripts")).filePath(filterName + ".lua");
+    QString fileName = QDir(Paths::scriptsPath()).filePath(filterName + ".lua");
 
 #if LUA_VERSION_NUM >= 502
     lua_State *L = luaL_newstate();

@@ -61,10 +61,9 @@ void SoundSettingsWidget::feedProfile(Profile &profile)
 
 void SoundSettingsWidget::on_pushButtonBeepDefaultPlay_clicked()
 {
-    QDir resourcesDir(QDir(Paths::sharePath()).filePath("resources"));
+    QString fileName = QDir(Paths::resourcesPath()).filePath("notify.wav");
 
-    QString fileName = resourcesDir.filePath("notify.wav");
-    if (QFile::exists(fileName))
+	if (QFile::exists(fileName))
     {
         QSound s(fileName);
         s.play();
@@ -90,9 +89,8 @@ void SoundSettingsWidget::on_toolButtonBeepCustom_clicked()
 
 void SoundSettingsWidget::on_pushButtonAboutMeDefaultPlay_clicked()
 {
-    QDir resourcesDir(QDir(Paths::sharePath()).filePath("resources"));
+    QString fileName = QDir(Paths::resourcesPath()).filePath("notify.wav");
 
-    QString fileName = resourcesDir.filePath("notify.wav");
     if (QFile::exists(fileName))
     {
         QSound s(fileName);

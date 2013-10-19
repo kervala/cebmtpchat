@@ -424,9 +424,9 @@ namespace Script
 #endif
         lua_getfield(l, -1, "path");        /* push result of t.x (2nd arg) */
         lua_remove(l, -2);
-        QString path = QDir(QDir(Paths::sharePath()).filePath("modifiers")).filePath("?.lua") + ";";
+        QString path = QDir(Paths::modifiersPath()).filePath("?.lua") + ";";
         if (userScript)
-            path += QDir(QDir(Paths::profilePath()).filePath("modifiers")).filePath("?.lua") + ";";
+            path += QDir(Paths::modifiersPath()).filePath("?.lua") + ";";
         path += QString(lua_tostring(l, -1));
 #if LUA_VERSION_NUM >= 502
         lua_getglobal(l, "package");
@@ -473,7 +473,7 @@ namespace Script
     {
         if (luaScripts.find(tokenType) == luaScripts.end())
         {
-            QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
+            QDir modifiersDir(Paths::modifiersPath());
             QString fileName = modifiersDir.filePath(
                 TokenInfo::tokenToIDString(tokenType).toLower() + ".lua");
             if (QFile(fileName).exists())

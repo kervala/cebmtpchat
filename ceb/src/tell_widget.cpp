@@ -345,7 +345,7 @@ void TellWidget::initScriptComboBox()
 {
     _comboBoxFilter->clear();
     _comboBoxFilter->addItem(tr("<no filter>"));
-    QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
+    QDir scriptsDir(Paths::scriptsPath());
 
     QStringList nameFilters;
     nameFilters << "*.lua";

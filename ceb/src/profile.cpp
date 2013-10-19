@@ -147,19 +147,7 @@ bool Profile::load()
     if (!file.exists())
     {
         // Search for the "old school" file
-#if defined(Q_OS_MAC)
-        // Profiles are located in application bundle
-        QDir profilesDir(QDir(Paths::sharePath()).filePath("profiles"));
-#elif defined(Q_OS_WIN)
-        // Profiles are located in a subdirectory
-        QDir profilesDir(QDir(QCoreApplication::applicationDirPath()).filePath("profiles"));
-#elif defined(SHARE_PREFIX)
-        // Profiles are located in SHARE_PREFIX
-        QDir profilesDir(QDir(SHARE_PREFIX).filePath("profiles"));
-#else
-        // Profiles are located in /usr/share/ceb
-        QDir profilesDir(QDir("/usr/share/ceb").filePath("profiles"));
-#endif
+        QDir profilesDir(Paths::profilesPath());
 
         // Checking a default profile with current locale
         file.setFileName(profilesDir.filePath("default_" + locale + ".xml"));
@@ -376,7 +364,7 @@ bool Profile::load()
 
     // Load persistent names
     persistentProperties.clear();
-    QDir modifiersDir(QDir(Paths::sharePath()).filePath("modifiers"));
+    QDir modifiersDir(Paths::modifiersPath());
     QFile propertiesFile(modifiersDir.filePath("properties"));
     if (propertiesFile.open(QIODevice::ReadOnly))
     {
@@ -788,8 +776,7 @@ QString Profile::getBeepFileName()
 {
     if (soundBeepDefault)
     {
-        QDir resourcesDir(QDir(QCoreApplication::applicationDirPath()).filePath("resources"));
-        return resourcesDir.filePath("notify.wav");
+		return QDir(Paths::resourcesPath()).filePath("notify.wav");
     }
     else
         return soundBeepFileName;
@@ -800,8 +787,7 @@ QString Profile::getAboutMeFileName()
 {
     if (soundAboutMeDefault)
     {
-        QDir resourcesDir(QDir(QCoreApplication::applicationDirPath()).filePath("resources"));
-        return resourcesDir.filePath("notify.wav");
+		return QDir(Paths::resourcesPath()).filePath("notify.wav");
     }
     else
         return soundAboutMeFileName;
