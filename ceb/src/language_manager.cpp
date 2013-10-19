@@ -53,8 +53,13 @@ QStringList LanguageManager::getLanguageFileNames(const QString &language)
     QDir languagesDir(Paths::translationsPath());
 
 #ifdef Q_OS_LINUX
+#ifdef USE_QT5
+	int qtVersion = 5;
+#else
+	int qtVersion = 4;
+#endif
     // Use system Qt translations
-    filenames << QString("/usr/share/qt4/translations/qt_%1.qm").arg(language);
+    filenames << QString("/usr/share/qt%1/translations/qt_%2.qm").arg(qtVersion).arg(language);
 #else
     // Use local Qt translations
     filenames << languagesDir.filePath(QString("qt_%1.qm").arg(language));
