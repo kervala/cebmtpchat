@@ -26,7 +26,7 @@
 #endif
 
 DialogBroadcast::DialogBroadcast(QWidget *parent)
-    : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
+    : QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint)
 {
     setWindowTitle(tr("Message broadcasting"));
     QVBoxLayout *layout = new QVBoxLayout(this);

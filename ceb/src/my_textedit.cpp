@@ -113,7 +113,7 @@ void MyTextEdit::contextMenuEvent(QContextMenuEvent *e)
         connect(filterMenu, SIGNAL(triggered(QAction*)),
                 this, SLOT(filterTriggered(QAction*)));
 
-        QDir scriptsDir(QDir(Paths::sharePath()).filePath("scripts"));
+        QDir scriptsDir(Paths::scriptsPath());
 
         QStringList nameFilters;
         nameFilters << "*.lua";
@@ -198,7 +198,7 @@ void MyTextEdit::addSeparatorLine()
 void MyTextEdit::filterTriggered(QAction *action)
 {
     QString normalText = textCursor().selection().toPlainText();
-    QDialog *dialog = new QDialog(this, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    QDialog *dialog = new QDialog(this, Qt::Dialog | Qt::WindowCloseButtonHint);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setWindowTitle(action->text() + " " + tr("(filter)"));
     QVBoxLayout *layout = new QVBoxLayout(dialog);

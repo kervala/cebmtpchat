@@ -23,12 +23,12 @@
 #define new DEBUG_NEW
 #endif
 
-DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
+DialogBasic::DialogBasic(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint)
 {
 	init(false);
 }
 
-DialogBasic::DialogBasic(bool isCloseWindow, QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
+DialogBasic::DialogBasic(bool isCloseWindow, QWidget *parent) : QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint)
 {
 	init(isCloseWindow);
 }
