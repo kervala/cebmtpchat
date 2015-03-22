@@ -112,8 +112,8 @@ SET(CPACK_NSIS_MUI_FINISHPAGE_RUN "${TARGET}.exe")
 SET(CPACK_NSIS_INSTALLED_ICON_NAME "${TARGET}.exe")
 #SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/res\\\\header.bmp") # 150x57
 SET(CPACK_NSIS_DISPLAY_NAME ${PRODUCT})
-SET(CPACK_NSIS_HELP_LINK "http://code.google.com/p/cebmtpchat/issues/list")
-SET(CPACK_NSIS_URL_INFO_ABOUT "http://code.google.com/p/cebmtpchat")
+SET(CPACK_NSIS_HELP_LINK "http://dev.kervala.net/projects/cebmtpchat/wiki")
+SET(CPACK_NSIS_URL_INFO_ABOUT "http://dev.kervala.net/projects/cebmtpchat")
 SET(CPACK_NSIS_CONTACT "kervala@gmail.com")
 SET(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
 
