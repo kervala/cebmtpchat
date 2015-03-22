@@ -19,6 +19,25 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0510
+#endif
+
+#ifndef APSTUDIO_READONLY_SYMBOLS
+
+#if defined(_MSC_VER) && defined(_DEBUG)
+	#define _CRTDBG_MAP_ALLOC
+	#ifdef _malloca
+		#undef _malloca
+	#endif
+	#include <stdlib.h>
+	#include <crtdbg.h>
+	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+	#ifdef realloc
+		#undef realloc
+	#endif
+#endif
+
 #include <QtCore/QtCore>
 #include <QtGui/QtGui>
 #include <QtNetwork/QtNetwork>
@@ -30,7 +49,7 @@
 
 #ifdef USE_QT5
 #include <QtWidgets/QtWidgets>
-#include <QtMultimedia/QtMultimedia>
+#include <QtConcurrent/QtConcurrent>
 #endif
 
 extern "C" {
@@ -39,11 +58,6 @@ extern "C" {
 #include <lualib.h>
 }
 
-#if defined(_MSC_VER) && defined(_DEBUG)
-	#define _CRTDBG_MAP_ALLOC
-	#include <stdlib.h>
-	#include <crtdbg.h>
-	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
 #endif
