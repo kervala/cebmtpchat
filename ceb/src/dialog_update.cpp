@@ -85,6 +85,8 @@ DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::Wi
     connect(&autoUpdate, SIGNAL(fileDownloadEnd(const QString &)), this, SLOT(updateDownloadEnd(const QString &)));
     connect(&autoUpdate, SIGNAL(fileDownloadError()), this, SLOT(updateDownloadError()));
     autoUpdate.checkForUpdate();
+
+	setFixedHeight(height());
 }
 
 void DialogUpdate::newVersion(const QString &version)
