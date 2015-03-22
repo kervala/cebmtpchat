@@ -113,6 +113,8 @@ void AutoUpdate::checkForUpdate()
 	req.setUrl(QUrl(siteUrl + "/ceb.vrn"));
 
 	QNetworkReply *reply = networkManager.get(req);
+	
+	// TODO: check for errors
 }
 
 void AutoUpdate::getUpdate(const QString &fileName)
