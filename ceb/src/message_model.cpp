@@ -65,7 +65,7 @@ QModelIndex MessageModel::index(int row, int column, const QModelIndex &parent) 
     if (column < 0 || column >= 4 || row < 0 || row >= rowCount(parent)) // does lazy population
         return QModelIndex();
 
-    return createIndex(row, column, 0);
+    return createIndex(row, column, (void*)NULL);
 }
 
 QModelIndex MessageModel::parent(const QModelIndex &) const
@@ -106,8 +106,12 @@ void MessageModel::setMyMessages(const QList<MessageItem> &myMessages)
     _myMessages = myMessages;
 }
 
-
 void MessageModel::refreshDatas()
 {
-    reset();
+#ifdef USE_QT5
+	beginResetModel();
+	endResetModel();
+#else
+	reset();
+#endif
 }
