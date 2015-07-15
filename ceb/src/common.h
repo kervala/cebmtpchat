@@ -50,6 +50,7 @@
 #ifdef USE_QT5
 #include <QtWidgets/QtWidgets>
 #include <QtConcurrent/QtConcurrent>
+#include <QtMultimedia/QtMultimedia>
 #endif
 
 extern "C" {

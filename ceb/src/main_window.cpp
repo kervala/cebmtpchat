@@ -43,8 +43,6 @@
 #include "config.h"
 #endif
 
-#include <QtMultimedia/QtMultimedia>
-
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
