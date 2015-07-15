@@ -21,8 +21,6 @@
 
 #include "sound_settings_widget.h"
 
-#include <QtMultimedia/QtMultimedia>
-
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
