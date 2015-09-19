@@ -37,18 +37,10 @@
 #define new DEBUG_NEW
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), networkManager(NULL), lastReply(NULL), m_allowFilters(false)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), networkManager(NULL), lastReply(NULL), m_allowFilters(false), progressDialog(NULL)
 {
-    progressDialog = new QProgressDialog(NULL, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
-    progressDialog->setWindowTitle("CeB");
-    progressDialog->setCancelButtonText(tr("Cancel"));
-    progressDialog->setLabelText(tr("Uploading..."));
-    progressDialog->setModal(false);
-
     networkManager = new QNetworkAccessManager(this);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(ftpCommandFinished(QNetworkReply*)));
-
-    connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelUpload()));
 
     isAway = false;
 
@@ -63,8 +55,6 @@ MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), networkManager(NU
 
 MyTextEdit::~MyTextEdit()
 {
-    delete progressDialog;
-
 #ifdef TASKBAR_PROGRESS
     if (pTaskbarList)
     {
@@ -384,6 +374,14 @@ void MyTextEdit::dropEvent(QDropEvent *event)
 
             reply->setUserData(0, data);
 
+			progressDialog = new QProgressDialog(this, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
+			progressDialog->setWindowTitle("CeB");
+			progressDialog->setCancelButtonText(tr("Cancel"));
+			progressDialog->setLabelText(tr("Uploading..."));
+			progressDialog->setModal(false);
+
+			connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelUpload()));
+
             connect(reply, SIGNAL(uploadProgress(qint64, qint64)), this, SLOT(updateDataTransferProgress(qint64, qint64)));
 
             lastReply = reply;
@@ -422,17 +420,22 @@ void MyTextEdit::ftpCommandFinished(QNetworkReply *reply)
         emit sendToChat(url);
     }
 
-    progressDialog->hide();
+	if (progressDialog)
+	{
+		progressDialog->hide();
+		progressDialog->deleteLater();
+	}
 
     reply->deleteLater();
 }
 
 void MyTextEdit::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)
 {
-    progressDialog->show();
-
-    progressDialog->setMaximum(totalBytes);
-    progressDialog->setValue(readBytes);
+	if (progressDialog)
+	{
+		progressDialog->setMaximum(totalBytes);
+	    progressDialog->setValue(readBytes);
+	}
 
 #ifdef TASKBAR_PROGRESS
     // update the taskbar progress
