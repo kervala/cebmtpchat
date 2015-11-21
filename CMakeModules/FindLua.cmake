@@ -1,3 +1,21 @@
+#
+#  CMake custom modules
+#  Copyright (C) 2011-2015  Cedric OCHS
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 MACRO(FIND_LUA MAJOR MINOR)
   SET(_NAME "Lua${MAJOR}${MINOR}")
   SET(_VERSION "${MAJOR}.${MINOR}")
@@ -8,31 +26,35 @@ MACRO(FIND_LUA MAJOR MINOR)
     SET(LUA_INCLUDE_DIR ${${_UPNAME_FIXED}_INCLUDE_DIR})
     SET(LUA_INCLUDE_DIRS ${${_UPNAME_FIXED}_INCLUDE_DIRS})
     SET(LUA_LIBRARIES ${${_UPNAME_FIXED}_LIBRARIES})
-  ENDIF(${_UPNAME_FIXED}_FOUND)
-ENDMACRO(FIND_LUA)
+  ENDIF()
+ENDMACRO()
 
 IF(Lua_FIND_VERSION_MAJOR)
   IF(NOT Lua_FIND_VERSION_MAJOR EQUAL 5)
-    MESSAGE(FATAL_ERROR "Only Lua 5.0, 5.1 and 5.2 are supported")
+    MESSAGE(FATAL_ERROR "Lua versions from 5.0 to 5.3 are supported")
   ENDIF()
 
   # check specific version
   FIND_LUA(${Lua_FIND_VERSION_MAJOR} ${Lua_FIND_VERSION_MINOR})
 ELSE()
   # check all supported versions
-  FIND_LUA(5 2)
+  FIND_LUA(5 3)
+
+  IF(NOT LUA_FOUND)
+    FIND_LUA(5 2)
+  ENDIF()
 
   IF(NOT LUA_FOUND)
     FIND_LUA(5 1)
-  ENDIF(NOT LUA_FOUND)
+  ENDIF()
 
   IF(NOT LUA_FOUND)
     FIND_LUA(5 0)
-  ENDIF(NOT LUA_FOUND)
+  ENDIF()
 
   IF(NOT LUA_FOUND)
     FIND_PACKAGE_HELPER(Lua lua.h RELEASE lua DEBUG luad QUIET)
-  ENDIF(NOT LUA_FOUND)
+  ENDIF()
 ENDIF()
 
 IF(LUA_FOUND)
@@ -41,7 +63,7 @@ IF(LUA_FOUND)
     FIND_LIBRARY(LUA_MATH_LIBRARY m)
     SET(LUA_LIBRARIES ${LUA_LIBRARIES} ${LUA_MATH_LIBRARY} CACHE STRING "Lua Libraries")
     # For Windows and Mac, don't need to explicitly include the math library
-  ENDIF(UNIX AND NOT APPLE)
+  ENDIF()
 
   IF(NOT LUA_VERSION)
     # Lua 5.0
@@ -50,8 +72,8 @@ IF(LUA_FOUND)
 
     IF(_CONTENT)
       STRING(REGEX REPLACE "^#define LUA_VERSION[ \t]+\"Lua ([0-9.]+)\".*" "\\1" LUA_VERSION "${_CONTENT}")
-    ENDIF(_CONTENT)
-  ENDIF(NOT LUA_VERSION)
+    ENDIF()
+  ENDIF()
   
   IF(NOT LUA_VERSION)
     # Lua 5.1
@@ -60,8 +82,8 @@ IF(LUA_FOUND)
 
     IF(_CONTENT)
       STRING(REGEX REPLACE "^#define LUA_RELEASE[ \t]+\"Lua ([0-9.]+)\".*" "\\1" LUA_VERSION "${_CONTENT}")
-    ENDIF(_CONTENT)
-  ENDIF(NOT LUA_VERSION)
+    ENDIF()
+  ENDIF()
   
   IF(NOT LUA_VERSION)
     # Lua 5.2
@@ -75,12 +97,12 @@ IF(LUA_FOUND)
       STRING(REGEX REPLACE "^.*#define LUA_VERSION_MINOR[ \t]+\"([0-9]+)\".*" "\\1" LUA_VERSION_MINOR "${_CONTENT}")
       STRING(REGEX REPLACE "^.*#define LUA_VERSION_RELEASE[ \t]+\"([0-9]+)\".*" "\\1" LUA_VERSION_RELEASE "${_CONTENT}")
       SET(LUA_VERSION "${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}.${LUA_VERSION_RELEASE}")
-    ENDIF(_CONTENT)
-  ENDIF(NOT LUA_VERSION)
+    ENDIF()
+  ENDIF()
 
   IF(NOT LUA_VERSION)
     SET(LUA_VERSION "unknown")
-  ENDIF(NOT LUA_VERSION)
+  ENDIF()
 
   MESSAGE_VERSION_PACKAGE_HELPER(Lua ${LUA_VERSION} ${LUA_LIBRARIES})
-ENDIF(LUA_FOUND)
+ENDIF()
