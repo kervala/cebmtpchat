@@ -11,7 +11,7 @@ function InputFilter(str)
     else
       gr = gr..string.lower(s)
     end
-  end  
-  
+  end
+
   return gr
 end
