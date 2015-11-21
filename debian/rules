@@ -6,4 +6,5 @@ override_dh_strip:
 	dh_strip -pcebmtpchat --dbg-package=cebmtpchat-dbg
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DETC_PREFIX=/etc/ceb -DWITH_WARNINGS=ON -DWITH_RYZOM=ON
+	dh_auto_configure -- -DLIBRARY_ARCHITECTURE=$(DEB_HOST_MULTIARCH) -DTARGET_CPU=$(DEB_HOST_GNU_CPU) -DWITH_SYMBOLS=ON -DETC_PREFIX=/etc/cebmtpchat -DWITH_WARNINGS=ON -DWITH_RYZOM=ON -DCMAKE_BUILD_TYPE=Release
+
