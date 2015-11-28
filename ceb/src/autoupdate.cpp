@@ -29,18 +29,6 @@
 
 AutoUpdate::AutoUpdate(QObject *parent) : QObject(parent)
 {
-    QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, Paths::sharePath());
-
-    QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "ceb");
-
-    settings.beginGroup("update");
-    siteUrl = settings.value("site_url").toString();
-    filePrefix = settings.value("file_prefix").toString();
-    settings.endGroup();
-
-	// if no protocol specified, use http:// as default
-	if (siteUrl.indexOf("://") == -1) siteUrl = "http://" + siteUrl;
-
 	connect(&networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onReply(QNetworkReply*)));
 }
 
@@ -83,18 +71,6 @@ void AutoUpdate::onReply(QNetworkReply *reply)
 				}
 			}
 		}
-		else
-		{
-			QString oldVer = UPDATE_VERSION;
-			QString newVer = QString::fromUtf8(data).trimmed();
-
-			if (newVer > oldVer)
-			{
-				emit newVersion(newVer);
-			}
-
-			res = true;
-		}
 	}
 
 	if (!res) emit fileDownloadError();
@@ -107,20 +83,10 @@ void AutoUpdate::fileDataReadProgress(qint64 done, qint64 total)
 	emit updateDataReadProgress((int)done, (int)total);
 }
 
-void AutoUpdate::checkForUpdate()
+void AutoUpdate::getUpdate(const QString &url)
 {
 	QNetworkRequest req;
-	req.setUrl(QUrl(siteUrl + "/ceb.vrn"));
-
-	QNetworkReply *reply = networkManager.get(req);
-	
-	// TODO: check for errors
-}
-
-void AutoUpdate::getUpdate(const QString &fileName)
-{
-	QNetworkRequest req;
-	req.setUrl(QUrl(siteUrl + "/" + fileName));
+	req.setUrl(QUrl(url));
 
 	QNetworkReply *reply = networkManager.get(req);
 

@@ -36,6 +36,7 @@
 #include "event_script.h"
 #include "my_textedit.h"
 #include "dialog_broadcast.h"
+#include "updater.h"
 
 #include "main_window.h"
 
@@ -45,44 +46,6 @@
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
-#endif
-
-#ifdef Q_OS_WIN32
-
-bool isVista()
-{
-    OSVERSIONINFOW osver;
-
-    osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOW);
-
-    if (::GetVersionExW(&osver) && osver.dwPlatformId == VER_PLATFORM_WIN32_NT && (osver.dwMajorVersion >= 6)) return true;
-
-    return false;
-}
-
-bool myShellExec(HWND hwnd, LPCWSTR pszVerb, LPCWSTR pszPath, LPCWSTR pszParameters = NULL, LPCWSTR pszDirectory = NULL)
-{
-    SHELLEXECUTEINFOW shex;
-
-    memset(&shex, 0, sizeof(shex));
-
-    shex.cbSize			= sizeof(SHELLEXECUTEINFOW);
-    shex.fMask			= 0;
-    shex.hwnd			= hwnd;
-    shex.lpVerb			= pszVerb;
-    shex.lpFile			= pszPath;
-    shex.lpParameters	= pszParameters;
-    shex.lpDirectory	= pszDirectory;
-    shex.nShow			= SW_NORMAL;
-
-    return ::ShellExecuteExW(&shex) == 1;
-}
-
-bool runElevated(HWND hwnd, LPCWSTR pszPath, LPCWSTR pszParameters = NULL, LPCWSTR pszDirectory = NULL)
-{
-    return myShellExec(hwnd, L"runas", pszPath, pszParameters, pszDirectory);
-}
-
 #endif
 
 MainWindow *MainWindow::_instance = 0;
@@ -200,9 +163,10 @@ MainWindow::MainWindow()
     if (channelWidget)
         channelWidget->applyFirstShow();
 
-    // Start autoupdate stuff
-    connect(&autoUpdate, SIGNAL(newVersion(const QString &)), this, SLOT(newProgramVersion(const QString &)));
-    autoUpdate.checkForUpdate();
+	// check for a new version
+	Updater *updater = new Updater(this);
+	connect(updater, SIGNAL(newVersionDetected(QString, QString, uint, QString)), this, SLOT(onNewVersion(QString, QString, uint, QString)));
+	updater->checkUpdates();
 
     animationTimer.setInterval(10);
 /*    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animationTimeout()));
@@ -930,7 +894,7 @@ void MainWindow::showEvent(QShowEvent *)
     }
 }
 
-void MainWindow::newProgramVersion(const QString &)
+void MainWindow::onNewVersion(const QString &url, const QString &date, uint size, const QString &version)
 {
     mbMain->setUpdateAvailable(true);
 }
@@ -1258,23 +1222,11 @@ void MainWindow::menuIconClicked()
 
 void MainWindow::updateAccepted()
 {
-    QMessageBox::warning(0, tr("Warning"), tr("You must close every CeB instance to continue installation"));
+    QMessageBox::warning(this, tr("Warning"), tr("You must close every CeB instance to continue installation"));
 
     QString installer = qobject_cast<DialogUpdate*>(sender())->fileToLaunch();
 
-#ifdef Q_OS_WIN32
-	if (isVista())
-    {
-        wchar_t str[MAX_PATH];
-        installer.toWCharArray(str);
-		str[installer.length()] = L'\0';
-        bool bSuccess = runElevated((HWND)winId(), str);
-    }
-    else
-#endif
-    {
-        QProcess::startDetached(installer);
-    }
+	QDesktopServices::openUrl(QUrl::fromLocalFile(installer));
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)

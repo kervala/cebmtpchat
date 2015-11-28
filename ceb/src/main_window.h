@@ -23,7 +23,6 @@
 
 #include "session.h"
 #include "system_widget.h"
-#include "autoupdate.h"
 #include "channel_widget.h"
 #include "tell_widget.h"
 #include "cmd_output_widget.h"
@@ -87,7 +86,6 @@ private:
     QSystemTrayIcon *trayIcon;
     QMenu *trayMenu;
     bool trayTalkAboutMe;
-    AutoUpdate autoUpdate;
     QSignalMapper *actionSignalMapper;
     QList<QShortcut*> actionShortcuts;
     QLabel *_statusMessageLabel;
@@ -179,8 +177,8 @@ private slots:
     void newSessionToken(Session *session, const Token &token);
     void sessionLoginChanged(Session *session, const QString &oldLogin, const QString &newLogin);
     void trayActivated(QSystemTrayIcon::ActivationReason reason = QSystemTrayIcon::Trigger);
-    void newProgramVersion(const QString &);
-    void whoItemDblClicked(const QString &login);
+	void onNewVersion(const QString &url, const QString &date, uint size, const QString &version);
+	void whoItemDblClicked(const QString &login);
     void closeCurrentTab();
     void tabWidgetMainCurrentChanged(int index);
     void whoUserDoubleClicked(const QString &login);

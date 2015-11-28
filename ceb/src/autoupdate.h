@@ -30,14 +30,9 @@ public:
     AutoUpdate(QObject * parent = 0);
 	virtual ~AutoUpdate();
 
-    void checkForUpdate();
-    void getUpdate(const QString &fileName);
-
-    QString siteUrl;
-    QString filePrefix;
+    void getUpdate(const QString &url);
 
 signals:
-    void newVersion(const QString &version);
     void updateDataReadProgress(int done, int total);
     void fileDownloadEnd(const QString &fileName);
     void fileDownloadError();

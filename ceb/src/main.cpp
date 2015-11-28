@@ -37,7 +37,7 @@
 #ifdef Q_OS_WIN32
 	Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 #endif
-	
+
 #ifdef Q_OS_MAC
 	Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
 #endif
@@ -66,6 +66,7 @@ int main(int argc, char **argv)
 
     QApplication::setApplicationName(PRODUCT);
     QApplication::setOrganizationName(AUTHOR);
+	QApplication::setApplicationVersion(VERSION);
 
     TextSkin::createDefaultSkin(); // Used to create fonts after QApplication (otherwise, it failed and gives wrong fonts)
 

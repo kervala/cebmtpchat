@@ -19,31 +19,34 @@
 #ifndef DIALOG_UPDATE_H
 #define DIALOG_UPDATE_H
 
-#include "autoupdate.h"
+class AutoUpdate;
+class Updater;
 
 class DialogUpdate: public QDialog
 {
     Q_OBJECT
 
 private:
-    QVBoxLayout *mainLayout;
-    QHBoxLayout *bottomLayout;
-    QPushButton *bUpdate;
-    QPushButton *bClose;
-    QLabel *labelUpdate;
-    QProgressBar *progressBarUpdate;
-    QLabel *labelInfo;
-    AutoUpdate autoUpdate;
-    QString fileName;
-    QString _fileToLaunch;
+    QVBoxLayout *m_mainLayout;
+    QHBoxLayout *m_bottomLayout;
+    QPushButton *m_bUpdate;
+    QPushButton *m_bClose;
+    QLabel *m_labelUpdate;
+    QProgressBar *m_progressBarUpdate;
+    QLabel *m_labelInfo;
+    AutoUpdate *m_autoUpdate;
+	Updater *m_updater;
+    QString m_fileName;
+    QString m_fileToLaunch;
+	uint m_total;
 
 public:
     DialogUpdate(QWidget *parent = 0);
 
-    const QString &fileToLaunch() const { return _fileToLaunch; }
+    const QString &fileToLaunch() const { return m_fileToLaunch; }
 
 private slots:
-    void newVersion(const QString &string);
+    void onNewVersion(const QString &url, const QString &date, uint size, const QString &version);
     void update();
     void updateDataReadProgress(int done, int total);
     void updateDownloadEnd(const QString &fileName);

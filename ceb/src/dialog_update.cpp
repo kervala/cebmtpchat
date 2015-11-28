@@ -19,114 +19,118 @@
 #include "common.h"
 #include "dialog_update.h"
 #include "version.h"
+#include "autoupdate.h"
+#include "updater.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
 
-DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint)
+DialogUpdate::DialogUpdate(QWidget *parent): QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint), m_total(0)
 {
-    setAttribute(Qt::WA_DeleteOnClose);
-    setWindowTitle("CeB");
+	m_autoUpdate = new AutoUpdate(this);
+	m_updater = new Updater(this);
 
-    mainLayout = new QVBoxLayout(this);
-    mainLayout->setMargin(4);
+    m_mainLayout = new QVBoxLayout(this);
+    m_mainLayout->setMargin(4);
 
     // Top
-    labelUpdate = new QLabel(tr("No newer version."));
-    mainLayout->addWidget(labelUpdate);
-    progressBarUpdate = new QProgressBar;
-    progressBarUpdate->setAlignment(Qt::AlignHCenter);
-    mainLayout->addWidget(progressBarUpdate);
-    labelInfo = new QLabel("");
-    QSizePolicy labelPolicy = labelInfo->sizePolicy();
+    m_labelUpdate = new QLabel(tr("No newer version."));
+    m_mainLayout->addWidget(m_labelUpdate);
+    m_progressBarUpdate = new QProgressBar(this);
+    m_progressBarUpdate->setAlignment(Qt::AlignHCenter);
+    m_mainLayout->addWidget(m_progressBarUpdate);
+    m_labelInfo = new QLabel("");
+    QSizePolicy labelPolicy = m_labelInfo->sizePolicy();
     labelPolicy.setVerticalPolicy(QSizePolicy::Fixed);
-    labelInfo->setSizePolicy(labelPolicy);
-    mainLayout->addWidget(labelInfo);
+    m_labelInfo->setSizePolicy(labelPolicy);
+    m_mainLayout->addWidget(m_labelInfo);
 
     // Separator line
     QFrame *line = new QFrame(this);
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
-    mainLayout->addWidget(line);
+    m_mainLayout->addWidget(line);
 
     // Bottom
-    bottomLayout = new QHBoxLayout();
-    mainLayout->addLayout(bottomLayout);
+    m_bottomLayout = new QHBoxLayout();
+    m_mainLayout->addLayout(m_bottomLayout);
 
     // Update button
-    bUpdate = new QPushButton(tr("&Update"), this);
-    QSizePolicy policy = bUpdate->sizePolicy();
+    m_bUpdate = new QPushButton(tr("&Update"), this);
+    QSizePolicy policy = m_bUpdate->sizePolicy();
     policy.setHorizontalPolicy(QSizePolicy::Minimum);
     policy.setVerticalPolicy(QSizePolicy::Fixed);
-    bUpdate->setSizePolicy(policy);
-    bUpdate->setEnabled(false);
+    m_bUpdate->setSizePolicy(policy);
+    m_bUpdate->setEnabled(false);
 
     // Cancel button
-    bClose = new QPushButton(tr("&Close"), this);
-    policy = bClose->sizePolicy();
+    m_bClose = new QPushButton(tr("&Close"), this);
+    policy = m_bClose->sizePolicy();
     policy.setHorizontalPolicy(QSizePolicy::Minimum);
     policy.setVerticalPolicy(QSizePolicy::Fixed);
-    bClose->setSizePolicy(policy);
+    m_bClose->setSizePolicy(policy);
 
     QSpacerItem *spacer = new QSpacerItem(0, 0, QSizePolicy::Expanding,
                                           QSizePolicy::Fixed);
-    bottomLayout->addItem(spacer);
-    bottomLayout->addWidget(bUpdate);
-    bottomLayout->addWidget(bClose);
+    m_bottomLayout->addItem(spacer);
+    m_bottomLayout->addWidget(m_bUpdate);
+    m_bottomLayout->addWidget(m_bClose);
 
     resize(500, 120);
 
-    connect(bUpdate, SIGNAL(clicked()), this, SLOT(update()));
-    connect(bClose, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(m_bUpdate, SIGNAL(clicked()), this, SLOT(update()));
+    connect(m_bClose, SIGNAL(clicked()), this, SLOT(reject()));
 
-    connect(&autoUpdate, SIGNAL(newVersion(const QString &)), this, SLOT(newVersion(const QString &)));
-    connect(&autoUpdate, SIGNAL(updateDataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
-    connect(&autoUpdate, SIGNAL(fileDownloadEnd(const QString &)), this, SLOT(updateDownloadEnd(const QString &)));
-    connect(&autoUpdate, SIGNAL(fileDownloadError()), this, SLOT(updateDownloadError()));
-    autoUpdate.checkForUpdate();
+    connect(m_updater, SIGNAL(newVersionDetected(QString, QString, uint, QString)), this, SLOT(onNewVersion(QString, QString, uint, QString)));
+    connect(m_autoUpdate, SIGNAL(updateDataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
+    connect(m_autoUpdate, SIGNAL(fileDownloadEnd(QString)), this, SLOT(updateDownloadEnd(QString)));
+    connect(m_autoUpdate, SIGNAL(fileDownloadError()), this, SLOT(updateDownloadError()));
+
+	m_updater->checkUpdates();
 
 	setFixedHeight(height());
 }
 
-void DialogUpdate::newVersion(const QString &version)
+void DialogUpdate::onNewVersion(const QString &url, const QString &date, uint size, const QString &version)
 {
-    labelUpdate->setText(tr("New version found: %1").arg(version));
-    QPalette palette = labelUpdate->palette();
+    m_labelUpdate->setText(tr("New version found: %1 (%2)").arg(version).arg(date));
+    QPalette palette = m_labelUpdate->palette();
     palette.setColor(QPalette::Foreground, Qt::blue);
-    labelUpdate->setPalette(palette);
-#if defined(Q_OS_WIN)
-    fileName = autoUpdate.filePrefix + version + ".exe";
-#elif defined(Q_OS_MAC)
-    fileName = autoUpdate.filePrefix + version + ".dmg";
-#endif
-    bUpdate->setEnabled(true);
+    m_labelUpdate->setPalette(palette);
+
+	m_fileName = url;
+	m_total = size;
+
+	m_bUpdate->setEnabled(true);
 }
 
 void DialogUpdate::update()
 {
-    bUpdate->setEnabled(false);
-    autoUpdate.getUpdate(fileName);
+    m_bUpdate->setEnabled(false);
+    m_autoUpdate->getUpdate(m_fileName);
 }
 
 void DialogUpdate::updateDataReadProgress(int done, int total)
 {
+	if (total <= 0) total = m_total;
+
     // Progress bar
-    progressBarUpdate->setMinimum(0);
-    progressBarUpdate->setMaximum(total);
-    progressBarUpdate->setValue(done);
+    m_progressBarUpdate->setMinimum(0);
+    m_progressBarUpdate->setMaximum(total);
+    m_progressBarUpdate->setValue(done);
 
     // Label
-    labelInfo->setText(tr("%1/%2 KiB").arg(done/1024).arg(total/1024));
+    m_labelInfo->setText(tr("%1/%2 KiB").arg(done/1024).arg(total/1024));
 }
 
 void DialogUpdate::updateDownloadEnd(const QString &fileName)
 {
-    _fileToLaunch = fileName;
+    m_fileToLaunch = fileName;
     accept();
 }
 
 void DialogUpdate::updateDownloadError()
 {
-    labelInfo->setText(tr("Error"));
+    m_labelInfo->setText(tr("Error"));
 }
