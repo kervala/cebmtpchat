@@ -375,7 +375,6 @@ void MyTextEdit::dropEvent(QDropEvent *event)
             reply->setUserData(0, data);
 
 			progressDialog = new QProgressDialog(this, Qt::Dialog|Qt::WindowSystemMenuHint|Qt::WindowTitleHint);
-			progressDialog->setWindowTitle("CeB");
 			progressDialog->setCancelButtonText(tr("Cancel"));
 			progressDialog->setLabelText(tr("Uploading..."));
 			progressDialog->setModal(false);

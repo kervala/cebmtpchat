@@ -69,8 +69,6 @@ void MainWindow::free()
 
 MainWindow::MainWindow()
 {
-    setWindowTitle("CeB");
-
     _statusMessageLabel = new QLabel;
     statusBar()->addPermanentWidget(_statusMessageLabel, 1);
     _statusInfosLabel = new QLabel;
