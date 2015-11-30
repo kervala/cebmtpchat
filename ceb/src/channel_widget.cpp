@@ -622,7 +622,7 @@ void ChannelWidget::sessionConnected()
 {
     colorizeChatItems(getBackgroundColor());
 
-    _manualPassword = "";
+	_manualPassword.clear();
     _stackedWidgetEntry->setCurrentIndex(0);
 
    _textEditOutput->addString(tr("successful."), Profile::instance().textSkin().textFont().font(),

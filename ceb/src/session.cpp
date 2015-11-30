@@ -36,7 +36,6 @@ Session::Session(QObject *parent)
 Session::Session(const SessionConfig &config, QObject *parent) : QObject(parent)
 {
     _config = config;
-    _serverAddress = "";
     _serverPort = -1;
     _socket = new QTcpSocket(0);
     connect(_socket, SIGNAL(connected()), this, SLOT(socketConnected()));
@@ -217,7 +216,7 @@ void Session::readyToRead()
         if (_currentLine == clearMsg)
         {
             emit cleared();
-            _currentLine = "";
+            _currentLine.clear();
         }
 
         emit newData(_currentLine);
@@ -247,7 +246,7 @@ void Session::manageError(QAbstractSocket::SocketError error)
 
 void Session::tokenAnalyzed(const Token &token)
 {
-    _currentLine = ""; // Re-init the current line
+    _currentLine.clear(); // Re-init the current line
 
     switch(token.type())
     {
@@ -478,7 +477,7 @@ void Session::resetIdle()
 
 void Session::resetBackupServers()
 {
-    _serverAddress = "";
+    _serverAddress.clear();
     _serverPort = -1;
 }
 

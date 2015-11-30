@@ -63,7 +63,7 @@ void Profile::init()
 #ifdef Q_OS_WIN32
     keepAboveOtherWindows = false;
 #endif
-    language = "";
+    language.clear();
     checkForUpdate = true;
     menuBarVisible = true;
     statusBarVisible = true;
@@ -92,7 +92,7 @@ void Profile::init()
     warningoHighlight = true;
     tabsPosition = QTabWidget::South;
     tabsChannelCaptionMode = 0;
-    linksCustomBrowser = "";
+    linksCustomBrowser.clear();
     awaySeparatorLines = true;
     awaySeparatorColor = QColor(0, 225, 0);
     awaySeparatorLength = 80;
@@ -102,21 +102,21 @@ void Profile::init()
     autoconnectionDelay = 15;
     soundBeepEnabled = true;
     soundBeepDefault = true;
-    soundBeepFileName = "";
+    soundBeepFileName.clear();
     soundAboutMeEnabled = false;
     soundAboutMeDefault = true;
-    soundAboutMeFileName = "";
+    soundAboutMeFileName.clear();
     idleAway = true;
     idleAwayTimeout = 60;
     idleAwayBypassExpressions = idleAwayBypassDefaultExpressions;
     idleQuit = true;
     idleQuitTimeout = 600;
-    clientVersion = "";
+    clientVersion.clear();
     behindNAT = false;
     transferPort = 4001;
     transferInit = false;
-	uploadUrl = "";
-	downloadUrl = "";
+	uploadUrl.clear();
+	downloadUrl.clear();
     prefixDate = true;
 }
 

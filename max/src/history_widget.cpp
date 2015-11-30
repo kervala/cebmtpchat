@@ -81,7 +81,7 @@ void HistoryWidget::validateText()
 
     // Reset the iterator
     historyIt = history.end();
-    editingText = "";
+    editingText.clear();
 
     clear();
     emit textValidated(lastValidatedText);
@@ -256,7 +256,7 @@ QString HistoryWidget::getWordBefore(const QString &text, int position, int &let
         return loginRegexp.cap(1);
     }
 
-    word = "";
+    word.clear();
     for (int i = position - 1; i >= 0; i--)
     {
         if (text[i].isLetterOrNumber())

@@ -24,7 +24,7 @@
 class BackupServer
 {
 public:
-    BackupServer() { _address = ""; _port = 0; }
+    BackupServer() { _address.clear(); _port = 0; }
     BackupServer(const QString &address, int port) { _address = address; _port = port; }
 
     const QString &address() const { return _address; }

@@ -56,7 +56,7 @@ void ShortcutsSettingsWidget::applyProfile(const Profile &profile)
 void ShortcutsSettingsWidget::feedProfile(Profile &profile)
 {
 /*	if (radioButtonDefault->isChecked())
-        profile.linksCustomBrowser = "";
+        profile.linksCustomBrowser.clear();
 	else
 	profile.linksCustomBrowser = lineEditCustomBrowser->text();*/
 }

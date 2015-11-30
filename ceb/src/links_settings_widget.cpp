@@ -46,7 +46,7 @@ void LinksSettingsWidget::applyProfile(const Profile &profile)
 void LinksSettingsWidget::feedProfile(Profile &profile)
 {
     if (radioButtonDefault->isChecked())
-        profile.linksCustomBrowser = "";
+        profile.linksCustomBrowser.clear();
     else
         profile.linksCustomBrowser = lineEditCustomBrowser->text();
 

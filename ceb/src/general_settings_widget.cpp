@@ -66,7 +66,7 @@ void GeneralSettingsWidget::feedProfile(Profile &profile)
 {
     QString oldLanguage = profile.language;
     if (comboBoxLanguages->currentIndex() == 0)
-        profile.language = "";
+        profile.language.clear();
     else
         profile.language = displayToLanguage[comboBoxLanguages->currentText()];
 

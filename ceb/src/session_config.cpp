@@ -131,15 +131,15 @@ void SessionConfig::save(QDomElement &rootElem)
 SessionConfig SessionConfig::getTemplate()
 {
     SessionConfig config;
-    config._address = "";
+    config._address.clear();
     config._port = 4000;
-    config._description = "";
+    config._description.clear();
     config._autoconnect = false;
     config._broadcast = true;
     config._manageBackupServers = true;
     config._encodingMib = 111; // ISO-8859-15
-    config._performCommands = "";
-    config._quitMessage = "";
+    config._performCommands.clear();
+    config._quitMessage.clear();
     config._topicHeight = 30;
     config._entryHeight = 30;
     config._whoWidth = 80;
@@ -166,7 +166,7 @@ BackupServer SessionConfig::nextBackupServer(const QString address, int port) co
 QString SessionConfig::cryptPassword(const QString &value)
 {
     QString val = rot13(value);
-    QString res = "";
+    QString res;
 
     for(int i = 0; i < val.length(); ++i)
         res += QString("%1").arg((int)val[i].toLatin1(), 2, 16);
@@ -178,7 +178,7 @@ QString SessionConfig::decryptPassword(const QString &value)
 {
     if (value.left(1) != "*") return value;
 
-    QString res = "";
+    QString res;
 
     for(int i = 1; i < value.length(); i+=2)
     {
@@ -195,7 +195,7 @@ QString SessionConfig::decryptPassword(const QString &value)
 QString SessionConfig::rot13(const QString &value)
 {
     // adapted from "rot13.lua" by Benjamin "ben" Legros
-    QString res = "";
+    QString res;
 
     const char infLo = 'a';
     const char supLo = 'z';

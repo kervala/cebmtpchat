@@ -558,7 +558,7 @@ QStringList TokenFactory::split(const QString &message, QTextCodec *codec)
             if (trueMessage.length() > usedLength)
                 trueMessage = trueMessage.right(trueMessage.length() - usedLength);
             else
-                trueMessage = "";
+                trueMessage.clear();
         }
     }
 
