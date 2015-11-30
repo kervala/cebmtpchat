@@ -42,7 +42,7 @@ public:
     long int intValue() const { return _intValue; }
     bool boolValue() const { return _boolValue; }
 
-    bool isValid() const { return _name != ""; }
+    bool isValid() const { return !_name.isEmpty(); }
 
     void save(QDomElement &root) const;
 

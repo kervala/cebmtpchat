@@ -56,7 +56,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
 void FilterWidget::filterTextChanged(const QString &text)
 {
-	m_clearToolButton->setVisible(text != "");
+	m_clearToolButton->setVisible(!text.isEmpty());
 	GenericSortModel *proxyModel = getProxyModel();
 	if (!proxyModel)
 		return;

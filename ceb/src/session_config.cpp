@@ -157,7 +157,7 @@ BackupServer SessionConfig::nextBackupServer(const QString address, int port) co
 
         i++;
     }
-    if (address != "" && _backupServers.count() > 0)
+    if (!address.isEmpty() && _backupServers.count() > 0)
         return _backupServers[0];
 
     return BackupServer();

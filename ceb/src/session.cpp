@@ -77,7 +77,7 @@ void Session::start(const QString &address, int port)
     if (_config.manageBackupServers())
         newBackupServer = _config.nextBackupServer(_serverAddress, _serverPort);
 
-    if (address == "")
+    if (address.isEmpty())
     {
         if (!newBackupServer.isNull())
             _serverAddress = newBackupServer.address();
@@ -117,7 +117,7 @@ void Session::stop()
 
 QString Session::caption() const
 {
-    if (_config.name() != "")
+    if (!_config.name().isEmpty())
         return _config.name();
     else
         return QString("%1:%2").arg(serverAddress()).arg(serverPort());

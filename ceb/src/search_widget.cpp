@@ -94,7 +94,7 @@ void SearchWidget::lineEditTextChanged(const QString &text)
     QTextCursor cursor = _textWidget->textCursor();
     cursor.movePosition(QTextCursor::End);
     _textWidget->setTextCursor(cursor);
-    if (text != "" && !_textWidget->find(text, _findFlags | QTextDocument::FindBackward))
+    if (!text.isEmpty() && !_textWidget->find(text, _findFlags | QTextDocument::FindBackward))
     {
         QPalette palette = _lineEditSearch->palette();
         palette.setColor(QPalette::Base, QColor(255, 102, 102));

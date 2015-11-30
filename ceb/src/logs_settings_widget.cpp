@@ -100,7 +100,7 @@ void LogsSettingsWidget::on_radioButtonCustomDirectory_toggled(bool checked)
 	if (!_interactive)
 		return;
 
-    if (checked && lineEditCustomDirectory->text() == "")
+	if (checked && lineEditCustomDirectory->text().isEmpty())
     {
         QString dir = chooseDirectory(this);
         if (QDir(dir).exists())

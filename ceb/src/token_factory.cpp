@@ -831,7 +831,7 @@ void TokenFactory::doTokenAnalyzed(Token::Type tokenType, int ticketID, const QT
     QList<int> positions;
     for (int i = 0; i < regExp.capturedTexts().count(); ++i)
     {
-        if (regExp.cap(i) == "")
+        if (regExp.cap(i).isEmpty())
             positions << -1;
         else
             positions << regExp.pos(i);

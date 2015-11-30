@@ -126,7 +126,7 @@ void RenderSegmentList::segmentByURLs()
             toRemove--;
         }
         startSegment.setText(startSegment.text() + addedString);
-        if (cutString != "")
+        if (!cutString.isEmpty())
             endSegment.setText(cutString);
     }
 

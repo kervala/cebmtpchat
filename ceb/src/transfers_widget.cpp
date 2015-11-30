@@ -341,7 +341,7 @@ void TransfersWidget::acceptFile()
 
     // Ask for a directory to save
     QString dirPath = QFileDialog::getExistingDirectory(this, tr("Choose the directory where you want to save the transfered file"));
-    if (dirPath == "")
+    if (dirPath.isEmpty())
         return;
 
     transfer->setDstDirectory(dirPath);

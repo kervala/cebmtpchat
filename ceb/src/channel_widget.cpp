@@ -320,7 +320,7 @@ void ChannelWidget::newToken(const Token &token)
             if (config)
             {
                 config->setLogin(_session->serverLogin());
-                if (_manualPassword != "")
+                if (!_manualPassword.isEmpty())
                     config->setPassword(_manualPassword);
             }
         }
@@ -455,7 +455,7 @@ void ChannelWidget::newToken(const Token &token)
     case Token::HelpLine:
     {
         QString str = token.arguments()[1].trimmed();
-        if (_backupServersHelp && str != "")
+        if (_backupServersHelp && !str.isEmpty())
         {
             QStringList strLst = str.split(":");
 
@@ -877,7 +877,7 @@ void ChannelWidget::sendAFile()
 
     // Pick a file
     QString fileName = QFileDialog::getOpenFileName(this);
-    if (fileName == "")
+	if (fileName.isEmpty())
         return;
 
     TransfersManager::instance().propose(_session, nick, fileName);

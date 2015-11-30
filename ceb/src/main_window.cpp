@@ -1349,7 +1349,7 @@ void MainWindow::searchActionTriggered()
 void MainWindow::renameWidget(QWidget *widget, const QString &text)
 {
     QString caption = text;
-    if (text == "")
+	if (text.isEmpty())
     {
         SessionWidget *sessionWidget = qobject_cast<SessionWidget*>(widget);
         if (sessionWidget)

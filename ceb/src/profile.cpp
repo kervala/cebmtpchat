@@ -193,7 +193,7 @@ bool Profile::load()
     hideTabsForOne = XmlHandler::read(rootElem, "hide_tabs_for_one", true);
 
     // Load the language
-    if (language != "")
+    if (!language.isEmpty())
     {
         language = locale;
     }
@@ -373,7 +373,7 @@ bool Profile::load()
         do
         {
             line = stream.readLine().trimmed();
-            if (line != "")
+            if (!line.isEmpty())
                 persistentProperties << line;
         } while (!line.isNull());
 
@@ -390,7 +390,7 @@ bool Profile::load()
         do
         {
             line = stream.readLine().trimmed();
-            if (line != "")
+            if (!line.isEmpty())
                 persistentSessionProperties << line;
         } while (!line.isNull());
 
@@ -759,7 +759,7 @@ QString Profile::getAwaySeparator()
 
 QString Profile::getAwaySeparator(QString period, int length)
 {
-    if (period == "")
+    if (period.isEmpty())
         return "";
     QString str;
     int periodPos = 0;

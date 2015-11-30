@@ -338,14 +338,14 @@ void TextSkin::load(const QDomElement &root)
         QString colorStr = XmlHandler::read(mtpFontElem, "color", "");
 
         MtpFont mtpFont;
-        if (fontStr != "")
+        if (!fontStr.isEmpty())
         {
             QFont font;
             font.fromString(fontStr);
             mtpFont.setFont(font);
         }
 
-        if (colorStr != "")
+        if (!colorStr.isEmpty())
         {
             QColor color;
             color.setNamedColor(colorStr);
@@ -369,7 +369,7 @@ void TextSkin::load(const QDomElement &root)
     // Background color
     resetBackgroundColor();
     QString colorStr = XmlHandler::read(textSkinElem, "background_color", "");
-    if (colorStr != "")
+    if (!colorStr.isEmpty())
     {
         _backgroundColor = new QColor;
         _backgroundColor->setNamedColor(colorStr);
@@ -378,7 +378,7 @@ void TextSkin::load(const QDomElement &root)
     // Background away color
     resetAwayBackgroundColor();
     colorStr = XmlHandler::read(textSkinElem, "away_background_color", "");
-    if (colorStr != "")
+    if (!colorStr.isEmpty())
     {
         _awayBackgroundColor = new QColor;
         _awayBackgroundColor->setNamedColor(colorStr);
@@ -404,14 +404,14 @@ void TextSkin::load(const QDomElement &root)
         {
             TokenDisplayElement element;
             QString fontString = XmlHandler::read(displayElementElem, "font", "");
-            if (fontString != "")
+            if (!fontString.isEmpty())
             {
                 QFont font;
                 font.fromString(fontString);
                 element.setFont(font);
             }
             QString colorString = XmlHandler::read(displayElementElem, "color", "");
-            if (colorString != "")
+            if (!colorString.isEmpty())
             {
                 QColor color;
                 color.setNamedColor(colorString);
@@ -421,7 +421,7 @@ void TextSkin::load(const QDomElement &root)
             // "arg" attribute
             QString arg = displayElementElem.attribute("arg");
 
-            if (arg == "") // Entire line
+            if (arg.isEmpty()) // Entire line
                 tokenDisplay.setAllDisplayElement(element);
             else // Argument
             {

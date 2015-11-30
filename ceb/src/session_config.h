@@ -32,7 +32,7 @@ public:
 
     QString toString() const { return _address + ":" + QString::number(_port); }
 
-    bool isNull() const { return _address == ""; }
+    bool isNull() const { return _address.isEmpty(); }
 
 private:
     QString _address;

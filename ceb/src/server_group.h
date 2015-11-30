@@ -44,7 +44,7 @@ public:
     const QString &description() const { return _description; }
     void setDescription(const QString &value) { _description = value; }
 
-    bool isValid() const { return _name != ""; }
+    bool isValid() const { return !_name.isEmpty(); }
 
 private:
     QString _name;

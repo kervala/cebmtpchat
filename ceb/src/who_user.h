@@ -52,7 +52,7 @@ public:
 
     bool isAway() const { return !_idle.compare("*away*", Qt::CaseInsensitive); }
 
-    bool isValid() const { return _login != ""; }
+    bool isValid() const { return !_login.isEmpty(); }
 
     QString propertyByName(const QString &name) const;
 
