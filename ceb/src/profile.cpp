@@ -19,7 +19,6 @@
 #include "common.h"
 #include <xml_handler.h>
 
-#include "version.h"
 #include "global.h"
 #include "paths.h"
 #include "language_manager.h"
@@ -482,7 +481,7 @@ void Profile::save() const
     XmlHandler::write(rootElem, "tab_for_finger", tabForFinger);
 
     // Client version
-    XmlHandler::write(rootElem, "client_version", QString(UPDATE_VERSION));
+    XmlHandler::write(rootElem, "client_version", QApplication::applicationVersion());
 
     // Tray
     QDomElement trayElem = document.createElement("tray");

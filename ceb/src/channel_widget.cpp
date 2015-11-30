@@ -17,7 +17,6 @@
  */
 
 #include "common.h"
-#include "version.h"
 #include "profile.h"
 #include "token_info.h"
 #include "lua_utils.h"
@@ -644,7 +643,7 @@ void ChannelWidget::sessionLogged()
 
     // Send "set client"
     _setClientTicketID = _session->requestTicket(TokenFactory::Command_SetClient);
-    _session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(UPDATE_VERSION).arg(qVersion()).arg(compiler));
+	_session->sendCommand(QString("set client CeB %1 (Qt %2 %3)").arg(QApplication::applicationVersion()).arg(qVersion()).arg(compiler));
 
     // Send first groups command
     _groupsTicketID = _session->requestTicket(TokenFactory::Command_Groups);

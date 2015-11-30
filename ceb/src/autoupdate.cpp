@@ -18,10 +18,6 @@
 
 #include "common.h"
 #include "autoupdate.h"
-#include "version.h"
-
-#include "action.h"
-#include "paths.h"
 
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW

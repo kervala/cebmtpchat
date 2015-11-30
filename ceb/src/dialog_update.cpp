@@ -18,7 +18,6 @@
 
 #include "common.h"
 #include "dialog_update.h"
-#include "version.h"
 #include "autoupdate.h"
 #include "updater.h"
 

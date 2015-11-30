@@ -17,6 +17,7 @@
  */
 
 #include "common.h"
+#include "main_window.h"
 
 #ifdef Q_OS_WIN32
 #include <windows.h>
@@ -884,7 +885,7 @@ void MainWindow::showEvent(QShowEvent *)
         m_firstShow = false;
 
 #ifndef QT_PLUGIN
-        if (Profile::instance().clientVersion != UPDATE_VERSION)
+		if (Profile::instance().clientVersion != QApplication::applicationVersion())
             launchWhatsNew();
 
         // Default connect to
