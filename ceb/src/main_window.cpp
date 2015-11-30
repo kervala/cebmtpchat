@@ -19,11 +19,6 @@
 #include "common.h"
 #include "main_window.h"
 
-#ifdef Q_OS_WIN32
-#include <windows.h>
-#endif
-
-#include "version.h"
 #include "dialog_settings.h"
 #include "dialog_about.h"
 #include "dialog_session_config.h"
@@ -38,8 +33,6 @@
 #include "my_textedit.h"
 #include "dialog_broadcast.h"
 #include "updater.h"
-
-#include "main_window.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

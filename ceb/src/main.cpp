@@ -28,6 +28,7 @@
 #else
 #define PRODUCT "CeB"
 #define AUTHOR "MeltingPot"
+#define VERSION "1.2"
 #endif
 
 #ifdef QT_STATICPLUGIN
