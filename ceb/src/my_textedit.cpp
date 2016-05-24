@@ -37,7 +37,7 @@
 #define new DEBUG_NEW
 #endif
 
-MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), networkManager(NULL), lastReply(NULL), m_allowFilters(false), progressDialog(NULL)
+MyTextEdit::MyTextEdit(QWidget *parent) : UrlTextEdit(parent), filterTextEdit(NULL), progressDialog(NULL), networkManager(NULL), lastReply(NULL), m_allowFilters(false)
 {
     networkManager = new QNetworkAccessManager(this);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(ftpCommandFinished(QNetworkReply*)));
