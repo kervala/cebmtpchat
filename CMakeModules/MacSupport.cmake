@@ -201,34 +201,6 @@ ENDMACRO()
 
 MACRO(SET_TARGET_FLAGS_MAC _TARGET)
   IF(APPLE)
-    IF(XCODE)
-      IF(IOS AND IOS_VERSION)
-        SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES
-          XCODE_ATTRIBUTE_ENABLE_TESTABILITY[variant=Debug] YES
-          XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
-          XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_VERSION}
-          XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2"
-          XCODE_ATTRIBUTE_ARCHS "armv7 arm64" # armv6 armv7 armv7s arm64
-          XCODE_ATTRIBUTE_VALID_ARCHS "armv7 arm64" # armv6 armv7 armv7s arm64
-          XCODE_ATTRIBUTE_VALIDATE_PRODUCT YES
-        )
-      ENDIF()
-
-      IF(WITH_VISIBILITY_HIDDEN)
-        SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES
-          XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
-          XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES)
-      ENDIF()
-
-      IF(NOT WITH_EXCEPTIONS)
-        SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES XCODE_ATTRIBUTE_GCC_ENABLE_CPP_EXCEPTIONS NO)
-      ENDIF()
-
-      IF(NOT WITH_RTTI)
-        SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES XCODE_ATTRIBUTE_GCC_ENABLE_CPP_RTTI NO)
-      ENDIF()
-    ENDIF()
-
     GET_TARGET_PROPERTY(type ${_TARGET} TYPE)
 
     IF("${type}" STREQUAL "EXECUTABLE")
@@ -236,8 +208,10 @@ MACRO(SET_TARGET_FLAGS_MAC _TARGET)
         IF(MACOSX_BUNDLE_GUI_IDENTIFIER)
           SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES
             XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES NO
-            XCODE_ATTRIBUTE_ENABLE_BITCODE NO
+            XCODE_ATTRIBUTE_ENABLE_BITCODE YES
             XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "${MACOSX_BUNDLE_GUI_IDENTIFIER}"
+            XCODE_ATTRIBUTE_SKIP_INSTALL NO
+            XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
           )
         ENDIF()
       ENDIF()
@@ -245,11 +219,10 @@ MACRO(SET_TARGET_FLAGS_MAC _TARGET)
       IF(XCODE)
         SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES
           XCODE_ATTRIBUTE_ENABLE_BITCODE YES
-          XCODE_ATTRIBUTE_SKIP_INSTALL YES
         )
       ELSEIF(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.1.1")
         # Add bitcode for compatibility with new Xcode versions
-        TARGET_COMPILE_OPTIONS(${_TARGET} PRIVATE "-fembed-bitcode-marker")
+        TARGET_COMPILE_OPTIONS(${_TARGET} PRIVATE "-fembed-bitcode")
       ENDIF()
     ENDIF()
   ENDIF()
@@ -257,6 +230,8 @@ ENDMACRO()
 
 MACRO(INIT_BUILD_FLAGS_MAC)
   IF(APPLE)
+    SET(OBJC_FLAGS -fobjc-abi-version=2 -fobjc-legacy-dispatch -fobjc-weak)
+
     IF(IOS)
       # Disable CMAKE_OSX_DEPLOYMENT_TARGET for iOS
       SET(CMAKE_OSX_DEPLOYMENT_TARGET "" CACHE PATH "" FORCE)
@@ -266,6 +241,34 @@ MACRO(INIT_BUILD_FLAGS_MAC)
       IF(IOS)
         SET(CMAKE_OSX_SYSROOT "iphoneos" CACHE PATH "" FORCE)
       ENDIF()
+
+      IF(IOS AND IOS_VERSION)
+        SET(CMAKE_XCODE_ATTRIBUTE_ENABLE_TESTABILITY[variant=Debug] YES)
+        SET(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_VERSION})
+        SET(CMAKE_XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2")
+        SET(CMAKE_XCODE_ATTRIBUTE_ARCHS "armv7 arm64") # armv6 armv7 armv7s arm64
+        SET(CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS "armv7 arm64") # armv6 armv7 armv7s arm64
+        SET(CMAKE_XCODE_ATTRIBUTE_VALIDATE_PRODUCT YES)
+        SET(CMAKE_XCODE_ATTRIBUTE_SKIP_INSTALL YES)
+      ENDIF()
+
+      IF(WITH_VISIBILITY_HIDDEN)
+        SET(CMAKE_XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES)
+        SET(CMAKE_XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES)
+      ENDIF()
+
+      IF(NOT WITH_EXCEPTIONS)
+        SET(CMAKE_XCODE_ATTRIBUTE_GCC_ENABLE_CPP_EXCEPTIONS NO)
+      ENDIF()
+
+      IF(NOT WITH_RTTI)
+        SET(CMAKE_XCODE_ATTRIBUTE_GCC_ENABLE_CPP_RTTI NO)
+      ENDIF()
+
+      SET(CMAKE_XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_WEAK YES)
+      SET(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+      SET(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+      SET(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT dwarf)
     ELSE()
       IF(CMAKE_OSX_ARCHITECTURES)
         SET(TARGETS_COUNT 0)
@@ -427,7 +430,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
 
             ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
             ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
           ENDIF()
 
           IF(TARGET_ARMV7S)
@@ -437,7 +440,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
 
             ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
             ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
           ENDIF()
 
           IF(TARGET_ARMV7)
@@ -447,7 +450,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
 
             ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
             ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
           ENDIF()
 
           IF(TARGET_ARMV6)
@@ -457,7 +460,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
 
             ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
             ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
           ENDIF()
         ENDIF()
 
@@ -471,7 +474,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
             ADD_PLATFORM_FLAGS("${XARCH}-mios-simulator-version-min=${IOS_VERSION}")
 
             IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
             ENDIF()
           ENDIF()
 
@@ -484,7 +487,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
             ADD_PLATFORM_FLAGS("${XARCH}-mios-simulator-version-min=${IOS_VERSION}")
 
             IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
             ENDIF()
           ENDIF()
         ENDIF()
@@ -492,13 +495,21 @@ MACRO(INIT_BUILD_FLAGS_MAC)
         # Always force -mmacosx-version-min to override environement variable
         # __MAC_OS_X_VERSION_MIN_REQUIRED
         IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-          SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+          IF(CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS "10.7")
+            MESSAGE(FATAL_ERROR "Minimum target for OS X is 10.7 but you're using ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+          ENDIF()
+
+          ADD_PLATFORM_LINKFLAGS("-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
         ENDIF()
       ENDIF()
+
+      # use libc++ under OX X to be able to use new C++ features (and else it'll use GCC 4.2.1 STL)
+      # minimum target is now OS X 10.7
+      SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} -stdlib=libc++")
     ENDIF()
 
-    # Keep all static Objective-C symbols
-    SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -ObjC")
+    # Keep all static Objective-C symbols and disable all warnings (too verbose)
+    ADD_PLATFORM_LINKFLAGS("-ObjC -w")
   ENDIF()
 ENDMACRO()
 
@@ -666,28 +677,57 @@ MACRO(CREATE_IOS_PACKAGE_TARGET _TARGET)
         LIST(APPEND _COMMANDS COMMAND cp -p "${MAC_ITUNESARTWORK2X}" "${IPA_DIR}/iTunesArtwork@2x")
       ENDIF()
 
-      ADD_CUSTOM_TARGET(${_TARGET}_package
-        COMMAND rm -rf "${OUTPUT_DIR}/Contents"
-        COMMAND mkdir -p "${IPA_DIR}/Payload"
-        COMMAND strip "${CONTENTS_DIR}/${PRODUCT_FIXED}"
-        COMMAND security unlock-keychain -p "${KEYCHAIN_PASSWORD}"
-        COMMAND CODESIGN_ALLOCATE=${CMAKE_IOS_DEVELOPER_ROOT}/usr/bin/codesign_allocate codesign -fs "${IOS_DISTRIBUTION}" --entitlements "${CMAKE_BINARY_DIR}/application-${_TARGET}.xcent" "${CONTENTS_DIR}"
-        COMMAND cp -pr "${OUTPUT_DIR}" "${IPA_DIR}/Payload"
-        COMMAND cp -p "${MAC_ITUNESARTWORK}" "${IPA_DIR}/iTunesArtwork"
-        ${_COMMANDS}
-        COMMAND ditto -c -k "${IPA_DIR}" "${IPA}"
-        COMMAND rm -rf "${IPA_DIR}"
-        COMMENT "Creating IPA archive..."
-        SOURCES ${MAC_ITUNESARTWORK}
-        VERBATIM)
-      ADD_DEPENDENCIES(${_TARGET}_package ${_TARGET})
-      SET_TARGET_LABEL(${_TARGET}_package "${_TARGET} PACKAGE")
+      # Find codesign_allocate
 
-      IF(NOT TARGET packages)
-        ADD_CUSTOM_TARGET(packages)
+      # Xcode 7.0 and later versions
+      SET(CODESIGN_ALLOCATE ${CMAKE_XCODE_ROOT}/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate)
+
+      IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+        # Command-line version
+        SET(CODESIGN_ALLOCATE /Library/Developer/CommandLineTools/usr/bin/codesign_allocate)
       ENDIF()
 
-      ADD_DEPENDENCIES(packages ${_TARGET}_package)
+      IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+        # Developer tools
+        SET(CODESIGN_ALLOCATE /usr/libexec/DeveloperTools/codesign_allocate)
+      ENDIF()
+
+      IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+        # Xcode 6.4 and previous versions
+        SET(CODESIGN_ALLOCATE ${CMAKE_IOS_DEVELOPER_ROOT}/usr/bin/codesign_allocate)
+      ENDIF()
+
+      IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+        # System path
+        SET(CODESIGN_ALLOCATE /usr/bin/codesign_allocate)
+      ENDIF()
+
+      IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+        MESSAGE(WARNING "Unable to find codesign_allocate in standard directories")
+      ELSE()
+        ADD_CUSTOM_TARGET(${_TARGET}_package
+          COMMAND rm -rf "${OUTPUT_DIR}/Contents"
+          COMMAND mkdir -p "${IPA_DIR}/Payload"
+          COMMAND strip "${CONTENTS_DIR}/${PRODUCT_FIXED}"
+          COMMAND security unlock-keychain -p "${KEYCHAIN_PASSWORD}" "/Users/buildbot/Library/Keychains/login.keychain"
+          COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${IOS_DISTRIBUTION}" --entitlements "${CMAKE_BINARY_DIR}/application-${_TARGET}.xcent" "${CONTENTS_DIR}"
+          COMMAND cp -pr "${OUTPUT_DIR}" "${IPA_DIR}/Payload"
+          COMMAND cp -p "${MAC_ITUNESARTWORK}" "${IPA_DIR}/iTunesArtwork"
+          ${_COMMANDS}
+          COMMAND ditto -c -k "${IPA_DIR}" "${IPA}"
+          COMMAND rm -rf "${IPA_DIR}"
+          COMMENT "Creating IPA archive..."
+          SOURCES ${MAC_ITUNESARTWORK}
+          VERBATIM)
+        ADD_DEPENDENCIES(${_TARGET}_package ${_TARGET})
+        SET_TARGET_LABEL(${_TARGET}_package "${_TARGET} PACKAGE")
+
+        IF(NOT TARGET packages)
+          ADD_CUSTOM_TARGET(packages)
+        ENDIF()
+
+        ADD_DEPENDENCIES(packages ${_TARGET}_package)
+      ENDIF()
     ENDIF()
   ENDIF()
 ENDMACRO()

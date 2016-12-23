@@ -45,94 +45,119 @@ ELSE()
   ENDIF()
 ENDIF()
 
+MACRO(APPEND_DEFINITION _NAME _VAL)
+  IF(CMAKE_VERSION VERSION_LESS "2.8.12")
+    # don't support logical expressions, append definition
+    LIST(APPEND ${_NAME} "-D${_VAL}")
+  ELSE()
+    # support logical expressions, use them
+    LIST(APPEND ${_NAME} "$<$<BOOL:${_VAL}>:-D$<JOIN:${_VAL},-D>>")
+  ENDIF()
+ENDMACRO()
+
 # Set PCH_FLAGS for common flags, PCH_ARCH_XXX_FLAGS for specific archs flags and PCH_ARCHS for archs
 MACRO(PCH_SET_COMPILE_FLAGS _target)
   SET(PCH_FLAGS)
   SET(PCH_ARCHS)
 
   SET(_FLAGS)
-  LIST(APPEND _FLAGS ${CMAKE_CXX_FLAGS})
 
+  # C++ flags
+  SET(_FLAG ${CMAKE_CXX_FLAGS})
+  SEPARATE_ARGUMENTS(_FLAG)
+
+  LIST(APPEND _FLAGS ${_FLAG})
+
+  # C++ config flags
   STRING(TOUPPER "${CMAKE_BUILD_TYPE}" _UPPER_BUILD)
-  LIST(APPEND _FLAGS " ${CMAKE_CXX_FLAGS_${_UPPER_BUILD}}")
+
+  SET(_FLAG ${CMAKE_CXX_FLAGS_${_UPPER_BUILD}})
+  SEPARATE_ARGUMENTS(_FLAG)
+
+  LIST(APPEND _FLAGS ${_FLAG})
 
   GET_TARGET_PROPERTY(_targetType ${_target} TYPE)
 
-  SET(_USE_PIE OFF)
+  SET(_USE_PIC OFF)
 
   IF(${_targetType} STREQUAL "SHARED_LIBRARY" OR ${_targetType} STREQUAL "MODULE_LIBRARY")
-    LIST(APPEND _FLAGS " ${CMAKE_SHARED_LIBRARY_CXX_FLAGS}")
+    SET(_FLAG ${CMAKE_SHARED_LIBRARY_CXX_FLAGS})
+    SEPARATE_ARGUMENTS(_FLAG)
+    LIST(APPEND _FLAGS ${_FLAG})
   ELSE()
     GET_TARGET_PROPERTY(_pic ${_target} POSITION_INDEPENDENT_CODE)
-    MESSAGE(STATUS "Target ${_target} is using PIE")
     IF(_pic)
-      SET(_USE_PIE ON)
+      SET(_USE_PIC ON)
     ENDIF()
   ENDIF()
 
   GET_DIRECTORY_PROPERTY(DIRINC INCLUDE_DIRECTORIES)
   FOREACH(item ${DIRINC})
-    LIST(APPEND _FLAGS " -I\"${item}\"")
+    LIST(APPEND _FLAGS -I"${item}")
   ENDFOREACH()
+
+  # NOTE: As cmake files (eg FindQT4) may now use generator expressions around their defines that evaluate
+  #       to an empty string, wrap all "items" in an expression that outputs a -D IFF the generated
+  #       expression is not empty.
 
   # Required for CMake 2.6
   SET(GLOBAL_DEFINITIONS)
   GET_DIRECTORY_PROPERTY(DEFINITIONS COMPILE_DEFINITIONS)
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
   GET_DIRECTORY_PROPERTY(DEFINITIONS COMPILE_DEFINITIONS_${_UPPER_BUILD})
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
   GET_DIRECTORY_PROPERTY(DEFINITIONS DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS)
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
   GET_DIRECTORY_PROPERTY(DEFINITIONS DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS_${_UPPER_BUILD})
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
   GET_TARGET_PROPERTY(oldProps ${_target} COMPILE_FLAGS)
   IF(oldProps)
-    LIST(APPEND _FLAGS " ${oldProps}")
+    LIST(APPEND _FLAGS ${oldProps})
   ENDIF()
 
   GET_TARGET_PROPERTY(oldPropsBuild ${_target} COMPILE_FLAGS_${_UPPER_BUILD})
   IF(oldPropsBuild)
-    LIST(APPEND _FLAGS " ${oldPropsBuild}")
+    LIST(APPEND _FLAGS ${oldPropsBuild})
   ENDIF()
 
   GET_TARGET_PROPERTY(DIRINC ${_target} INCLUDE_DIRECTORIES)
   IF(DIRINC)
     FOREACH(item ${DIRINC})
-      LIST(APPEND _FLAGS " -I\"${item}\"")
+      LIST(APPEND _FLAGS -I"${item}")
     ENDFOREACH()
   ENDIF()
 
   GET_TARGET_PROPERTY(DEFINITIONS ${_target} COMPILE_DEFINITIONS)
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
   GET_TARGET_PROPERTY(DEFINITIONS ${_target} COMPILE_DEFINITIONS_${_UPPER_BUILD})
   IF(DEFINITIONS)
     FOREACH(item ${DEFINITIONS})
-      LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
+      APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
     ENDFOREACH()
   ENDIF()
 
@@ -145,7 +170,7 @@ MACRO(PCH_SET_COMPILE_FLAGS _target)
 
         IF(_DIRS)
           FOREACH(item ${_DIRS})
-            LIST(APPEND GLOBAL_DEFINITIONS " -I\"${item}\"")
+            LIST(APPEND GLOBAL_DEFINITIONS -I"${item}")
           ENDFOREACH()
         ENDIF()
 
@@ -154,48 +179,58 @@ MACRO(PCH_SET_COMPILE_FLAGS _target)
 
         IF(_DEFINITIONS)
           FOREACH(item ${_DEFINITIONS})
-            # don't use dynamic expressions
-            IF(NOT item MATCHES "\\$<")
-              LIST(APPEND GLOBAL_DEFINITIONS " -D${item}")
-            ENDIF()
+            APPEND_DEFINITION(GLOBAL_DEFINITIONS ${item})
           ENDFOREACH()
         ENDIF()
       ENDIF()
     ENDFOREACH()
   ENDIF()
 
-  # Hack to define missing QT_NO_DEBUG with Qt 5.2
-  IF(USE_QT5 AND _UPPER_BUILD STREQUAL "RELEASE")
-    LIST(APPEND GLOBAL_DEFINITIONS " -DQT_NO_DEBUG")
-  ENDIF()
+  # Special Qt 5 cases
+  IF(GLOBAL_DEFINITIONS MATCHES "QT_CORE_LIB")
+    # Hack to define missing QT_NO_DEBUG with Qt 5.2
+    IF(_UPPER_BUILD STREQUAL "RELEASE")
+      LIST(APPEND GLOBAL_DEFINITIONS "-DQT_NO_DEBUG")
+    ENDIF()
 
-  # Qt5_POSITION_INDEPENDENT_CODE should be true if Qt was compiled with PIE
-  IF(Qt5_POSITION_INDEPENDENT_CODE)
-    SET(_USE_PIE ON)
-  ENDIF()
+    # Qt5_POSITION_INDEPENDENT_CODE should be true if Qt was compiled with PIC
+    IF(Qt5_POSITION_INDEPENDENT_CODE)
+      SET(_USE_PIC ON)
+    ENDIF()
 
-  IF(_USE_PIE)
-    LIST(APPEND _FLAGS " ${CMAKE_CXX_COMPILE_OPTIONS_PIE}")
-    LIST(APPEND _FLAGS " ${CMAKE_CXX_COMPILE_OPTIONS_PIC}")
+    IF(_USE_PIC)
+      LIST(APPEND _FLAGS ${CMAKE_CXX_COMPILE_OPTIONS_PIC})
+    ENDIF()
   ENDIF()
-
-  LIST(APPEND _FLAGS " ${GLOBAL_DEFINITIONS}")
 
   IF(CMAKE_VERSION VERSION_LESS "3.3.0")
-    GET_DIRECTORY_PROPERTY(_directory_flags DEFINITIONS)
-    GET_DIRECTORY_PROPERTY(_directory_definitions DIRECTORY ${CMAKE_SOURCE_DIR} DEFINITIONS)
-    LIST(APPEND _FLAGS " ${_directory_flags}")
-    LIST(APPEND _FLAGS " ${_directory_definitions}")
+    GET_DIRECTORY_PROPERTY(_DIRECTORY_FLAGS DEFINITIONS)
+
+    IF(_DIRECTORY_FLAGS)
+      SEPARATE_ARGUMENTS(_DIRECTORY_FLAGS)
+      FOREACH(item ${_DIRECTORY_FLAGS})
+        LIST(APPEND _FLAGS "${item}")
+      ENDFOREACH()
+    ENDIF()
+
+    GET_DIRECTORY_PROPERTY(_DIRECTORY_DEFINITIONS DIRECTORY ${CMAKE_SOURCE_DIR} DEFINITIONS)
+
+    IF(_DIRECTORY_DEFINITIONS)
+      SEPARATE_ARGUMENTS(_DIRECTORY_DEFINITIONS)
+      FOREACH(item ${_DIRECTORY_DEFINITIONS})
+        LIST(APPEND _FLAGS "${item}")
+      ENDFOREACH()
+    ENDIF()
   ENDIF()
 
   # Format definitions
   IF(MSVC)
     # Fix path with space
     SEPARATE_ARGUMENTS(_FLAGS UNIX_COMMAND "${_FLAGS}")
-  ELSE()
-    STRING(REGEX REPLACE " +" " " _FLAGS ${_FLAGS})
-    SEPARATE_ARGUMENTS(_FLAGS)
   ENDIF()
+
+  # Already in list form and items may contain non-leading spaces that should not be split on
+  LIST(INSERT _FLAGS 0 "${GLOBAL_DEFINITIONS}")
 
   IF(CLANG)
     # Determining all architectures and get common flags
@@ -253,6 +288,7 @@ MACRO(PCH_SET_COMPILE_FLAGS _target)
   ENDIF()
 
   IF(PCH_FLAGS)
+    LIST(REMOVE_ITEM PCH_FLAGS "")
     LIST(REMOVE_DUPLICATES PCH_FLAGS)
   ENDIF()
 ENDMACRO()
@@ -277,7 +313,7 @@ MACRO(PCH_SET_COMPILE_COMMAND _inputcpp _compile_FLAGS)
     SET(_FLAGS "")
     IF(APPLE)
       SET(HEADER_FORMAT "objective-${HEADER_FORMAT}")
-      SET(_FLAGS -fobjc-abi-version=2 -fobjc-legacy-dispatch)
+      SET(_FLAGS ${OBJC_FLAGS})
     ENDIF()
     SET(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${pchsupport_compiler_cxx_arg1} ${_compile_FLAGS} ${_FLAGS} -x ${HEADER_FORMAT} -o ${PCH_OUTPUT} -c ${PCH_INPUT})
   ENDIF()
@@ -363,7 +399,8 @@ MACRO(ADD_PRECOMPILED_HEADER_TO_TARGET _targetName)
     ENDIF()
 
     IF(APPLE)
-      SET(PCH_ADDITIONAL_COMPILER_FLAGS "-fobjc-abi-version=2 -fobjc-legacy-dispatch -x objective-c++ ${PCH_ADDITIONAL_COMPILER_FLAGS}")
+      STRING(REPLACE ";" " " OBJC_FLAGS_STR "${OBJC_FLAGS}")
+      SET(PCH_ADDITIONAL_COMPILER_FLAGS "${OBJC_FLAGS_STR} -x objective-c++ ${PCH_ADDITIONAL_COMPILER_FLAGS}")
     ENDIF()
 
     IF(WITH_PCH_DEBUG)
@@ -438,53 +475,52 @@ MACRO(ADD_PRECOMPILED_HEADER _targetName _inputh _inputcpp)
 ENDMACRO()
 
 MACRO(ADD_NATIVE_PRECOMPILED_HEADER _targetName _inputh _inputcpp)
-  IF(NOT PCHSupport_FOUND)
-    MESSAGE(STATUS "PCH disabled because compiler doesn't support them")
-    RETURN()
-  ENDIF()
-
-  # 0 => creating a new target for PCH, works for all makefiles
-  # 1 => setting PCH for VC++ project, works for VC++ projects
-  # 2 => setting PCH for XCode project, works for XCode projects
-  IF(CMAKE_GENERATOR MATCHES "Visual Studio")
-    SET(PCH_METHOD 1)
-  ELSEIF(CMAKE_GENERATOR MATCHES "Xcode")
-    SET(PCH_METHOD 2)
-  ELSE()
-    SET(PCH_METHOD 0)
-  ENDIF()
-
-  IF(PCH_METHOD EQUAL 1)
-    # Auto include the precompile (useful for moc processing, since the use of
-    # precompiled is specified at the target level
-    # and I don't want to specifiy /F- for each moc/res/ui generated files (using Qt)
-
-    GET_TARGET_PROPERTY(oldProps ${_targetName} COMPILE_FLAGS)
-    IF(${oldProps} MATCHES NOTFOUND)
-      SET(oldProps "")
+  IF(PCHSupport_FOUND)
+    # 0 => creating a new target for PCH, works for all makefiles
+    # 1 => setting PCH for VC++ project, works for VC++ projects
+    # 2 => setting PCH for XCode project, works for XCode projects
+    IF(CMAKE_GENERATOR MATCHES "Visual Studio")
+      SET(PCH_METHOD 1)
+    ELSEIF(CMAKE_GENERATOR MATCHES "Xcode")
+      SET(PCH_METHOD 2)
+    ELSE()
+      SET(PCH_METHOD 0)
     ENDIF()
 
-    SET(newProperties "${oldProps} /Yu\"${_inputh}\" /FI\"${_inputh}\"")
-    SET_TARGET_PROPERTIES(${_targetName} PROPERTIES COMPILE_FLAGS "${newProperties}")
+    IF(PCH_METHOD EQUAL 1)
+      # Auto include the precompile (useful for moc processing, since the use of
+      # precompiled is specified at the target level
+      # and I don't want to specifiy /F- for each moc/res/ui generated files (using Qt)
 
-    #also inlude ${oldProps} to have the same compile options
-    SET_SOURCE_FILES_PROPERTIES(${_inputcpp} PROPERTIES COMPILE_FLAGS "${oldProps} /Yc\"${_inputh}\"")
-  ELSEIF(PCH_METHOD EQUAL 2)
-    # For Xcode, cmake needs my patch to process
-    # GCC_PREFIX_HEADER and GCC_PRECOMPILE_PREFIX_HEADER as target properties
+      GET_TARGET_PROPERTY(oldProps ${_targetName} COMPILE_FLAGS)
+      IF(${oldProps} MATCHES NOTFOUND)
+        SET(oldProps "")
+      ENDIF()
 
-    # When buiding out of the tree, precompiled may not be located
-    # Use full path instead.
-    GET_FILENAME_COMPONENT(fullPath ${_inputh} ABSOLUTE)
+      SET(newProperties "${oldProps} /Yu\"${_inputh}\" /FI\"${_inputh}\"")
+      SET_TARGET_PROPERTIES(${_targetName} PROPERTIES COMPILE_FLAGS "${newProperties}")
 
-    SET_TARGET_PROPERTIES(${_targetName} PROPERTIES XCODE_ATTRIBUTE_GCC_PREFIX_HEADER "${fullPath}")
-    SET_TARGET_PROPERTIES(${_targetName} PROPERTIES XCODE_ATTRIBUTE_GCC_PRECOMPILE_PREFIX_HEADER "YES")
+      #also inlude ${oldProps} to have the same compile options
+      SET_SOURCE_FILES_PROPERTIES(${_inputcpp} PROPERTIES COMPILE_FLAGS "${oldProps} /Yc\"${_inputh}\"")
+    ELSEIF(PCH_METHOD EQUAL 2)
+      # For Xcode, cmake needs my patch to process
+      # GCC_PREFIX_HEADER and GCC_PRECOMPILE_PREFIX_HEADER as target properties
+
+      # When buiding out of the tree, precompiled may not be located
+      # Use full path instead.
+      GET_FILENAME_COMPONENT(fullPath ${_inputh} ABSOLUTE)
+
+      SET_TARGET_PROPERTIES(${_targetName} PROPERTIES XCODE_ATTRIBUTE_GCC_PREFIX_HEADER "${fullPath}")
+      SET_TARGET_PROPERTIES(${_targetName} PROPERTIES XCODE_ATTRIBUTE_GCC_PRECOMPILE_PREFIX_HEADER "YES")
+    ELSE()
+      #Fallback to the "old" precompiled suppport
+      ADD_PRECOMPILED_HEADER(${_targetName} ${_inputh} ${_inputcpp})
+    ENDIF()
+
+    IF(TARGET ${_targetName}_static)
+      ADD_NATIVE_PRECOMPILED_HEADER(${_targetName}_static ${_inputh} ${_inputcpp})
+    ENDIF()
   ELSE()
-    #Fallback to the "old" precompiled suppport
-    ADD_PRECOMPILED_HEADER(${_targetName} ${_inputh} ${_inputcpp})
-  ENDIF()
-
-  IF(TARGET ${_targetName}_static)
-    ADD_NATIVE_PRECOMPILED_HEADER(${_targetName}_static ${_inputh} ${_inputcpp})
+    MESSAGE(STATUS "PCH disabled because compiler doesn't support them")
   ENDIF()
 ENDMACRO()
