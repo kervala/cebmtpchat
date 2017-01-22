@@ -51,6 +51,8 @@
 #include <QtWidgets/QtWidgets>
 #include <QtConcurrent/QtConcurrent>
 #include <QtMultimedia/QtMultimedia>
+#else
+#include <QtScript/QtScript>
 #endif
 
 extern "C" {
