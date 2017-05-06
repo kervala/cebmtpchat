@@ -567,7 +567,7 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
 
               TARGET_LINK_LIBRARIES(${_TARGET} -lfontconfig)
 
-              LINK_QT_LIBRARY(DBus)
+              LINK_QT_LIBRARY(${_TARGET} DBus)
             ENDIF()
 
             LINK_QT_PLUGIN(${_TARGET} imageformats qgif)
@@ -595,7 +595,7 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
               SET(FREETYPE_LIBRARY "${QT_LIBRARY_DIR}/libqtfreetype.a")
 
               IF(NOT EXISTS ${FREETYPE_LIBRARY})
-                FIND_PACKAGE(FreeType)
+                FIND_PACKAGE(Freetype)
               ENDIF()
             ENDIF()
 
