@@ -288,12 +288,12 @@ MACRO(COMPILE_QT_UIS)
   ENDIF()
 ENDMACRO()
 
-MACRO(COMPILE_QT_HEADERS _TARGET)
+MACRO(COMPILE_QT_HEADERS)
   IF(USE_QT)
     # CMake supports automoc since version 2.8.6
     IF(CMAKE_VERSION VERSION_GREATER "2.8.5" AND CMAKE_AUTOMOC)
-      SET(QT_MOCS_CPPS "${CMAKE_CURRENT_BINARY_DIR}/${_TARGET}_automoc.cpp")
-      SET_SOURCE_FILES_PROPERTIES(${QT_MOCS_CPPS} PROPERTIES GENERATED TRUE)
+ #      SET(QT_MOCS_CPPS "${CMAKE_CURRENT_BINARY_DIR}/${_TARGET}_autogen/moc_compilation.cpp")
+ #     SET_SOURCE_FILES_PROPERTIES(${QT_MOCS_CPPS} PROPERTIES GENERATED TRUE)
     ELSE()
       SET(_FILES "${ARGN}")
       IF(_FILES)
@@ -458,8 +458,13 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
         FOREACH(_MODULE ${QT_MODULES_USED})
           IF(_MODULE STREQUAL "Core")
             IF(APPLE)
-              # pcre is needed since Qt 5.5
-              SET(PCRE_LIBRARY "${QT_LIBRARY_DIR}/libqtpcre.a")
+              IF(QT_VERSION GREATER "5.8")
+                # pcre2 is needed since Qt 5.5
+                SET(PCRE_LIBRARY "${QT_LIBRARY_DIR}/libqtpcre2.a")
+              ELSE()
+                # pcre is needed since Qt 5.5
+                SET(PCRE_LIBRARY "${QT_LIBRARY_DIR}/libqtpcre.a")
+              ENDIF()
 
               IF(NOT EXISTS ${PCRE_LIBRARY})
                 FIND_LIBRARY(PCRE_LIBRARY pcre16 pcre)
@@ -479,10 +484,20 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
                 ${CARBON_FRAMEWORK}
                 ${SECURITY_FRAMEWORK})
             ELSEIF(WIN32)
-              SET(PCRE_LIB "${QT_LIBRARY_DIR}/qtpcre.lib")
+              IF(QT_VERSION GREATER "5.8")
+                # pcre2 is needed since Qt 5.5
+                SET(PCRE_LIB "${QT_LIBRARY_DIR}/qtpcre2.lib")
+              ELSE()
+                # pcre is needed since Qt 5.5
+                SET(PCRE_LIB "${QT_LIBRARY_DIR}/qtpcre.lib")
+              ENDIF()
 
               IF(EXISTS ${PCRE_LIB})
                 TARGET_LINK_LIBRARIES(${_TARGET} ${PCRE_LIB})
+              ENDIF()
+
+              IF(QT_VERSION GREATER "5.8")
+                TARGET_LINK_LIBRARIES(${_TARGET} Version.lib)
               ENDIF()
             ELSEIF(UNIX)
               # pcre is needed since Qt 5.5
@@ -495,8 +510,6 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
               IF(NOT EXISTS ${PCRE_LIBRARY})
                 MESSAGE(FATAL_ERROR "PCRE is required since Qt 5.5")
               ENDIF()
-
-              SET(QT_LIBRARIES ${QT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} -ldl -lrt)
 
               TARGET_LINK_LIBRARIES(${_TARGET} ${PCRE_LIBRARY} -ldl -lrt)
             ENDIF()
@@ -521,6 +534,10 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
 
             LINK_QT_LIBRARY(${_TARGET} PrintSupport)
             LINK_QT_LIBRARY(${_TARGET} PlatformSupport)
+            LINK_QT_LIBRARY(${_TARGET} FontDatabaseSupport)
+            LINK_QT_LIBRARY(${_TARGET} EventDispatcherSupport)
+            LINK_QT_LIBRARY(${_TARGET} ThemeSupport)
+            LINK_QT_LIBRARY(${_TARGET} AccessibilitySupport)
 
             IF(WIN32)
               TARGET_LINK_LIBRARIES(${_TARGET}
@@ -530,6 +547,10 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
 
               LINK_QT_PLUGIN(${_TARGET} printsupport windowsprintersupport)
               LINK_QT_PLUGIN(${_TARGET} platforms qwindows)
+
+              IF(WIN32 AND QT_VERSION GREATER "5.8")
+                TARGET_LINK_LIBRARIES(${_TARGET} Dwmapi.lib)
+              ENDIF()
             ELSEIF(APPLE)
               # Cups needs .dylib
               SET(OLD_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
@@ -577,11 +598,20 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
             LINK_QT_PLUGIN(${_TARGET} imageformats qmng)
             LINK_QT_PLUGIN(${_TARGET} imageformats qwebp)
 
-            # harfbuzz is needed since Qt 5.3
-            IF(WIN32)
-              SET(HB_LIB "${QT_LIBRARY_DIR}/qtharfbuzzng.lib")
+            IF(QT_VERSION GREATER "5.8")
+              # harfbuzz is needed since Qt 5.9
+              IF(WIN32)
+                SET(HB_LIB "${QT_LIBRARY_DIR}/qtharfbuzz.lib")
+              ELSE()
+                SET(HB_LIB "${QT_LIBRARY_DIR}/libqtharfbuzz.a")
+              ENDIF()
             ELSE()
-              SET(HB_LIB "${QT_LIBRARY_DIR}/libqtharfbuzzng.a")
+              # harfbuzzng is needed since Qt 5.3
+              IF(WIN32)
+                SET(HB_LIB "${QT_LIBRARY_DIR}/qtharfbuzzng.lib")
+              ELSE()
+                SET(HB_LIB "${QT_LIBRARY_DIR}/libqtharfbuzzng.a")
+              ENDIF()
             ENDIF()
 
             IF(EXISTS ${HB_LIB})
@@ -623,12 +653,14 @@ MACRO(LINK_QT_LIBRARIES _TARGET)
                 ${AUDIOUNIT_FRAMEWORK}
                 ${COREAUDIO_FRAMEWORK}
                 ${AUDIOTOOLBOX_FRAMEWORK})
-            ELSE()
-              # TODO: Linux
             ENDIF()
           ENDIF()
           IF(_MODULE STREQUAL "Widgets")
             LINK_QT_PLUGIN(${_TARGET} accessible qtaccessiblewidgets)
+
+            IF(WIN32 AND QT_VERSION GREATER "5.8")
+              TARGET_LINK_LIBRARIES(${_TARGET} UxTheme.lib)
+            ENDIF()
           ENDIF()
           IF(_MODULE STREQUAL "Sql")
             LINK_QT_PLUGIN(${_TARGET} sqldrivers qsqlite)

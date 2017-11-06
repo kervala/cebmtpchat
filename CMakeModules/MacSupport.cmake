@@ -32,7 +32,11 @@ MACRO(SIGN_FILE_MAC _TARGET)
     ENDIF()
     SET_TARGET_PROPERTIES(${_TARGET} PROPERTIES
       XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY[variant=Debug] ${IOS_DEVELOPER}
-      XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY[variant=Release] ${IOS_DISTRIBUTION})
+      XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY[variant=Release] ${IOS_DISTRIBUTION}
+      XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ${IOS_DEVELOPER}
+      XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY[sdk=iphoneos*] ${IOS_DEVELOPER}
+      XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Automatic"
+      XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ${MACOSX_APPLICATION_IDENTIFIER_PREFIX})
   ELSE()
 #   SET_TARGET_PROPERTIES(${target} PROPERTIES
 #     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Mac Developer")
@@ -54,7 +58,7 @@ MACRO(INIT_MAC)
   SET(MAC_INFO_PLIST)
   SET(MAC_ITUNESARTWORK)
   SET(MAC_ITUNESARTWORK2X)
-  SET(MAC_MOBILEPRIVISION)
+  SET(MAC_MOBILEPROVISION)
 
   # Regex filter for Mac files
   SET(MAC_FILES_FILTER "(\\.(xib|strings|icns|plist|framework|mobileprovision)|iTunesArtwork.*\\.png|\\.lproj/.*)$")
@@ -73,12 +77,12 @@ MACRO(FILTER_MAC_FILES FILE)
     ELSEIF(${FILE} MATCHES "embedded-xcode\\.mobileprovision$")
         SET(_INCLUDE OFF)
         IF(XCODE)
-          SET(MAC_MOBILEPRIVISION ${FILE})
+          SET(MAC_MOBILEPROVISION ${FILE})
         ENDIF()
     ELSEIF(${FILE} MATCHES "embedded\\.mobileprovision$")
         SET(_INCLUDE OFF)
         IF(NOT XCODE)
-          SET(MAC_MOBILEPRIVISION ${FILE})
+          SET(MAC_MOBILEPROVISION ${FILE})
         ENDIF()
     ELSEIF(${FILE} MATCHES "iTunesArtwork\\.png$")
         # Don't include iTunesArtwork because it'll be copied in IPA
@@ -212,6 +216,8 @@ MACRO(SET_TARGET_FLAGS_MAC _TARGET)
             XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "${MACOSX_BUNDLE_GUI_IDENTIFIER}"
             XCODE_ATTRIBUTE_SKIP_INSTALL NO
             XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
+            XCODE_ATTRIBUTE_ASSETCATALOG_COMPILER_APPICON_NAME "AppIcon"
+            XCODE_ATTRIBUTE_ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME "LaunchImage"
           )
         ENDIF()
       ENDIF()
@@ -315,6 +321,7 @@ MACRO(INIT_BUILD_FLAGS_MAC)
         SET(TARGETS_COUNT 0)
       ENDIF()
 
+      # not universal binary
       IF(TARGETS_COUNT EQUAL 1)
         IF(TARGET_ARM)
           IF(TARGET_ARM64)
@@ -383,32 +390,37 @@ MACRO(INIT_BUILD_FLAGS_MAC)
           ADD_PLATFORM_FLAGS("-arch mips")
         ENDIF()
       ELSE()
-        IF(TARGET_ARMV6)
-          ADD_PLATFORM_FLAGS("-Xarch_armv6 -mthumb -Xarch_armv6 -DHAVE_ARM -Xarch_armv6 -DHAVE_ARMV6")
+        # Universal binary
+        IF(TARGET_ARM)
+          ADD_PLATFORM_FLAGS_ARCH(arm -DHAVE_ARM)
+
+          IF(TARGET_ARMV6)
+            ADD_PLATFORM_FLAGS_ARCH(armv6 -mthumb -DHAVE_ARMV6)
+          ENDIF()
+
+          IF(TARGET_ARMV7)
+            ADD_PLATFORM_FLAGS_ARCH(armv7 -mthumb -DHAVE_ARMV7)
+          ENDIF()
+
+          IF(TARGET_ARMV7S)
+            ADD_PLATFORM_FLAGS_ARCH(armv7s -mthumb -DHAVE_ARMV7 -DHAVE_ARMV7S)
+          ENDIF()
+
+          IF(TARGET_ARM64)
+            ADD_PLATFORM_FLAGS_ARCH(arm64 -DHAVE_ARM64)
+          ENDIF()
         ENDIF()
 
-        IF(TARGET_ARMV7)
-          ADD_PLATFORM_FLAGS("-Xarch_armv7 -mthumb -Xarch_armv7 -DHAVE_ARM -Xarch_armv7 -DHAVE_ARMV7")
-        ENDIF()
-
-        IF(TARGET_ARMV7S)
-          ADD_PLATFORM_FLAGS("-Xarch_armv7s -mthumb -Xarch_armv7s -DHAVE_ARM -Xarch_armv7s -DHAVE_ARMV7 -Xarch_armv7s -DHAVE_ARMV7S")
-        ENDIF()
-
-        IF(TARGET_ARM64)
-          ADD_PLATFORM_FLAGS("-Xarch_arm64 -DHAVE_ARM -Xarch_arm64 -DHAVE_ARM64")
-        ENDIF()
-
-        IF(TARGET_X86)
-          ADD_PLATFORM_FLAGS("-Xarch_i386 -DHAVE_X86")
+        IF(TARGET_X86 OR TARGET_X64)
+          ADD_PLATFORM_FLAGS_ARCH(x86 -DHAVE_X86)
         ENDIF()
 
         IF(TARGET_X64)
-          ADD_PLATFORM_FLAGS("-Xarch_x86_64 -DHAVE_X64 -Xarch_x86_64 -DHAVE_X86_64")
+          ADD_PLATFORM_FLAGS_ARCH(x86_64 -DHAVE_X86_64)
         ENDIF()
 
         IF(TARGET_MIPS)
-          ADD_PLATFORM_FLAGS("-Xarch_mips -DHAVE_MIPS")
+          ADD_PLATFORM_FLAGS_ARCH(mips -DHAVE_MIPS)
         ENDIF()
       ENDIF()
 
@@ -422,73 +434,18 @@ MACRO(INIT_BUILD_FLAGS_MAC)
           ADD_PLATFORM_FLAGS("-D__IPHONE_OS_VERSION_MIN_REQUIRED=${IOS_VERSION_NUMBER}")
         ENDIF()
 
-        IF(CMAKE_IOS_SYSROOT)
-          IF(TARGET_ARM64)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_arm64 ")
-            ENDIF()
-
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
-          ENDIF()
-
-          IF(TARGET_ARMV7S)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_armv7s ")
-            ENDIF()
-
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
-          ENDIF()
-
-          IF(TARGET_ARMV7)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_armv7 ")
-            ENDIF()
-
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
-          ENDIF()
-
-          IF(TARGET_ARMV6)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_armv6 ")
-            ENDIF()
-
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-            ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
-          ENDIF()
+        IF(CMAKE_IOS_SYSROOT AND TARGET_ARM)
+          ADD_PLATFORM_FLAGS_ARCH(arm -isysroot ${CMAKE_IOS_SYSROOT} -miphoneos-version-min=${IOS_VERSION})
+          ADD_PLATFORM_LINKFLAGS_ARCH(arm -miphoneos-version-min=${IOS_VERSION} -isysroot ${CMAKE_IOS_SYSROOT})
         ENDIF()
+      # platform flags generic + platform flags arch generic (arm, x86, etc...) + specific arch (amrv7)
 
-        IF(CMAKE_IOS_SIMULATOR_SYSROOT)
-          IF(TARGET_X64)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_x86_64 ")
-            ENDIF()
+        IF(CMAKE_IOS_SIMULATOR_SYSROOT AND TARGET_X86)
+          ADD_PLATFORM_FLAGS_ARCH(x86 -isysroot ${CMAKE_IOS_SIMULATOR_SYSROOT} -mios-simulator-version-min=${IOS_VERSION})
+          ADD_PLATFORM_LINKFLAGS_ARCH(x86 -isysroot ${CMAKE_IOS_SIMULATOR_SYSROOT})
 
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SIMULATOR_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-mios-simulator-version-min=${IOS_VERSION}")
-
-            IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
-            ENDIF()
-          ENDIF()
-
-          IF(TARGET_X86)
-            IF(TARGETS_COUNT GREATER 1)
-              SET(XARCH "-Xarch_i386 ")
-            ENDIF()
-
-            ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SIMULATOR_SYSROOT}")
-            ADD_PLATFORM_FLAGS("${XARCH}-mios-simulator-version-min=${IOS_VERSION}")
-
-            IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
-            ENDIF()
+          IF(CMAKE_OSX_DEPLOYMENT_TARGET)
+            ADD_PLATFORM_LINKFLAGS_ARCH(x86 -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
           ENDIF()
         ENDIF()
       ELSE()
@@ -499,13 +456,31 @@ MACRO(INIT_BUILD_FLAGS_MAC)
             MESSAGE(FATAL_ERROR "Minimum target for OS X is 10.7 but you're using ${CMAKE_OSX_DEPLOYMENT_TARGET}")
           ENDIF()
 
-          ADD_PLATFORM_LINKFLAGS("-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+          ADD_PLATFORM_LINKFLAGS("-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
         ENDIF()
       ENDIF()
 
       # use libc++ under OX X to be able to use new C++ features (and else it'll use GCC 4.2.1 STL)
       # minimum target is now OS X 10.7
       SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} -stdlib=libc++")
+
+      IF(NOT WITH_SYMBOLS)
+        SET(RELEASE_LINKFLAGS "${RELEASE_LINKFLAGS} -dead_strip")
+      ENDIF()
+
+      SET(PLATFORM_EXE_LINKFLAGS "-Xlinker -export_dynamic -Xlinker -no_deduplicate") # -fembed-bitcode-marker
+
+      APPEND_PLATFORM_ARCH_FLAGS(arm armv5)
+      APPEND_PLATFORM_ARCH_FLAGS(arm armv6)
+      APPEND_PLATFORM_ARCH_FLAGS(arm armv7)
+      APPEND_PLATFORM_ARCH_FLAGS(arm armv7s)
+      APPEND_PLATFORM_ARCH_FLAGS(arm arm64)
+
+      APPEND_PLATFORM_ARCH_FLAGS(x86 i386)
+      APPEND_PLATFORM_ARCH_FLAGS(x86 x86_64)
+
+      APPEND_PLATFORM_ARCH_FLAGS(mips mips)
+      APPEND_PLATFORM_ARCH_FLAGS(mips mips64)
     ENDIF()
 
     # Keep all static Objective-C symbols and disable all warnings (too verbose)
@@ -583,8 +558,8 @@ MACRO(INSTALL_MAC_RESOURCES _TARGET)
   ENDIF()
 
   # Copying .mobileprovision file
-  IF(MAC_MOBILEPRIVISION)
-    ADD_CUSTOM_COMMAND(TARGET ${_TARGET} POST_BUILD COMMAND cp -p ${MAC_MOBILEPRIVISION} ${RESOURCES_DIR}/embedded.mobileprovision)
+  IF(MAC_MOBILEPROVISION)
+    ADD_CUSTOM_COMMAND(TARGET ${_TARGET} POST_BUILD COMMAND cp -p ${MAC_MOBILEPROVISION} ${RESOURCES_DIR}/embedded.mobileprovision)
   ENDIF()
 ENDMACRO()
 
@@ -632,24 +607,10 @@ MACRO(COMPILE_MAC_XIBS _TARGET)
           COMMAND ${IBTOOL} --target-device iphone --target-device ipad --errors --warnings --notices --module "${PRODUCT}" --minimum-deployment-target ${IOS_VERSION} --auto-activate-custom-fonts --output-format human-readable-text
             --compile ${RESOURCES_DIR}/${NIB}
             ${XIB}
-            --sdk ${CMAKE_IOS_SDK_ROOT}
+            --sdk ${CMAKE_IOS_SDK_ROOT} 2> /dev/null
           COMMENT "Building XIB object ${NIB}")
       ENDFOREACH()
     ENDIF()
-  ENDIF()
-ENDMACRO()
-
-MACRO(FIX_IOS_BUNDLE _TARGET)
-  # Fixing Bundle files for iOS
-  IF(IOS)
-    IF(XCODE)
-      ADD_CUSTOM_COMMAND(TARGET ${_TARGET} POST_BUILD
-      COMMAND mv ${OUTPUT_DIR}/Contents/Info.plist ${OUTPUT_DIR})
-    ENDIF()
-
-    ADD_CUSTOM_COMMAND(TARGET ${_TARGET} POST_BUILD
-      COMMAND mv ${OUTPUT_DIR}/Contents/MacOS/* ${OUTPUT_DIR}
-      COMMAND rm -rf ${OUTPUT_DIR}/Contents)
   ENDIF()
 ENDMACRO()
 
@@ -676,6 +637,10 @@ MACRO(CREATE_IOS_PACKAGE_TARGET _TARGET)
       IF(MAC_ITUNESARTWORK2X)
         LIST(APPEND _COMMANDS COMMAND cp -p "${MAC_ITUNESARTWORK2X}" "${IPA_DIR}/iTunesArtwork@2x")
       ENDIF()
+
+      # Create Assets.car
+      ADD_CUSTOM_COMMAND(TARGET ${_TARGET} POST_BUILD
+        COMMAND ${CMAKE_XCODE_ROOT}/Developer/usr/bin/actool --output-format human-readable-text --notices --warnings --export-dependency-info ${CMAKE_BINARY_DIR}/${_TARGET}.dir/assetcatalog_dependencies --output-partial-info-plist ${CMAKE_BINARY_DIR}/${_TARGET}.dir/assetcatalog_generated_info.plist --app-icon AppIcon --launch-image LaunchImage --compress-pngs --enable-on-demand-resources YES --sticker-pack-identifier-prefix ${MACOSX_BUNDLE_GUI_IDENTIFIER}.sticker-pack. --target-device iphone --target-device ipad --minimum-deployment-target ${IOS_VERSION} --platform iphoneos --product-type com.apple.product-type.application --compile ${CONTENTS_DIR} ${CMAKE_BINARY_DIR}/${_TARGET}.dir/Images.xcassets)
 
       # Find codesign_allocate
 
@@ -710,7 +675,7 @@ MACRO(CREATE_IOS_PACKAGE_TARGET _TARGET)
           COMMAND mkdir -p "${IPA_DIR}/Payload"
           COMMAND strip "${CONTENTS_DIR}/${PRODUCT_FIXED}"
           COMMAND security unlock-keychain -p "${KEYCHAIN_PASSWORD}" "/Users/buildbot/Library/Keychains/login.keychain"
-          COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${IOS_DISTRIBUTION}" --entitlements "${CMAKE_BINARY_DIR}/application-${_TARGET}.xcent" "${CONTENTS_DIR}"
+          COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${IOS_DISTRIBUTION}" --entitlements "${CMAKE_BINARY_DIR}/application-${_TARGET}.xcent" --timestamp=none "${CONTENTS_DIR}"
           COMMAND cp -pr "${OUTPUT_DIR}" "${IPA_DIR}/Payload"
           COMMAND cp -p "${MAC_ITUNESARTWORK}" "${IPA_DIR}/iTunesArtwork"
           ${_COMMANDS}
