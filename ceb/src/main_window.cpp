@@ -38,6 +38,10 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_REVISION_H
+#include "revision.h"
+#endif
+
 #ifdef DEBUG_NEW
 #define new DEBUG_NEW
 #endif
@@ -519,7 +523,7 @@ void MainWindow::showSystemLogs()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About %1").arg(PRODUCT), tr("%1 %2\n\nDevelopped by: Garou, Kervala\n\nSome Lua parts are from Ace, Drealmer and Ben").arg(PRODUCT).arg(VERSION));
+	QMessageBox::about(this, tr("About %1").arg(PRODUCT), tr("%1 %2 (%3)\n\nDevelopped by: Garou, Kervala\n\nSome Lua parts are from Ace, Drealmer and Ben").arg(PRODUCT).arg(VERSION).arg(BUILD_DATE));
 }
 
 void MainWindow::aboutQt()
