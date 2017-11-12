@@ -152,70 +152,70 @@ void TokenFactory::createTokenRegularExpressions()
 
     // Pre-login tokens
     _tokenRegexp.insert(Token::IndicatedActiveServer,
-                        MtpRegExp("^<"ID_RE"> (Active|Main) server (is|move) at ([^:]+):(.+)$",
+                        MtpRegExp("^<" ID_RE "> (Active|Main) server (is|move) at ([^:]+):(.+)$",
                                   QList<int>() << 1 << 3 << 4,
                                   "<Mtp> Active server is at a.b.c:4000"));
     _tokenRegexp.insert(Token::LoginAsked,
-                        MtpRegExp("^<"ID_RE"> Login: $",
+                        MtpRegExp("^<" ID_RE "> Login: $",
                                   "<Mtp> Login: "));
     _tokenRegexp.insert(Token::InvalidLogin,
-                        MtpRegExp("^<"ID_RE"> Invalid login, choose another one$",
+                        MtpRegExp("^<" ID_RE "> Invalid login, choose another one$",
                                   "<Mtp> Invalid login, choose another one"));
     _tokenRegexp.insert(Token::OnlyRegisteredUsers,
-                        MtpRegExp("^<"ID_RE"> Only registered users are allowed to login at the moment...$",
+                        MtpRegExp("^<" ID_RE "> Only registered users are allowed to login at the moment...$",
                                   "<Mtp> Only registered users are allowed to login at the moment..."));
     _tokenRegexp.insert(Token::PasswordAsked,
-                        MtpRegExp("<"ID_RE"> Password: $", // no ^, because there are telnet code before <Mtp> Password:
+                        MtpRegExp("<" ID_RE "> Password: $", // no ^, because there are telnet code before <Mtp> Password:
                                   "<Mtp> Password: "));
     _tokenRegexp.insert(Token::IncorrectPassword,
-                        MtpRegExp("^<"ID_RE"> Incorrect password$",
+                        MtpRegExp("^<" ID_RE "> Incorrect password$",
                                   "<Mtp> Incorrect password"));
     _tokenRegexp.insert(Token::Welcome,
-                        MtpRegExp("^<("ID_RE")> Welcome, ("LOGIN_RE")\\.$",
+                        MtpRegExp("^<(" ID_RE ")> Welcome, (" LOGIN_RE ")\\.$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Welcome, Fooman."));
 
     // Post-login tokens
     _tokenRegexp.insert(Token::Topic,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") topic : (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") topic : (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Hall topic : Salut les poulets !"));
     _tokenRegexp.insert(Token::YouSetTopic,
-                        MtpRegExp(SRV_RE + "You set channel ("LOGIN_RE") topic to (.*)$",
+                        MtpRegExp(SRV_RE + "You set channel (" LOGIN_RE ") topic to (.*)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> You set channel Hall topic to Salut les poulets !"));
     _tokenRegexp.insert(Token::SomeoneSetTopic,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") set channel ("LOGIN_RE") topic to (.*)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") set channel (" LOGIN_RE ") topic to (.*)$",
                                   QList<int>() << 1 << 2 << 3,
                                   "<Mtp> Fooman set channel Hall topic to Salut les poulets !"));
 
     _tokenRegexp.insert(Token::SomeoneTellsYou,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") tells you: (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") tells you: (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman tells you: espece de truite"));
     _tokenRegexp.insert(Token::YouTellToSomeone,
-                        MtpRegExp(SRV_RE + "You tell ("LOGIN_RE"): (.+)$",
+                        MtpRegExp(SRV_RE + "You tell (" LOGIN_RE "): (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> You tell Fooman: espece de truite"));
     _tokenRegexp.insert(Token::SomeoneAsksYou,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") asks you: (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") asks you: (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman asks you: es-tu un saumon ou une truite ?"));
     _tokenRegexp.insert(Token::YouAskToSomeone,
-                        MtpRegExp(SRV_RE + "You ask ("LOGIN_RE"): (.+)$",
+                        MtpRegExp(SRV_RE + "You ask (" LOGIN_RE "): (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> You ask Fooman: es-tu une truite ou un saumon ?"));
     _tokenRegexp.insert(Token::SomeoneReplies,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") replies: (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") replies: (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman replies: vive les levures !"));
     _tokenRegexp.insert(Token::YouReply,
-                        MtpRegExp(SRV_RE + "You reply to ("LOGIN_RE"): (.+)$",
+                        MtpRegExp(SRV_RE + "You reply to (" LOGIN_RE "): (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> You reply to Fooman: vive les levures !"));
 
     _tokenRegexp.insert(Token::SomeoneBeepsYou,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") beeps you$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") beeps you$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman beeps you"));
 
@@ -234,18 +234,18 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp("^ Login +Group +Channel +Idle +On +For +C +From +host$",
                                   " Login    Group   Channel   Idle  On For C              From host"));
     _tokenRegexp.insert(Token::WhoEnd,
-                        MtpRegExp(SRV_RE + "There (are|is) currently (\\d+) users?(( in channel ("LOGIN_RE"))|)$",
+                        MtpRegExp(SRV_RE + "There (are|is) currently (\\d+) users?(( in channel (" LOGIN_RE "))|)$",
                                   QList<int>() << 2 << 5,
                                   "<Mtp> There are currently 12 users in channel Hall"));
     _tokenRegexp.insert(Token::WhoEndNoUser,
-                        MtpRegExp(SRV_RE + "There is nobody in channel ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "There is nobody in channel (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "<Mtp> There is nobody in channel Hall"));
     _tokenRegexp.insert(Token::WhoSeparator,
                         MtpRegExp("^-+ -+ -+ -+ -+ -+ -+$",
                                   "-------- -------- -------- ------ ------ - ------------------------------------"));
     _tokenRegexp.insert(Token::WhoLine,
-                        MtpRegExp("^("LOGIN_RE") *(\\w+) *(\\w+) *([^ ]+) *([^ ]+) *([^ ]+) *(.+)$",
+                        MtpRegExp("^(" LOGIN_RE ") *(\\w+) *(\\w+) *([^ ]+) *([^ ]+) *([^ ]+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6 << 7));
 
     _tokenRegexp.insert(Token::GroupsBegin,
@@ -255,7 +255,7 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp("^-+ -+ -+ -+$",
                                   "-------- -------- -- --------------------------------"));
     _tokenRegexp.insert(Token::GroupsLine,
-                        MtpRegExp("^("LOGIN_RE") *("LOGIN_RE") *(\\-?\\d+) *(.+)$",
+                        MtpRegExp("^(" LOGIN_RE ") *(" LOGIN_RE ") *(\\-?\\d+) *(.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4,
                                   "System   Root         12 Administrators"));
     _tokenRegexp.insert(Token::GroupsEnd,
@@ -274,7 +274,7 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1 << 2 << 3 << 4 << 5 << 6));
 
     _tokenRegexp.insert(Token::FingerBegin,
-                        MtpRegExp("^Login *: ("LOGIN_RE")$",
+                        MtpRegExp("^Login *: (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "Login  : Fooman"));
     _tokenRegexp.insert(Token::FingerEnd,
@@ -285,7 +285,7 @@ void TokenFactory::createTokenRegularExpressions()
                                   "Blablabla xann blablabla"));
 
     _tokenRegexp.insert(Token::SomeoneShouts,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") shouts: (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") shouts: (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman shouts: I want to be freeee!"));
     _tokenRegexp.insert(Token::YouShout,
@@ -294,21 +294,21 @@ void TokenFactory::createTokenRegularExpressions()
                                   "<Mtp> You shout: get me out of this crazy software!"));
 
     _tokenRegexp.insert(Token::SomeoneAway,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") is away$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") is away$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman is away"));
     _tokenRegexp.insert(Token::YouAway,
                         MtpRegExp("^(\\d+:\\d+:\\d+) (" + QString("%1%2%3").arg("<").arg(_serverName).arg("> ") + "You are away)$",
                                   "<Mtp> You are away"));
     _tokenRegexp.insert(Token::SomeoneBack,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") is back$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") is back$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman is back"));
     _tokenRegexp.insert(Token::YouBack,
                         MtpRegExp(SRV_RE + "You are back$",
                                   "<Mtp> You are back"));
     _tokenRegexp.insert(Token::SomeoneAwayWarning,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") is away and may not be hearing you$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") is away and may not be hearing you$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman is away and may not be hearing you"));
 
@@ -333,7 +333,7 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp(SRV_RE + "Your message\\(s\\) :$",
                                   "<Mtp> You message(s) :"));
     _tokenRegexp.insert(Token::MessageLine,
-                        MtpRegExp("^ *(\\S+) ([^:]+ \\d+:\\d+:\\d+) ("LOGIN_RE") : (.+)$",
+                        MtpRegExp("^ *(\\S+) ([^:]+ \\d+:\\d+:\\d+) (" LOGIN_RE ") : (.+)$",
                                   QList<int>() << 1 << 2 << 3 << 4));
     _tokenRegexp.insert(Token::MessageEnd,
                         MtpRegExp(SRV_RE + "You have (\\d+) messages?$",
@@ -343,7 +343,7 @@ void TokenFactory::createTokenRegularExpressions()
                         MtpRegExp(SRV_RE + "You have no message !$",
                                   "<Mtp> You have no message"));
     _tokenRegexp.insert(Token::MessageReceived,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") sends a message to you: (.+)$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") sends a message to you: (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman sends a message to you: huitre"));
     _tokenRegexp.insert(Token::AllMessagesCleared,
@@ -371,28 +371,28 @@ void TokenFactory::createTokenRegularExpressions()
     _tokenRegexp.insert(Token::HelpLine, MtpRegExp("^(.*)$"));
 
     _tokenRegexp.insert(Token::UnknownUser,
-                        MtpRegExp(SRV_RE + "Unknown or unregistered user \"("LOGIN_RE")\"$",
+                        MtpRegExp(SRV_RE + "Unknown or unregistered user \"(" LOGIN_RE ")\"$",
                                   QList<int>() << 1,
                                   "<Mtp> Unkown or unregistered user ""Fooman"""));
     _tokenRegexp.insert(Token::UserLoginRenamed,
-                        MtpRegExp(SRV_RE + "User ("LOGIN_RE") is now known as ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "User (" LOGIN_RE ") is now known as (" LOGIN_RE ")$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> User Fooman is now known as Footaise"));
     _tokenRegexp.insert(Token::YourLoginRenamed,
-                        MtpRegExp(SRV_RE + "Your login name is now ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "Your login name is now (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "<Mtp> You login name is now Fooman"));
 
     _tokenRegexp.insert(Token::SomeoneComesIn,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") comes in !",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") comes in !",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman comes in !"));
     _tokenRegexp.insert(Token::SomeoneLeaves,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") leaves(( \\((.+))\\)|) !$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") leaves(( \\((.+))\\)|) !$",
                                   QList<int>() << 1 << 4,
                                   "<Mtp> Fooman leaves (crustace) !"));
     _tokenRegexp.insert(Token::SomeoneDisconnects,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") disconnects(( \\((.+))\\)|) !$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") disconnects(( \\((.+))\\)|) !$",
                                   QList<int>() << 1 << 4,
                                   "<Mtp> Fooman disconnects (connection reset by huitre)"));
     _tokenRegexp.insert(Token::YouLeave,
@@ -400,40 +400,40 @@ void TokenFactory::createTokenRegularExpressions()
                                   "<Mtp> You leave <Mtp> Chat !"));
 
     _tokenRegexp.insert(Token::YouJoinChannel,
-                        MtpRegExp(SRV_RE + "You join channel ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "You join channel (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "<Mtp> You join channel Foochan"));
     _tokenRegexp.insert(Token::YouLeaveChannel,
-                        MtpRegExp(SRV_RE + "You leave channel ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "You leave channel (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "<Mtp> You leave channel Foochan"));
     _tokenRegexp.insert(Token::SomeoneJoinChannel,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") joined channel ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") joined channel (" LOGIN_RE ")$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman joined channel Foochan"));
     _tokenRegexp.insert(Token::SomeoneFadesIntoTheShadows,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") fades into the shadows$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") fades into the shadows$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman fades into the shadows"));
     _tokenRegexp.insert(Token::SomeoneLeaveChannel,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") comes in from channel ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") comes in from channel (" LOGIN_RE ")$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Fooman coms in from channel Foochan"));
     _tokenRegexp.insert(Token::SomeoneAppearsFromTheShadows,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") appears from the shadows$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") appears from the shadows$",
                                   QList<int>() << 1,
                                   "<Mtp> Fooman appears from the shadows"));
 
     _tokenRegexp.insert(Token::YouKickSomeone,
-                        MtpRegExp(SRV_RE + "You kick ("LOGIN_RE") out(( \\((.*)\\))|) !$",
+                        MtpRegExp(SRV_RE + "You kick (" LOGIN_RE ") out(( \\((.*)\\))|) !$",
                                   QList<int>() << 1 << 4,
                                   "<Mtp> You kick Fooman out (non merci) !"));
     _tokenRegexp.insert(Token::SomeoneIsKicked,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE") is kicked out by ("LOGIN_RE")(( \\((.*)\\))|) !$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ") is kicked out by (" LOGIN_RE ")(( \\((.*)\\))|) !$",
                                   QList<int>() << 1 << 2 << 5,
                                   "<Mtp> Fooman is kicked out by Root (non merci) !"));
     _tokenRegexp.insert(Token::YouAreKicked,
-                        MtpRegExp(SRV_RE + "You are kicked out by ("LOGIN_RE")(( \\((.*)\\))|) !$",
+                        MtpRegExp(SRV_RE + "You are kicked out by (" LOGIN_RE ")(( \\((.*)\\))|) !$",
                                   QList<int>() << 1 << 4,
                                   "<Mtp> You are kicked out by Root (non merci) !"));
 
@@ -447,12 +447,12 @@ void TokenFactory::createTokenRegularExpressions()
                                   "<Mtp> Your client is now \"CeB\""));
 
     _tokenRegexp.insert(Token::SomeoneGroup,
-                        MtpRegExp(SRV_RE + "("LOGIN_RE")'group is ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "(" LOGIN_RE ")'group is (" LOGIN_RE ")$",
                                   QList<int>() << 1 << 2,
                                   "<Mtp> Foo'group is Tell"));
 
     _tokenRegexp.insert(Token::UnregisteredUser,
-                        MtpRegExp(SRV_RE + "Unregistered user ("LOGIN_RE")$",
+                        MtpRegExp(SRV_RE + "Unregistered user (" LOGIN_RE ")$",
                                   QList<int>() << 1,
                                   "<Mtp> Unregistered user Foo"));
 
@@ -461,12 +461,12 @@ void TokenFactory::createTokenRegularExpressions()
                                   QList<int>() << 1,
                                   "<Mtp> Hi all, I'm system, guys!"));
     _tokenRegexp.insert(Token::SomeoneSays,
-                        MtpRegExp("^<("LOGIN_RE")> (.+)$",
+                        MtpRegExp("^<(" LOGIN_RE ")> (.+)$",
                                   QList<int>() << 1 << 2,
                                   "<Fooman> I see dead people. Seriously."));
 
     _tokenRegexp.insert(Token::Data,
-                        MtpRegExp("^\\|("LOGIN_RE")\\| (.+)$",
+                        MtpRegExp("^\\|(" LOGIN_RE ")\\| (.+)$",
                                   QList<int>() << 1 << 2,
                                   "|Fooman| red pill or blue pill?"));
 
@@ -474,9 +474,9 @@ void TokenFactory::createTokenRegularExpressions()
 
     // Fill send regexp
     _sendTokenRegexp.clear();
-    _sendTokenRegexp << QRegExp("^" + serverCommand("tell") + " ("LOGIN_RE") (.*)$"); // SendToken::Tell
+    _sendTokenRegexp << QRegExp("^" + serverCommand("tell") + " (" LOGIN_RE ") (.*)$"); // SendToken::Tell
     _sendTokenRegexp << QRegExp("^" + serverCommand("reply") + " (.*)$"); // SendToken::Reply
-    _sendTokenRegexp << QRegExp("^" + serverCommand("sendmsg") + " ("LOGIN_RE") (.*)$"); // SendToken::Sendmsg
+    _sendTokenRegexp << QRegExp("^" + serverCommand("sendmsg") + " (" LOGIN_RE ") (.*)$"); // SendToken::Sendmsg
 }
 
 void TokenFactory::dataReceived(const QString &data)
