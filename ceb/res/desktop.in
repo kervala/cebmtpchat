@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Name=${PRODUCT}
+Type=Application
+GenericName=MtpChat Client
+Comment=CeB is a MtpChat client
+Comment[fr]=CeB est un client MtpChat
+TryExec=${BIN_ABSOLUTE_PREFIX}/${TARGET}
+Exec=${BIN_ABSOLUTE_PREFIX}/${TARGET} %U
+Icon=${TARGET}
+Terminal=false
+Hidden=false
+Categories=Network;Qt;Chat
+MimeType=application/x-mtpchat;
+StartupWMClass=${TARGET}
+X-AppInstall-Package=${TARGET}
