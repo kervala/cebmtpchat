@@ -384,6 +384,65 @@ MACRO(SET_TARGET_BUILD_FLAGS_ARCH _TARGET _ARCH)
   ENDIF()
 ENDMACRO()
 
+MACRO(LINK_SYSTEM_LIBRARY _TARGET _NAME)
+  IF(NOT TARGET ${_NAME})
+    SET(_IS_SHARED)
+    SET(_IS_STATIC)
+    SET(_LIB_NAMES ${_NAME})
+    SET(_LIB_TYPE)
+
+    FOREACH(ARG ${ARGN})
+      IF(${ARG} STREQUAL "SHARED")
+        SET(_IS_SHARED ON)
+        SET(_LIB_TYPE SHARED)
+      ELSEIF(${ARG} STREQUAL "STATIC")
+        SET(_IS_STATIC ON)
+        SET(_LIB_TYPE STATIC)
+      ELSE()
+        LIST(APPEND _LIB_NAMES ${ARG})
+      ENDIF()
+    ENDFOREACH()
+
+    IF(NOT _LIB_TYPE)
+      IF(WITH_STATIC_EXTERNAL)
+        SET(_LIB_TYPE STATIC)
+      ELSE()
+        SET(_LIB_TYPE SHARED)
+      ENDIF()
+    ENDIF()
+
+    # Save default suffixes
+    SET(_OLD_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+
+    # Define specific suffixes
+    IF(_IS_STATIC)
+      SET(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX})
+    ELSEIF(_IS_SHARED)
+      SET(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_SHARED_LIBRARY_SUFFIX})
+    ENDIF()
+
+    # Find the library with specified suffixes
+    FIND_LIBRARY(${_NAME}_LIBRARY NAMES ${_LIB_NAMES})
+
+    # Restore default suffixes
+    SET(CMAKE_FIND_LIBRARY_SUFFIXES ${_OLD_SUFFIXES})
+
+    IF(${_NAME}_LIBRARY)
+      MESSAGE(STATUS "Found ${${_NAME}_LIBRARY} ${_NAME} ${_LIB_TYPE} ${_LIB_NAMES}")
+
+      # Don't redefine the same library several times
+      ADD_LIBRARY(${_NAME} ${_LIB_TYPE} IMPORTED)
+      SET_PROPERTY(TARGET ${_NAME} PROPERTY IMPORTED_LOCATION ${${_NAME}_LIBRARY})
+    ELSE()
+      MESSAGE(STATUS "Didn't find ${_NAME} ${_LIB_TYPE} ${_LIB_NAMES}")
+    ENDIF()
+  ENDIF()
+
+  IF(TARGET ${_NAME})
+    TARGET_LINK_LIBRARIES(${_TARGET} ${_NAME})
+  ENDIF()
+ENDMACRO()
+
 MACRO(SET_TARGET_EXECUTABLE _TYPE name)
   IF(NOT BUILD_FLAGS_SETUP)
     SETUP_BUILD_FLAGS()
@@ -499,7 +558,9 @@ MACRO(SET_TARGET_EXECUTABLE _TYPE name)
       COMPILE_EXE(${name}_${_ARCH} ${_SOURCES})
       SET_PROPERTY(TARGET ${name}_${_ARCH} PROPERTY OSX_ARCHITECTURES ${_ARCH})
 
-      TARGET_LINK_LIBRARIES(${name}_${_ARCH} ${_TARGETS_TO_LINK})
+      IF(_TARGETS_TO_LINK)
+        TARGET_LINK_LIBRARIES(${name}_${_ARCH} ${_TARGETS_TO_LINK})
+      ENDIF()
 
       SET_TARGET_BUILD_FLAGS_ARCH(${name}_${_ARCH} ${_ARCH})
 
@@ -540,6 +601,10 @@ MACRO(SET_TARGET_EXECUTABLE _TYPE name)
     ENDIF()
 
     COMPILE_EXE(${name} ${_SOURCES})
+
+    IF(_TARGETS_TO_LINK)
+      TARGET_LINK_LIBRARIES(${name} ${_TARGETS_TO_LINK})
+    ENDIF()
   ENDIF()
 
   IF(_BUNDLE_LABEL)
@@ -1812,14 +1877,18 @@ MACRO(INIT_BUILD_FLAGS)
       ADD_PLATFORM_FLAGS("/Zm1000")
     ENDIF()
 
-    ADD_PLATFORM_FLAGS("/D_WIN32_WINNT=0x0501 /DWINVER=0x0501")
-
     IF(TARGET_X64)
+      # Target Vista for x64
+      ADD_PLATFORM_FLAGS("/D_WIN32_WINNT=0x0600 /DWINVER=0x0600")
+
       # Fix a bug with Intellisense
       ADD_PLATFORM_FLAGS("/D_WIN64")
       # Fix a compilation error for some big C++ files
       ADD_PLATFORM_FLAGS("/bigobj")
     ELSE()
+      # Target XP SP2 for x86
+      ADD_PLATFORM_FLAGS("/D_WIN32_WINNT=0x0502 /DWINVER=0x0502")
+
       # Allows 32 bits applications to use 3 GB of RAM
       ADD_PLATFORM_LINKFLAGS("/LARGEADDRESSAWARE")
     ENDIF()
@@ -1910,7 +1979,7 @@ MACRO(INIT_BUILD_FLAGS)
       ADD_PLATFORM_FLAGS("-Wformat -Werror=format-security")
 
       # Don't display invalid or unused command lines arguments by default (often too verbose)
-      ADD_PLATFORM_FLAGS("-Wno-invalid-command-line-argument -Wno-unused-command-line-argument")
+#      ADD_PLATFORM_FLAGS("-Wno-invalid-command-line-argument -Wno-unused-command-line-argument")
     ENDIF()
 
     # never display these warnings because they are minor
@@ -1978,8 +2047,8 @@ MACRO(INIT_BUILD_FLAGS)
       SET(RELEASE_LINKFLAGS "${RELEASE_LINKFLAGS} -Wl,-s")
     ENDIF()
 
-    IF(WITH_STATIC_RUNTIMES)
-      ADD_PLATFORM_LINKFLAGS("-static")
+    IF(WITH_STATIC_RUNTIMES AND NOT APPLE)
+      ADD_PLATFORM_LINKFLAGS("-static-libstdc++")
     ENDIF()
 
     SET(DEBUG_CFLAGS "-D_DEBUG -DDEBUG ${DEBUG_CFLAGS}")
@@ -2171,19 +2240,15 @@ MACRO(SETUP_EXTERNAL)
   ELSE()
     FIND_PACKAGE(External QUIET)
 
-    IF(APPLE)
-      IF(WITH_STATIC_EXTERNAL)
+    IF(WITH_STATIC_EXTERNAL)
+      SET(OLD_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      IF(APPLE)
         # Look only for static libraries because systems libraries are using Frameworks
-        SET(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+        SET(NEW_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX})
       ELSE()
-        SET(CMAKE_FIND_LIBRARY_SUFFIXES .dylib .so .a)
+        SET(NEW_FIND_LIBRARY_SUFFIXES ${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_SUFFIX})
       ENDIF()
-    ELSE()
-      IF(WITH_STATIC_EXTERNAL)
-        SET(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
-      ELSE()
-        SET(CMAKE_FIND_LIBRARY_SUFFIXES .so .a)
-      ENDIF()
+      SET(CMAKE_FIND_LIBRARY_SUFFIXES ${NEW_FIND_LIBRARY_SUFFIXES})
     ENDIF()
 
     IF(CMAKE_DL_LIBS)
@@ -2319,14 +2384,15 @@ MACRO(FIND_PACKAGE_HELPER NAME INCLUDE)
 
   SET(_SUFFIXES ${_SUFFIXES} ${_LOWNAME} ${_LOWNAME_FIXED} ${NAME})
 
-  IF(NOT WIN32 AND NOT IOS)
-    FIND_PACKAGE(PkgConfig QUIET)
-    SET(_MODULES ${_LOWNAME} ${_RELEASE_LIBRARIES})
-    LIST(REMOVE_DUPLICATES _MODULES)
-    IF(PKG_CONFIG_EXECUTABLE)
-      PKG_SEARCH_MODULE(PKG_${_NAME_FIXED} QUIET ${_MODULES})
-    ENDIF()
-  ENDIF()
+# Don't use pkg-config
+#  IF(NOT WIN32 AND NOT IOS)
+#    FIND_PACKAGE(PkgConfig QUIET)
+#    SET(_MODULES ${_LOWNAME} ${_RELEASE_LIBRARIES})
+#    LIST(REMOVE_DUPLICATES _MODULES)
+#    IF(PKG_CONFIG_EXECUTABLE)
+#      PKG_SEARCH_MODULE(PKG_${_NAME_FIXED} QUIET ${_MODULES})
+#    ENDIF()
+#  ENDIF()
 
   SET(_INCLUDE_PATHS)
   SET(_LIBRARY_PATHS)
