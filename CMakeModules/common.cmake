@@ -1253,17 +1253,25 @@ MACRO(INSTALL_RESOURCES _TARGET _DIR)
     IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/res/desktop.in")
       SET(DESKTOP_FILE "${CMAKE_CURRENT_BINARY_DIR}/share/applications/${_TARGET}.desktop")
       CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/res/desktop.in" ${DESKTOP_FILE})
-      INSTALL(FILES ${DESKTOP_FILE} DESTINATION share/applications)
+      IF(WITH_UNIX_STRUCTURE)
+        INSTALL(FILES ${DESKTOP_FILE} DESTINATION share/applications)
+      ELSE()
+        INSTALL(FILES ${DESKTOP_FILE} DESTINATION .)
+      ENDIF()
     ENDIF()
 
-    INSTALL(FILES res/icon.xpm DESTINATION share/pixmaps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon24x24.png DESTINATION share/icons/hicolor/24x24/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME ${_TARGET}.png OPTIONAL)
-    INSTALL(FILES res/icon.svg DESTINATION share/icons/hicolor/scalable/apps RENAME ${_TARGET}.svg OPTIONAL)
+    IF(WITH_UNIX_STRUCTURE)
+      INSTALL(FILES res/icon.xpm DESTINATION share/pixmaps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon24x24.png DESTINATION share/icons/hicolor/24x24/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME ${_TARGET}.png OPTIONAL)
+      INSTALL(FILES res/icon.svg DESTINATION share/icons/hicolor/scalable/apps RENAME ${_TARGET}.svg OPTIONAL)
+    ELSE()
+      INSTALL(FILES res/icon.svg DESTINATION . RENAME ${_TARGET}.svg OPTIONAL)
+    ENDIF()
   ENDIF()
 
   # Source Packages
@@ -1278,7 +1286,11 @@ MACRO(INSTALL_RESOURCES _TARGET _DIR)
   ELSEIF(APPLE)
     SET(PACKAGE "${PACKAGE}-osx")
   ELSE()
-    SET(PACKAGE "${PACKAGE}-unix")
+    IF(TARGET_X64)
+      SET(PACKAGE "${PACKAGE}-linux64")
+    ELSE()
+      SET(PACKAGE "${PACKAGE}-linux32")
+    ENDIF()
   ENDIF()
 
   SET(CPACK_PACKAGE_FILE_NAME "${PACKAGE}")
@@ -2110,14 +2122,10 @@ ENDMACRO()
 
 # Macro to create x_ABSOLUTE_PREFIX from x_PREFIX
 MACRO(MAKE_ABSOLUTE_PREFIX NAME_RELATIVE NAME_ABSOLUTE)
-  IF(IS_ABSOLUTE "${${NAME_RELATIVE}}")
+  IF(IS_ABSOLUTE "${${NAME_RELATIVE}}" OR WIN32 OR NOT WITH_UNIX_STRUCTURE)
     SET(${NAME_ABSOLUTE} ${${NAME_RELATIVE}})
   ELSE()
-    IF(WIN32)
-      SET(${NAME_ABSOLUTE} ${${NAME_RELATIVE}})
-    ELSE()
-      SET(${NAME_ABSOLUTE} ${CMAKE_INSTALL_PREFIX}/${${NAME_RELATIVE}})
-    ENDIF()
+    SET(${NAME_ABSOLUTE} ${CMAKE_INSTALL_PREFIX}/${${NAME_RELATIVE}})
   ENDIF()
 ENDMACRO()
 
@@ -2126,100 +2134,119 @@ MACRO(SETUP_PREFIX_PATHS name)
     SETUP_BUILD_FLAGS()
   ENDIF()
 
-  IF(UNIX)
-    ## Allow override of install_prefix/etc path.
-    IF(NOT ETC_PREFIX)
-      SET(ETC_PREFIX "etc/${name}")
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(ETC_PREFIX ETC_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/share path.
-    IF(NOT SHARE_PREFIX)
-      SET(SHARE_PREFIX "share/${name}")
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(SHARE_PREFIX SHARE_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/sbin path.
-    IF(NOT SBIN_PREFIX)
-      SET(SBIN_PREFIX "sbin")
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(SBIN_PREFIX SBIN_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/bin path.
-    IF(NOT BIN_PREFIX)
-      SET(BIN_PREFIX "bin")
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(BIN_PREFIX BIN_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/include path.
-    IF(NOT INCLUDE_PREFIX)
-      SET(INCLUDE_PREFIX "include")
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(INCLUDE_PREFIX INCLUDE_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/lib path.
-    IF(NOT LIB_PREFIX)
-      IF(LIBRARY_ARCHITECTURE)
-        SET(LIB_PREFIX "lib/${LIBRARY_ARCHITECTURE}")
-      ELSE()
-        SET(LIB_PREFIX "lib")
-      ENDIF()
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(LIB_PREFIX LIB_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/lib/cgi-bin path.
-    IF(NOT CGI_PREFIX)
-      IF(LIBRARY_ARCHITECTURE)
-        SET(CGI_PREFIX "lib/${LIBRARY_ARCHITECTURE}/cgi-bin")
-      ELSE()
-        SET(CGI_PREFIX "lib/cgi-bin")
-      ENDIF()
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(CGI_PREFIX CGI_ABSOLUTE_PREFIX)
-
-    ## Allow override of install_prefix/lib path.
-    IF(NOT PLUGIN_PREFIX)
-      IF(LIBRARY_ARCHITECTURE)
-        SET(PLUGIN_PREFIX "lib/${LIBRARY_ARCHITECTURE}/${name}")
-      ELSE()
-        SET(PLUGIN_PREFIX "lib/${name}")
-      ENDIF()
-    ENDIF()
-    MAKE_ABSOLUTE_PREFIX(PLUGIN_PREFIX PLUGIN_ABSOLUTE_PREFIX)
-
-    IF(NOT WWW_PREFIX)
-      SET(WWW_PREFIX "/var/www")
-    ENDIF()
-
-    # Aliases for automake compatibility
-    SET(prefix ${CMAKE_INSTALL_PREFIX})
-    SET(exec_prefix ${BIN_ABSOLUTE_PREFIX})
-    SET(libdir ${LIB_ABSOLUTE_PREFIX})
-    SET(includedir ${INCLUDE_ABSOLUTE_PREFIX})
+  IF(TARGET_X64 AND WIN32)
+    SET(LIB_SUFFIX "64")
+  ELSE()
+    SET(LIB_SUFFIX "")
   ENDIF()
-  IF(WIN32)
-    IF(TARGET_X64)
-      SET(LIB_SUFFIX "64")
-    ENDIF()
 
+  ## Allow override of install_prefix/etc path.
+  IF(NOT ETC_PREFIX)
     IF(WITH_UNIX_STRUCTURE)
       SET(ETC_PREFIX "etc/${name}")
-      SET(SHARE_PREFIX "share/${name}")
-      SET(SBIN_PREFIX "bin${LIB_SUFFIX}")
-      SET(BIN_PREFIX "bin${LIB_SUFFIX}")
-      SET(PLUGIN_PREFIX "bin${LIB_SUFFIX}")
     ELSE()
       SET(ETC_PREFIX ".")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(ETC_PREFIX ETC_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/share path.
+  IF(NOT SHARE_PREFIX)
+    IF(WITH_UNIX_STRUCTURE)
+      SET(SHARE_PREFIX "share/${name}")
+    ELSE()
       SET(SHARE_PREFIX ".")
-      SET(SBIN_PREFIX ".")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(SHARE_PREFIX SHARE_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/sbin path.
+  IF(NOT SBIN_PREFIX)
+    IF(WITH_UNIX_STRUCTURE)
+      IF(WIN32)
+        SET(BIN_PREFIX "bin${LIB_SUFFIX}")
+      ELSE()
+        SET(BIN_PREFIX "sbin${LIB_SUFFIX}")
+      ENDIF()
+    ELSE()
       SET(BIN_PREFIX ".")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(SBIN_PREFIX SBIN_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/bin path.
+  IF(NOT BIN_PREFIX)
+    IF(WITH_UNIX_STRUCTURE)
+      SET(BIN_PREFIX "bin${LIB_SUFFIX}")
+    ELSE()
+      SET(BIN_PREFIX ".")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(BIN_PREFIX BIN_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/include path.
+  IF(NOT INCLUDE_PREFIX)
+    SET(INCLUDE_PREFIX "include")
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(INCLUDE_PREFIX INCLUDE_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/lib path.
+  IF(NOT LIB_PREFIX)
+    IF(LIBRARY_ARCHITECTURE AND NOT WIN32)
+      SET(LIB_PREFIX "lib/${LIBRARY_ARCHITECTURE}")
+    ELSE()
+      SET(LIB_PREFIX "lib${LIB_SUFFIX}")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(LIB_PREFIX LIB_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/lib/cgi-bin path.
+  IF(NOT CGI_PREFIX)
+    IF(WITH_UNIX_STRUCTURE)
+      SET(CGI_PREFIX "${LIB_PREFIX}/cgi-bin")
+    ELSE()
+      SET(CGI_PREFIX "cgi-bin")
+    ENDIF()
+  ENDIF()
+
+  MAKE_ABSOLUTE_PREFIX(CGI_PREFIX CGI_ABSOLUTE_PREFIX)
+
+  ## Allow override of install_prefix/lib path.
+  IF(NOT PLUGIN_PREFIX)
+    IF(WITH_UNIX_STRUCTURE)
+      IF(WIN32)
+        SET(PLUGIN_PREFIX "${BIN_PREFIX}")
+      ELSE()
+        SET(PLUGIN_PREFIX "${LIB_PREFIX}/${name}")
+      ENDIF()
+    ELSE()
       SET(PLUGIN_PREFIX ".")
     ENDIF()
+  ENDIF()
 
-    SET(INCLUDE_PREFIX "include")
-    SET(LIB_PREFIX "lib${LIB_SUFFIX}") # static libs
-    SET(CGI_PREFIX "cgi-bin")
-    SET(WWW_PREFIX "www")
+  MAKE_ABSOLUTE_PREFIX(PLUGIN_PREFIX PLUGIN_ABSOLUTE_PREFIX)
+
+  IF(NOT WWW_PREFIX)
+    IF(WIN32 OR NOT WITH_UNIX_STRUCTURE)
+      SET(WWW_PREFIX "www")
+    ELSE()
+      SET(WWW_PREFIX "/var/www")
+    ENDIF()
+  ENDIF()
+
+  # Aliases for automake compatibility
+  SET(prefix ${CMAKE_INSTALL_PREFIX})
+  SET(exec_prefix ${BIN_ABSOLUTE_PREFIX})
+  SET(libdir ${LIB_ABSOLUTE_PREFIX})
+  SET(includedir ${INCLUDE_ABSOLUTE_PREFIX})
+
+  IF(WIN32)
     SET(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ${BIN_PREFIX})
   ENDIF()
 
