@@ -5,6 +5,11 @@ IF(POLICY CMP0020)
   CMAKE_POLICY(SET CMP0020 NEW)
 ENDIF()
 
+# Let automoc also process generated files
+IF(POLICY CMP0071)
+  CMAKE_POLICY(SET CMP0071 NEW)
+ENDIF()
+
 # Include our generic module with all macros
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 INCLUDE(common)
