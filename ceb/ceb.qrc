@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/" >
+        <file>res/icon.svg</file>
         <file>images/away.png</file>
         <file>images/blue-led.png</file>
-        <file>images/ceb.svg</file>
         <file>images/clear.png</file>
         <file>images/here.png</file>
         <file>images/no_update.png</file>
