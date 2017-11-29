@@ -13,6 +13,12 @@ IF(APPLE)
   SET(MACOSX_BUNDLE_GUI_IDENTIFIER "org.melting-pot.cebmtpchat")
 ENDIF()
 
+IF(WITH_RYZOM)
+  SET(PACKAGE_BASENAME "${TARGET}-ryzom")
+ELSE()
+  SET(PACKAGE_BASENAME "${TARGET}")
+ENDIF()
+
 IF(PLUGIN)
   ADD_DEFINITIONS(-DQT_PLUGIN)
   ADD_DEFINITIONS(-DQT_SHARED)
@@ -72,12 +78,5 @@ ENDIF()
 # NSIS Specific Packing Setup
 SET(CPACK_NSIS_HELP_LINK "http://dev.kervala.net/projects/cebmtpchat/wiki")
 SET(CPACK_NSIS_URL_INFO_ABOUT "http://dev.kervala.net/projects/cebmtpchat")
-
-## Source Packages
-IF(WITH_RYZOM)
-  SET(PACKAGE_BASENAME "${TARGET}-ryzom")
-ELSE()
-  SET(PACKAGE_BASENAME "${TARGET}")
-ENDIF()
 
 INSTALL_RESOURCES(${TARGET} share)
