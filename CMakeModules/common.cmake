@@ -428,11 +428,18 @@ MACRO(LINK_SYSTEM_LIBRARY _TARGET _NAME)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES ${_OLD_SUFFIXES})
 
     IF(${_NAME}_LIBRARY)
-      MESSAGE(STATUS "Found ${${_NAME}_LIBRARY} ${_NAME} ${_LIB_TYPE} ${_LIB_NAMES}")
+      GET_FILENAME_COMPONENT(_LIBEXT ${${_NAME}_LIBRARY} EXT)
 
-      # Don't redefine the same library several times
-      ADD_LIBRARY(${_NAME} ${_LIB_TYPE} IMPORTED)
-      SET_PROPERTY(TARGET ${_NAME} PROPERTY IMPORTED_LOCATION ${${_NAME}_LIBRARY})
+      # Special case for Apple frameworks
+      IF(_LIBEXT STREQUAL ".framework")
+        TARGET_LINK_LIBRARIES(${_TARGET} ${${_NAME}_LIBRARY})
+      ELSE()
+        # Don't redefine the same library several times
+        ADD_LIBRARY(${_NAME} ${_LIB_TYPE} IMPORTED)
+        SET_PROPERTY(TARGET ${_NAME} PROPERTY IMPORTED_LOCATION ${${_NAME}_LIBRARY})
+      ENDIF()
+
+      MESSAGE(STATUS "Found ${${_NAME}_LIBRARY} ${_NAME} ${_LIB_TYPE} ${_LIB_NAMES}")
     ELSE()
       MESSAGE(STATUS "Didn't find ${_NAME} ${_LIB_TYPE} ${_LIB_NAMES}")
     ENDIF()
@@ -1169,9 +1176,8 @@ MACRO(SET_TARGET_FLAGS name)
   # include directory where config.h have been generated
   IF(HAVE_CONFIG_H)
     SET(_DIR ${CMAKE_BINARY_DIR}/${name}.dir)
-    IF(NOT EXISTS ${_DIR}/config.h)
-      GEN_TARGET_CONFIG_H(${name})
-    ENDIF()
+    # regenerate each time we call cmake
+    GEN_TARGET_CONFIG_H(${name})
     IF(CMAKE_VERSION VERSION_GREATER "2.8.10")
       TARGET_INCLUDE_DIRECTORIES(${name} PRIVATE ${_DIR})
     ELSE()
@@ -1198,7 +1204,7 @@ MACRO(SET_TARGET_FLAGS name)
 
   IF("${type}" STREQUAL "SHARED_LIBRARY" AND NOT ANDROID)
     # Set versions only if target is a shared library
-    SET_TARGET_PROPERTIES(${name} PROPERTIES VERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+    SET_TARGET_PROPERTIES(${name} PROPERTIES VERSION ${VERSION})
     SET_TARGET_PROPERTIES(${name} PROPERTIES SOVERSION ${VERSION_MAJOR})
 
     IF(LIB_ABSOLUTE_PREFIX)
@@ -1208,9 +1214,10 @@ MACRO(SET_TARGET_FLAGS name)
     ENDIF()
   ENDIF()
 
-  IF("${type}" STREQUAL "EXECUTABLE" AND NOT ANDROID)
+  # only under Windows, because under Linux it creates a name-version binary
+  IF("${type}" STREQUAL "EXECUTABLE" AND WIN32)
     # Set versions only if target is an executable
-    SET_TARGET_PROPERTIES(${name} PROPERTIES VERSION "${VERSION_MAJOR}.${VERSION_MINOR}")
+    SET_TARGET_PROPERTIES(${name} PROPERTIES VERSION ${VERSION})
   ENDIF()
 
   TARGET_LINK_LIBRARIES(${name} ${CMAKE_THREAD_LIBS_INIT})
