@@ -79,4 +79,5 @@ ENDIF()
 SET(CPACK_NSIS_HELP_LINK "http://dev.kervala.net/projects/cebmtpchat/wiki")
 SET(CPACK_NSIS_URL_INFO_ABOUT "http://dev.kervala.net/projects/cebmtpchat")
 
-INSTALL_RESOURCES(${TARGET} share)
+# Don't specify a directory because we manage ourself the files
+INSTALL_RESOURCES(${TARGET} "")
