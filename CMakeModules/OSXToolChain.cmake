@@ -131,10 +131,3 @@ SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 # determinate location for bin utils based on CMAKE_FIND_ROOT_PATH
 INCLUDE(CMakeFindBinUtils)
-
-# these are required to get the binaries linked correctly, and appears to be a common OSX occurrence 
-SET(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
-SET(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
-# more linking variables
-SET(CMAKE_INSTALL_NAME_DIR "@rpath")
-SET(CMAKE_INSTALL_RPATH ...)
