@@ -40,6 +40,9 @@ SET(CMAKE_CXX11_COMPILE_FEATURES "cxx_std_11;cxx_alias_templates;cxx_alignas;cxx
 SET(CMAKE_CXX14_COMPILE_FEATURES "cxx_std_14;cxx_aggregate_default_initializers;cxx_attribute_deprecated;cxx_binary_literals;cxx_contextual_conversions;cxx_decltype_auto;cxx_digit_separators;cxx_generic_lambdas;cxx_lambda_init_captures;cxx_relaxed_constexpr;cxx_return_type_deduction;cxx_variable_templates")
 SET(CMAKE_CXX17_COMPILE_FEATURES "cxx_std_17")
 
+# make
+SET(CMAKE_MAKE_PROGRAM make)
+
 #SET(CMAKE_CXX_SIMULATE_ID "AppleClang")
 #SET(CMAKE_CXX_SIMULATE_VERSION "9.0")
 
