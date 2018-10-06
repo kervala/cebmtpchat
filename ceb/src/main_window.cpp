@@ -1198,16 +1198,20 @@ void MainWindow::launchWhatsNew()
 
 void MainWindow::launchBugReport()
 {
+	QString url = "http://dev.kervala.net/projects/cebmtpchat/issues/new?issue[tracker_id]=1&issue[description]=";
+	
     QString body = tr("Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\nHere are the problems:\n\n* ");
 
-    MyTextEdit::openUrl(QUrl("http://code.google.com/p/cebmtpchat/issues/entry?labels=Type-Defect&comment=" + body));
+    MyTextEdit::openUrl(QUrl(url + body));
 }
 
 void MainWindow::launchFeatureReport()
 {
+	QString url = "http://dev.kervala.net/projects/cebmtpchat/issues/new?issue[tracker_id]=2&issue[description]=";
+
     QString body = tr("Hi!\n\nI'm happy (can be ironic) with your <Mtp> Chat! client but sometimes, it really sucks.\n\nHere are the missing features I'd like to see in the next version:\n\n* ");
 
-    MyTextEdit::openUrl(QUrl("http://code.google.com/p/cebmtpchat/issues/entry?labels=Type-Enhancement&comment=" + body));
+    MyTextEdit::openUrl(QUrl(url + body));
 }
 
 void MainWindow::menuIconClicked()
