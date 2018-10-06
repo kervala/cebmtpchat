@@ -1,7 +1,7 @@
 This package was debianized by Guillaume DENRY <guillaume.denry@gmail.com> on
 Fri, 23 May 2008 09:17:25 +0200.
 
-It was downloaded from http://code.google.com/p/cebmtpchat
+It was downloaded from http://hg.kervala.net/cebmtpchat
 
 License:
 
@@ -26,6 +26,7 @@ Version 2 can be found in `/usr/share/common-licenses/GPL' file.
 The Debian packaging is:
 
     Copyright (C) 2008 Guillaume DENRY <guillaume.denry@gmail.com>
+    Copyright (C) 2015 Cédric OCHS <kervala@gmail.com>
 
 and is licensed under the GPL version 2, 
 see `/usr/share/common-licenses/GPL-2'.
