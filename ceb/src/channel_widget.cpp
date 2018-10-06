@@ -635,7 +635,9 @@ void ChannelWidget::sessionConnected()
 
 void ChannelWidget::sessionLogged()
 {
-#ifdef USE_QT5
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
+	QString compiler = QObject::tr("%1 on %2").arg(QSysInfo::prettyProductName()).arg(QSysInfo::currentCpuArchitecture());
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	QString compiler = QLibraryInfo::licensedProducts();
 #else
 	QString compiler = QLibraryInfo::buildKey();
