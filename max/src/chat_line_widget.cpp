@@ -52,11 +52,10 @@ void ChatLineWidget::keyPressEvent(QKeyEvent *e)
 
 void ChatLineWidget::validateText()
 {
-    if (text().isEmpty())
-        return;
-
 	QString textToSend = text();
 
+	if (textToSend.isEmpty()) return;
+
 	clear();
-    emit textValidated(textToSend);
+	emit textValidated(textToSend);
 }

@@ -155,9 +155,8 @@ MainWindow::MainWindow()
             this, SLOT(connectToFromMenu(const QString &)));
 
     // Set focus
-    ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->currentWidget());
-    if (channelWidget)
-        channelWidget->applyFirstShow();
+	ChannelWidget *channelWidget = qobject_cast<ChannelWidget*>(tabWidgetMain->currentWidget());
+	if (channelWidget) channelWidget->applyFirstShow();
 
 	// check for a new version
 	Updater *updater = new Updater(this);
