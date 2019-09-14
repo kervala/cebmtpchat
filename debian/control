@@ -1,5 +1,4 @@
 Source: cebmtpchat
-Section: net
 Priority: optional
 Maintainer: Guillaume DENRY <guillaume.denry@gmail.com>
 Uploaders: Cédric OCHS <kervala@gmail.com>
@@ -7,9 +6,13 @@ Build-Depends: debhelper (>= 9), cmake (>= 2.8), pkg-config,
  qtbase5-dev, qttools5-dev-tools,
  libqt5svg5-dev, qttools5-dev,
  qtmultimedia5-dev, libxmu-dev, liblua5.1-0-dev
-Standards-Version: 3.9.1
+Standards-Version: 3.9.3
+Section: net
+Bugs: http://dev.kervala.net/projects/cebmtpchat/issues
+Homepage: http://dev.kervala.net/projects/cebmtpchat
 
 Package: cebmtpchat
+Section: net
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: An <Mtp> Chat ! client written in Qt
@@ -25,5 +28,4 @@ Depends: ${misc:Depends}, cebmtpchat (= ${binary:Version})
 Description: An <Mtp> Chat ! client written in Qt (debug)
  CeB is a multiplatform client for an old type of chat server started at the college and which continues to work :-)
  .
- Homepage: http://dev.kervala.net/projects/cebmtpchat/wiki
-
+ This package contains the debug symbols.
